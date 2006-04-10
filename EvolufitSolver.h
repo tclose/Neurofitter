@@ -3,9 +3,7 @@
 
 class EvolufitSolver {
 
-
-	EvolufitResults solve(EvolufitParameters, ModelInterface, FitterInterface, )
-
+	virtual EvolufitResults solve(EvolufitParameters*, ModelInterface*, FitterInterface**, FitnessCalculator*);
 
 }
 
