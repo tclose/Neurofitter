@@ -3,6 +3,8 @@
 
 #include <sstream>
 
+//Boe zei de koe
+
 inline std::string str(float x)
  {
    std::ostringstream o;
