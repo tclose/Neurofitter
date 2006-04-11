@@ -28,26 +28,76 @@
 */
 
 #include <iostream>
+#include <libxml2/libxml/parser.h>
+
 #include "../Evolufit.h"
 
 using namespace std;
 
 extern void setNOMADFitnessCalculator(FitnessCalculator*);
 
+static void
+print_element_names(xmlNode * a_node)
+{
+    xmlNode *cur_node = NULL;
+
+    for (cur_node = a_node; cur_node; cur_node = cur_node->next) {
+        if (cur_node->type == XML_ELEMENT_NODE) {
+            printf("node type: Element, name: %s\n", cur_node->name);
+        }
+
+        print_element_names(cur_node->children);
+    }
+}
+
 int main () {
 
 	cout << "Houston, we have liftoff...\n" ;
+
+	string docname = "parameters.xml";
+
+	xmlDocPtr doc;
+	xmlNodePtr cur;
+
+	doc = xmlParseFile(docname.c_str());
+	
+	if (doc == NULL ) {
+		cerr << "Document not parsed successfully. \n";
+		return 1;
+	}
+
+	cur = xmlDocGetRootElement(doc);
+	if (cur == NULL) {
+		cerr << "empty document\n";
+		xmlFreeDoc(doc);
+		return 1;
+	}
+
+	while (cur != NULL) {	
+		cout << string((char*)xmlNodeListGetRawString(doc, cur->xmlChildrenNode, 0));
+		cur = cur->next;
+	}
+
+
+    print_element_names(xmlDocGetRootElement(doc));
+
+	xmlChar * test;
+	int size;
+
+	xmlDocDumpMemory(doc, &test, &size);
+
+	cout << string((char*)test);
 
 	////
 	//	Initialize
 	////
 	
-	WernerExperimentInterface experiment = WernerExperimentInterface();	
+//	WernerExperimentInterface experiment = WernerExperimentInterface();	
 /*
 	double testSet1 [] = {500,15,15000,50};
 	ModelTuningParameters modelparams1(testSet1,4);
 */
-	double initParamsArray [] = {6000.0, 6.0, 600.0,1000.0};
+/*	double initParamsArray [] = {6000.0, 6.0, 600.0,1000.0};
 	//double bounds [] = {70000.0, 80000.0, 1.0, 20.0, 100.0, 200.0, 4000.0, 6000.0};
 	double bounds [] = {1.0, 100000.0, 1.0, 20.0, 1.0, 1000.0, 1.0, 10000.0};
 
@@ -55,7 +105,7 @@ int main () {
 
 
 	WernerModelInterface model = WernerModelInterface(); 
-
+*/
 /*
 	test = model.runModel(modelparams);
 
@@ -72,9 +122,9 @@ int main () {
 	
 
 */  
-
+/*
 	PabloFitnessCalculator fitcal(&model, &experiment); 
-
+*/
 
 /*
 	cout << endl << "Fitness value: " << fitcal.calculateFitness(modelparams1) << endl;
@@ -82,10 +132,10 @@ int main () {
 	cout << endl << "Fitness value: " << fitcal.calculateFitness(modelparams2) << endl;
 
 */	
-	EOFitterInterface eo = EOFitterInterface();
+/*	EOFitterInterface eo = EOFitterInterface();
 
 	eo.runFitter(&fitcal, &initParams, 5);
-
+*/
 /*	NOMADFitterInterface nomad = NOMADFitterInterface();
 	setNOMADFitnessCalculator(&fitcal);
 	nomad.runFitter(&fitcal, &initParams, 5);
