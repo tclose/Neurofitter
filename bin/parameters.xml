@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<EvolufitProgram>
+	<name>TestProgram</name>
+	<EvolufitParameters>
+		<Dimensions>4</Dimensions>
+		<StartingPoints>
+			<StartingPoint>
+				<value>70000.0</value>
+				<value>5.0</value>
+				<value>150.0</value>
+				<value>6000.0</value>
+			</StartingPoint>
+		</StartingPoints>
+			
+		<FitterInterfaces>
+			<FitterInterface>
+				<type>NOMAD</type>
+				<parameters>
+					<type>parameters.dat</type>
+					<value>
+						<![CDATA[
+						#MESH PARAMETERS
+						#---------------
+						INITIAL_POLL_SIZE   1
+						MAX_POLL_SIZE       100000
+						
+						POLL_BASIS      4 
+						COARSENING_EXPONENT 1
+						REFINING_EXPONENT   -1
+						#
+						#POLL PARAMETERS
+						#---------------
+						POLL_ORDER      0
+						POLL_COMPLETE       0
+						POLL_DIRECTIONS     4
+						#
+						#SEARCH PARAMETERS
+						#-----------------
+						INITIAL_SEARCH      0
+						INITIAL_COMPLETE    0
+						INITIAL_POINTS      4
+						ITERATIVE_SEARCH    0
+						ITERATIVE_COMPLETE  0
+						ITERATIVE_POINTS    0
+						SPECULATIVE_SEARCH  1
+						#
+						#TERMINATION PARAMETERS
+						#----------------------
+						POLL_SIZE_TERM      -1
+						CONSECUTIVE_FAILS   -1
+						TRUTH_EVALS     500
+						ITERATIONS      -1
+						NEW_TRUTH_EVALS     -1
+						#
+						#FILTER PARAMETERS
+						#-----------------	
+						FILTER_RELATIVE     1
+						HMAX            50000
+						HMIN            0.0001
+						FILTER_NORM     2
+						#
+						#SURROGATE PARAMETERS                                                                                   
+						#--------------------
+						SURROGATE_TOLERANCE 0
+						]]>
+					</value>	
+				</parameters>
+				<parameters>
+					<type>description.dat</type>
+					<value>
+						<![CDATA[
+						PROBLEM_NAME    PC
+						SCALING_CHOICE  0
+						GEN_CONS_NB 0
+						USE_SURROGATE   0
+						USE_BLACK_BOXES 0
+						USE_BOUNDS  1
+						USE_CACHES  1
+						CACHE_FILE cache
+						DIRECTORY .
+						START_PT_FILE start_pt.txt
+						RESULTS_FILE results.txt
+						BOUNDS_FILE bounds.txt
+						]]>	
+					</value>						
+				</parameters>
+				<parameters>
+					<name>preferences.dat</name>
+					<value>
+						<![CDATA[
+						#PREFERENCES
+						#-----------
+						DISPLAY_FACTOR      5
+						SEND_EMAIL      0
+						]]>
+					</value>
+				</parameters>
+			</FitterInterface>
+
+			<FitterInterface>
+				<type>EO</type>
+				<parameters>
+					<![CDATA[
+
+					]]>	
+				</parameters>
+			</FitterInterface>
+		</FitterInterfaces>
+
+		<FitnessCalculator>
+			<type>Pablo</type>
+			<FitnessCalculatorParameters>
+				<![CDATA[
+
+				]]>
+			</FitnessCalculatorParameters>
+		</FitnessCalculator>
+
+		<ModelInterface>
+			<type>Werner</type>
+			<parameters>
+			<![CDATA[
+			
+			]]>
+			</parameters>
+		</ModelInterface>
+
+	</EvolufitParameters>
+</EvolufitProgram>

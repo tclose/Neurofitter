@@ -8,6 +8,7 @@ class FitnessCalculator {
 
 public:
 	virtual double calculateFitness(const ModelTuningParameters & params) const = 0;
+	virtual void readFixedParameters(const string);
 	virtual ~FitnessCalculator() {};
 
 protected:
