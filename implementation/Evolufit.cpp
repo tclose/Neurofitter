@@ -34,8 +34,6 @@
 
 using namespace std;
 
-extern void setNOMADFitnessCalculator(FitnessCalculator*);
-
 static void
 print_element_names(xmlNode * a_node)
 {
@@ -109,7 +107,7 @@ int main () {
 	eo.runFitter(&initParams, 5);
 
 	NOMADFitterInterface nomad = NOMADFitterInterface();
-	setNOMADFitnessCalculator(&fitcal);
+	//setNOMADFitnessCalculator(&fitcal);
 	nomad.runFitter(&fitcal, &initParams, 5);
 */
 

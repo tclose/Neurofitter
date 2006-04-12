@@ -8,11 +8,11 @@ void FitterResults::setBestFit(const ModelTuningParameters newBestFit) {
 	bestFit = newBestFit;
 }
 
-string FitterResults::getExtraResults() {
+string FitterResults::getExtraResults() const{
 	return extraResults;
 }
 
 
-void FitterResults::setExtraResults(string newExtraResults) {
+void FitterResults::setExtraResults(const string newExtraResults) {
 	extraResults = newExtraResults;
 }

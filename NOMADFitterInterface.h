@@ -5,10 +5,12 @@
 #include "FitterInterface.h"
 #include "FitnessCalculator.h"
 
+extern void setNOMADFitnessCalculator(FitnessCalculator*);
+
 class NOMADFitterInterface : FitterInterface {
 
 	public:
-		NOMADFitterInterface(FitnessCalculator * fit):FitterInterface(fit) {};
+		NOMADFitterInterface(FitnessCalculator * fit):FitterInterface(fit) {setNOMADFitnessCalculator(fit);};
 		////
 		//Inherited from FitterInterface
     	////

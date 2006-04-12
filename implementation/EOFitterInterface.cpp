@@ -42,18 +42,18 @@ FitterResults EOFitterInterface::runFitter(ModelTuningParameters * startPoint, i
       	eoEsFull<eoMinimizingFitness> eoResult = runAlgorithm(eoEsFull<eoMinimizingFitness>(), parser, state);
 		
 
-		ostringstream chromostream;
-		eoResult.printOn(chromostream);
-		///todo add checks for empty stream and replace by function
-		istream paramStream(chromostream.rdbuf());
+		stringbuf * buf = new stringbuf();		
+		iostream paramStream(buf);
+		eoResult.printOn(paramStream);
 
-		ModelTuningParameters params(startPoint->getLength());
+		ModelTuningParameters params(*startPoint);
 		double tmp;
 		paramStream >> tmp; paramStream >> tmp;		
 		for (int i = 0; i < startPoint->getLength(); i++) {
 			paramStream >> params[i];
 		}
 		results.setBestFit(params);
+		delete buf;
     }
 
 	return results;

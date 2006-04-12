@@ -6,8 +6,8 @@ class FitterResults {
 	public:
 		ModelTuningParameters getBestFit() const;		
 		void setBestFit(const ModelTuningParameters);
-		string getExtraResults();
-		void setExtraResults(string);
+		string getExtraResults() const;
+		void setExtraResults(const string);
 
 	protected:
 		ModelTuningParameters bestFit;

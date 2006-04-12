@@ -3,7 +3,7 @@ Problem specifications:
 Problem dimension: 4, number of outputs: 1
 Random seed: 65
 Use the caches? Yes
-Starting point (feasible):  0.00910438   (6000, 6, 600, 1000)
+Starting point (feasible):  0.000401605   (84796.1, 12.1216, 555.063, 6238.51)
 
 Constraints:
 ------------
@@ -46,5 +46,4 @@ Termination criteria:
 Poll size: NA
 Mesh size: NA
 Number of iterations: NA
-Number of truth evaluations: 1000
-Number of new truth evaluations: 
+Number of truth evaluations: 

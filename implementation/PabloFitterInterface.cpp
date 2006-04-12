@@ -10,10 +10,10 @@ FitterResults PabloFitterInterface::runFitter(ModelTuningParameters * startPoint
 	EOFitterInterface eo(fitness);
 	ModelTuningParameters eoBest = (eo.runFitter(startPoints, seed)).getBestFit();
 
-	cout << eoBest.toString();
+	cout << endl << "Best solution found by EO: "<< eoBest.toString() << endl;
 
-	/*NOMADFitterInterface nomad(fitness);
+	NOMADFitterInterface nomad(fitness);
     nomad.runFitter(&eoBest, seed);
-*/
+
 	return FitterResults();
 }
