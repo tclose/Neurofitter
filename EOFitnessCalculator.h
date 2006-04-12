@@ -10,6 +10,8 @@
 	template< class EOT, class FitT = typename EOT::Fitness, class FunctionArg = const EOT& >
 #endif
 
+///todo rename this class
+
 struct EOFitnessCalculator: public eoEvalFunc<EOT> {
 
 	EOFitnessCalculator( FitT (* _eval)( FunctionArg, FitnessCalculator * ), FitnessCalculator * f)

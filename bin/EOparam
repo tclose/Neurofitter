@@ -6,7 +6,7 @@
  	 --Stdev=1                                # -s : One self-adaptive stDev per variable 
  	 --Correl=1                               # -c : Use correlated mutations 
 
-	--popSize=50                             # -P : Population Size 
+	--popSize=5                             # -P : Population Size 
  	--selection=DetTour(5)                   # -S : Selection: Roulette, Ranking(p,e), DetTour(T), StochTour(t) or Sequential(ordered/unordered) 
  	--nbOffspring=10                       # -O : Nb of offspring (percentage or absolute) 
  	--replacement=Plus                       # -R : Replacement: Comma, Plus or EPTour(T), SSGAWorst, SSGADet(T), SSGAStoch(t) 
@@ -36,7 +36,7 @@
  	--maxGen=400                               # -G : Maximum number of generations () = none) 
  	--steadyGen=100                            # -s : Number of generations with no improvement 
  	--minGen=0                               # -g : Minimum number of generations 
- 	--maxEval=1000                              # -E : Maximum number of evaluations (0 = none) 
+ 	--maxEval=2                              # -E : Maximum number of evaluations (0 = none) 
  	--targetFitness=0.0                        # -T : Stop when fitness reaches 
  	--CtrlC=1                                # -C : Terminate current generation upon Ctrl C 
 

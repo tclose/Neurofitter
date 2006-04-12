@@ -44,8 +44,10 @@ EXPOBJS=	$(CPPDIR)/PabloExperimentInterface.o \
 			$(CPPDIR)/WernerExperimentInterface.o
 
 FITTEROBJS=	$(CPPDIR)/NOMADFitterInterface.o \
+			$(CPPDIR)/FitterResults.o \
 			$(CPPDIR)/truthfunction.o \
-			$(CPPDIR)/EOFitterInterface.o
+			$(CPPDIR)/EOFitterInterface.o \
+			$(CPPDIR)/PabloFitterInterface.o
 
 OBJS = $(MODOBJS) $(FITOBJS) $(EXPOBJS) $(FITTEROBJS) $(EVOOBJS) 
 
@@ -64,6 +66,10 @@ $(CPPDIR)/EOFitnessCalculator.o : $(CPPDIR)/EOFitnessCalculator.cpp ;
 
 $(CPPDIR)/NOMADFitterInterface.o : $(CPPDIR)/NOMADFitterInterface.cpp ;
 	$(CXX) $(CXXFLAGS) -I$(DIR_NOMAD) -I$(BERKELEY_INCLUDE) -o $@ -c $<
+
+$(CPPDIR)/PabloFitterInterface.o : $(CPPDIR)/PabloFitterInterface.cpp ;
+	$(CXX) $(CXXFLAGS) -I$(DIR_EO) -I$(DIR_NOMAD) -I$(BERKELEY_INCLUDE) -o $@ -c $<
+
 
 $(CPPDIR)/truthfunction.o : $(CPPDIR)/truthfunction.cpp ;
 	$(CXX) $(CXXFLAGS) -I$(DIR_NOMAD) -I$(BERKELEY_INCLUDE) -o $@ -c $<

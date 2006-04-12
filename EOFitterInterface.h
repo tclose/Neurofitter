@@ -13,12 +13,15 @@ class eoState;
 class EOFitterInterface : FitterInterface {
 
 	public:
+		EOFitterInterface(FitnessCalculator * fit):FitterInterface(fit){};
+		/////
 		//Inherited from FitterInterface
-		virtual void runFitter(FitnessCalculator *, ModelTuningParameters * startPoints, int seed);
+		/////
+		virtual FitterResults runFitter(ModelTuningParameters * startPoints, int seed);
 
 	private:
 		void writeEOParamsFile(string fileName, ModelTuningParameters & start, int seed);
-		template <class EOT> void runAlgorithm(EOT, eoParser& _parser, eoState& _state);
+		template <class EOT> EOT runAlgorithm(EOT, eoParser& _parser, eoState& _state);
 
 };
 

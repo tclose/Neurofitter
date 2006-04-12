@@ -1,9 +1,8 @@
 #include "../NOMADFitterInterface.h"
 #include <nomad>
 
-void NOMADFitterInterface::runFitter(FitnessCalculator * f, ModelTuningParameters * startPoints, int seed) {
+FitterResults NOMADFitterInterface::runFitter(ModelTuningParameters * startPoints, int seed) {
 	
-	fitness = f;
 	modelParams = startPoints;
       
 	/////
@@ -38,6 +37,8 @@ void NOMADFitterInterface::runFitter(FitnessCalculator * f, ModelTuningParameter
 	/// Solve the problem
 	////
 	solveProblem(description, parameters, preferences, solver);
+
+	return FitterResults();
 
 }
 

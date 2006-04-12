@@ -8,10 +8,12 @@
 class NOMADFitterInterface : FitterInterface {
 
 	public:
+		NOMADFitterInterface(FitnessCalculator * fit):FitterInterface(fit) {};
 		////
 		//Inherited from FitterInterface
     	////
-		void runFitter(FitnessCalculator *, ModelTuningParameters * startPt, int seed);
+		///todo check in every class to see if virtual is OK
+		virtual FitterResults runFitter(ModelTuningParameters * startPt, int seed);
 
 	private:
     	FitnessCalculator * fitness;

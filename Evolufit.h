@@ -32,8 +32,9 @@ using namespace std;
 #include "PabloFitnessCalculator.h"
 
 #include "EOFitnessCalculator.h"
-#include "EOFitterInterface.h"
 
+#include "EOFitterInterface.h"
 #include "NOMADFitterInterface.h"
+#include "PabloFitterInterface.h"
 
 #endif

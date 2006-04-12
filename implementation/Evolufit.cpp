@@ -53,7 +53,7 @@ print_element_names(xmlNode * a_node)
 int main () {
 
 	cout << "Houston, we have liftoff...\n" ;
-
+/*
 	string docname = "parameters.xml";
 
 	xmlDocPtr doc;
@@ -87,25 +87,46 @@ int main () {
 	xmlDocDumpMemory(doc, &test, &size);
 
 	cout << string((char*)test);
-
+*/
 	////
 	//	Initialize
 	////
 	
-//	WernerExperimentInterface experiment = WernerExperimentInterface();	
-/*
-	double testSet1 [] = {500,15,15000,50};
-	ModelTuningParameters modelparams1(testSet1,4);
-*/
-/*	double initParamsArray [] = {6000.0, 6.0, 600.0,1000.0};
-	//double bounds [] = {70000.0, 80000.0, 1.0, 20.0, 100.0, 200.0, 4000.0, 6000.0};
+
+
+
+	double initParamsArray [] = {6000.0, 6.0, 600.0,1000.0};
 	double bounds [] = {1.0, 100000.0, 1.0, 20.0, 1.0, 1000.0, 1.0, 10000.0};
 
 	ModelTuningParameters initParams(initParamsArray,4,bounds);
 
-
 	WernerModelInterface model = WernerModelInterface(); 
+	WernerExperimentInterface experiment = WernerExperimentInterface();	
+	PabloFitnessCalculator fitcal(&model, &experiment); 
+/*
+	EOFitterInterface eo = EOFitterInterface(&fitcal);
+
+	eo.runFitter(&initParams, 5);
+
+	NOMADFitterInterface nomad = NOMADFitterInterface();
+	setNOMADFitnessCalculator(&fitcal);
+	nomad.runFitter(&fitcal, &initParams, 5);
 */
+
+	PabloFitterInterface pablo = PabloFitterInterface(&model, &experiment);
+
+	pablo.runFitter(&initParams, 5);
+
+
+
+
+
+/*
+	double testSet1 [] = {500,15,15000,50};
+	ModelTuningParameters modelparams1(testSet1,4);
+*/
+
+
 /*
 	test = model.runModel(modelparams);
 
@@ -122,9 +143,9 @@ int main () {
 	
 
 */  
-/*
-	PabloFitnessCalculator fitcal(&model, &experiment); 
-*/
+
+
+
 
 /*
 	cout << endl << "Fitness value: " << fitcal.calculateFitness(modelparams1) << endl;
@@ -132,14 +153,6 @@ int main () {
 	cout << endl << "Fitness value: " << fitcal.calculateFitness(modelparams2) << endl;
 
 */	
-/*	EOFitterInterface eo = EOFitterInterface();
-
-	eo.runFitter(&fitcal, &initParams, 5);
-*/
-/*	NOMADFitterInterface nomad = NOMADFitterInterface();
-	setNOMADFitnessCalculator(&fitcal);
-	nomad.runFitter(&fitcal, &initParams, 5);
-*/
 
 	////
 	//	Run EO

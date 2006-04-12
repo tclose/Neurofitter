@@ -3,10 +3,11 @@
 #include <eo>
 #include <es/make_es.h>
 
-void EOFitterInterface::runFitter(FitnessCalculator * f, ModelTuningParameters * startPoint, int seed) {
+FitterResults EOFitterInterface::runFitter(ModelTuningParameters * startPoint, int seed) {
 	
-	fitness = f;
 	modelParams = startPoint;	
+	FitterResults results;
+	
 
 	writeEOParamsFile("EOparam", *startPoint, seed);
 
@@ -38,9 +39,24 @@ void EOFitterInterface::runFitter(FitnessCalculator * f, ModelTuningParameters *
     }
     else {
 		cout << "Using eoEsFull" << endl;
-      	runAlgorithm(eoEsFull<eoMinimizingFitness>(), parser, state);
+      	eoEsFull<eoMinimizingFitness> eoResult = runAlgorithm(eoEsFull<eoMinimizingFitness>(), parser, state);
+		
+
+		ostringstream chromostream;
+		eoResult.printOn(chromostream);
+		///todo add checks for empty stream and replace by function
+		istream paramStream(chromostream.rdbuf());
+
+		ModelTuningParameters params(startPoint->getLength());
+		double tmp;
+		paramStream >> tmp; paramStream >> tmp;		
+		for (int i = 0; i < startPoint->getLength(); i++) {
+			paramStream >> params[i];
+		}
+		results.setBestFit(params);
     }
 
+	return results;
 }
 
 static double real_value(const std::vector<double>& paramVector, FitnessCalculator * fitness) {
@@ -63,7 +79,7 @@ static double real_value(const std::vector<double>& paramVector, FitnessCalculat
  *  (e.g. t-eoReal and t-eoGA in test dir)
  */
 template <class EOT>
-void EOFitterInterface::runAlgorithm(EOT, eoParser& _parser, eoState& _state)
+EOT EOFitterInterface::runAlgorithm(EOT, eoParser& _parser, eoState& _state)
 {
 	typedef typename EOT::Fitness FitT;
 
@@ -113,6 +129,8 @@ void EOFitterInterface::runAlgorithm(EOT, eoParser& _parser, eoState& _state)
   pop.sortedPrintOn(cout);
   cout << endl;
 
+  return pop.best_element();
+
 }
 
 extern string EOParamsContent;
@@ -153,7 +171,7 @@ string EOParamsContent = " \
  	 --Stdev=1                                # -s : One self-adaptive stDev per variable \n\
  	 --Correl=1                               # -c : Use correlated mutations \n\
 \n\
-	--popSize=50                             # -P : Population Size \n\
+	--popSize=5                             # -P : Population Size \n\
  	--selection=DetTour(5)                   # -S : Selection: Roulette, Ranking(p,e), DetTour(T), StochTour(t) or Sequential(ordered/unordered) \n\
  	--nbOffspring=10                       # -O : Nb of offspring (percentage or absolute) \n\
  	--replacement=Plus                       # -R : Replacement: Comma, Plus or EPTour(T), SSGAWorst, SSGADet(T), SSGAStoch(t) \n\
@@ -184,7 +202,7 @@ string EOParamsContent = " \
  	--maxGen=400                               # -G : Maximum number of generations () = none) \n\
  	--steadyGen=100                            # -s : Number of generations with no improvement \n\
  	--minGen=0                               # -g : Minimum number of generations \n\
- 	--maxEval=1000                              # -E : Maximum number of evaluations (0 = none) \n\
+ 	--maxEval=2                              # -E : Maximum number of evaluations (0 = none) \n\
  	--targetFitness=0.0                        # -T : Stop when fitness reaches \n\
  	--CtrlC=1                                # -C : Terminate current generation upon Ctrl C \n\
 \n\
@@ -199,3 +217,4 @@ string EOParamsContent = " \
  	--TauGlob=1                              # -g : Global Tau (before normalization) \n\
  	--Beta=0.0873                            # -b : Beta \n\
 ";
+

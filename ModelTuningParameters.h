@@ -16,7 +16,8 @@ public:
 	ModelTuningParameters();
 	ModelTuningParameters(const int);
 	ModelTuningParameters(const double* params, const int length, const double* bounds);
-	ModelTuningParameters(const ModelTuningParameters & t) {tuningParameters = NULL;*this=t;};
+	ModelTuningParameters(const string, const int length, const double* bounds); //Read parameters from string like "5.0 14.0 1.0 8.0"
+	ModelTuningParameters(const ModelTuningParameters & t) {tuningParameters = NULL;bounds = NULL;*this=t;};
 	
 	~ModelTuningParameters();
 
@@ -25,15 +26,14 @@ public:
 	double * getTuningParameters() const;
 	int getLength() const;
 	void setTuningParameters(const double*, const int);
-	
+	void setTuningParameters(string, const int);
+
 	void setBounds(const double*, int boundsLength);
 	double getLowerBound(const int) const;
 	double getUpperBound(const int) const;
 
 	void setLowerBound(const int, const double);
 	void setUpperBound(const int, const double);
-
-	double * getBounds() const;
 
 	double &operator[](const int);
 	const double &operator[](const int) const;
@@ -44,6 +44,7 @@ public:
 private:
 	double * tuningParameters;
 	double * bounds;
+	double * getBounds() const;
 	int tuningParametersLength;
 	
 
