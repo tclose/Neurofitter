@@ -93,14 +93,23 @@ int main () {
 
 
 
-	double initParamsArray [] = {6000.0, 6.0, 600.0,1000.0};
-	double bounds [] = {1.0, 100000.0, 1.0, 20.0, 1.0, 1000.0, 1.0, 10000.0};
+	double initParamsArray [] = {1.0, 1.0};
+	double bounds [] = {1.0, 100000.0, 1.0, 50000.0};
 
-	ModelTuningParameters initParams(initParamsArray,4,bounds);
+	ModelTuningParameters initParams(initParamsArray,2,bounds);
 
 	WernerModelInterface model = WernerModelInterface(); 
 	WernerExperimentInterface experiment = WernerExperimentInterface();	
 	PabloFitnessCalculator fitcal(&model, &experiment); 
+
+	PabloFitterInterface pablo = PabloFitterInterface(&model, &experiment);
+	pablo.runFitter(&initParams, 10);
+
+
+
+
+
+
 /*
 	EOFitterInterface eo = EOFitterInterface(&fitcal);
 
@@ -111,9 +120,6 @@ int main () {
 	nomad.runFitter(&fitcal, &initParams, 5);
 */
 
-	PabloFitterInterface pablo = PabloFitterInterface(&model, &experiment);
-
-	pablo.runFitter(&initParams, 5);
 
 
 

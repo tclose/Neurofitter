@@ -13,7 +13,7 @@ public:
 	virtual ~FitterInterface() {};
 
 protected:
-	FitterInterface(FitnessCalculator* fit):fitness(fit){};
+	FitterInterface(FitnessCalculator* fit):fitness(fit) {};
 	FitnessCalculator * fitness;
 	ModelTuningParameters * modelParams;
 

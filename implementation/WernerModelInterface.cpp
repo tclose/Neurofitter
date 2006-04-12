@@ -37,9 +37,7 @@ runModel(const ModelTuningParameters & params) const {
     paramFile.open(paramFilename.c_str(), ios::out);
 
     paramFile << "float GNaF = " << params[0] <<endl;
-    paramFile << "float GNaP = " << params[1] <<endl;
-    paramFile << "float GKA = " <<  params[2] <<endl;
-    paramFile << "float GKdr = " << params[3] <<endl;
+    paramFile << "float GKdr = " << params[1] <<endl;
     paramFile.close ();
 
 

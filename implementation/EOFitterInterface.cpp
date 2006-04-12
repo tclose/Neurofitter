@@ -171,7 +171,7 @@ string EOParamsContent = " \
  	 --Stdev=1                                # -s : One self-adaptive stDev per variable \n\
  	 --Correl=1                               # -c : Use correlated mutations \n\
 \n\
-	--popSize=5                             # -P : Population Size \n\
+	--popSize=50                             # -P : Population Size \n\
  	--selection=DetTour(5)                   # -S : Selection: Roulette, Ranking(p,e), DetTour(T), StochTour(t) or Sequential(ordered/unordered) \n\
  	--nbOffspring=10                       # -O : Nb of offspring (percentage or absolute) \n\
  	--replacement=Plus                       # -R : Replacement: Comma, Plus or EPTour(T), SSGAWorst, SSGADet(T), SSGAStoch(t) \n\
@@ -202,7 +202,7 @@ string EOParamsContent = " \
  	--maxGen=400                               # -G : Maximum number of generations () = none) \n\
  	--steadyGen=100                            # -s : Number of generations with no improvement \n\
  	--minGen=0                               # -g : Minimum number of generations \n\
- 	--maxEval=2                              # -E : Maximum number of evaluations (0 = none) \n\
+ 	--maxEval=30                              # -E : Maximum number of evaluations (0 = none) \n\
  	--targetFitness=0.0                        # -T : Stop when fitness reaches \n\
  	--CtrlC=1                                # -C : Terminate current generation upon Ctrl C \n\
 \n\

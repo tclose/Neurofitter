@@ -17,8 +17,8 @@ FitterResults NOMADFitterInterface::runFitter(ModelTuningParameters * startPoint
 	writeStartingPointsFile(startingPointsFile, *startPoints);
 	writeBoundsFile(boundsFile, *startPoints);  
 	writeParametersFile(parametersFile, seed);
-	//writeDescriptionFile(descriptionFile);
-	//writePreferencesFile(preferencesFile);
+	writeDescriptionFile(descriptionFile, *startPoints);
+	writePreferencesFile(preferencesFile);
 
 	/////
 	///	Creating and initiliaze NOMAD objects
@@ -73,6 +73,20 @@ void NOMADFitterInterface::writeBoundsFile(string fileName, ModelTuningParameter
 
 }
 
+extern string NOMADDescContents;
+
+void NOMADFitterInterface::writeDescriptionFile(string fileName, ModelTuningParameters & startPts) {
+
+	ofstream file;
+	file.open(fileName.c_str(), ios::out);
+
+	file << endl << "	DIMENSION		"<< startPts.getLength() << endl;	
+
+	file << NOMADDescContents;
+
+	file.close();
+}
+
 extern string NOMADParamsContents;
 
 void NOMADFitterInterface::writeParametersFile(string fileName, int seed) {
@@ -83,6 +97,19 @@ void NOMADFitterInterface::writeParametersFile(string fileName, int seed) {
 	file << endl << "	RANDOMSEED		"<< seed << endl;	
 
 	file << NOMADParamsContents;
+
+	file.close();
+
+}
+
+extern string NOMADPrefContents;
+
+void NOMADFitterInterface::writePreferencesFile(string fileName) {
+
+	ofstream file;
+	file.open(fileName.c_str(), ios::out);
+
+	file << NOMADPrefContents;
 
 	file.close();
 
@@ -123,13 +150,11 @@ void NOMADFitterInterface::solveProblem(const Description & description,
 
 
 string NOMADParamsContents = " \
-	INITIAL_POLL_SIZE   10000 \n\
-	MAX_POLL_SIZE       100000 \n\
+	INITIAL_POLL_SIZE   1000 \n\
+	MAX_POLL_SIZE       1000 \n\
 	POLL_BASIS      	4 \n\
-	COARSENING_EXPONENT 1 \n\
-	REFINING_EXPONENT   -1 \n\
-\n\
-	RANDOM_SEED			65 \n\
+	COARSENING_EXPONENT 2 \n\
+	REFINING_EXPONENT   -2 \n\
 \n\
 	POLL_ORDER      	0 \n\
 	POLL_COMPLETE   	0 \n\
@@ -145,7 +170,7 @@ string NOMADParamsContents = " \
 \n\
 	POLL_SIZE_TERM      -1 \n\
 	CONSECUTIVE_FAILS   -1 \n\
-	TRUTH_EVALS     1000 \n\
+	TRUTH_EVALS     100 \n\
 	ITERATIONS      -1 \n\
 	NEW_TRUTH_EVALS     -1 \n\
 \n\
@@ -155,4 +180,24 @@ string NOMADParamsContents = " \
 	FILTER_NORM     	2 \n\
 \n\
 	SURROGATE_TOLERANCE 0";
+
+string NOMADDescContents = "\
+	PROBLEM_NAME    PC \
+	SCALING_CHOICE  0 \
+	GEN_CONS_NB 0 \
+	USE_SURROGATE   0 \
+	USE_BLACK_BOXES 0 \
+	USE_BOUNDS  1 \
+	USE_CACHES  1 \
+	CACHE_FILE cache \
+	DIRECTORY . \
+	START_PT_FILE start_pt.txt \
+	INPUT_FILE  input.txt \
+	RESULTS_FILE results.txt \
+	BOUNDS_FILE bounds.txt";
+
+
+string NOMADPrefContents ="\
+	DISPLAY_FACTOR      5 \
+	SEND_EMAIL      0";
 

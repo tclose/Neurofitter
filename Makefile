@@ -7,11 +7,10 @@ ALL = $(BINDIR)/Evolufit
 BINDIR = bin
 OBJDIR = ./build
 CPPDIR = implementation
-CXXFLAGS = -ansi -pedantic -O3 -Wall -Wno-deprecated -g -fast -mcpu=7450
+CXXFLAGS = -ansi -pedantic -O3 -Wall -Wno-deprecated -g
+#CXXFLAGS = -ansi -pedantic -O3 -Wall -Wno-deprecated -g -fast -mcpu=7450
 DIR_EO = ../eo/src
 DIR_NOMAD = ../nomad
-
-#vpath %.cpp implementation
 
 LIBXML2_DIR	= /usr/include/libxml2
 

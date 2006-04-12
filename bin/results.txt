@@ -1,14 +1,14 @@
 Problem specifications:
 -----------------------
-Problem dimension: 4, number of outputs: 1
-Random seed: 65
+Problem dimension: 2, number of outputs: 1
+Random seed: 1
 Use the caches? Yes
-Starting point (feasible):  0.000401605   (84796.1, 12.1216, 555.063, 6238.51)
+Starting point (feasible):  0.00299597   (87569.3, 7145.24)
 
 Constraints:
 ------------
-Lower bounds: (1, 1, 1, 1)
-Upper bounds: (100000, 20, 1000, 10000)
+Lower bounds: (1, 1)
+Upper bounds: (100000, 50000)
 
 Scaling:
 --------
@@ -27,13 +27,13 @@ Speculative search: Executed after a successful iteration.
 
 Mesh variables:
 ---------------
-Initial poll size: 10000
-Initial mesh size: 10000
-Maximum poll size: 100000
-Maximum mesh size: 100000
+Initial poll size: 1000
+Initial mesh size: 1000
+Maximum poll size: 1000
+Maximum mesh size: 1000
 Poll size basis: 4
-Coarsening exponent: 1
-Refining exponent: -1
+Coarsening exponent: 2
+Refining exponent: -2
 
 Poll strategy variables:
 ------------------------
@@ -46,4 +46,43 @@ Termination criteria:
 Poll size: NA
 Mesh size: NA
 Number of iterations: NA
-Number of truth evaluations: 
+Number of truth evaluations: 100
+Number of new truth evaluations: NA
+Number of consecutive failures: NA
+
+
+Run-time information...
+
+feval #   f(x)   Point
+-------   ----   -----
+   1    0.0029959719   (87569.3, 7145.24)
+   23    0.0026345276   (87569.3, 7176.49)
+   24    0.0025823189   (87569.3, 7270.29)
+   46    0.0025542066   (87569.3, 7239.04)
+   70    0.0025461745   (87600.55, 7239.04)
+   100    0.0025461745   (87600.55, 7239.04)
+
+Problem solution:
+-----------------
+Best point found: 0.0025461745   (87600.55, 7239.04)
+Final mesh size: 62.5
+Number of iterations: 6
+Truth evaluations: 100
+New truth evaluations: 100
+Number of temporary cache hits: 2
+Number of permanent cache hits: 0
+Number of consecutive failures: 30
+
+
+Run statistics
+--------------
+
+		NUMBER OF	f(x) DECREASE AT
+		SUCCESSES	FEASIBLE POINTS (%)
+		---------	-------------------
+POLL		    3		     88.39
+SEARCH   	    1		     11.61
+   (Initial   	    0		     0.00)
+   (Iterative	    0		     0.00)
+   (Dense	    1		     11.61)
+

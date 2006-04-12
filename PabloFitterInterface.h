@@ -21,6 +21,9 @@ public:
 	////
 	FitterResults runFitter(ModelTuningParameters * startingPoint, int seed);
 
+private:
+	PabloFitterInterface();
+
 };
 
 #endif

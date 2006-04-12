@@ -6,14 +6,19 @@
 
 class FitnessCalculator {
 
-public:
-	virtual double calculateFitness(const ModelTuningParameters & params) const = 0;
-//	virtual void readFixedParameters(const string);
-	virtual ~FitnessCalculator() {};
+	public:
+		FitnessCalculator(): model(NULL), exportFile("") {};
+		virtual double calculateFitness(const ModelTuningParameters & params) = 0;
+	//	virtual void readFixedParameters(const string);
+		virtual void enableFileExport(const string fileName) = 0;
+		virtual void disableFileExport() = 0;
+		virtual string getExportFile() const = 0;
+		virtual ~FitnessCalculator() {};
 
-protected:
-	const ModelInterface * model;
-	//const ModelResults expData;
+
+	protected:
+		const ModelInterface * model;
+		string exportFile;
 };
 
 #endif

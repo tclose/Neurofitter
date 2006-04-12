@@ -5,12 +5,12 @@
 #include "FitterInterface.h"
 #include "FitnessCalculator.h"
 
-extern void setNOMADFitnessCalculator(FitnessCalculator*);
+extern void setNOMADFitnessCalculator(FitnessCalculator*, int);
 
 class NOMADFitterInterface : FitterInterface {
 
 	public:
-		NOMADFitterInterface(FitnessCalculator * fit):FitterInterface(fit) {setNOMADFitnessCalculator(fit);};
+		NOMADFitterInterface(FitnessCalculator * fit, int numberOfParams):FitterInterface(fit) {setNOMADFitnessCalculator(fit, numberOfParams);};
 		////
 		//Inherited from FitterInterface
     	////
@@ -27,8 +27,8 @@ class NOMADFitterInterface : FitterInterface {
 		void writeStartingPointsFile(string, ModelTuningParameters&);
     	void writeBoundsFile(string, ModelTuningParameters&);
     	void writeParametersFile(string, int seed);
-    	//void writeDescriptionFile(string);
-    	//void writePreferencesFile(string);
+    	void writeDescriptionFile(string, ModelTuningParameters&);
+    	void writePreferencesFile(string);
 
 };
 

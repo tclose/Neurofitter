@@ -1,6 +1,11 @@
 #include "../PabloFitterInterface.h"
 
-PabloFitterInterface::PabloFitterInterface(ModelInterface * model, ExperimentInterface * experiment) : FitterInterface(new PabloFitnessCalculator(model, experiment)) {}
+PabloFitterInterface::PabloFitterInterface(ModelInterface * model, ExperimentInterface * experiment) 
+	: FitterInterface(new PabloFitnessCalculator(model, experiment)) {
+
+	fitness->enableFileExport("fitness.dat");
+	
+}
 
 PabloFitterInterface::~PabloFitterInterface() {
 	if (fitness != NULL) delete fitness;
@@ -12,7 +17,7 @@ FitterResults PabloFitterInterface::runFitter(ModelTuningParameters * startPoint
 
 	cout << endl << "Best solution found by EO: "<< eoBest.toString() << endl;
 
-	NOMADFitterInterface nomad(fitness);
+	NOMADFitterInterface nomad(fitness, startPoints->getLength());
     nomad.runFitter(&eoBest, seed);
 
 	return FitterResults();

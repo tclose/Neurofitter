@@ -2,7 +2,7 @@
 ######                 General    ######
 --help=0                                 # -h : Prints this message
 --stopOnUnknownParam=1                   # Stop if unkown param entered
---seed=5                                 # -S : Random number seed
+--seed=10                                # -S : Random number seed
 
 ######    ES mutation             ######
 --Isotropic=1                            # -i : Isotropic self-adaptive mutation
@@ -10,15 +10,15 @@
 --Correl=1                               # -c : Use correlated mutations
 
 ######    Evolution Engine        ######
---popSize=5                              # -P : Population Size
+--popSize=50                             # -P : Population Size
 --selection=DetTour(5)                   # -S : Selection: DetTour(T), StochTour(t), Roulette, Ranking(p,e) or Sequential(ordered/unordered)
 --nbOffspring=10                         # -O : Nb of offspring (percentage or absolute)
 --replacement=Plus                       # -R : Replacement: Comma, Plus or EPTour(T), SSGAWorst, SSGADet(T), SSGAStoch(t)
 --weakElitism=0                          # -w : Old best parent replaces new worst offspring *if necessary*
 
 ######    Genotype Initialization    ######
---vecSize=4                              # -n : The number of variables 
---initBounds=[1,100000];[1,20];[1,1000];[1,10000] # -B : Bounds for initialization (MUST be bounded)
+--vecSize=2                              # -n : The number of variables 
+--initBounds=[1,100000];[1,50000]        # -B : Bounds for initialization (MUST be bounded)
 # --sigmaInit=0.3                          # -s : Initial value for Sigmas (with a '%' -> scaled by the range of each variable)
 
 ######    Output                  ######
@@ -47,12 +47,12 @@
 --maxGen=400                             # -G : Maximum number of generations () = none)
 --steadyGen=100                          # -s : Number of generations with no improvement
 --minGen=0                               # -g : Minimum number of generations
---maxEval=2                              # -E : Maximum number of evaluations (0 = none)
+--maxEval=30                             # -E : Maximum number of evaluations (0 = none)
 --targetFitness=0                        # -T : Stop when fitness reaches
 --CtrlC=1                                # -C : Terminate current generation upon Ctrl C
 
 ######    Variation Operators     ######
---objectBounds=[1,100000];[1,20];[1,1000];[1,10000] # -B : Bounds for variables
+--objectBounds=[1,100000];[1,50000]      # -B : Bounds for variables
 --operator=SGA                           # -o : Description of the operator (SGA only now)
 --pCross=1                               # -C : Probability of Crossover
 --pMut=1                                 # -M : Probability of Mutation

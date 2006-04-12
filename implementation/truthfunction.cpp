@@ -5,9 +5,11 @@
 using namespace std;
 
 FitnessCalculator * fitness;
+int numberOfParameters;
 
-void setNOMADFitnessCalculator (FitnessCalculator * f){
+void setNOMADFitnessCalculator (FitnessCalculator * f, int newNumberOfParam){
 	fitness = f;
+	numberOfParameters = newNumberOfParam;
 }
 
 TruthFunction::TruthFunction() {
@@ -21,8 +23,8 @@ TruthFunction::~TruthFunction() {
 
 double TruthFunction::evaluate(const double * coord) {
 	ModelTuningParameters params;
-	//todo 4 is hard coded !!!
-	params.setTuningParameters(coord, 4);
+	//todo numberOfParameters is not well coded !!!
+	params.setTuningParameters(coord, numberOfParameters);
 	
 	return fitness->calculateFitness(params);
 }

@@ -6,7 +6,7 @@
  	 --Stdev=1                                # -s : One self-adaptive stDev per variable 
  	 --Correl=1                               # -c : Use correlated mutations 
 
-	--popSize=5                             # -P : Population Size 
+	--popSize=50                             # -P : Population Size 
  	--selection=DetTour(5)                   # -S : Selection: Roulette, Ranking(p,e), DetTour(T), StochTour(t) or Sequential(ordered/unordered) 
  	--nbOffspring=10                       # -O : Nb of offspring (percentage or absolute) 
  	--replacement=Plus                       # -R : Replacement: Comma, Plus or EPTour(T), SSGAWorst, SSGADet(T), SSGAStoch(t) 
@@ -36,7 +36,7 @@
  	--maxGen=400                               # -G : Maximum number of generations () = none) 
  	--steadyGen=100                            # -s : Number of generations with no improvement 
  	--minGen=0                               # -g : Minimum number of generations 
- 	--maxEval=2                              # -E : Maximum number of evaluations (0 = none) 
+ 	--maxEval=30                              # -E : Maximum number of evaluations (0 = none) 
  	--targetFitness=0.0                        # -T : Stop when fitness reaches 
  	--CtrlC=1                                # -C : Terminate current generation upon Ctrl C 
 
@@ -51,10 +51,10 @@
  	--TauGlob=1                              # -g : Global Tau (before normalization) 
  	--Beta=0.0873                            # -b : Beta 
 
-	--seed=5
+	--seed=10
 
-	--vecSize=4
+	--vecSize=2
 
-	--initBounds=[1,100000];[1,20];[1,1000];[1,10000];
+	--initBounds=[1,100000];[1,50000];
 
-	--objectBounds=[1,100000];[1,20];[1,1000];[1,10000];
+	--objectBounds=[1,100000];[1,50000];
