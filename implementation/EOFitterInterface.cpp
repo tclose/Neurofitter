@@ -199,10 +199,10 @@ string EOParamsContent = " \
  	--saveTimeInterval=0                     # Save every T seconds (0 or absent = never) \n\
  	--status=./ESEA.status                   # Status file \n\
 \n\
- 	--maxGen=400                               # -G : Maximum number of generations () = none) \n\
+ 	--maxGen=50                               # -G : Maximum number of generations () = none) \n\
  	--steadyGen=100                            # -s : Number of generations with no improvement \n\
  	--minGen=0                               # -g : Minimum number of generations \n\
- 	--maxEval=30                              # -E : Maximum number of evaluations (0 = none) \n\
+ 	--maxEval=300                              # -E : Maximum number of evaluations (0 = none) \n\
  	--targetFitness=0.0                        # -T : Stop when fitness reaches \n\
  	--CtrlC=1                                # -C : Terminate current generation upon Ctrl C \n\
 \n\

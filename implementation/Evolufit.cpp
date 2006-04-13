@@ -90,87 +90,22 @@ int main () {
 	//	Initialize
 	////
 	
+	double startPointArray [] = {1.0, 1.0};
+	double bounds [] = {1.0, 100.0, 1.0, 50000.0};
 
-
-
-	double initParamsArray [] = {1.0, 1.0};
-	double bounds [] = {1.0, 100000.0, 1.0, 50000.0};
-
-	ModelTuningParameters initParams(initParamsArray,2,bounds);
+	ModelTuningParameters startPoint(startPointArray,2,bounds);
 
 	WernerModelInterface model = WernerModelInterface(); 
 	WernerExperimentInterface experiment = WernerExperimentInterface();	
-	PabloFitnessCalculator fitcal(&model, &experiment); 
 
-	PabloFitterInterface pablo = PabloFitterInterface(&model, &experiment);
-	pablo.runFitter(&initParams, 10);
+	PabloFitnessCalculator fitcal(&model,&experiment);
 
+	fitcal.enableFileExport("fitness.dat");
 
+	//SwarmFitterInterface fitter = SwarmFitterInterface(&fitcal,10,50);
+	PabloFitterInterface fitter(&model, &experiment);
 
-
-
-
-/*
-	EOFitterInterface eo = EOFitterInterface(&fitcal);
-
-	eo.runFitter(&initParams, 5);
-
-	NOMADFitterInterface nomad = NOMADFitterInterface();
-	//setNOMADFitnessCalculator(&fitcal);
-	nomad.runFitter(&fitcal, &initParams, 5);
-*/
-
-
-
-
-
-
-/*
-	double testSet1 [] = {500,15,15000,50};
-	ModelTuningParameters modelparams1(testSet1,4);
-*/
-
-
-/*
-	test = model.runModel(modelparams);
-
-	for (int i = 0; i < test.getLength(); i++) {
-		cout 	<< test[i].getName() << endl;
-		cout 	<< "StartTime: " << str(test[i].getStartTime()) << " StopTime: " << str(test[i].getStopTime()) << endl; 
-		cout	<< "Weight: " << str(test[i].getWeight()) << " Sampling Frequency: " << str(test[i].getSamplingFrequency());
-		for (int j = 0; j < test[i].getLength(); j++) {
-			if (j > 10) break;
-			cout << " "<< test[i][j];
-		}
-		cout << endl;
-	}
-	
-
-*/  
-
-
-
-
-/*
-	cout << endl << "Fitness value: " << fitcal.calculateFitness(modelparams1) << endl;
-
-	cout << endl << "Fitness value: " << fitcal.calculateFitness(modelparams2) << endl;
-
-*/	
-
-	////
-	//	Run EO
-	////
-		
-
-	////
-	// Run NOMAD
-	////
-
-
-	////
-	// Finish up
-	////
+	fitter.runFitter(&startPoint, 10);
 
 	cout << endl << "And we have touchdown" << endl;
 

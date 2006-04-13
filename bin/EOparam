@@ -33,10 +33,10 @@
  	--saveTimeInterval=0                     # Save every T seconds (0 or absent = never) 
  	--status=./ESEA.status                   # Status file 
 
- 	--maxGen=400                               # -G : Maximum number of generations () = none) 
+ 	--maxGen=50                               # -G : Maximum number of generations () = none) 
  	--steadyGen=100                            # -s : Number of generations with no improvement 
  	--minGen=0                               # -g : Minimum number of generations 
- 	--maxEval=30                              # -E : Maximum number of evaluations (0 = none) 
+ 	--maxEval=300                              # -E : Maximum number of evaluations (0 = none) 
  	--targetFitness=0.0                        # -T : Stop when fitness reaches 
  	--CtrlC=1                                # -C : Terminate current generation upon Ctrl C 
 
@@ -55,6 +55,6 @@
 
 	--vecSize=2
 
-	--initBounds=[1,100000];[1,50000];
+	--initBounds=[1,100];[1,50000];
 
-	--objectBounds=[1,100000];[1,50000];
+	--objectBounds=[1,100];[1,50000];

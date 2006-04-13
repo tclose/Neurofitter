@@ -1,3 +1,6 @@
+#ifndef FITTERRESULTS_H
+#define FITTERRESULTS_H
+
 #include "ModelTuningParameters.h"
 
 ///todo extend the members
@@ -14,3 +17,5 @@ class FitterResults {
 		string extraResults;
 
 };
+
+#endif

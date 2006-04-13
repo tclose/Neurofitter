@@ -29,7 +29,8 @@ EVOOBJS=	$(CPPDIR)/Evolufit.o \
 			$(CPPDIR)/EvolufitParameters.o \
 			$(CPPDIR)/EvolufitState.o \
 			$(CPPDIR)/DataTrace.o \
-			$(CPPDIR)/EvolufitResults.o 
+			$(CPPDIR)/EvolufitResults.o \
+			$(CPPDIR)/FixedParameters.o 
 
 MODOBJS=	$(CPPDIR)/ModelResults.o \
 			$(CPPDIR)/WernerModelInterface.o \
@@ -46,7 +47,9 @@ FITTEROBJS=	$(CPPDIR)/NOMADFitterInterface.o \
 			$(CPPDIR)/FitterResults.o \
 			$(CPPDIR)/truthfunction.o \
 			$(CPPDIR)/EOFitterInterface.o \
-			$(CPPDIR)/PabloFitterInterface.o
+			$(CPPDIR)/PabloFitterInterface.o \
+			$(CPPDIR)/SwarmFitterInterface.o \
+			$(CPPDIR)/SwarmFly.o
 
 OBJS = $(MODOBJS) $(FITOBJS) $(EXPOBJS) $(FITTEROBJS) $(EVOOBJS) 
 
