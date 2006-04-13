@@ -1,8 +1,9 @@
 splot "bin/fitness.dat" using 3:4:2; 
 
-set pm3d;
+set pm3d at bs;
 set dgrid3d ,,16
-set contour
+#set contour
 set hidden3d
+set ticslevel 0
 splot "bin/fitness.dat" using 3:4:2 with lines; 
 pause -1;
