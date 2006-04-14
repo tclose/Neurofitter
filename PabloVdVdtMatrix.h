@@ -7,6 +7,7 @@
 using namespace std;
 
 #include "DataTrace.h"
+#include "Tools.h"
 
 class PabloVdVdtMatrix {
 

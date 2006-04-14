@@ -1,10 +1,7 @@
 #include "../PabloVdVdtMatrix.h"
 
-PabloVdVdtMatrix::PabloVdVdtMatrix() {
-	vLength = 0;
-	dVdtLength = 0;
-	VdVdtMatrix = NULL;
-}
+PabloVdVdtMatrix::PabloVdVdtMatrix() 
+	: VdVdtMatrix(NULL), vLength(0), dVdtLength(0) {}
 
 PabloVdVdtMatrix& PabloVdVdtMatrix::operator=(const PabloVdVdtMatrix& p) {
 
@@ -48,8 +45,8 @@ PabloVdVdtMatrix::PabloVdVdtMatrix(const DataTrace& trace) {
 	const double minimalV = -0.1; // lowest possible V values in VdVdt matrix
     const double maximalV = 0.1; // highest possible V values in VdVdt matrix
 
-	const double minimaldVdt = -(maximalV-minimalV)*trace.getSamplingFrequency();
-	const double maximaldVdt = (maximalV-minimalV)*trace.getSamplingFrequency();
+	const double minimaldVdt = -(maximalV-minimalV)*trace.getSamplingFrequency(); cout << minimaldVdt << endl;
+	const double maximaldVdt = (maximalV-minimalV)*trace.getSamplingFrequency(); cout << maximaldVdt << endl;
 
     const double dxVdVdtmatrix = (maximalV-minimalV)/vLength; 
     const double dyVdVdtmatrix = (maximaldVdt-minimaldVdt)/dVdtLength;
@@ -80,10 +77,10 @@ PabloVdVdtMatrix::PabloVdVdtMatrix(const DataTrace& trace) {
 		if (dVdt < minimaldVdt) {dVdt=minimaldVdt;}//continue;}
 		if (dVdt >= maximaldVdt) {dVdt=maximaldVdt-dyVdVdtmatrix;}//continue;}
 
-		//if (V < minimalV) {cerr << "Warning: V smaller than minimal V in PabloVdVdtMatrix: "<<str(V)<<endl;continue;}
-		//if (V >= maximalV) {cerr << "Warning: V larger than maximal V in PabloVdVdtMatrix: "<<str(V)<<endl;continue;}
-		//if (dVdt < minimaldVdt) {cerr << "Warning: dVdt smaller than minimal dVdt in PabloVdVdtMatrix: "<<str(dVdt)<<endl;continue;}
-		//if (dVdt >= maximaldVdt) {cerr << "Warning: dVdt larger than maximal dVdt in PabloVdVdtMatrix: "<<str(dVdt)<<endl;continue;}
+		if (V < minimalV) {cerr << "Warning: V smaller than minimal V in PabloVdVdtMatrix: "<<str(V)<<endl;continue;}
+		if (V >= maximalV) {cerr << "Warning: V larger than maximal V in PabloVdVdtMatrix: "<<str(V)<<endl;continue;}
+		if (dVdt < minimaldVdt) {cerr << "Warning: dVdt smaller than minimal dVdt in PabloVdVdtMatrix: "<<str(dVdt)<<endl;continue;}
+		if (dVdt >= maximaldVdt) {cerr << "Warning: dVdt larger than maximal dVdt in PabloVdVdtMatrix: "<<str(dVdt)<<endl;continue;}
 
 		vIndex = (int)( (V-minimalV) / dxVdVdtmatrix );
 		dVdtIndex = (int)( (dVdt-minimaldVdt) / dyVdVdtmatrix );

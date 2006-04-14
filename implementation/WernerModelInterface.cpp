@@ -156,7 +156,7 @@ void WernerModelInterface::readDataFromFile(ModelResults & results, string input
 			results[traceNumberSoma].setName("Injection: " + str(nInject) + ", Period: " + str(nPeriod) + ", Soma, Filename: "+inputFileName);
 			//results[traceNumberDend1].setName("Injection: " + str(nInject) + ", Period: " + str(nPeriod) + ", Dend1, Filename: "+inputFileName);
 
-			results[traceNumberSoma].setSamplingFrequency(50000);
+			results[traceNumberSoma].setSamplingFrequency(5000);
 			//results[traceNumberDend1].setSamplingFrequency(50000);
 
 			results[traceNumberSoma].setWeight(injWeight*weights[nPeriod][0]);
