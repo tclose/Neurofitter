@@ -26,7 +26,7 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 		for (int j = 0; j < numberOfFlies; j++) {
 			swarm[j].fly();
 		}
-		cout << "Best solution after run " << i << " : " << SwarmFly::bestGlobalFitnessValue << endl;
+		cout << "Best solution after run " << i << " : " << SwarmFly::bestGlobalSolution.toString() << " : " << SwarmFly::bestGlobalFitnessValue << endl;
 	}
 
 	return FitterResults();

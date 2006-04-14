@@ -51,7 +51,7 @@
  	--TauGlob=1                              # -g : Global Tau (before normalization) 
  	--Beta=0.0873                            # -b : Beta 
 
-	--seed=10
+	--seed=1550
 
 	--vecSize=2
 

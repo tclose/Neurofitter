@@ -9,6 +9,7 @@ PabloFitnessCalculator::PabloFitnessCalculator(const ModelInterface * interface,
 	expVdVdtMatrices = new PabloVdVdtMatrix [expData.getLength()]; 
 	for (int nTrace = 0; nTrace < expData.getLength(); nTrace++) {
 		expVdVdtMatrices[nTrace] =  PabloVdVdtMatrix(expData[nTrace]);
+		cout << expVdVdtMatrices[nTrace].toString();
 	}
 
 }
@@ -27,6 +28,7 @@ double PabloFitnessCalculator::calculateFitness(const ModelTuningParameters & pa
     for (int nTrace = 0; nTrace < results.getLength(); nTrace++) {
 		PabloVdVdtMatrix modelVdVdtMatrix(results[nTrace]);
 		fitnessValue += results[nTrace].getWeight() * expVdVdtMatrices[nTrace].compare(modelVdVdtMatrix);
+		cout << modelVdVdtMatrix.toString();
     }
 
 	numberOfEvaluations++;

@@ -2,7 +2,7 @@
 ######                 General    ######
 --help=0                                 # -h : Prints this message
 --stopOnUnknownParam=1                   # Stop if unkown param entered
---seed=10                                # -S : Random number seed
+--seed=1550                              # -S : Random number seed
 
 ######    ES mutation             ######
 --Isotropic=1                            # -i : Isotropic self-adaptive mutation

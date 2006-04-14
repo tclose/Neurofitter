@@ -48,6 +48,7 @@ FITTEROBJS=	$(CPPDIR)/NOMADFitterInterface.o \
 			$(CPPDIR)/truthfunction.o \
 			$(CPPDIR)/EOFitterInterface.o \
 			$(CPPDIR)/PabloFitterInterface.o \
+			$(CPPDIR)/MeshFitterInterface.o \
 			$(CPPDIR)/SwarmFitterInterface.o \
 			$(CPPDIR)/SwarmFly.o
 

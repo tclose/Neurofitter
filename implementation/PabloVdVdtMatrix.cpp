@@ -39,8 +39,8 @@ PabloVdVdtMatrix::PabloVdVdtMatrix(const DataTrace& trace) {
 	int vIndex, dVdtIndex;
 
     ///todo should be all made parameters of PabloFitnessCalculator    
-    vLength=500; /// Number of indices in the V direction in VdVdt matrix
-    dVdtLength=500; /// Number of indices in the dVdt direction in VdVdt matrix
+    vLength=100; /// Number of indices in the V direction in VdVdt matrix
+    dVdtLength=100; /// Number of indices in the dVdt direction in VdVdt matrix
 
 	const double minimalV = -0.1; // lowest possible V values in VdVdt matrix
     const double maximalV = 0.1; // highest possible V values in VdVdt matrix
@@ -72,15 +72,17 @@ PabloVdVdtMatrix::PabloVdVdtMatrix(const DataTrace& trace) {
 		VNext = trace[nPoint+1];
 		dVdt = (VPrev-VNext) * trace.getSamplingFrequency();
 
-		if (V < minimalV) {V=minimalV;}//continue;}
-		if (V >= maximalV) {V=maximalV-dxVdVdtmatrix;}//continue;} //todo check if in extreme cases this cannot cause problems
-		if (dVdt < minimaldVdt) {dVdt=minimaldVdt;}//continue;}
-		if (dVdt >= maximaldVdt) {dVdt=maximaldVdt-dyVdVdtmatrix;}//continue;}
+		
+		//if (V < minimalV) {cerr << "Warning: V smaller than minimal V in PabloVdVdtMatrix: "<<str(V)<<endl;continue;}
+		//if (V >= maximalV) {cerr << "Warning: V larger than maximal V in PabloVdVdtMatrix: "<<str(V)<<endl;continue;}
+		//if (dVdt < minimaldVdt) {cerr << "Warning: dVdt smaller than minimal dVdt in PabloVdVdtMatrix: "<<str(dVdt)<<endl;continue;}
+		//if (dVdt >= maximaldVdt) {cerr << "Warning: dVdt larger than maximal dVdt in PabloVdVdtMatrix: "<<str(dVdt)<<endl;continue;}
 
-		if (V < minimalV) {cerr << "Warning: V smaller than minimal V in PabloVdVdtMatrix: "<<str(V)<<endl;continue;}
-		if (V >= maximalV) {cerr << "Warning: V larger than maximal V in PabloVdVdtMatrix: "<<str(V)<<endl;continue;}
-		if (dVdt < minimaldVdt) {cerr << "Warning: dVdt smaller than minimal dVdt in PabloVdVdtMatrix: "<<str(dVdt)<<endl;continue;}
-		if (dVdt >= maximaldVdt) {cerr << "Warning: dVdt larger than maximal dVdt in PabloVdVdtMatrix: "<<str(dVdt)<<endl;continue;}
+		if (V < minimalV) {V=minimalV;}
+		if (V >= maximalV) {V=maximalV-dxVdVdtmatrix;} //todo check if in extreme cases this cannot cause problems
+		if (dVdt < minimaldVdt) {dVdt=minimaldVdt;}
+		if (dVdt >= maximaldVdt) {dVdt=maximaldVdt-dyVdVdtmatrix;}
+
 
 		vIndex = (int)( (V-minimalV) / dxVdVdtmatrix );
 		dVdtIndex = (int)( (dVdt-minimaldVdt) / dyVdVdtmatrix );
@@ -115,7 +117,7 @@ double PabloVdVdtMatrix::compare(const PabloVdVdtMatrix & other) const {
 	double diff = 0;
 
 	//todo put this as a parameter
-  	const double precision = 1e-9;
+  	const double precision = 1e-15;
    
 	if (other.getVLength() != vLength) {cerr << endl << "Error: V dimensions don't match in PabloVdVdtMatrix" << endl;exit(1);} 	
 	if (other.getdVdtLength() != dVdtLength) {cerr << endl << "Error: dVdt dimensions don't match in PabloVdVdtMatrix" << endl;exit(1);}	
@@ -124,7 +126,9 @@ double PabloVdVdtMatrix::compare(const PabloVdVdtMatrix & other) const {
     	for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
 			diff=fabs((*this)[vIndex][dVdtIndex]-other[vIndex][dVdtIndex]);
 			if (diff > precision) {
-				fitnessValue += pow(diff,2);
+				fitnessValue += sqrt(diff);
+				//fitnessValue += diff;
+				//fitnessValue += pow(diff,2);
 			}
 		}
    	}
@@ -149,3 +153,17 @@ inline double const*const PabloVdVdtMatrix::operator[] (int subscript) const {
         {cerr << endl << "Error: Invalid subscript in PabloVdVdtMatrix"<<subscript<<endl;exit(1);}
 }
 
+
+string PabloVdVdtMatrix::toString() const {
+
+	ostringstream result;
+
+	for (int vIndex=0;vIndex<vLength;vIndex++) {
+        for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
+            result << " " << (*this)[vIndex][dVdtIndex];
+        }
+		result << endl;
+    }
+
+	return result.str();
+}

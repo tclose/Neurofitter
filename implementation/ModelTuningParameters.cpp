@@ -131,9 +131,9 @@ const double &ModelTuningParameters::operator[]( int subscript ) const {
 
 string ModelTuningParameters::toString() const {
 	ostringstream o;
-	o << "{";
+	o << "{ ";
 	for (int i = 0; i < getLength(); i++) {
-   		o << (*this)[i] << ", ";		
+   		o << (*this)[i] << " ";		
 	}
 	o << "}";
 	return o.str();

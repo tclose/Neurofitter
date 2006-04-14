@@ -95,6 +95,10 @@ int main () {
 
 	ModelTuningParameters startPoint(startPointArray,2,bounds);
 
+	double meshArray [] = {10, 10};
+	ModelTuningParameters mesh(meshArray,2,bounds);
+
+
 	WernerModelInterface model = WernerModelInterface(); 
 	WernerExperimentInterface experiment = WernerExperimentInterface();	
 
@@ -102,10 +106,16 @@ int main () {
 
 	fitcal.enableFileExport("fitness.dat");
 
-	//SwarmFitterInterface fitter = SwarmFitterInterface(&fitcal,10,50);
-	PabloFitterInterface fitter(&model, &experiment);
+	MeshFitterInterface fitter = MeshFitterInterface(&fitcal);
+	fitter.runFitter(&mesh, 1550);
 
-	fitter.runFitter(&startPoint, 10);
+
+	//SwarmFitterInterface fitter = SwarmFitterInterface(&fitcal,5,10);
+	//PabloFitterInterface fitter(&model, &experiment);
+	//NOMADFitterInterface fitter(&fitcal, startPoint.getLength());
+	//EOFitterInterface fitter(&fitcal);
+
+	//fitter.runFitter(&startPoint, 1550);
 
 	cout << endl << "And we have touchdown" << endl;
 

@@ -1,9 +1,15 @@
+
+#set xrange [10:20000];
+#set yrange [10:20000];
+#set zrange [0.0001:0.1];
+
 splot "bin/fitness.dat" using 3:4:2; 
 
+
 set pm3d at bs;
-set dgrid3d 20,20,16
+set dgrid3d 10,10,
 #set contour
-set hidden3d
-set ticslevel 0
-splot "bin/fitness.dat" using 3:4:2 with lines; 
+#set hidden3d
+#set ticslevel 0
+splot "bin/fitness.dat" using 3:4:2;# with lines; 
 pause -1;

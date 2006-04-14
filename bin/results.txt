@@ -3,7 +3,7 @@ Problem specifications:
 Problem dimension: 2, number of outputs: 1
 Random seed: 1
 Use the caches? Yes
-Starting point (feasible):  0.00204015   (6856.65, 22857.3)
+Starting point (feasible):  1.81907   (1, 1)
 
 Constraints:
 ------------
@@ -48,4 +48,45 @@ Mesh size: NA
 Number of iterations: NA
 Number of truth evaluations: 100
 Number of new truth evaluations: NA
-Number of consecutive failures: 
+Number of consecutive failures: NA
+
+
+Run-time information...
+
+feval #   f(x)   Point
+-------   ----   -----
+   1    1.8190739   (1, 1)
+   4    1.6619909   (5001, 11001)
+   9    1.5735081   (3001, 21001)
+   28    1.53551   (3001, 21032.25)
+   34    1.3394133   (4001, 14032.25)
+   53    1.3245781   (3969.75, 14001)
+   54    1.3003913   (3876.05, 13907.3)
+   55    1.2466545   (3594.95, 13626.2)
+   56    1.0355021   (2751.65, 12782.9)
+   100    1.0355021   (2751.65, 12782.9)
+
+Problem solution:
+-----------------
+Best point found: 1.0355021   (2751.65, 12782.9)
+Final mesh size: 62.5
+Number of iterations: 10
+Truth evaluations: 100
+New truth evaluations: 100
+Number of temporary cache hits: 0
+Number of permanent cache hits: 0
+Number of consecutive failures: 44
+
+
+Run statistics
+--------------
+
+		NUMBER OF	f(x) DECREASE AT
+		SUCCESSES	FEASIBLE POINTS (%)
+		---------	-------------------
+POLL		    2		     6.74
+SEARCH   	    6		     93.26
+   (Initial   	    1		     20.05)
+   (Iterative	    2		     36.32)
+   (Dense	    3		     36.89)
+

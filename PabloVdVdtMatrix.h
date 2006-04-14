@@ -27,6 +27,8 @@ public:
 	inline double const * const  operator[](const int) const;
 
 	double compare(const PabloVdVdtMatrix&) const;
+
+	string toString() const;
 	
 private:
 	double ** VdVdtMatrix;
