@@ -18,7 +18,7 @@
 
 ######    Genotype Initialization    ######
 --vecSize=2                              # -n : The number of variables 
---initBounds=[1,100];[1,50000]           # -B : Bounds for initialization (MUST be bounded)
+--initBounds=[1,10000];[1,50000]         # -B : Bounds for initialization (MUST be bounded)
 # --sigmaInit=0.3                          # -s : Initial value for Sigmas (with a '%' -> scaled by the range of each variable)
 
 ######    Output                  ######
@@ -52,7 +52,7 @@
 --CtrlC=1                                # -C : Terminate current generation upon Ctrl C
 
 ######    Variation Operators     ######
---objectBounds=[1,100];[1,50000]         # -B : Bounds for variables
+--objectBounds=[1,10000];[1,50000]       # -B : Bounds for variables
 --operator=SGA                           # -o : Description of the operator (SGA only now)
 --pCross=1                               # -C : Probability of Crossover
 --pMut=1                                 # -M : Probability of Mutation

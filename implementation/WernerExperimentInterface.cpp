@@ -4,7 +4,7 @@ ModelResults WernerExperimentInterface::getData() const {
 	const string          workpath = "/Users/werner/Desktop/EvolufitWork/wernermodel";
     const string          genpath = "/usr/local/bin/";
 
-	double dataparams [] = {10.0, 6000.0};
+	double dataparams [] = {2800.0, 11200.0};
 	
 	WernerModelInterface interface = WernerModelInterface();
 

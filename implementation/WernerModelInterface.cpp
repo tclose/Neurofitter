@@ -36,8 +36,8 @@ runModel(const ModelTuningParameters & params) const {
     paramFilename = workpath + "/tuningparam.g"; 
     paramFile.open(paramFilename.c_str(), ios::out);
 
-    paramFile << "float GNaP = " << params[0] <<endl;
-    paramFile << "float GKdr = " << params[1] <<endl;
+    paramFile << "float GNaP = " << params[0] << "e-12"<< endl;
+    paramFile << "float GKdr = " << params[1] << "e-12"<<endl;
     paramFile.close ();
 
 
@@ -46,7 +46,8 @@ runModel(const ModelTuningParameters & params) const {
 	for (nInject = 0; nInject < numberOfInjections; nInject++) {
 
 		switch (nInject) {
-			case 0: case 4: inject = 0.005; 		break;
+			case 0: inject = 0.0; 		break;
+			//case 0: case 4: inject = 0.005; 		break;
 			case 1: case 5: inject = 0.0001; 	break;
 			case 2: case 6: inject = 0.0005; 	break;
 			case 3: case 7: inject = 0.0; 	break;
@@ -119,8 +120,8 @@ void WernerModelInterface::readDataFromFile(ModelResults & results, string input
 		//const int		periodStart[] = {50,500};
 		//const int		periodStop []= {100,1000};
 
-		const int		periodStart[] = {500};
-		const int		periodStop []= {1000};
+		const int		periodStart[] = {10000};
+		const int		periodStop []= {19999};
 
 		//cout <<  "opening " << inputFileName << endl;
 

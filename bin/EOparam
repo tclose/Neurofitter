@@ -55,6 +55,6 @@
 
 	--vecSize=2
 
-	--initBounds=[1,100];[1,50000];
+	--initBounds=[1,10000];[1,50000];
 
-	--objectBounds=[1,100];[1,50000];
+	--objectBounds=[1,10000];[1,50000];

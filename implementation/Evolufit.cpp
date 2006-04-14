@@ -91,7 +91,7 @@ int main () {
 	////
 	
 	double startPointArray [] = {1.0, 1.0};
-	double bounds [] = {1.0, 100.0, 1.0, 50000.0};
+	double bounds [] = {1.0, 10000.0, 1.0, 50000.0};
 
 	ModelTuningParameters startPoint(startPointArray,2,bounds);
 
