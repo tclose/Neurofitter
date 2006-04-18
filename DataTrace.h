@@ -42,12 +42,12 @@ public:
 private:
 
 	double * points;
+	int length;
+	double weight;
 	double startTime;
 	double stopTime;
 	double samplingFrequency;
-	double weight;
 
-	int length;
 
 	string name;
 };

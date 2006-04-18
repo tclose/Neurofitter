@@ -90,17 +90,19 @@ int main () {
 	//	Initialize
 	////
 	
+	double expParams [] = {2800.0, 11200.0};
+
 	double startPointArray [] = {1.0, 1.0};
 	double bounds [] = {1.0, 10000.0, 1.0, 50000.0};
+
 
 	ModelTuningParameters startPoint(startPointArray,2,bounds);
 
 	double meshArray [] = {10, 10};
 	ModelTuningParameters mesh(meshArray,2,bounds);
 
-
 	WernerModelInterface model = WernerModelInterface(); 
-	WernerExperimentInterface experiment = WernerExperimentInterface();	
+	WernerExperimentInterface experiment = WernerExperimentInterface(ModelTuningParameters(expParams,2,bounds));	
 
 	PabloFitnessCalculator fitcal(&model,&experiment);
 

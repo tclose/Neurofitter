@@ -62,6 +62,9 @@ PabloVdVdtMatrix::PabloVdVdtMatrix(const DataTrace& trace) {
 
 	}		
 
+	cout << "Start time: " << trace.getStartTime() << endl;
+	cout << "Stop time: " << trace.getStopTime() << endl;
+
 	/////
 	/// Fill the matrix (and normalize)
 	////
@@ -126,14 +129,12 @@ double PabloVdVdtMatrix::compare(const PabloVdVdtMatrix & other) const {
     	for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
 			diff=fabs((*this)[vIndex][dVdtIndex]-other[vIndex][dVdtIndex]);
 			if (diff > precision) {
-				fitnessValue += sqrt(diff);
-				//fitnessValue += diff;
-				//fitnessValue += pow(diff,2);
+				fitnessValue += pow(diff,2);
 			}
 		}
    	}
 
-	return fitnessValue;
+	return sqrt(fitnessValue);
 
 }
 

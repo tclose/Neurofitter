@@ -1,14 +1,10 @@
 #include "../DataTrace.h"
 
-DataTrace::DataTrace() {
-	length = 0;
-	weight = -1;
-	startTime = -1;
-	stopTime = -1;
-	points = NULL;
-}
+DataTrace::DataTrace() 
+	:  points(NULL),length(0), weight(-1), startTime(-1), stopTime(-1) {}
 
-DataTrace::DataTrace(int size) {
+DataTrace::DataTrace(int size)
+	:length(size), weight(-1), startTime(-1), stopTime(-1) {
 	length = size;
 	points = new double[size];
 	if (points == NULL) {cerr << "Error: Unable to allocate memory in DataTrace";exit(1);}

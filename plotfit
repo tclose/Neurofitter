@@ -3,13 +3,15 @@
 #set yrange [10:20000];
 #set zrange [0.0001:0.1];
 
+#splot "~/Desktop/fitnessSQRTMESH.dat" using 3:4:2; 
 splot "bin/fitness.dat" using 3:4:2; 
 
 
 set pm3d at bs;
-set dgrid3d 10,10,
+set dgrid3d ,,16
 #set contour
 #set hidden3d
-#set ticslevel 0
+set ticslevel 0
+#splot "~/Desktop/fitnessSQRTMESH.dat" using 3:4:2;# with lines; 
 splot "bin/fitness.dat" using 3:4:2;# with lines; 
 pause -1;

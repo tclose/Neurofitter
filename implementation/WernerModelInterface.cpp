@@ -133,12 +133,10 @@ void WernerModelInterface::readDataFromFile(ModelResults & results, string input
 		int nPoints = 0;
 
 		for (int nPeriod = 0; nPeriod < numberOfPeriods; nPeriod++) {
-			double time;
+			double time, dummy;
 			///todo should be replaced by a seek
 			while (nPoints < periodStart[nPeriod]) {
-				double dummy;
 				inputfile >> time;
-				inputfile >> dummy;
 				inputfile >> dummy;
 				nPoints = nPoints + 1;
 			}

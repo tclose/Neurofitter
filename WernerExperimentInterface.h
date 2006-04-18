@@ -8,8 +8,12 @@
 class WernerExperimentInterface : public ExperimentInterface {
 
 public:
+	WernerExperimentInterface(ModelTuningParameters);
 	virtual ModelResults getData() const;
 	~WernerExperimentInterface() {};
+
+private:
+	ModelTuningParameters params;
 
 };
 
