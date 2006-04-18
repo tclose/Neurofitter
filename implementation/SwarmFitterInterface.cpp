@@ -1,4 +1,5 @@
 #include "../SwarmFitterInterface.h"
+#include "../MersenneTwister.h"
 
 FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint, int seed) {
 
@@ -8,16 +9,14 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 	ModelTuningParameters startP(startPoint->getLength());
 	ModelTuningParameters startSpeed(startPoint->getLength());
 	
-	srand( (unsigned)time( NULL ) );
+	MTRand randGen( (unsigned)time( NULL ) );
 
 	for (int i = 0; i < numberOfFlies; i++) {
 		for (int j = 0; j < startP.getLength(); j++) {
-			///todo replace this by mercene twister
-			startP[j] = startPoint->getLowerBound(j)+(startPoint->getUpperBound(j)-startPoint->getLowerBound(j))*(double)rand()/RAND_MAX;
+			startP[j] = startPoint->getLowerBound(j)+(startPoint->getUpperBound(j)-startPoint->getLowerBound(j))*randGen.rand();
 		}
 		for (int j = 0; j < startSpeed.getLength(); j++) {
-			///todo replace this by mercene twister
-			startSpeed[j] = 0.0*(double)rand()/RAND_MAX;
+			startSpeed[j] = 0.0*randGen.rand();
 		}
 		swarm[i].setMembers(fitness,0.9,0.9,startP,startSpeed);
 	}

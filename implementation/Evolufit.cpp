@@ -108,16 +108,16 @@ int main () {
 
 	fitcal.enableFileExport("fitness.dat");
 
-	MeshFitterInterface fitter = MeshFitterInterface(&fitcal);
-	fitter.runFitter(&mesh, 1550);
+	//MeshFitterInterface fitter = MeshFitterInterface(&fitcal);
+	//fitter.runFitter(&mesh, 1550);
 
 
-	//SwarmFitterInterface fitter = SwarmFitterInterface(&fitcal,5,10);
+	SwarmFitterInterface fitter = SwarmFitterInterface(&fitcal,5,10);
 	//PabloFitterInterface fitter(&model, &experiment);
 	//NOMADFitterInterface fitter(&fitcal, startPoint.getLength());
 	//EOFitterInterface fitter(&fitcal);
 
-	//fitter.runFitter(&startPoint, 1550);
+	fitter.runFitter(&startPoint, 1550);
 
 	cout << endl << "And we have touchdown" << endl;
 
