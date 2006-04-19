@@ -13,14 +13,15 @@ class FixedParameters {
 
 	public:
 		FixedParameters() {};
-		FixedParameters(XMLString parameters);
-		FixedParameters(XMLString parameters, FixedParameters globalparameters);
+		FixedParameters(string parameters);
+		FixedParameters(string parameters, FixedParameters globalparameters);
 
 		string& operator[](const string index);
 		const string operator[](const string index) const;
 
-		void readFromXML(XMLString parameters);
-	
+		void readFromXML(string parameters);
+
+		string toString() const;	
 	private:
 		map< string, string> params;
 

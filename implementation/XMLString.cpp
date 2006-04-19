@@ -1,15 +1,12 @@
 #include "../XMLString.h"
 
+///todo check all xml objects for leaks
+
 XMLString::XMLString(const string source)
 	:sourceString(source) {
-	//if (xml == NULL) {
-	//	cerr << "Unable to parse string in XMLString: " << source << endl;
-	//	exit(1);
-	//}
 }
 
 XMLString::~XMLString() {
-	//if (xml != NULL) xmlFreeDoc(xml);;
 }
 
 string XMLString::toString() const {
@@ -19,21 +16,25 @@ string XMLString::toString() const {
 string XMLString::getSubString(const string subName) const {
 	xmlDocPtr xml(xmlParseMemory(sourceString.c_str(), sourceString.length()+1));
 	xmlNodePtr cur = (xmlDocGetRootElement(xml))->xmlChildrenNode;
+
+	string returnString = "";
+
     while (cur != NULL) {
 		if (string((char*)cur->name) == subName) {
-			xmlDocPtr tmp = xmlCopyDoc(xml, 1);
-			xmlDocSetRootElement(tmp, cur);
-			xmlChar * children;
-    		int size;
-			xmlDocDumpMemory(tmp, &children, &size);
-			xmlFree(tmp);
-			string subString((char*)children);
-        	return subString;
+			xmlNodePtr child = cur->xmlChildrenNode;
+			while (child != NULL) {
+				xmlBufferPtr buf = xmlBufferCreate();
+				xmlNodeDump(buf,xml,child,100,0);
+				returnString +=string((char*)buf->content,buf->use);
+				xmlBufferFree(buf);
+				child = child->next;
+			}
 		}	
         cur = cur->next;
     }
-	cerr << "Unable to find name of sub in XMLString: " << subName << endl; exit(1);
-	return ""; 
+	if (returnString == "") {cerr << "Unable to find content of sub in XMLString: " << subName << endl; exit(1);}
+	xmlFreeDoc(xml);
+	return returnString; 
 }        
 
 XMLString XMLString::getSubXMLString(const string subName) const {
@@ -45,6 +46,7 @@ string XMLString::getContent() const {
 	char * content = (char*)xmlNodeListGetString(xml, (xmlDocGetRootElement(xml))->xmlChildrenNode, 1);
 	string contentString(content);
 	xmlFree(content);
+	xmlFreeDoc(xml);
 	return contentString;
 }
 
@@ -69,3 +71,4 @@ vector<string> XMLString::getSubNames() const{
 	}
 	return names;
 }
+

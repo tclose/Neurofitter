@@ -3,34 +3,51 @@
 using namespace std;
 
 int main () {
+	/////
+	//	Declarations
+	////
+	int dimensions;
+	int verboseLevel;
+	string bounds;
+	string startingPoints;
 
 	cout << "Houston, we have liftoff...\n" ;
 
 	////
-	//	Initialize
+	//	Read parameter file
 	////
 
 	ifstream paramFile("parameters.xml");
-	
-	FixedParameters fixedParameters = FixedParameters(XMLString(string(istreambuf_iterator<char>(paramFile),istreambuf_iterator<char>())));
+	string fileContent = string(istreambuf_iterator<char>(paramFile),istreambuf_iterator<char>());
+	FixedParameters fixedParameters = FixedParameters(XMLString("<root>"+fileContent+"</root>").getSubString("EvolufitProgram"));
 
 	FixedParameters globalParameters;
-	globalParameters["Dimensions"] = fixedParameters["Dimensions"];
+		globalParameters["Dimensions"] = fixedParameters["Dimensions"];
+		globalParameters["VerboseLevel"] = fixedParameters["VerboseLevel"];
+		globalParameters["Bounds"] = fixedParameters["Bounds"];
 
-	cout << globalParameters["Dimensions"];
+	verboseLevel = atoi(fixedParameters["VerboseLevel"].c_str());
+	dimensions = atoi(fixedParameters["Dimensions"].c_str());
+	bounds = fixedParameters["Bounds"];
+	startingPoints = fixedParameters["StartingPoints"];	
 
-	double startPointArray [] = {1.0, 1.0};
-	double bounds [] = {1.0, 10000.0, 1.0, 50000.0};
+	cout << globalParameters.toString();
 
-	ModelTuningParameters startPoint(startPointArray,2,bounds);
+	/////
+	// Initialize objects
+	/////
 
-	double meshArray [] = {10, 10};
-	ModelTuningParameters mesh(meshArray,2,bounds);
-
-	WernerModelInterface model = WernerModelInterface(); 
+	ModelTuningParameters startPoint(startingPoints,dimensions,bounds);
+	WernerModelInterface model = WernerModelInterface();
 	WernerExperimentInterface experiment(FixedParameters(fixedParameters["Experiment"],globalParameters));	
-
 	PabloFitnessCalculator fitcal(&model,&experiment);
+
+
+
+	//string meshArray = "10 10";
+	//ModelTuningParameters mesh(meshArray,2,bounds);
+
+
 
 	//fitcal.enableFileExport("fitness.dat");
 

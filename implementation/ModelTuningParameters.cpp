@@ -21,7 +21,7 @@ ModelTuningParameters::ModelTuningParameters(const double * newTParams, const in
 	ModelTuningParameters::setBounds(newBounds, 2*newTParamsLength);
 }
 
-ModelTuningParameters::ModelTuningParameters(const string paramString, const int newTParamsLength, const double * newBounds) : 
+ModelTuningParameters::ModelTuningParameters(const string paramString, const int newTParamsLength, const string newBounds) : 
 	tuningParameters(NULL), bounds(NULL) {
 
 	ModelTuningParameters::setTuningParameters(paramString, newTParamsLength);
@@ -116,6 +116,21 @@ void ModelTuningParameters::setBounds(const double * newBounds, const int newBou
 		bounds = NULL;
 		//cerr << endl << "Warning: Creating ModelTuningParameters without bounds" << endl;
 	}
+}
+
+void ModelTuningParameters::setBounds(const string boundString, const int newBoundsLength) {
+	double * newBounds = new double [newBoundsLength];
+
+    istringstream stream (boundString);
+    for (int i = 0; i < newBoundsLength; i++) {
+        stream >> newBounds[i];
+    }   
+    
+    ModelTuningParameters::setBounds(newBounds, newBoundsLength);
+
+    delete [] newBounds;
+
+
 }
 
 double &ModelTuningParameters::operator[]( int subscript ) {
