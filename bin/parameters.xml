@@ -1,35 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<EvolufitProgram>
-	<name>TestProgram</name>
+<EvolufitProgram name="TestProgram">
+	<Dimensions>2</Dimensions>	
+	<VerboseLevel>5</VerboseLevel>
+	<StartingPoints>
+		<StartingPoint>
+			"70000.0 5.0 150.0 6000.0"
+		</StartingPoint>
+	</StartingPoints>
 	
-	<parameters>
-		<Dimensions>4</Dimensions>
-		<StartingPoints>
-			<StartingPoint>
-				"70000.0 5.0 150.0 6000.0"
-			</StartingPoint>
-		</StartingPoints>
-		<VerboseLevel>5</VerboseLevel>
-		<Fitter>
-			<name>Pablo</name>
-			<parameters>
-				<FitnessCalculator>
-					<name>Pablo</name>
-					<parameters>
-						<minimalV>-0.1</minimalV>
-						<maximalV>0.1</maximalV>
-						<minimaldVdt></minimaldVdt>
-						<maximaldVdt></maximaldVdt>
-					</parameters>
-				</FitnessCalculator>
+	<Fitter>
+		<name>Pablo</name>
+		<parameters>
+			<FitnessCalculator>
+				<name>Pablo</name>
 				
-				<Fitters>
-					<Fitter>
-						<name>NOMAD</name>
-						<parameters>
-							<parameters.dat>
-								<![CDATA[
+			</FitnessCalculator>
+			
+			<Fitters>
+				<Fitter>
+					<name>NOMAD</name>
+					<parameters>
+						<parameters.dat>
+							<![CDATA[
 									#MESH PARAMETERS
 									#---------------
 									INITIAL_POLL_SIZE   1
@@ -74,9 +67,9 @@
 									#--------------------
 									SURROGATE_TOLERANCE 0
 									]]>
-							</parameters.dat>
-							<description.dat>
-								<![CDATA[
+						</parameters.dat>
+						<description.dat>
+							<![CDATA[
 									PROBLEM_NAME    PC
 									SCALING_CHOICE  0
 									GEN_CONS_NB 0
@@ -90,47 +83,56 @@
 									RESULTS_FILE results.txt
 									BOUNDS_FILE bounds.txt
 									]]>
-							</description.dat>
-							<preferences.dat>
-								<![CDATA[
+						</description.dat>
+						<preferences.dat>
+							<![CDATA[
 									#PREFERENCES
 									#-----------
 									DISPLAY_FACTOR      5
 									SEND_EMAIL      0
 									]]>
-							</preferences.dat>
-						</parameters>
-					</Fitter>
-					<Fitter>
-						<name>EO</name>
-						<parameters>
-							<EOParam>
-								<![CDATA[
+						</preferences.dat>
+					</parameters>
+				</Fitter>
+				<Fitter>
+					<name>EO</name>
+					<parameters>
+						<EOParam>
+							<![CDATA[
 			
 								]]>
-							</EOParam>
-						</parameters>
-					</Fitter>
-				</Fitters>
-			</parameters>
-		</Fitter>
-			
-		<Model>
-			<name>Werner</name>
-			<parameters>
-				<genesisLocation>/usr/local/nxgenesis</genesisLocation>
-				<modelDirectory>../../wernermodel</modelDirectory>
-				<modelSource>wernermodel.g</modelSource>
-				<inputFile>tuningParam.g</inputFile>
-				<outputFile>output.dat</outputFile>
-			</parameters>
-		</Model>	
+						</EOParam>
+					</parameters>
+				</Fitter>
+			</Fitters>
+		</parameters>
+	</Fitter>
 	
-		<Experiment>
-			<name>Werner</name>
-			<parameters>
-				<fileLocation></fileLocation>	
-			</parameters>
-		</Experiment>
-	</parameters>
+	<Model name="Werner">
+		<genesisLocation>/usr/local/nxgenesis</genesisLocation>
+		<modelDirectory>../../wernermodel</modelDirectory>
+		<modelSource>wernermodel.g</modelSource>
+		<inputFile>tuningParam.g</inputFile>
+		<outputFile>output.dat</outputFile>
+	</Model>	
+	
+	<Experiment name="Werner">
+			<Parameters>"2800.0 11200.0"</Parameters>	
+	</Experiment>
+	
+	<FitnessCalculator name="Pablo">
+		<minimalV>-0.1</minimalV>
+		<maximalV>0.1</maximalV>
+		<minimaldVdt></minimaldVdt>
+		<maximaldVdt></maximaldVdt>
+	</FitnessCalculator>
+	
+	<test>
+		<![CDATA[
+			#PREFERENCES
+			#-----------
+			DISPLAY_FACTOR      5
+			SEND_EMAIL      0
+		]]>
+	</test>
 </EvolufitProgram>

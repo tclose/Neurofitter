@@ -14,8 +14,7 @@
 class PabloFitterInterface : FitterInterface {
 
 public:
-	PabloFitterInterface(ModelInterface*, ExperimentInterface*);
-	~PabloFitterInterface();
+	PabloFitterInterface(FitnessCalculator*);
 	////
 	//Inherited from FitterInterface
 	////

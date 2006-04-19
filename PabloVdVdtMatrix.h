@@ -9,6 +9,7 @@ using namespace std;
 #include "DataTrace.h"
 #include "Tools.h"
 
+///todo use a map to implement this
 class PabloVdVdtMatrix {
 
 public:

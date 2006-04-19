@@ -2,19 +2,19 @@
 #define WERNEREXPERIMENTINTERFACE_H
 
 #include "ExperimentInterface.h"
+#include "FixedParameters.h"
 #include "WernerModelInterface.h"
 #include "ModelResults.h"
 
 class WernerExperimentInterface : public ExperimentInterface {
 
 public:
-	WernerExperimentInterface(ModelTuningParameters);
+	WernerExperimentInterface(FixedParameters);
 	virtual ModelResults getData() const;
 	~WernerExperimentInterface() {};
 
 private:
-	ModelTuningParameters params;
-
+	FixedParameters fixedParams;
 };
 
 #endif

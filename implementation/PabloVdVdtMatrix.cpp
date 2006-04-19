@@ -129,12 +129,12 @@ double PabloVdVdtMatrix::compare(const PabloVdVdtMatrix & other) const {
     	for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
 			diff=fabs((*this)[vIndex][dVdtIndex]-other[vIndex][dVdtIndex]);
 			if (diff > precision) {
-				fitnessValue += sqrt(diff);
+				fitnessValue += pow(diff,2);
 			}
 		}
    	}
 
-	return pow(fitnessValue,2);
+	return sqrt(fitnessValue);
 
 }
 

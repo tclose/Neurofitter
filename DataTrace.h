@@ -6,7 +6,7 @@
 
 using namespace std;
 
-
+///todo use vector to implement this
 class DataTrace {
 
 public:

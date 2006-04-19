@@ -21,7 +21,7 @@ ModelTuningParameters::ModelTuningParameters(const double * newTParams, const in
 	ModelTuningParameters::setBounds(newBounds, 2*newTParamsLength);
 }
 
-ModelTuningParameters::ModelTuningParameters(string paramString, const int newTParamsLength, const double * newBounds) : 
+ModelTuningParameters::ModelTuningParameters(const string paramString, const int newTParamsLength, const double * newBounds) : 
 	tuningParameters(NULL), bounds(NULL) {
 
 	ModelTuningParameters::setTuningParameters(paramString, newTParamsLength);

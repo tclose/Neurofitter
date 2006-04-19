@@ -1,15 +1,7 @@
 #include "../PabloFitterInterface.h"
 
-PabloFitterInterface::PabloFitterInterface(ModelInterface * model, ExperimentInterface * experiment) 
-	: FitterInterface(new PabloFitnessCalculator(model, experiment)) {
-
-	fitness->enableFileExport("fitness.dat");
-	
-}
-
-PabloFitterInterface::~PabloFitterInterface() {
-	if (fitness != NULL) delete fitness;
-}
+PabloFitterInterface::PabloFitterInterface(FitnessCalculator * fit) 
+	: FitterInterface(fit) {}
 
 FitterResults PabloFitterInterface::runFitter(ModelTuningParameters * startPoints, int seed) {
 	EOFitterInterface eo(fitness);

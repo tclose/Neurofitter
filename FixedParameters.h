@@ -1,17 +1,29 @@
+#ifndef FIXEDPARAMETERS_H
+#define FIXEDPARAMETERS_H
+
 #include <map>
 #include <string>
 
-///todo add this to every header file
-using namespace std;
+#include "XMLString.h"
 
-typedef map< string, string, less< string > > stringmap;
+///todo add this to every header file, and also include stdlib
+using namespace std;
 
 class FixedParameters {
 
-	string& operator[](const string index) {return params[index];};
+	public:
+		FixedParameters() {};
+		FixedParameters(XMLString parameters);
+		FixedParameters(XMLString parameters, FixedParameters globalparameters);
 
-	void readFromXML(string xmlString);
+		string& operator[](const string index);
+		const string operator[](const string index) const;
 
-	stringmap params;
+		void readFromXML(XMLString parameters);
+	
+	private:
+		map< string, string> params;
 
 };
+
+#endif

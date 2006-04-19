@@ -1,12 +1,11 @@
 #include "../WernerExperimentInterface.h"
 
-WernerExperimentInterface::WernerExperimentInterface(ModelTuningParameters modelParams)
-	: params(modelParams) {}
+WernerExperimentInterface::WernerExperimentInterface(FixedParameters params)
+	: fixedParams(params) {}
 
-ModelResults WernerExperimentInterface::getData() const {
-	const string          workpath = "/Users/werner/Desktop/EvolufitWork/wernermodel";
-    const string          genpath = "/usr/local/bin/";
-	
+ModelResults WernerExperimentInterface::getData() const{
+	cout << atoi(fixedParams["Dimensions"].c_str());
+	ModelTuningParameters params(fixedParams["Parameters"],atoi(fixedParams["Dimensions"].c_str()), NULL);	
 	WernerModelInterface interface = WernerModelInterface();
 
 	return interface.runModel(params);

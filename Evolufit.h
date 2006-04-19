@@ -17,6 +17,9 @@ using namespace std;
 #include "EvolufitState.h"
 #include "EvolufitParameters.h"
 #include "DataTrace.h"
+#include "XMLString.h"
+#include "FixedParameters.h"
+
 #include "ModelTuningParameters.h"
 #include "ModelResults.h"
 #include "ExperimentInterface.h"
