@@ -9,12 +9,13 @@
 #include "PabloVdVdtMatrix.h"
 #include "ModelTuningParameters.h"
 #include "FitnessCalculator.h"
+#include "FixedParamObject.h"
 
-class PabloFitnessCalculator : public FitnessCalculator {
+class PabloFitnessCalculator : public FitnessCalculator, public FixedParamObject {
 
 public:
+	PabloFitnessCalculator(const ModelInterface * interface, const ExperimentInterface * experiment, const FixedParameters); 
 	~PabloFitnessCalculator();
-	PabloFitnessCalculator(const ModelInterface * interface, const ExperimentInterface * experiment); 
 
 	virtual double calculateFitness(const ModelTuningParameters & param);
 
@@ -25,7 +26,6 @@ public:
 
 private:
 	PabloVdVdtMatrix * expVdVdtMatrices;	
-	PabloFitnessCalculator() {};
 	ofstream exportFileStream;
 };
 

@@ -2,26 +2,40 @@
 #define TOOLS_H
 
 #include <sstream>
+#include <string>
 
-inline std::string str(float x)
+
+using namespace std;
+
+inline string str(float x)
  {
    std::ostringstream o;
    o << x;
    return o.str();
  }
 
-inline std::string str(int x)
+inline string str(int x)
  {
    std::ostringstream o;
    o << x;
    return o.str(); 
  }
 
-inline std::string str(double x)
+inline string str(double x)
  {
    std::ostringstream o;
    o << x;
    return o.str();
+ }
+
+inline int toInt(string s)
+ {
+   return atoi(s.c_str());
+ }
+
+inline double toDouble(string s)
+ {
+   return atof(s.c_str());
  }
 
 #endif

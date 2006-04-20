@@ -1,6 +1,6 @@
-<EvolufitProgram name="TestProgram">
+<TestProgram>
 	<Dimensions>2</Dimensions>	
-	<VerboseLevel>5</VerboseLevel>
+	<VerboseLevel>4</VerboseLevel>
 	<StartingPoints>
 		1.0 1.0
 		500.0 1000.0
@@ -10,114 +10,116 @@
 		100000.0 100000.0
 	</Bounds>
 	
-	<Fitter name="Pablo">
-		<Fitters>
-			<Fitter>
-				<name>NOMAD</name>
-				<parameters>
-					<parameters.dat>
-						<![CDATA[
-								#MESH PARAMETERS
-								#---------------
-								INITIAL_POLL_SIZE   1
-								MAX_POLL_SIZE       100000
-								
-								POLL_BASIS      4 
-								COARSENING_EXPONENT 1
-								REFINING_EXPONENT   -1
-								#
-								#POLL PARAMETERS
-								#---------------
-								POLL_ORDER      0
-								POLL_COMPLETE       0
-								POLL_DIRECTIONS     4
-								#
-								#SEARCH PARAMETERS
-								#-----------------
-								INITIAL_SEARCH      0
-								INITIAL_COMPLETE    0
-								INITIAL_POINTS      4
-								ITERATIVE_SEARCH    0
-								ITERATIVE_COMPLETE  0
-								ITERATIVE_POINTS    0
-								SPECULATIVE_SEARCH  1
-								#
-								#TERMINATION PARAMETERS
-								#----------------------
-								POLL_SIZE_TERM      -1
-								CONSECUTIVE_FAILS   -1
-								TRUTH_EVALS     500
-								ITERATIONS      -1
-								NEW_TRUTH_EVALS     -1
-								#
-								#FILTER PARAMETERS
-								#-----------------	
-								FILTER_RELATIVE     1
-								HMAX            50000
-								HMIN            0.0001
-								FILTER_NORM     2
-								#
-								#SURROGATE PARAMETERS                                                                                   
-								#--------------------
-								SURROGATE_TOLERANCE 0
-								]]>
-					</parameters.dat>
-					<description.dat>
-						<![CDATA[
-								PROBLEM_NAME    PC
-								SCALING_CHOICE  0
-								GEN_CONS_NB 0
-								USE_SURROGATE   0
-								USE_BLACK_BOXES 0
-								USE_BOUNDS  1
-								USE_CACHES  1
-								CACHE_FILE cache
-								DIRECTORY .
-								START_PT_FILE start_pt.txt
-								RESULTS_FILE results.txt
-								BOUNDS_FILE bounds.txt
-								]]>
-					</description.dat>
-					<preferences.dat>
-						<![CDATA[
-								#PREFERENCES
-								#-----------
-								DISPLAY_FACTOR      5
-								SEND_EMAIL      0
-								]]>
-					</preferences.dat>
-				</parameters>
-			</Fitter>
-			<Fitter>
-				<name>EO</name>
-				<parameters>
-					<EOParam>
-						<![CDATA[
-		
-							]]>
-					</EOParam>
-				</parameters>
-			</Fitter>
-		</Fitters>
-	</Fitter>
+	<PabloFitter>
+		<EOFitter>
+			<name>EO</name>
+			<parameters>
+				<EOParam>
+					<![CDATA[
 	
-	<Model name="Werner">
+						]]>
+				</EOParam>
+			</parameters>
+		</EOFitter>
+		<NOMADFitter>
+			<name>NOMAD</name>
+			<parameters>
+				<parameters.dat>
+					<![CDATA[
+							#MESH PARAMETERS
+							#---------------
+							INITIAL_POLL_SIZE   1
+							MAX_POLL_SIZE       100000
+							
+							POLL_BASIS      4 
+							COARSENING_EXPONENT 1
+							REFINING_EXPONENT   -1
+							#
+							#POLL PARAMETERS
+							#---------------
+							POLL_ORDER      0
+							POLL_COMPLETE       0
+							POLL_DIRECTIONS     4
+							#
+							#SEARCH PARAMETERS
+							#-----------------
+							INITIAL_SEARCH      0
+							INITIAL_COMPLETE    0
+							INITIAL_POINTS      4
+							ITERATIVE_SEARCH    0
+							ITERATIVE_COMPLETE  0
+							ITERATIVE_POINTS    0
+							SPECULATIVE_SEARCH  1
+							#
+							#TERMINATION PARAMETERS
+							#----------------------
+							POLL_SIZE_TERM      -1
+							CONSECUTIVE_FAILS   -1
+							TRUTH_EVALS     500
+							ITERATIONS      -1
+							NEW_TRUTH_EVALS     -1
+							#
+							#FILTER PARAMETERS
+							#-----------------	
+							FILTER_RELATIVE     1
+							HMAX            50000
+							HMIN            0.0001
+							FILTER_NORM     2
+							#
+							#SURROGATE PARAMETERS                                                                                   
+							#--------------------
+							SURROGATE_TOLERANCE 0
+							]]>
+				</parameters.dat>
+				<description.dat>
+					<![CDATA[
+							PROBLEM_NAME    PC
+							SCALING_CHOICE  0
+							GEN_CONS_NB 0
+							USE_SURROGATE   0
+							USE_BLACK_BOXES 0
+							USE_BOUNDS  1
+							USE_CACHES  1
+							CACHE_FILE cache
+							DIRECTORY .
+							START_PT_FILE start_pt.txt
+							RESULTS_FILE results.txt
+							BOUNDS_FILE bounds.txt
+							]]>
+				</description.dat>
+				<preferences.dat>
+					<![CDATA[
+							#PREFERENCES
+							#-----------
+							DISPLAY_FACTOR      5
+							SEND_EMAIL      0
+							]]>
+				</preferences.dat>
+			</parameters>
+		</NOMADFitter>	
+	</PabloFitter>
+	
+	<WernerModel>
 		<genesisLocation>/usr/local/nxgenesis</genesisLocation>
 		<modelDirectory>../../wernermodel</modelDirectory>
 		<modelSource>wernermodel.g</modelSource>
 		<inputFile>tuningParam.g</inputFile>
 		<outputFile>output.dat</outputFile>
-	</Model>	
+	</WernerModel>	
 	
-	<Experiment name="Werner">
+	<WernerExperiment>
 			<Parameters>2800.0 11200.0</Parameters>	
-	</Experiment>
+	</WernerExperiment>
 	
-	<FitnessCalculator name="Pablo">
-		<minimalV>-0.1</minimalV>
-		<maximalV>0.1</maximalV>
-		<minimaldVdt></minimaldVdt>
-		<maximaldVdt></maximaldVdt>
-	</FitnessCalculator>
-	
-</EvolufitProgram>
+	<PabloFitnessCalculator>
+		<PabloVdVdtMatrix>
+			<vLength>100</vLength>
+			<dVdtLength>100</dVdtLength>
+			<minimalV>-0.1</minimalV>
+			<maximalV>0.1</maximalV>
+			<comparePrecision>1e-15</comparePrecision>
+		</PabloVdVdtMatrix>
+		<enableFileExport>1</enableFileExport>
+		<exportFile>fitness.dat</exportFile>
+	</PabloFitnessCalculator>
+</TestProgram>

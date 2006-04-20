@@ -13,13 +13,13 @@ int main () {
 
 	cout << "Houston, we have liftoff...\n" ;
 
-	////
-	//	Read parameter file
-	////
+	///////////////////////////
+	///	Read parameter file ///
+	///////////////////////////
 
 	ifstream paramFile("parameters.xml");
 	string fileContent = string(istreambuf_iterator<char>(paramFile),istreambuf_iterator<char>());
-	FixedParameters fixedParameters = FixedParameters(XMLString("<root>"+fileContent+"</root>").getSubString("EvolufitProgram"));
+	FixedParameters fixedParameters = FixedParameters(XMLString("<root>"+fileContent+"</root>").getSubString("TestProgram"));
 
 	FixedParameters globalParameters;
 		globalParameters["Dimensions"] = fixedParameters["Dimensions"];
@@ -33,16 +33,18 @@ int main () {
 
 	cout << globalParameters.toString();
 
-	/////
-	// Initialize objects
-	/////
+	FixedParameters expFixedParams(fixedParameters["WernerExperiment"],globalParameters);
+	FixedParameters fitFixedParams(fixedParameters["PabloFitnessCalculator"],globalParameters);
+
+	//////////////////////////
+	/// Initialize objects ///
+	//////////////////////////
 
 	ModelTuningParameters startPoint(startingPoints,dimensions,bounds);
+
 	WernerModelInterface model = WernerModelInterface();
-	WernerExperimentInterface experiment(FixedParameters(fixedParameters["Experiment"],globalParameters));	
-	PabloFitnessCalculator fitcal(&model,&experiment);
-
-
+	WernerExperimentInterface experiment(expFixedParams);	
+	PabloFitnessCalculator fitcal(&model,&experiment,fitFixedParams);
 
 	//string meshArray = "10 10";
 	//ModelTuningParameters mesh(meshArray,2,bounds);

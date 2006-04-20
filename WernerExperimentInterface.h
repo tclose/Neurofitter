@@ -5,8 +5,9 @@
 #include "FixedParameters.h"
 #include "WernerModelInterface.h"
 #include "ModelResults.h"
+#include "FixedParamObject.h"
 
-class WernerExperimentInterface : public ExperimentInterface {
+class WernerExperimentInterface : public ExperimentInterface, public FixedParamObject {
 
 public:
 	WernerExperimentInterface(FixedParameters);
@@ -14,7 +15,7 @@ public:
 	~WernerExperimentInterface() {};
 
 private:
-	FixedParameters fixedParams;
+	//FixedParameters fixedParams;
 };
 
 #endif

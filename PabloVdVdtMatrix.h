@@ -7,14 +7,16 @@
 using namespace std;
 
 #include "DataTrace.h"
+#include "FixedParamObject.h"
 #include "Tools.h"
 
 ///todo use a map to implement this
-class PabloVdVdtMatrix {
+class PabloVdVdtMatrix : public FixedParamObject {
 
 public:
 	PabloVdVdtMatrix();
-	PabloVdVdtMatrix(const DataTrace&);
+	PabloVdVdtMatrix(FixedParameters);
+	PabloVdVdtMatrix(const DataTrace&, FixedParameters);
 	PabloVdVdtMatrix(const PabloVdVdtMatrix & v) {*this = v;}; 
 	
 	PabloVdVdtMatrix& operator=(const PabloVdVdtMatrix&);
