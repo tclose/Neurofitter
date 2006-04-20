@@ -6,14 +6,17 @@
 #include "FitterInterface.h"
 #include "FitnessCalculator.h"
 #include "EOFitnessCalculator.h"
+#include "FixedParamObject.h"
 
 class eoParser;
 class eoState;
 
-class EOFitterInterface : FitterInterface {
+///todo check the "public" from FitterInterface
+
+class EOFitterInterface : public FitterInterface, public FixedParamObject {
 
 	public:
-		EOFitterInterface(FitnessCalculator * fit):FitterInterface(fit){};
+		EOFitterInterface(FitnessCalculator * fit, FixedParameters params):FitterInterface(fit),FixedParamObject(params){};
 		/////
 		//Inherited from FitterInterface
 		/////

@@ -8,13 +8,14 @@
 #include "PabloFitnessCalculator.h"
 #include "EOFitterInterface.h"
 #include "NOMADFitterInterface.h"
+#include "FixedParamObject.h"
 
 ///todo make all classes use initializers
 
-class PabloFitterInterface : FitterInterface {
+class PabloFitterInterface : public FitterInterface, public FixedParamObject {
 
 public:
-	PabloFitterInterface(FitnessCalculator*);
+	PabloFitterInterface(FitnessCalculator*, FixedParameters);
 	////
 	//Inherited from FitterInterface
 	////

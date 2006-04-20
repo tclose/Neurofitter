@@ -14,16 +14,22 @@ class FixedParameters {
 	public:
 		FixedParameters() {};
 		FixedParameters(string parameters);
-		FixedParameters(string parameters, FixedParameters globalparameters);
+		FixedParameters(string parameters, string globalparameters);
 
 		string& operator[](const string index);
-		const string operator[](const string index) const;
+		const string&operator[](const string index) const;
 
-		void readFromXML(string parameters);
+		string getGlobals() const;
+
+		void readFromXML(string parameters, bool global);
+
+		void setGlobal(string);
+		void notGlobal(string);
+		bool getGlobal(string);
 
 		string toString() const;	
 	private:
-		map< string, string> params;
+		map< string, pair< string,bool > > params;
 
 };
 

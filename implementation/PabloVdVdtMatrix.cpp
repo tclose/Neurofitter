@@ -88,11 +88,10 @@ double PabloVdVdtMatrix::compare(const PabloVdVdtMatrix & other) const {
    	}
 
 	return sqrt(fitnessValue);
-
 }
 
 
-inline vector<double>& PabloVdVdtMatrix::operator[] (int subscript) {
+inline vector<double>& PabloVdVdtMatrix::operator[] (const int subscript) {
     if (0 <= subscript && subscript < vLength) {
 		return VdVdtMatrix[subscript];
 	}
@@ -101,14 +100,13 @@ inline vector<double>& PabloVdVdtMatrix::operator[] (int subscript) {
 }
 
 
-inline const vector<double>& PabloVdVdtMatrix::operator[] (int subscript) const {
+inline const vector<double>& PabloVdVdtMatrix::operator[] (const int subscript) const {
     if (0 <= subscript && subscript < vLength) {
 		return VdVdtMatrix[subscript];
 	}
 	cerr << endl << "Error: Invalid subscript in PabloVdVdtMatrix: "<<subscript<<endl;
 	exit(1);
 }
-
 
 string PabloVdVdtMatrix::toString() const {
 	ostringstream result;

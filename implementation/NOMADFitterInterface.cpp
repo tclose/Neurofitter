@@ -1,6 +1,13 @@
 #include "../NOMADFitterInterface.h"
 #include <nomad>
 
+NOMADFitterInterface::NOMADFitterInterface(FitnessCalculator * fit, FixedParameters params)
+	: FitterInterface(fit), FixedParamObject(params) {
+
+	setNOMADFitnessCalculator(fit, toInt(fixedParams["Dimensions"]));
+
+}
+
 FitterResults NOMADFitterInterface::runFitter(ModelTuningParameters * startPoints, int seed) {
 	
 	modelParams = startPoints;

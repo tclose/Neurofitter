@@ -4,13 +4,14 @@
 #include <nomad>
 #include "FitterInterface.h"
 #include "FitnessCalculator.h"
+#include "FixedParamObject.h"
 
 extern void setNOMADFitnessCalculator(FitnessCalculator*, int);
 
-class NOMADFitterInterface : FitterInterface {
+class NOMADFitterInterface : FitterInterface, FixedParamObject {
 
 	public:
-		NOMADFitterInterface(FitnessCalculator * fit, int numberOfParams):FitterInterface(fit) {setNOMADFitnessCalculator(fit, numberOfParams);};
+		NOMADFitterInterface(FitnessCalculator * fit, FixedParameters params);
 		////
 		//Inherited from FitterInterface
     	////
