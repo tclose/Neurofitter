@@ -3,38 +3,16 @@
 ///todo make this object use maps
 
 PabloVdVdtMatrix::PabloVdVdtMatrix() 
-	: FixedParamObject(), VdVdtMatrix(NULL), vLength(0), dVdtLength(0) {}
+	: FixedParamObject(), vLength(0), dVdtLength(0), VdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {}
 
 PabloVdVdtMatrix::PabloVdVdtMatrix(FixedParameters params) 
-	: FixedParamObject(params), VdVdtMatrix(NULL), vLength(0), dVdtLength(0) {}
+	: FixedParamObject(params), vLength(0), dVdtLength(0), VdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {}
 
-PabloVdVdtMatrix& PabloVdVdtMatrix::operator=(const PabloVdVdtMatrix& p) {
-
-	if (this != &p) {
-		if (VdVdtMatrix != NULL) {
-        	for (int i = 0; i < vLength; i++) {
-				if (VdVdtMatrix[i] != NULL) {delete [] VdVdtMatrix[i];}
-        	}
-        	delete [] VdVdtMatrix;
-    	}
-		vLength = p.vLength;
-		dVdtLength = p.dVdtLength;
-		VdVdtMatrix = new double * [vLength];
-		if (VdVdtMatrix == NULL) {cerr << endl <<"Error: Unable to allocate array in PabloVdVdtMatrix" << endl;exit(1);}
-		for (int i = 0; i < vLength; i++) {
-			VdVdtMatrix[i] = new double [dVdtLength];
-			if (VdVdtMatrix[i] == NULL) {cerr << endl <<"Error: Unable to allocate array in PabloVdVdtMatrix" << endl;exit(1);}
-			for (int j = 0; j < dVdtLength; j++) {
-				(*this)[i][j] = p[i][j];
-			}
-		}		
-	}
-
-	return *this;
-}
-
-PabloVdVdtMatrix::PabloVdVdtMatrix(const DataTrace& trace, FixedParameters params) :
-	 FixedParamObject(params)  {
+PabloVdVdtMatrix::PabloVdVdtMatrix(const DataTrace& trace, FixedParameters params) 
+	:	FixedParamObject(params), 
+		vLength(toInt(fixedParams["vLength"])), 
+		dVdtLength(toInt(fixedParams["dVdtLength"])), 
+		VdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {
 
 	//////////////////
 	/// Initialize ///
@@ -42,9 +20,6 @@ PabloVdVdtMatrix::PabloVdVdtMatrix(const DataTrace& trace, FixedParameters param
 
     double dVdt = 0;
     double V = 0, VPrev = 0, VNext = 0;
-
-    vLength=toInt(fixedParams["vLength"]); /// Number of indices in the V direction in VdVdt matrix
-    dVdtLength=toInt(fixedParams["dVdtLength"]); /// Number of indices in the dVdt direction in VdVdt matrix
 
 	const double minimalV = toDouble(fixedParams["minimalV"]); // lowest possible V values in VdVdt matrix
     const double maximalV = toDouble(fixedParams["maximalV"]); // highest possible V values in VdVdt matrix
@@ -54,17 +29,6 @@ PabloVdVdtMatrix::PabloVdVdtMatrix(const DataTrace& trace, FixedParameters param
 
     const double dxVdVdtmatrix = (maximalV-minimalV)/vLength; 
     const double dyVdVdtmatrix = (maximaldVdt-minimaldVdt)/dVdtLength;
-
-    VdVdtMatrix = new double * [vLength];
-	if (VdVdtMatrix == NULL) {cerr << endl <<"Error: Unable to allocate array in PabloVdVdtMatrix" << endl;exit(1);}
-	for (int i = 0; i < vLength; i++) {
-		VdVdtMatrix[i] = new double [dVdtLength];
-		if (VdVdtMatrix[i] == NULL) {cerr << endl <<"Error: Unable to allocate array in PabloVdVdtMatrix" << endl;exit(1);}
-		for (int j = 0; j < dVdtLength; j++) {
-			(*this)[i][j] = 0;
-		}
-
-	}		
 
 	///////////////////////////////////////
 	/// Fill the matrix (and normalize) ///
@@ -95,17 +59,6 @@ PabloVdVdtMatrix::PabloVdVdtMatrix(const DataTrace& trace, FixedParameters param
 	}
 }
 
-PabloVdVdtMatrix::~PabloVdVdtMatrix() {
-
-	if (VdVdtMatrix != NULL) {
-		for (int i = 0; i < vLength; i++) {
-			if (VdVdtMatrix[i] != NULL) {delete [] VdVdtMatrix[i];}
-		}		
-		delete [] VdVdtMatrix;
-	}
-}
-
-
 int PabloVdVdtMatrix::getVLength() const {
 	return vLength;
 }
@@ -113,7 +66,6 @@ int PabloVdVdtMatrix::getVLength() const {
 int PabloVdVdtMatrix::getdVdtLength() const {
 	return dVdtLength;
 }
-
 
 double PabloVdVdtMatrix::compare(const PabloVdVdtMatrix & other) const {
 
@@ -140,24 +92,25 @@ double PabloVdVdtMatrix::compare(const PabloVdVdtMatrix & other) const {
 }
 
 
-inline double* PabloVdVdtMatrix::operator[] (int subscript) {
-    if (0 <= subscript && subscript < vLength)
-        {return VdVdtMatrix[subscript];}
-    else
-        {cerr << endl << "Error: Invalid subscript in PabloVdVdtMatrix: "<<subscript<<endl;exit(1);}
+inline vector<double>& PabloVdVdtMatrix::operator[] (int subscript) {
+    if (0 <= subscript && subscript < vLength) {
+		return VdVdtMatrix[subscript];
+	}
+    cerr << endl << "Error: Invalid subscript in PabloVdVdtMatrix: "<<subscript<<endl;
+	exit(1);
 }
 
 
-inline double const*const PabloVdVdtMatrix::operator[] (int subscript) const {
-    if (0 <= subscript && subscript < vLength)
-        {return VdVdtMatrix[subscript];}
-    else
-        {cerr << endl << "Error: Invalid subscript in PabloVdVdtMatrix: "<<subscript<<endl;exit(1);}
+inline const vector<double>& PabloVdVdtMatrix::operator[] (int subscript) const {
+    if (0 <= subscript && subscript < vLength) {
+		return VdVdtMatrix[subscript];
+	}
+	cerr << endl << "Error: Invalid subscript in PabloVdVdtMatrix: "<<subscript<<endl;
+	exit(1);
 }
 
 
 string PabloVdVdtMatrix::toString() const {
-
 	ostringstream result;
 
 	for (int vIndex=0;vIndex<vLength;vIndex++) {

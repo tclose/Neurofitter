@@ -17,26 +17,26 @@ public:
 	PabloVdVdtMatrix();
 	PabloVdVdtMatrix(FixedParameters);
 	PabloVdVdtMatrix(const DataTrace&, FixedParameters);
-	PabloVdVdtMatrix(const PabloVdVdtMatrix & v) {*this = v;}; 
+	//PabloVdVdtMatrix(const PabloVdVdtMatrix & v) {*this = v;}; 
 	
-	PabloVdVdtMatrix& operator=(const PabloVdVdtMatrix&);
+	//PabloVdVdtMatrix& operator=(const PabloVdVdtMatrix&);
 
-	~PabloVdVdtMatrix();
+	//~PabloVdVdtMatrix();
 
 	int getVLength() const;
 	int getdVdtLength() const;
 
-	inline double * operator[](const int);
-	inline double const * const  operator[](const int) const;
+	inline vector<double>& operator[](const int);
+	inline const vector<double>& operator[](const int) const;
 
 	double compare(const PabloVdVdtMatrix&) const;
 
 	string toString() const;
 	
 private:
-	double ** VdVdtMatrix;
 	int vLength;
 	int dVdtLength;	
+	vector< vector< double > > VdVdtMatrix;
 };
 	
 #endif
