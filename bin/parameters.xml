@@ -1,6 +1,7 @@
 <TestProgram>
 	<Dimensions>2</Dimensions>	
 	<VerboseLevel>4</VerboseLevel>
+	<SamplingFrequency>5000</SamplingFrequency>
 	<StartingPoints>
 		1.0 1.0
 	</StartingPoints>
@@ -92,13 +93,24 @@
 		</NOMADFitter>	
 	</PabloFitter>
 	
-	<WernerModel>
-		<genesisLocation>/usr/local/nxgenesis</genesisLocation>
+	<GenesisModel> 
+		<genesisLocation>/usr/local/bin/nxgenesis</genesisLocation>
 		<modelDirectory>../../wernermodel</modelDirectory>
 		<modelSource>wernermodel.g</modelSource>
-		<inputFile>tuningParam.g</inputFile>
+		<inputFile>input.dat</inputFile>
 		<outputFile>output.dat</outputFile>
-	</WernerModel>	
+		<numberOfRunParameters>1</numberOfRunParameters>
+		<runs>
+			0
+			0.1
+			0.4
+		</runs>
+		<periods>
+			1.0 1.5
+			2.0 3.9
+		</periods>
+		<numberOfRecordSites>2</numberOfRecordSites>
+	</GenesisModel>	
 	
 	<WernerExperiment>
 			<Parameters>2800.0 11200.0</Parameters>	

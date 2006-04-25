@@ -38,6 +38,7 @@ EVOOBJS=	$(CPPDIR)/Evolufit.o \
 
 MODOBJS=	$(CPPDIR)/ModelResults.o \
 			$(CPPDIR)/WernerModelInterface.o \
+			$(CPPDIR)/GenesisModelInterface.o \
 			$(CPPDIR)/PabloModelInterface.o \
 			$(CPPDIR)/ModelTuningParameters.o
 

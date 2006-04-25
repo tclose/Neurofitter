@@ -10,12 +10,13 @@
 class WernerExperimentInterface : public ExperimentInterface, public FixedParamObject {
 
 public:
-	WernerExperimentInterface(FixedParameters);
+	WernerExperimentInterface(ModelInterface*,FixedParameters);
 	virtual ModelResults getData() const;
 	~WernerExperimentInterface() {};
 
 private:
-	//FixedParameters fixedParams;
+	ModelInterface * model;
+
 };
 
 #endif

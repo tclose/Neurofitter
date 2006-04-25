@@ -1,6 +1,6 @@
-#include "../WernerModelInterface.h"
+#include "../GenesisModelInterface.h"
 
-ModelResults	WernerModelInterface::
+ModelResults	GenesisModelInterface::
 runModel(const ModelTuningParameters & params) const {
 
 	const string workpath = fixedParams["modelDirectory"];
@@ -83,7 +83,7 @@ runModel(const ModelTuningParameters & params) const {
 
 		///todo add in pablo's modelinterface nox notty batch
 		genCommand = "cd "+workpath+"; "+genpath+"-nox -notty -batch"+fixedParams["inputFile"]+" > gen.out 2> gen.err";
-		if (toInt(fixedParams["VerboseLevel"]) > 4) {cout << endl << "calling " << genCommand << " with a current of " << inject << endl;}
+		if (fixedParams["VerboseLevel"] > 4) {cout << endl << "calling " << genCommand << " with a current of " << inject << endl;}
 		
 		system(genCommand.c_str());
 
@@ -94,7 +94,7 @@ runModel(const ModelTuningParameters & params) const {
 		errorFile.open(errorFileName.c_str(), ios::in);
 		errorFile.seekg (0, ios::end);
   		int length = errorFile.tellg();
-		if (errorFile.bad() || length != 228) {cerr << "Error while running genesis simulation in WernerModeInterface" << endl;exit(1);}
+		if (errorFile.bad() || length != 228) {cerr << "Error while running genesis simulation in GenesisModeInterface" << endl;exit(1);}
 		errorFile.close();
 
 
@@ -112,7 +112,7 @@ runModel(const ModelTuningParameters & params) const {
 }
 
 
-void WernerModelInterface::readDataFromFile(ModelResults & results, string inputFileName, int nInject, int numberOfRecordSites, int numberOfPeriods, double injWeight) {
+void GenesisModelInterface::readDataFromFile(ModelResults & results, string inputFileName, int nInject, int numberOfRecordSites, int numberOfPeriods, double injWeight) {
 
 		const double	weights[][2] = {{.5,.5},{.5,.5}};		
 

@@ -1,5 +1,5 @@
-#ifndef WERNERMODELINTERFACE_H
-#define WERNERMODELINTERFACE_H
+#ifndef GENESISMODELINTERFACE_H
+#define GENESISMODELINTERFACE_H
 
 #include <fstream> 
 using namespace std;
@@ -8,12 +8,12 @@ using namespace std;
 #include "FixedParamObject.h"
 
 
-class WernerModelInterface : public ModelInterface, public FixedParamObject {
+class GenesisModelInterface : public ModelInterface, public FixedParamObject {
 
 public:	
-	WernerModelInterface(FixedParameters params) : FixedParamObject(params) {}; 
+	GenesisModelInterface(FixedParameters params) : FixedParamObject(params) {}; 
     virtual ModelResults runModel(const ModelTuningParameters &) const;
-	~WernerModelInterface() {};
+	~GenesisModelInterface() {};
 
 	static void readDataFromFile(ModelResults&, string inputFileName, int startTrace, int numberOfRecordSites, int numberOfPeriods, double injWeight);
 

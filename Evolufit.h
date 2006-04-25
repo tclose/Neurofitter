@@ -29,6 +29,7 @@ using namespace std;
 
 #include "PabloModelInterface.h"
 #include "WernerModelInterface.h"
+#include "GenesisModelInterface.h"
 #include "PabloExperimentInterface.h"
 #include "WernerExperimentInterface.h"
 #include "PabloVdVdtMatrix.h"

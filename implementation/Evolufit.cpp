@@ -35,6 +35,7 @@ int main () {
 
 	// Make the fixed parameters for the child objects
 	FixedParameters expFixedParams(fixedParameters["WernerExperiment"],fixedParameters.getGlobals());
+	FixedParameters modelFixedParams(fixedParameters["WernerModel"],fixedParameters.getGlobals());
 	FixedParameters fitFixedParams(fixedParameters["PabloFitnessCalculator"],fixedParameters.getGlobals());
 
 	//////////////////////////
@@ -43,8 +44,8 @@ int main () {
 
 	ModelTuningParameters startPoint(startingPoints,dimensions,bounds);
 
-	WernerModelInterface model = WernerModelInterface();
-	WernerExperimentInterface experiment(expFixedParams);
+	WernerModelInterface model = WernerModelInterface(modelFixedParams);
+	WernerExperimentInterface experiment(&model, expFixedParams);
 	PabloFitnessCalculator fitcal(&model,&experiment,fitFixedParams);
 
 	//string meshArray = "10 10";

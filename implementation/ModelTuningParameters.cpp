@@ -119,18 +119,21 @@ void ModelTuningParameters::setBounds(const double * newBounds, const int newBou
 }
 
 void ModelTuningParameters::setBounds(const string boundString, const int newBoundsLength) {
-	double * newBounds = new double [newBoundsLength];
+	if (boundString != "") {
+		double * newBounds = new double [newBoundsLength];
 
-    istringstream stream (boundString);
-    for (int i = 0; i < newBoundsLength; i++) {
-        stream >> newBounds[i];
-    }   
+    	istringstream stream (boundString);
+    	for (int i = 0; i < newBoundsLength; i++) {
+        	stream >> newBounds[i];
+    	}   
     
-    ModelTuningParameters::setBounds(newBounds, newBoundsLength);
+    	ModelTuningParameters::setBounds(newBounds, newBoundsLength);
 
-    delete [] newBounds;
-
-
+    	delete [] newBounds;
+	}
+	else {
+		ModelTuningParameters::setBounds(NULL, 0);	
+	}
 }
 
 double &ModelTuningParameters::operator[]( int subscript ) {
