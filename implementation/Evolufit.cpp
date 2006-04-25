@@ -34,8 +34,8 @@ int main () {
 	cout << "StartingPoints: " << (startingPoints = fixedParameters["StartingPoints"]) << endl;	
 
 	// Make the fixed parameters for the child objects
-	FixedParameters expFixedParams(fixedParameters["WernerExperiment"],fixedParameters.getGlobals());
-	FixedParameters modelFixedParams(fixedParameters["WernerModel"],fixedParameters.getGlobals());
+	FixedParameters expFixedParams(fixedParameters["FakeExperiment"],fixedParameters.getGlobals());
+	FixedParameters modelFixedParams(fixedParameters["GenesisModel"],fixedParameters.getGlobals());
 	FixedParameters fitFixedParams(fixedParameters["PabloFitnessCalculator"],fixedParameters.getGlobals());
 
 	//////////////////////////
@@ -44,8 +44,8 @@ int main () {
 
 	ModelTuningParameters startPoint(startingPoints,dimensions,bounds);
 
-	WernerModelInterface model = WernerModelInterface(modelFixedParams);
-	WernerExperimentInterface experiment(&model, expFixedParams);
+	GenesisModelInterface model = GenesisModelInterface(modelFixedParams);
+	FakeExperimentInterface experiment(&model, expFixedParams);
 	PabloFitnessCalculator fitcal(&model,&experiment,fitFixedParams);
 
 	//string meshArray = "10 10";

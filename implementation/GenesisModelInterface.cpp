@@ -83,7 +83,7 @@ runModel(const ModelTuningParameters & params) const {
 
 		///todo add in pablo's modelinterface nox notty batch
 		genCommand = "cd "+workpath+"; "+genpath+"-nox -notty -batch"+fixedParams["inputFile"]+" > gen.out 2> gen.err";
-		if (fixedParams["VerboseLevel"] > 4) {cout << endl << "calling " << genCommand << " with a current of " << inject << endl;}
+		if (toInt(fixedParams["VerboseLevel"]) > 4) {cout << endl << "calling " << genCommand << " with a current of " << inject << endl;}
 		
 		system(genCommand.c_str());
 
