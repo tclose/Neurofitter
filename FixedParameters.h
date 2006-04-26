@@ -5,6 +5,8 @@
 #include <string>
 
 #include "XMLString.h"
+#include "Tools.h"
+
 
 ///todo add this to every header file, and also include stdlib
 using namespace std;

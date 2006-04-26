@@ -21,11 +21,14 @@ string FixedParameters::getGlobals() const {
 }
 
 string& FixedParameters::operator[](const string index) {
-	return params[index].first;
+	map<const string, pair< string, bool > >::iterator i = params.find(index);
+	if (i == params.end()) crash("FixedParameters","Unable to find key: "+index);
+	return (i->second).first;
 }
 
 const string& FixedParameters::operator[](const string index) const {
 	map<const string, pair< string, bool > >::const_iterator i = params.find(index);
+	if (i == params.end()) crash("FixedParameters","Unable to find key: "+index);
 	return (i->second).first;
 }
 

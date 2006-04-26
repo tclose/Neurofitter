@@ -3,93 +3,79 @@
 ModelResults	GenesisModelInterface::
 runModel(const ModelTuningParameters & params) const {
 
-	const string workpath = fixedParams["modelDirectory"];
-	const string genpath = fixedParams["genesisLocation"]+"/";
-
-	const int       numberOfInjections = 1;
-	const int       numberOfRecordSites = 1;
-	const int       numberOfPeriods = 1;
-
-	//const double injWeight [] = {0.1,0.1,0.1,0.1,0.5,0.5,1.0,1.0};
-	const double injWeight [] = {1.0};
+	const int       numberOfRuns = toInt(fixedParams["NumberOfRuns"]);
+	const int       numberOfRunParameters = toInt(fixedParams["NumberOfRunParameters"]);
+	const int       numberOfRecordSites = toInt(fixedParams["NumberOfRecordSites"]);
+	const int       numberOfPeriods = toInt(fixedParams["NumberOfPeriods"]);
 
 	ofstream		paramFile;
 	ofstream        fixedParamFile;
 
 	ifstream		errorFile;
 
-	string			paramFilename;
-	string          fixedParamName;
-	string			errorFileName;
-	string          genCommand;
-	string			inputname;
+	ModelResults	results(numberOfRuns*numberOfPeriods*numberOfRecordSites);
 
-	int             nInject;
-	float           inject; //inject current in nA
+	vector< vector< int > > runParameters(numberOfRuns, vector< int >(numberOfRunParameters,0));
+	vector<double> runWeights(numberOfRuns,0);
 
-	ModelResults	results(numberOfInjections*numberOfRecordSites*numberOfPeriods);
-
-
-	/////
-	///	fill conductance parameter file
-	/////
-    paramFilename = workpath + fixedParams["inputFile"]; 
-    paramFile.open(paramFilename.c_str(), ios::out);
-
-    paramFile << "float GNaP = " << params[0] << "e-12"<< endl;
-    paramFile << "float GKdr = " << params[1] << "e-12"<<endl;
-    paramFile.close ();
-
-
-	/* call genesis with several injection currents */
-
-	for (nInject = 0; nInject < numberOfInjections; nInject++) {
-
-		switch (nInject) {
-			case 0: inject = 0.0; 		break;
-			//case 0: case 4: inject = 0.005; 		break;
-			case 1: case 5: inject = 0.0001; 	break;
-			case 2: case 6: inject = 0.0005; 	break;
-			case 3: case 7: inject = 0.0; 	break;
-			default:
-				cerr << "Wrong number of injection sites";
-				exit(1);
+	/////////////////////////////////////////////////////
+	/// Read the parameters and weights for every run ///
+	/////////////////////////////////////////////////////
+	istringstream runStream(fixedParams["RunParameters"]);
+	for (int i = 0; i < numberOfRuns; i++) {
+		for (int j = 0; j < numberOfRunParameters; j++) {
+			runStream >> runParameters[i][j];
 		}
+		runStream >> runWeights[i];
+	}
 
-		/////
-		/// fill inject file
-		/////
 
-		fixedParamName = workpath + "/fixedparam.g";
-		inputname = workpath + "/output_inject" + str(nInject)  + "_" + str(inject) + "A.dat";
-		fixedParamFile.open(fixedParamName.c_str(), ios::out);
-		fixedParamFile << "str outputfile = \"" << inputname << "\""<<endl;		
-		fixedParamFile << "float inject = " << inject << endl;
-		if (nInject < 4) {
-			fixedParamFile << "float injectsite = " << str(0) << endl;			
+	for (int nRun = 0; nRun < numberOfRuns; nRun++) {
+
+		/////////////////////////////////
+		/// Write the parameter file ///
+		/////////////////////////////////
+
+		string paramFilename = fixedParams["modelDirectory"] + "/" + fixedParams["ParamFilePrefix"] + ".dat";
+    	paramFile.open(paramFilename.c_str(), ios::out);
+		if (toInt(fixedParams["VerboseLevel"]) > 4) {cout << endl << "Writing data to parameter file: " << paramFilename << endl;}
+
+		// put output filename in file //
+		string modelOutputname = fixedParams["modelDirectory"] + fixedParams["OutputFilePrefix"] + "_" + str(nRun) +".dat";
+		paramFile << modelOutputname << endl;		
+		
+		// put run parameters in file //
+		for (int i = 0; i < toInt(fixedParams["NumberOfRunParameters"]); i++) {
+			paramFile << runParameters[nRun][i] << endl;
 		}
-		else {
-			fixedParamFile << "float injectsite = " << str(1) << endl;			
-		}
-		fixedParamFile.close();
+		paramFile << endl;
 
-		errorFileName = workpath + "/gen.err";
+		// put tuning parameters in file //
+		for (int i = 0; i < toInt(fixedParams["Dimensions"]); i++) {
+			paramFile << params[i] << " ";
+		}
+		paramFile << endl;
+
+    	paramFile.close ();
+
+		// create or clean a file to store the genesis error channel
+		string errorFileName = fixedParams["ErrorFile"];
 		errorFile.open(errorFileName.c_str(), ios::trunc);
 		errorFile.close();
 
-		/////
-		/// call Genesis
-		/////
+		////////////////////
+		/// call Genesis ///
+		////////////////////
 
-		///todo add in pablo's modelinterface nox notty batch
-		genCommand = "cd "+workpath+"; "+genpath+"-nox -notty -batch"+fixedParams["inputFile"]+" > gen.out 2> gen.err";
-		if (toInt(fixedParams["VerboseLevel"]) > 4) {cout << endl << "calling " << genCommand << " with a current of " << inject << endl;}
+		string genCommand = "cd "+fixedParams["ModelDirectory"]+"; "
+						+fixedParams["GenesisLocation"]+" -nox -notty -batch"+fixedParams["InputFile"]+" > gen.out 2> " + errorFileName;
+		if (toInt(fixedParams["VerboseLevel"]) > 4) {cout << endl << "calling " << genCommand << endl;}
 		
 		system(genCommand.c_str());
 
-		/////
-		/// Check to see if there was no error in genesis
-		/////
+		/////////////////////////////////////////////////////
+		/// Check to see if there was no error in genesis ///
+		/////////////////////////////////////////////////////
 
 		errorFile.open(errorFileName.c_str(), ios::in);
 		errorFile.seekg (0, ios::end);
@@ -97,14 +83,11 @@ runModel(const ModelTuningParameters & params) const {
 		if (errorFile.bad() || length != 228) {cerr << "Error while running genesis simulation in GenesisModeInterface" << endl;exit(1);}
 		errorFile.close();
 
-
-		/////
-		/// read results 
-		/////
-
-		//todo make it possible to control from outside genesis to name the filename
+		////////////////////
+		/// read results ///
+		////////////////////
 	
-		readDataFromFile(results, inputname, nInject, numberOfRecordSites, numberOfPeriods, injWeight[nInject]);
+		readDataFromFile(results, modelOutputname, nRun, runWeights[nRun]);
 
 	}
 
@@ -112,67 +95,86 @@ runModel(const ModelTuningParameters & params) const {
 }
 
 
-void GenesisModelInterface::readDataFromFile(ModelResults & results, string inputFileName, int nInject, int numberOfRecordSites, int numberOfPeriods, double injWeight) {
+void GenesisModelInterface::readDataFromFile(ModelResults & results, string inputFileName, double runWeight) {
 
-		const double	weights[][2] = {{.5,.5},{.5,.5}};		
+	int numberOfRecordSites = toInt(fixedParams["NumberOfRecordSites"]);
+	int numberOfPeriods = toInt(fixedParams["NumberOfPeriods"]);
 
-		///Periods should be in order of appearance !!!
-		//const int		periodStart[] = {50,500};
-		//const int		periodStop []= {100,1000};
+	///////////////////////////////////////////////
+	/// Read the period start,stops and weights ///
+	///////////////////////////////////////////////
+	double * periodStart[] = double [numberOfPeriods];
+	double * periodStops[] = double [numberOfPeriods];
+	double * periodWeights[] = double [numberOfPeriods];
 
-		const int		periodStart[] = {10000};
-		const int		periodStop []= {19999};
+	istringstream periodStream(fixedParams["Periods"]);
+	for (int i = 0; i < numberOfPeriods; i++) {
+		periodStream >> periodStart[i];
+		periodStream >> periodStop[i];
+		periodStream >> periodWeights[i];
+	}
 
-		//cout <<  "opening " << inputFileName << endl;
+	///////////////////////////////////////
+	/// Read the recording site weights ///
+	///////////////////////////////////////
+	double * recordWeights[] = double [numberOfRecordSites];
+	istringstream recordingStream(fixedParams["RecordSites"]);
+	for (int i = 0; i < numberOfRecordSites; i++) {
+		recordStream >> recordWeights[i];
+	}
 
+
+	////////////////////////////////////
+	/// Read every period seperately ///
+	////////////////////////////////////
+	for (int nPeriod = 0; nPeriod < toInt(numberOfPeriods); nPeriod++) {
+		//Calculate the index of this period in the 1 dimensional array of traces
+		int periodIndex = nInject*numberOfRecordSites*numberOfPeriods+nPeriod*numberOfRecordSites;
+
+		//////////////////////////
+		/// Open the data file ///
+		//////////////////////////
 		ifstream		inputfile;
-     	inputfile.open(inputFileName.c_str(), ios::in);
-     	inputfile.clear();  
+    	inputfile.open(inputFileName.c_str(), ios::in);
+     	inputfile.clear();
 
-
-		int nPoints = 0;
-
-		for (int nPeriod = 0; nPeriod < numberOfPeriods; nPeriod++) {
-			double time, dummy;
-			///todo should be replaced by a seek
-			while (nPoints < periodStart[nPeriod]) {
-				inputfile >> time;
-				inputfile >> dummy;
-				nPoints = nPoints + 1;
-			}
-
-			int traceNumberSoma = nInject*numberOfRecordSites*numberOfPeriods+0*numberOfPeriods+nPeriod;
-			//cout << "Soma: " << traceNumberSoma << endl;
-			//int traceNumberDend1 = nInject*numberOfRecordSites*numberOfPeriods+1*numberOfPeriods+nPeriod;
-			//cout << "Dend: " << traceNumberDend1 << endl;
-
-
-			results[traceNumberSoma].resetAndSetLength(periodStop[nPeriod] - periodStart[nPeriod] + 1);
-			//results[traceNumberDend1].resetAndSetLength(periodStop[nPeriod] - periodStart[nPeriod] + 1);
-		
-			string name;
-			results[traceNumberSoma].setName("Injection: " + str(nInject) + ", Period: " + str(nPeriod) + ", Soma, Filename: "+inputFileName);
-			//results[traceNumberDend1].setName("Injection: " + str(nInject) + ", Period: " + str(nPeriod) + ", Dend1, Filename: "+inputFileName);
-
-			results[traceNumberSoma].setSamplingFrequency(5000);
-			//results[traceNumberDend1].setSamplingFrequency(50000);
-
-			results[traceNumberSoma].setWeight(injWeight*weights[nPeriod][0]);
-			//results[traceNumberDend1].setWeight(injWeight*weights[nPeriod][1]);
-
-			for (int j = 0; j < results[traceNumberSoma].getLength(); j++) {
-				inputfile >> time;
-				if (j==0) {
-					results[traceNumberSoma].setStartTime(time);
-                	//results[traceNumberDend1].setStartTime(time);
-				}		
-				inputfile >> results[traceNumberSoma][j];
-				//inputfile >> results[traceNumberDend1][j];
-				nPoints = nPoints + 1;
-			}
-
-			results[traceNumberSoma].setStopTime(time);
-            //results[traceNumberDend1].setStopTime(time);
+		///////////////////////////////////////////////
+		/// Read data until the start of the period ///
+		///////////////////////////////////////////////
+		double time = 0;
+		inputfile >> time;
+		while (time < periodStart[nPeriod]) {
+			inputfile.getLine();
+			inputfile >> time;
 		}
+
+		/////////////////////////////
+		/// Initialize the traces ///
+		/////////////////////////////
+		for (int nRecording = 0; j < numberOfRecordSites; nRecording++) {
+			///todo check for rounding errors
+			results[periodIndex+nRecording].resetAndSetLength(
+				(int)periodStop[nPeriod]*toDouble(fixedParam["SamplingFrequency"]) 
+				- (int)periodStart[nPeriod]*toDouble(fixedParam["SamplingFrequency"]) + 1);
+           	results[periodIndex+nRecording].setName("Run: " + str(nRun) + ", Period: " + str(nPeriod) + ", Recording: "+str(nRecord));
+           	results[periodIndex+nRecording].setSamplingFrequency(toDouble(fixedParam["SamplingFrequency"]));
+           	results[periodIndex+nRecording].setWeight(runWeight*periodWeigths[nPeriod]*recordWeights[nRecording]);
+			results[periodIndex+nRecording].setStartTime(time);
+			results[periodIndex+nRecording].setStopTime(periodStop[nPeriod]);
+		}	
+
+		/////////////////////
+		/// Read the data ///
+		/////////////////////
+		int i = 0;
+		while (time <= periodStop[nPeriod]) {
+			for (int nRecording = 0; j < numberOfRecordSites; nRecording++) {
+           		inputFile >> results[periodIndex+nRecord][i++];
+			}
+			inputfile >> time;
+		}
+
+		inputfile.close();
+	}
 
 }

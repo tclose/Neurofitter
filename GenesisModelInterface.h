@@ -1,6 +1,7 @@
 #ifndef GENESISMODELINTERFACE_H
 #define GENESISMODELINTERFACE_H
 
+#include <vector> 
 #include <fstream> 
 using namespace std;
 
@@ -15,7 +16,7 @@ public:
     virtual ModelResults runModel(const ModelTuningParameters &) const;
 	~GenesisModelInterface() {};
 
-	static void readDataFromFile(ModelResults&, string inputFileName, int startTrace, int numberOfRecordSites, int numberOfPeriods, double injWeight);
+	static void readDataFromFile(ModelResults&, string inputFileName, int startTrace, double injWeight);
 
 private:
 

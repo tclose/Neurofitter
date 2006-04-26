@@ -38,4 +38,9 @@ inline double toDouble(string s)
    return atof(s.c_str());
  }
 
+inline void crash(string object, string message) {
+	cerr << object << ": " << message << endl;
+	exit(1);
+}
+
 #endif

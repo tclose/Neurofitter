@@ -1,6 +1,6 @@
 <TestProgram>
 	<Dimensions>2</Dimensions>	
-	<VerboseLevel>4</VerboseLevel>
+	<VerboseLevel>5</VerboseLevel>
 	<SamplingFrequency>5000</SamplingFrequency>
 	<StartingPoints>
 		1.0 1.0
@@ -94,27 +94,40 @@
 	</PabloFitter>
 	
 	<GenesisModel> 
-		<genesisLocation>/usr/local/bin/nxgenesis</genesisLocation>
-		<modelDirectory>../../wernermodel</modelDirectory>
-		<modelSource>wernermodel.g</modelSource>
-		<inputFile>input.dat</inputFile>
-		<outputFile>output.dat</outputFile>
-		<numberOfRunParameters>1</numberOfRunParameters>
-		<runs>
-			0
-			0.1
-			0.4
-		</runs>
-		<periods>
-			1.0 1.5
-			2.0 3.9
-		</periods>
-		<numberOfRecordSites>2</numberOfRecordSites>
+		<GenesisLocation>/usr/local/bin/nxgenesis</GenesisLocation>
+		
+		<ModelDirectory>../../wernermodel</ModelDirectory>
+		<ModelSource>wernermodel.g</ModelSource>
+		
+		<ParamFilePrefix>param</ParamFilePrefix>
+		<OutputFilePrefix>output</OutputFilePrefix>
+		
+		<ErrorFile>generr.out</ErrorFile>
+		
+		<NumberOfRuns>3</NumberOfRuns>
+		<NumberOfRunParameters>1</NumberOfRunParameters>
+		<RunParameters>
+			0 	<!--weight--> 0.33
+			0.1 <!--weight--> 0.33
+			0.4 <!--weight--> 0.33
+		</RunParameters>
+		
+		<NumberOfPeriods>2</NumberOfPeriods>
+		<Periods>
+			1.0 1.5 <!--weight--> 0.5
+			2.0 3.9 <!--weight--> 0.5
+		</Periods>
+		
+		<NumberOfRecordSites>2</NumberOfRecordSites>
+		<RecordSites>
+			<!--weight--> 0.5
+			<!--weight--> 0.5
+		</RecordSites>
 	</GenesisModel>	
 	
-	<WernerExperiment>
+	<FakeExperiment>
 			<Parameters>2800.0 11200.0</Parameters>	
-	</WernerExperiment>
+	</FakeExperiment>
 	
 	<PabloFitnessCalculator>
 		<PabloVdVdtMatrix>
