@@ -25,18 +25,28 @@ int main () {
 	// Say which parameters should be passed to child objects
 	fixedParameters.setGlobal("Dimensions");
 	fixedParameters.setGlobal("VerboseLevel");
+	fixedParameters.setGlobal("SamplingFrequency");
+	fixedParameters.setGlobal("Seed");
 	fixedParameters.setGlobal("Bounds");
 
 	// Write parameters to variables
-	cout << "VerboseLevel: " << (verboseLevel = toInt(fixedParameters["VerboseLevel"])) << endl;
-	cout << "Dimensions: " << (dimensions = toInt(fixedParameters["Dimensions"])) << endl;
-	cout << "Bounds: "<< (bounds = fixedParameters["Bounds"]) << endl;
-	cout << "StartingPoints: " << (startingPoints = fixedParameters["StartingPoints"]) << endl;	
+	verboseLevel = toInt(fixedParameters["VerboseLevel"]);
+	dimensions = toInt(fixedParameters["Dimensions"]);
+	bounds = fixedParameters["Bounds"];
+	startingPoints = fixedParameters["StartingPoints"];
+
+	if (toInt(fixedParameters["VerboseLevel"]) > 2) {
+		cout << "VerboseLevel: " << verboseLevel << endl;
+		cout << "Dimensions: " << dimensions << endl;
+		cout << "Bounds: "<< bounds << endl;
+		cout << "StartingPoints: " << startingPoints << endl;	
+	}
 
 	// Make the fixed parameters for the child objects
 	FixedParameters expFixedParams(fixedParameters["FakeExperiment"],fixedParameters.getGlobals());
 	FixedParameters modelFixedParams(fixedParameters["GenesisModel"],fixedParameters.getGlobals());
 	FixedParameters fitFixedParams(fixedParameters["PabloFitnessCalculator"],fixedParameters.getGlobals());
+	FixedParameters fitterFixedParams(fixedParameters["MeshFitter"],fixedParameters.getGlobals());
 
 	//////////////////////////
 	/// Initialize objects ///
@@ -48,20 +58,13 @@ int main () {
 	FakeExperimentInterface experiment(&model, expFixedParams);
 	PabloFitnessCalculator fitcal(&model,&experiment,fitFixedParams);
 
-	//string meshArray = "10 10";
-	//ModelTuningParameters mesh(meshArray,2,bounds);
-
-
-	//MeshFitterInterface fitter = MeshFitterInterface(&fitcal);
-	//fitter.runFitter(&mesh, 1550);
-
-
+	MeshFitterInterface fitter = MeshFitterInterface(&fitcal,fitterFixedParams);
 	//SwarmFitterInterface fitter = SwarmFitterInterface(&fitcal,5,10);
 	//PabloFitterInterface fitter(&fitcal);
 	//NOMADFitterInterface fitter(&fitcal, startPoint.getLength());
 	//EOFitterInterface fitter(&fitcal);
 
-	//fitter.runFitter(&startPoint, 1550);
+	fitter.runFitter(&startPoint, toInt(fixedParameters["Seed"]));
 
 	cout << endl << "And we have touchdown" << endl;
 

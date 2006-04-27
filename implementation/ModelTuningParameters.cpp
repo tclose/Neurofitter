@@ -81,25 +81,34 @@ int ModelTuningParameters::getLength() const {
 void ModelTuningParameters::setTuningParameters(const double * newTParams, const int newTParamsLength) {
 	if (tuningParameters != NULL) {delete [] tuningParameters;}
 
-	tuningParameters = new double [newTParamsLength];
-	if (tuningParameters==NULL) {cerr << "Unable to allocate memory in ModelTuningParameters"<<endl;exit(1);}
-	tuningParametersLength = newTParamsLength;	
-	for (int i = 0; i < newTParamsLength; i++) {
-		tuningParameters[i] = newTParams[i];
+	if (newTParams != NULL) {
+		tuningParameters = new double [newTParamsLength];
+		if (tuningParameters==NULL) {cerr << "Unable to allocate memory in ModelTuningParameters"<<endl;exit(1);}
+		tuningParametersLength = newTParamsLength;	
+		for (int i = 0; i < newTParamsLength; i++) {
+			tuningParameters[i] = newTParams[i];
+		}
+	}
+	else {
+		tuningParameters = NULL;
+		tuningParametersLength = 0;
 	}
 }
 
 void ModelTuningParameters::setTuningParameters(const string paramString, const int newTParamsLength) {
 	double * newTParams = new double [newTParamsLength];
 
-	istringstream stream (paramString);	
-	for (int i = 0; i < newTParamsLength; i++) {
-		stream >> newTParams[i];
+	if (paramString != "") {
+		istringstream stream (paramString);	
+		for (int i = 0; i < newTParamsLength; i++) {
+			stream >> newTParams[i];
+		}
 	}
 
 	ModelTuningParameters::setTuningParameters(newTParams, newTParamsLength);
 
 	delete [] newTParams;
+
 }
 
 void ModelTuningParameters::setBounds(const double * newBounds, const int newBoundsLength) {
@@ -114,7 +123,6 @@ void ModelTuningParameters::setBounds(const double * newBounds, const int newBou
 	}
 	else {
 		bounds = NULL;
-		//cerr << endl << "Warning: Creating ModelTuningParameters without bounds" << endl;
 	}
 }
 

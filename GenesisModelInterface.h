@@ -16,7 +16,7 @@ public:
     virtual ModelResults runModel(const ModelTuningParameters &) const;
 	~GenesisModelInterface() {};
 
-	static void readDataFromFile(ModelResults&, string inputFileName, int startTrace, double injWeight);
+	void readDataFromFile(ModelResults&, string inputFileName, int startTrace, double injWeight) const;
 
 private:
 

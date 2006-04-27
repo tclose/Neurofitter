@@ -1,36 +1,10 @@
 #include "../DataTrace.h"
 
 DataTrace::DataTrace() 
-	:  points(NULL),length(0), weight(-1), startTime(-1), stopTime(-1) {}
+	:  points(vector< double >(0)),length(0), weight(-1), startTime(-1), stopTime(-1) {}
 
 DataTrace::DataTrace(int size)
-	:length(size), weight(-1), startTime(-1), stopTime(-1) {
-	length = size;
-	points = new double[size];
-	if (points == NULL) {cerr << "Error: Unable to allocate memory in DataTrace";exit(1);}
-}
-
-DataTrace & DataTrace::operator=(const DataTrace & d) {
-	if (this != &d) {
-		if (points != NULL) {delete [] points;}
-		length = d.length;
-		points = new double [length];
-		for (int i=0; i < length; i++) {
-        	(*this)[i] = d[i];
-    	} 
-		weight = d.weight;
-		startTime = d.startTime;
-		stopTime = d.stopTime;
-		name = d.name;
-		samplingFrequency = d.samplingFrequency;
-	}
-	return *this;
-}
-
-DataTrace::~DataTrace() {
-	if (points != NULL) {delete [] points;}
-}
-
+	: points(vector< double >(size)), length(size), weight(-1), startTime(-1), stopTime(-1) {}
 
 int DataTrace::getLength() const {
 	return length;
@@ -40,11 +14,8 @@ int DataTrace::getLength() const {
 /// This will remove all existing data !!!
 ///
 void DataTrace::resetAndSetLength(const int size) {
-	if (points != NULL) {
-		delete [] points;
-	}
-	points = new double[size];
-	if (points == NULL) {cerr << "Error: Unable to allocate memory in DataTrace";exit(1);}
+	points.clear();
+	points.resize(size,0);
 	length = size;
 }
 

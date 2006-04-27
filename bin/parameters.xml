@@ -1,13 +1,14 @@
 <TestProgram>
 	<Dimensions>2</Dimensions>	
 	<VerboseLevel>5</VerboseLevel>
+	<Seed>1550</Seed>
 	<SamplingFrequency>5000</SamplingFrequency>
 	<StartingPoints>
 		1.0 1.0
 	</StartingPoints>
 	<Bounds>
-		1.0 1.0
-		100000.0 100000.0
+		1.0 100000.0 
+		1.0 100000.0
 	</Bounds>
 	
 	<PabloFitter>
@@ -93,7 +94,15 @@
 		</NOMADFitter>	
 	</PabloFitter>
 	
-	<GenesisModel> 
+	<MeshFitter>
+		<MeshDimensions>2</MeshDimensions>
+		<MeshSize>
+			10
+			10
+		</MeshSize>
+	</MeshFitter>
+	
+	<GenesisModel>
 		<GenesisLocation>/usr/local/bin/nxgenesis</GenesisLocation>
 		
 		<ModelDirectory>../../wernermodel</ModelDirectory>
@@ -104,24 +113,23 @@
 		
 		<ErrorFile>generr.out</ErrorFile>
 		
-		<NumberOfRuns>3</NumberOfRuns>
+		<NumberOfRuns>1</NumberOfRuns>
 		<NumberOfRunParameters>1</NumberOfRunParameters>
 		<RunParameters>
-			0 	<!--weight--> 0.33
-			0.1 <!--weight--> 0.33
-			0.4 <!--weight--> 0.33
+			0 0.33
+			0.1 0.33
+			0.4 0.33
 		</RunParameters>
 		
 		<NumberOfPeriods>2</NumberOfPeriods>
 		<Periods>
-			1.0 1.5 <!--weight--> 0.5
-			2.0 3.9 <!--weight--> 0.5
+			1.0 1.5 0.5
+			2.0 3.9 0.5
 		</Periods>
 		
-		<NumberOfRecordSites>2</NumberOfRecordSites>
+		<NumberOfRecordSites>1</NumberOfRecordSites>
 		<RecordSites>
-			<!--weight--> 0.5
-			<!--weight--> 0.5
+			1
 		</RecordSites>
 	</GenesisModel>	
 	

@@ -2,6 +2,7 @@
 #define DATATRACE_H
 
 #include <string>
+#include <vector>
 #include <iostream>
 
 using namespace std;
@@ -12,11 +13,6 @@ class DataTrace {
 public:
 	DataTrace();
 	DataTrace(const int size); 
-	DataTrace(const DataTrace & d) {*this = d;};
-
-	DataTrace& operator=(const DataTrace &);
-
-	~DataTrace();
 
 	int getLength() const;
 
@@ -40,8 +36,7 @@ public:
 	const double &operator[](const int) const;
 
 private:
-
-	double * points;
+	vector< double > points;
 	int length;
 	double weight;
 	double startTime;

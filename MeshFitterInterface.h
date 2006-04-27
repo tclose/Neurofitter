@@ -4,11 +4,12 @@
 #include "FitterResults.h"
 #include "FitterInterface.h"
 #include "FitnessCalculator.h"
+#include "FixedParamObject.h"
 
-class MeshFitterInterface : FitterInterface {
+class MeshFitterInterface : FitterInterface, FixedParamObject {
 
     public:
-        MeshFitterInterface(FitnessCalculator * fit):FitterInterface(fit) {};
+        MeshFitterInterface(FitnessCalculator * fit, FixedParameters params):FitterInterface(fit), FixedParamObject(params) {};
         /////
         //Inherited from FitterInterface
         /////

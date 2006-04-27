@@ -36,20 +36,20 @@ runModel(const ModelTuningParameters & params) const {
 		/// Write the parameter file ///
 		/////////////////////////////////
 
-		string paramFilename = fixedParams["modelDirectory"] + "/" + fixedParams["ParamFilePrefix"] + ".dat";
+		string paramFilename = fixedParams["ModelDirectory"] + "/" + fixedParams["ParamFilePrefix"] + ".dat";
     	paramFile.open(paramFilename.c_str(), ios::out);
 		if (toInt(fixedParams["VerboseLevel"]) > 4) {cout << endl << "Writing data to parameter file: " << paramFilename << endl;}
 
 		// put output filename in file //
-		string modelOutputname = fixedParams["modelDirectory"] + fixedParams["OutputFilePrefix"] + "_" + str(nRun) +".dat";
+		string modelOutputname = fixedParams["OutputFilePrefix"] + "_" + str(nRun) +".dat";
 		paramFile << modelOutputname << endl;		
 		
 		// put run parameters in file //
 		for (int i = 0; i < toInt(fixedParams["NumberOfRunParameters"]); i++) {
-			paramFile << runParameters[nRun][i] << endl;
+			paramFile << runParameters[nRun][i] << " ";
 		}
 		paramFile << endl;
-
+	
 		// put tuning parameters in file //
 		for (int i = 0; i < toInt(fixedParams["Dimensions"]); i++) {
 			paramFile << params[i] << " ";
@@ -68,7 +68,7 @@ runModel(const ModelTuningParameters & params) const {
 		////////////////////
 
 		string genCommand = "cd "+fixedParams["ModelDirectory"]+"; "
-						+fixedParams["GenesisLocation"]+" -nox -notty -batch"+fixedParams["InputFile"]+" > gen.out 2> " + errorFileName;
+						+fixedParams["GenesisLocation"]+" -nox -notty -batch "+fixedParams["ModelSource"]+" > gen.out 2> " + errorFileName;
 		if (toInt(fixedParams["VerboseLevel"]) > 4) {cout << endl << "calling " << genCommand << endl;}
 		
 		system(genCommand.c_str());
@@ -77,25 +77,24 @@ runModel(const ModelTuningParameters & params) const {
 		/// Check to see if there was no error in genesis ///
 		/////////////////////////////////////////////////////
 
-		errorFile.open(errorFileName.c_str(), ios::in);
+		errorFile.open((fixedParams["ModelDirectory"]+"/"+errorFileName).c_str(), ios::in);
 		errorFile.seekg (0, ios::end);
   		int length = errorFile.tellg();
-		if (errorFile.bad() || length != 228) {cerr << "Error while running genesis simulation in GenesisModeInterface" << endl;exit(1);}
+		if (errorFile.bad() || length != 228) crash("GenesisModelInterface","Error while running genesis simulation");
 		errorFile.close();
 
 		////////////////////
 		/// read results ///
 		////////////////////
 	
-		readDataFromFile(results, modelOutputname, nRun, runWeights[nRun]);
-
+		readDataFromFile(results, fixedParams["ModelDirectory"]+"/"+modelOutputname, nRun, runWeights[nRun]);
 	}
 
 	return results;
 }
 
 
-void GenesisModelInterface::readDataFromFile(ModelResults & results, string inputFileName, double runWeight) {
+void GenesisModelInterface::readDataFromFile(ModelResults & results, string inputFileName, int nRun, double runWeight) const {
 
 	int numberOfRecordSites = toInt(fixedParams["NumberOfRecordSites"]);
 	int numberOfPeriods = toInt(fixedParams["NumberOfPeriods"]);
@@ -103,78 +102,79 @@ void GenesisModelInterface::readDataFromFile(ModelResults & results, string inpu
 	///////////////////////////////////////////////
 	/// Read the period start,stops and weights ///
 	///////////////////////////////////////////////
-	double * periodStart[] = double [numberOfPeriods];
-	double * periodStops[] = double [numberOfPeriods];
-	double * periodWeights[] = double [numberOfPeriods];
+	vector< double > periodStart(numberOfPeriods,0);
+	vector< double > periodStops(numberOfPeriods,0);
+	vector< double > periodWeights(numberOfPeriods,0);
 
 	istringstream periodStream(fixedParams["Periods"]);
 	for (int i = 0; i < numberOfPeriods; i++) {
 		periodStream >> periodStart[i];
-		periodStream >> periodStop[i];
+		periodStream >> periodStops[i];
 		periodStream >> periodWeights[i];
 	}
 
 	///////////////////////////////////////
 	/// Read the recording site weights ///
 	///////////////////////////////////////
-	double * recordWeights[] = double [numberOfRecordSites];
-	istringstream recordingStream(fixedParams["RecordSites"]);
+	vector< double > recordWeights(numberOfRecordSites,0);
+	istringstream recordStream(fixedParams["RecordSites"]);
 	for (int i = 0; i < numberOfRecordSites; i++) {
 		recordStream >> recordWeights[i];
 	}
 
-
 	////////////////////////////////////
 	/// Read every period seperately ///
 	////////////////////////////////////
-	for (int nPeriod = 0; nPeriod < toInt(numberOfPeriods); nPeriod++) {
+	for (int nPeriod = 0; nPeriod < numberOfPeriods; nPeriod++) {
 		//Calculate the index of this period in the 1 dimensional array of traces
-		int periodIndex = nInject*numberOfRecordSites*numberOfPeriods+nPeriod*numberOfRecordSites;
+		int periodIndex = nRun*numberOfRecordSites*numberOfPeriods+nPeriod*numberOfRecordSites;
 
 		//////////////////////////
 		/// Open the data file ///
 		//////////////////////////
-		ifstream		inputfile;
-    	inputfile.open(inputFileName.c_str(), ios::in);
-     	inputfile.clear();
+		ifstream		inputFile;
+    	inputFile.open(inputFileName.c_str(), ios::in);
+		if (toInt(fixedParams["VerboseLevel"]) > 4) {cout << "Reading from file: " << inputFileName << endl;};
 
 		///////////////////////////////////////////////
 		/// Read data until the start of the period ///
 		///////////////////////////////////////////////
 		double time = 0;
-		inputfile >> time;
+		char dummy[512];
+		inputFile >> time;
 		while (time < periodStart[nPeriod]) {
-			inputfile.getLine();
-			inputfile >> time;
+			if (!inputFile.good()) crash("GenesisModelInterface","Error while reading file: "+inputFileName);
+			inputFile.getline(dummy,512);
+			inputFile >> time;
 		}
 
 		/////////////////////////////
 		/// Initialize the traces ///
 		/////////////////////////////
-		for (int nRecording = 0; j < numberOfRecordSites; nRecording++) {
+		for (int nRecording = 0; nRecording < numberOfRecordSites; nRecording++) {
 			///todo check for rounding errors
 			results[periodIndex+nRecording].resetAndSetLength(
-				(int)periodStop[nPeriod]*toDouble(fixedParam["SamplingFrequency"]) 
-				- (int)periodStart[nPeriod]*toDouble(fixedParam["SamplingFrequency"]) + 1);
-           	results[periodIndex+nRecording].setName("Run: " + str(nRun) + ", Period: " + str(nPeriod) + ", Recording: "+str(nRecord));
-           	results[periodIndex+nRecording].setSamplingFrequency(toDouble(fixedParam["SamplingFrequency"]));
-           	results[periodIndex+nRecording].setWeight(runWeight*periodWeigths[nPeriod]*recordWeights[nRecording]);
+				(int)(periodStops[nPeriod]*toDouble(fixedParams["SamplingFrequency"])) 
+				- (int)(periodStart[nPeriod]*toDouble(fixedParams["SamplingFrequency"])) + 1);
+           	results[periodIndex+nRecording].setName("Run: " + str(nRun) + ", Period: " + str(nPeriod) + ", Recording: "+str(nRecording));
+           	results[periodIndex+nRecording].setSamplingFrequency(toDouble(fixedParams["SamplingFrequency"]));
+           	results[periodIndex+nRecording].setWeight(runWeight*periodWeights[nPeriod]*recordWeights[nRecording]);
 			results[periodIndex+nRecording].setStartTime(time);
-			results[periodIndex+nRecording].setStopTime(periodStop[nPeriod]);
-		}	
+			results[periodIndex+nRecording].setStopTime(periodStops[nPeriod]);
+		}
 
 		/////////////////////
 		/// Read the data ///
 		/////////////////////
 		int i = 0;
-		while (time <= periodStop[nPeriod]) {
-			for (int nRecording = 0; j < numberOfRecordSites; nRecording++) {
-           		inputFile >> results[periodIndex+nRecord][i++];
+		while (time <= periodStops[nPeriod]) {
+			for (int nRecording = 0; nRecording < numberOfRecordSites; nRecording++) {
+           		inputFile >> results[periodIndex+nRecording][i++];
 			}
-			inputfile >> time;
+			inputFile >> time;
 		}
 
-		inputfile.close();
+		inputFile.close();
 	}
 
 }
