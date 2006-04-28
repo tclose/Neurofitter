@@ -6,6 +6,8 @@
 #include "FitnessCalculator.h"
 #include "FixedParamObject.h"
 
+
+///todo make it possible to make a slice in a certain dimension
 class MeshFitterInterface : FitterInterface, FixedParamObject {
 
     public:

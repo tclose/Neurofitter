@@ -135,14 +135,40 @@ EOT EOFitterInterface::runAlgorithm(EOT, eoParser& _parser, eoState& _state)
 
 extern string EOParamsContent;
 
-void EOFitterInterface::writeEOParamsFile(string fileName, ModelTuningParameters & startPoint, int seed) {
+void EOFitterInterface::writeEOParamsFile(string fileName, ModelTuningParameters & startPoint) {
 
 	ofstream EOParam;	
 	EOParam.open(fileName.c_str(), ios::out);
 
-	EOParam << EOParamsContent;
-	
-	EOParam << endl << "	--seed=" << seed << endl;
+	EOParam << endl << "	--popSize=" << fixedParams["popSize"] << endl;
+	EOParam << endl << "	--nbOffspring=" << fixedParams["nbOffspring"] << endl;
+	EOParam << endl << "	--replacement=" << fixedParams["replacement"] << endl;
+	EOParam << endl << "	--maxGen=" << fixedParams["maxGen"] << endl;
+	EOParam << endl << "	--minGen=" << fixedParams["minGen"] << endl;
+	EOParam << endl << "	--targetFitness=" << fixedParams["targetFitness"] << endl;
+	EOParam << endl << "	--steadyGen=" << fixedParams["steadyGem"] << endl;
+	EOParam << endl << "	--crossType=" << fixedParams["crossType"] << endl;
+	EOParam << endl << "	--corssObj=" << fixedParams["crossObj"] << endl;
+	EOParam << endl << "	--TauLoc=" << fixedParams["TauLoc"] << endl;
+	EOParam << endl << "	--TauGlob=" << fixedParams["TauGlob"] << endl;
+
+	if (fixedParams["VerboseLevel"] > 2) {
+		EOParam << endl << "	--printBestStat=1" << endl;
+	}
+	else {
+		EOParam << endl << "	--printBestStat=0" << endl;	
+	}
+
+	if (fixedParams["VerboseLevel"] > 4) {
+		EOParam << endl << "	--printPop=1" << endl;
+	}
+	else {
+		EOParam << endl << "	--printPop=0" << endl;
+	}
+
+
+	///todo check to see if floating point seed is possible
+	EOParam << endl << "	--seed=" << fixedParams["Seed"] << endl;
 
 	EOParam << endl << "	--vecSize=" << startPoint.getLength() << endl;
 
@@ -158,6 +184,8 @@ void EOFitterInterface::writeEOParamsFile(string fileName, ModelTuningParameters
 	}
 	EOParam << endl;
 
+	EOParam << EOParamsContent;
+
 	EOParam.close();
 
 }
@@ -165,16 +193,16 @@ void EOFitterInterface::writeEOParamsFile(string fileName, ModelTuningParameters
 string EOParamsContent = " \
 	 --help=0                                 # -h : Prints this message \n\
 	 --stopOnUnknownParam=1                   # Stop if unkown param entered \n\
- 	 # auto filled in --seed=1098191371                        # -S : Random number seed \n\
+ 	 # read from main Evolufit parameter file --seed=1098191371                        # -S : Random number seed \n\
 \n\
 	 --Isotropic=1                            # -i : Isotropic self-adaptive mutation \n\
  	 --Stdev=1                                # -s : One self-adaptive stDev per variable \n\
  	 --Correl=1                               # -c : Use correlated mutations \n\
 \n\
-	--popSize=50                             # -P : Population Size \n\
+	# read from main Evolufit parameter file --popSize=50                             # -P : Population Size \n\
  	--selection=DetTour(5)                   # -S : Selection: Roulette, Ranking(p,e), DetTour(T), StochTour(t) or Sequential(ordered/unordered) \n\
- 	--nbOffspring=10                       # -O : Nb of offspring (percentage or absolute) \n\
- 	--replacement=Plus                       # -R : Replacement: Comma, Plus or EPTour(T), SSGAWorst, SSGADet(T), SSGAStoch(t) \n\
+ 	# read from main Evolufit parameter file--nbOffspring=10                       # -O : Nb of offspring (percentage or absolute) \n\
+ 	# read from main Evolufit parameter file--replacement=Plus                       # -R : Replacement: Comma, Plus or EPTour(T), SSGAWorst, SSGADet(T), SSGAStoch(t) \n\
  	--weakElitism=0                          # -w : Old best parent replaces new worst offspring *if necessary* \n\
 \n\
 	# auto filled in --vecSize=4                             # -n : The number of variables \n\
@@ -183,8 +211,8 @@ string EOParamsContent = " \
 \n\
 	--useEval=1                              # Use nb of eval. as counter (vs nb of gen.) \n\
  	--useTime=1                              # Display time (s) every generation \n\
- 	--printBestStat=1                        # Print Best/avg/stdev every gen. \n\
- 	--printPop=0                             # Print sorted pop. every gen. \n\
+ 	# read from main Evolufit parameter file --printBestStat=1                        # Print Best/avg/stdev every gen. \n\
+ 	# read from main Evolufit parameter file --printPop=0                             # Print sorted pop. every gen. \n\
 \n\
  	--resDir=ResNew                             # Directory to store DISK outputs \n\
  	--eraseDir=1                             # erase files in dirName if any \n\

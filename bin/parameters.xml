@@ -14,16 +14,22 @@
 	<PabloFitter>
 		<EOFitter>
 			<EOParam>
-					<![CDATA[
-	
-						]]>
+				<popSize></popSize>
+				<nbOffspring></nbOffspring>
+				<replacement></replacement>
+				<maxGen></maxGen>
+				<minGen></minGen>
+				<targetFitness></targetFitness>
+				<steadyGen></steadyGen>
+				<crossType></crossType>
+				<crossObj></crossObj> <!--Force to be equal to crossStdv--> 
+				<TauLoc></TauLoc>
+				<TauGlob></TauGlob>
+				<Beta></Beta>
 			</EOParam>
 		</EOFitter>
 		<NOMADFitter>
 			<parameters.dat>
-				<![CDATA[
-						#MESH PARAMETERS
-						#---------------
 						INITIAL_POLL_SIZE   1
 						MAX_POLL_SIZE       100000
 						
@@ -36,36 +42,18 @@
 						POLL_ORDER      0
 						POLL_COMPLETE       0
 						POLL_DIRECTIONS     4
-						#
-						#SEARCH PARAMETERS
-						#-----------------
+
+				
 						INITIAL_SEARCH      0
 						INITIAL_COMPLETE    0
-						INITIAL_POINTS      4
+				<INITIAL_POINTS>4</INITIAL_POINTS>
 						ITERATIVE_SEARCH    0
 						ITERATIVE_COMPLETE  0
 						ITERATIVE_POINTS    0
 						SPECULATIVE_SEARCH  1
-						#
-						#TERMINATION PARAMETERS
-						#----------------------
-						POLL_SIZE_TERM      -1
-						CONSECUTIVE_FAILS   -1
-						TRUTH_EVALS     500
-						ITERATIONS      -1
-						NEW_TRUTH_EVALS     -1
-						#
-						#FILTER PARAMETERS
-						#-----------------	
-						FILTER_RELATIVE     1
-						HMAX            50000
-						HMIN            0.0001
-						FILTER_NORM     2
-						#
-						#SURROGATE PARAMETERS                                                                                   
-						#--------------------
-						SURROGATE_TOLERANCE 0
-						]]>
+				<POLL_SIZE_TERM>-1</POLL_SIZE_TERM>    
+				<CONSECUTIVE_FAILS>-1</CONSECUTIVE_FAILS>
+				<TRUTH_EVALS>500</TRUTH_EVALS>
 			</parameters.dat>
 			<description.dat>
 				<![CDATA[
