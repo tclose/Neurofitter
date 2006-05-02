@@ -25,7 +25,7 @@ string XMLString::getSubString(const string subName) const {
 			while (child != NULL) {
 				xmlBufferPtr buf = xmlBufferCreate();
 				xmlNodeDump(buf,xml,child,100,0);
-				returnString +=string((char*)buf->content,buf->use);
+				returnString += string((char*)buf->content,buf->use);
 				xmlBufferFree(buf);
 				child = child->next;
 			}
@@ -34,6 +34,8 @@ string XMLString::getSubString(const string subName) const {
     }
 	if (returnString == "") {cerr << "Unable to find content of sub in XMLString: " << subName << endl; exit(1);}
 	xmlFreeDoc(xml);
+	xmlFree(cur);
+	xmlCleanupParser();
 	return returnString; 
 }        
 
@@ -47,12 +49,20 @@ string XMLString::getContent() const {
 	string contentString(content);
 	xmlFree(content);
 	xmlFreeDoc(xml);
+	xmlCleanupParser();
+
 	return contentString;
 }
 
 string XMLString::getName() const {
 	xmlDocPtr xml(xmlParseMemory(sourceString.c_str(), sourceString.length()+1));
-	return string((char*)xmlDocGetRootElement(xml)->name);
+	char* rootName = (char*)xmlDocGetRootElement(xml)->name;
+	string returnString(rootName);
+	xmlFree(rootName);
+	xmlFreeDoc(xml);
+	xmlCleanupParser();
+
+	return returnString;
 }
 
 vector<string> XMLString::getSubNames() const{
@@ -69,6 +79,9 @@ vector<string> XMLString::getSubNames() const{
         	}	
     	}
 	}
+	xmlFreeDoc(xml);
+	xmlCleanupParser();
+
 	return names;
 }
 

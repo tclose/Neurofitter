@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 #include "Tools.h"
 
@@ -15,20 +16,20 @@ class ModelTuningParameters {
 public:
 	ModelTuningParameters();
 	ModelTuningParameters(const int);
-	ModelTuningParameters(const double* params, const int length, const double* bounds);
+	ModelTuningParameters(const vector< double > params, const int length, const vector< double > bounds);
 	ModelTuningParameters(const string, const int length, const string bounds); //Read parameters from string like "5.0 14.0 1.0 8.0"
-	ModelTuningParameters(const ModelTuningParameters & t) {tuningParameters = NULL;bounds = NULL;*this=t;};
+	//ModelTuningParameters(const ModelTuningParameters & t) {tuningParameters = NULL;bounds = NULL;*this=t;};
 	
-	~ModelTuningParameters();
+	//~ModelTuningParameters();
 
-	ModelTuningParameters& operator=(const ModelTuningParameters &);
+	//ModelTuningParameters& operator=(const ModelTuningParameters &);
 
-	double * getTuningParameters() const;
+	//double * getTuningParameters() const;
 	int getLength() const;
-	void setTuningParameters(const double*, const int);
+	void setTuningParameters(const vector< double >, const int);
 	void setTuningParameters(const string, const int);
 
-	void setBounds(const double*, const int boundsLength);
+	void setBounds(const vector< double >, const int boundsLength);
 	void setBounds(const string, const int boundsLength);
 
 	double getLowerBound(const int) const;
@@ -44,9 +45,12 @@ public:
 	
 
 private:
-	double * tuningParameters;
-	double * bounds;
-	double * getBounds() const;
+	vector < double > tuningParameters;
+	vector < double > bounds;
+	
+	//double * tuningParameters;
+	//double * bounds;
+	//double * getBounds() const;
 	int tuningParametersLength;
 	
 

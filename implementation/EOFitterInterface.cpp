@@ -8,7 +8,6 @@ FitterResults EOFitterInterface::runFitter(ModelTuningParameters * startPoint) {
 	modelParams = startPoint;	
 	FitterResults results;
 	
-
 	writeEOParamsFile("EOparam", *startPoint);
 
 	char *argv[] = {"EOFitterInterface","@EOparam"};
@@ -57,6 +56,7 @@ FitterResults EOFitterInterface::runFitter(ModelTuningParameters * startPoint) {
     }
 
 	return results;
+
 }
 
 static double real_value(const std::vector<double>& paramVector, FitnessCalculator * fitness) {

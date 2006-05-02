@@ -8,14 +8,14 @@ using namespace std;
 
 int main () {
 	cout << "Houston, we have liftoff..." << endl;
-
-	////////////////////
-	///	Declarations ///
-	////////////////////
-	int dimensions;
-	int verboseLevel;
-	string bounds;
-	string startingPoints;
+	
+	/////////////////////////
+	/// Declare variables ///
+	/////////////////////////
+	ModelInterface * model;
+	ExperimentInterface * experiment;
+	FitnessCalculator * fitness;
+	FitterInterface * fitter;
 
 	///////////////////////////
 	///	Read parameters file ///
@@ -33,43 +33,77 @@ int main () {
 	fixedParameters.setGlobal("Seed");
 	fixedParameters.setGlobal("Bounds");
 
-	// Write parameters to variables
-	verboseLevel = toInt(fixedParameters["VerboseLevel"]);
-	dimensions = toInt(fixedParameters["Dimensions"]);
-	bounds = fixedParameters["Bounds"];
-	startingPoints = fixedParameters["StartingPoints"];
+	ModelTuningParameters startPoint(fixedParameters["StartingPoints"],toInt(fixedParameters["Dimensions"]),fixedParameters["Bounds"]);
 
 	if (toInt(fixedParameters["VerboseLevel"]) > 2) {
-		cout << "VerboseLevel: " << verboseLevel << endl;
-		cout << "Dimensions: " << dimensions << endl;
-		cout << "Bounds: "<< bounds << endl;
-		cout << "StartingPoints: " << startingPoints << endl;	
+		cout << "VerboseLevel: " << fixedParameters["VerboseLevel"] << endl;
+		cout << "Dimensions: " << fixedParameters["Dimensions"] << endl;
+		cout << "Bounds: "<< fixedParameters["Bounds"] << endl;
+		cout << "StartingPoints: " << fixedParameters["StartingPoints"] << endl;	
 	}
 
-	// Make the fixed parameters for the child objects
-	FixedParameters expFixedParams(fixedParameters["Experiment"],fixedParameters.getGlobals());
-	FixedParameters modelFixedParams(fixedParameters["Model"],fixedParameters.getGlobals());
-	FixedParameters fitFixedParams(fixedParameters["FitnessCalculator"],fixedParameters.getGlobals());
-	FixedParameters fitterFixedParams(fixedParameters["Fitter"],fixedParameters.getGlobals());
+	////////////////////////
+	/// Initialize Model ///
+	////////////////////////
+	FixedParameters modelFixedParams(fixedParameters["ModelParameters"],fixedParameters.getGlobals());
+	if (fixedParameters["ModelType"] == "Genesis") {
+		model = new GenesisModelInterface(modelFixedParams);
+	}
+	else crash("Main program", "No matching model type");
 
-	//////////////////////////
-	/// Initialize objects ///
-	//////////////////////////
+	/////////////////////////////
+	/// Initialize Experiment ///
+	/////////////////////////////
+	FixedParameters expFixedParams(fixedParameters["ExperimentParameters"],fixedParameters.getGlobals());
+	if (fixedParameters["ExperimentType"] == "Fake") {
+		experiment = new FakeExperimentInterface(model, expFixedParams);		
+	}
+	else crash("Main program", "No matching experiment type");
 
-	ModelTuningParameters startPoint(startingPoints,dimensions,bounds);
+	/////////////////////////////////////
+	/// Initialize Fitness Calculator ///
+	/////////////////////////////////////
+	FixedParameters fitFixedParams(fixedParameters["FitnessCalculatorParameters"],fixedParameters.getGlobals());
+	if (fixedParameters["FitnessCalculatorType"] == "Pablo") {
+		fitness = new PabloFitnessCalculator(model,experiment,fitFixedParams);
+	}
+	else crash("Main program", "No matching fitness calculator type");
 
-	GenesisModelInterface model = GenesisModelInterface(modelFixedParams);
-	FakeExperimentInterface experiment(&model, expFixedParams);
-	PabloFitnessCalculator fitcal(&model,&experiment,fitFixedParams);
+	/////////////////////////
+	/// Initialize Fitter ///
+	/////////////////////////
+	FixedParameters fitterFixedParams(fixedParameters["FitterParameters"],fixedParameters.getGlobals());
+	if (fixedParameters["FitterType"] == "Pablo") {
+		fitter = new PabloFitterInterface(fitness,fitterFixedParams);
+	}
+	else if (fixedParameters["FitterType"] == "Mesh") {
+		fitter = new MeshFitterInterface(fitness,fitterFixedParams);
+	}
+	else if (fixedParameters["FitterType"] == "Swarm") {
+		fitter = new SwarmFitterInterface(fitness,fitterFixedParams);
+	}
+	else if (fixedParameters["FitterType"] == "NOMAD") {
+		fitter = new NOMADFitterInterface(fitness,fitterFixedParams);
+	}
+	else if (fixedParameters["FitterType"] == "EO") {
+		fitter = new EOFitterInterface(fitness,fitterFixedParams);
+	}
+	else crash("Main program", "No matching fitter type");
 
-	//MeshFitterInterface fitter = MeshFitterInterface(&fitcal,fitterFixedParams);
-	//SwarmFitterInterface fitter = SwarmFitterInterface(&fitcal,5,10);
-	//PabloFitterInterface fitter(&fitcal,fitterFixedParams);
-	NOMADFitterInterface fitter(&fitcal,fitterFixedParams);
-	//EOFitterInterface fitter(&fitcal,fitterFixedParams);
+	///////////
+	/// Run ///
+	///////////
+	fitter->runFitter(&startPoint);
+/*
 
-	fitter.runFitter(&startPoint);
-
+	///////////////
+	/// Cleanup ///
+	///////////////
+	//delete model;
+	//delete experiment;
+	//delete fitness;
+	//delete fitter;
+*/
 	cout << endl << "And we have touchdown" << endl;
 
 	return 0;

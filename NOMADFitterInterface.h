@@ -8,7 +8,7 @@
 
 extern void setNOMADFitnessCalculator(FitnessCalculator*, int);
 
-class NOMADFitterInterface : FitterInterface, FixedParamObject {
+class NOMADFitterInterface : public FitterInterface, FixedParamObject {
 
 	public:
 		NOMADFitterInterface(FitnessCalculator * fit, FixedParameters params);

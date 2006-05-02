@@ -12,7 +12,7 @@ PabloFitnessCalculator::PabloFitnessCalculator(const ModelInterface * interface,
 
 	ModelResults expData = experiment->getData();	
 
-	expVdVdtMatrices = new PabloVdVdtMatrix [expData.getLength()]; 
+	expVdVdtMatrices = vector< PabloVdVdtMatrix >(expData.getLength()); 
 	if (toInt(fixedParams["VerboseLevel"]) > 4) {
 		cout << "Experiment VdVdtMatrices: "<< endl;
 	}
@@ -26,7 +26,6 @@ PabloFitnessCalculator::PabloFitnessCalculator(const ModelInterface * interface,
 }
 
 PabloFitnessCalculator::~PabloFitnessCalculator() {
-	delete [] expVdVdtMatrices;
 	exportFileStream.close();
 }
 

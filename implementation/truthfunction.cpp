@@ -1,4 +1,5 @@
 #include <cmath>
+#include <vector>
 #include "nomad"
 #include "../truthfunction.h"
 
@@ -23,8 +24,13 @@ TruthFunction::~TruthFunction() {
 
 double TruthFunction::evaluate(const double * coord) {
 	ModelTuningParameters params;
+
+	vector< double > paramValues(numberOfParameters);
+	for (int i = 0; i < numberOfParameters; i++) {
+		paramValues[i] = coord[i];
+	}
 	//todo numberOfParameters is not well coded !!!
-	params.setTuningParameters(coord, numberOfParameters);
+	params.setTuningParameters(paramValues, numberOfParameters);
 	
 	return fitness->calculateFitness(params);
 }

@@ -201,6 +201,3 @@ void NOMADFitterInterface::solveProblem(const Description & description,
 	}
 
 }
-
-
-

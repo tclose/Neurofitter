@@ -7,7 +7,7 @@
 #include "SwarmFly.h"
 #include "FixedParamObject.h"
 
-class SwarmFitterInterface : FitterInterface, FixedParamObject {
+class SwarmFitterInterface : public FitterInterface, FixedParamObject {
 
     public:
         SwarmFitterInterface(FitnessCalculator * fit, FixedParameters params)

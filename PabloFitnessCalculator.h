@@ -3,6 +3,9 @@
 
 #include <iostream>
 #include <fstream>
+#include <vector>
+
+using namespace std;
 
 #include "ModelInterface.h"
 #include "ExperimentInterface.h"
@@ -25,7 +28,7 @@ public:
 
 
 private:
-	PabloVdVdtMatrix * expVdVdtMatrices;	
+	vector< PabloVdVdtMatrix > expVdVdtMatrices;	
 	ofstream exportFileStream;
 };
 

@@ -29,6 +29,8 @@ class FixedParameters {
 		void notGlobal(string);
 		bool getGlobal(string);
 
+		string getProp(string);
+
 		string toString() const;	
 	private:
 		map< string, pair< string,bool > > params;

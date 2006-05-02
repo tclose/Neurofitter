@@ -8,7 +8,7 @@
 
 
 ///todo make it possible to make a slice in a certain dimension
-class MeshFitterInterface : FitterInterface, FixedParamObject {
+class MeshFitterInterface : public FitterInterface, FixedParamObject {
 
     public:
         MeshFitterInterface(FitnessCalculator * fit, FixedParameters params):FitterInterface(fit), FixedParamObject(params) {};
