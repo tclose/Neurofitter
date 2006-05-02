@@ -16,7 +16,7 @@ class NOMADFitterInterface : FitterInterface, FixedParamObject {
 		//Inherited from FitterInterface
     	////
 		///todo check in every class to see if virtual is OK
-		virtual FitterResults runFitter(ModelTuningParameters * startPt, int seed);
+		virtual FitterResults runFitter(ModelTuningParameters * startPt);
 
 	private:
     	FitnessCalculator * fitness;
@@ -27,8 +27,8 @@ class NOMADFitterInterface : FitterInterface, FixedParamObject {
 
 		void writeStartingPointsFile(string, ModelTuningParameters&);
     	void writeBoundsFile(string, ModelTuningParameters&);
-    	void writeParametersFile(string, int seed);
-    	void writeDescriptionFile(string, ModelTuningParameters&);
+    	void writeParametersFile(string);
+    	void writeDescriptionFile(string);
     	void writePreferencesFile(string);
 
 };

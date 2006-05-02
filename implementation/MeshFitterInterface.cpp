@@ -1,7 +1,7 @@
 #include "../MeshFitterInterface.h"
 
 ///todo Make it possible to have less dimensions in the mesh than in the problem
-FitterResults MeshFitterInterface::runFitter(ModelTuningParameters * unusedStartPoint, int unusedSeed) {
+FitterResults MeshFitterInterface::runFitter(ModelTuningParameters * unusedStartPoint) {
 
 	ModelTuningParameters resolution(fixedParams["MeshSize"],toInt(fixedParams["Dimensions"]),fixedParams["Bounds"]);
 

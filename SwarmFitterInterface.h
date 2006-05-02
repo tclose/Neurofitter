@@ -5,15 +5,17 @@
 #include "FitterInterface.h"
 #include "FitnessCalculator.h"
 #include "SwarmFly.h"
+#include "FixedParamObject.h"
 
-class SwarmFitterInterface : FitterInterface {
+class SwarmFitterInterface : FitterInterface, FixedParamObject {
 
     public:
-        SwarmFitterInterface(FitnessCalculator * fit, int numberOfFlies, int numberOfRuns):FitterInterface(fit), numberOfFlies(numberOfFlies), numberOfRuns(numberOfRuns) {};
+        SwarmFitterInterface(FitnessCalculator * fit, FixedParameters params)
+			: FitterInterface(fit), FixedParamObject(params) {};
         /////
         //Inherited from FitterInterface
         /////
-        virtual FitterResults runFitter(ModelTuningParameters * startPoints, int seed);
+        virtual FitterResults runFitter(ModelTuningParameters * startPoints);
 
 	private:
 		int numberOfFlies;

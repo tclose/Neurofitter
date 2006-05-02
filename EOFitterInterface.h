@@ -20,10 +20,10 @@ class EOFitterInterface : public FitterInterface, public FixedParamObject {
 		/////
 		//Inherited from FitterInterface
 		/////
-		virtual FitterResults runFitter(ModelTuningParameters * startPoints, int seed);
+		virtual FitterResults runFitter(ModelTuningParameters * startPoints);
 
 	private:
-		void writeEOParamsFile(string fileName, ModelTuningParameters & start, int seed);
+		void writeEOParamsFile(string fileName, ModelTuningParameters & start);
 		template <class EOT> EOT runAlgorithm(EOT, eoParser& _parser, eoState& _state);
 
 };

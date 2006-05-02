@@ -3,13 +3,13 @@
 #include <eo>
 #include <es/make_es.h>
 
-FitterResults EOFitterInterface::runFitter(ModelTuningParameters * startPoint, int seed) {
+FitterResults EOFitterInterface::runFitter(ModelTuningParameters * startPoint) {
 	
 	modelParams = startPoint;	
 	FitterResults results;
 	
 
-	writeEOParamsFile("EOparam", *startPoint, seed);
+	writeEOParamsFile("EOparam", *startPoint);
 
 	char *argv[] = {"EOFitterInterface","@EOparam"};
 	
@@ -140,26 +140,30 @@ void EOFitterInterface::writeEOParamsFile(string fileName, ModelTuningParameters
 	ofstream EOParam;	
 	EOParam.open(fileName.c_str(), ios::out);
 
+	EOParam << EOParamsContent;
+
+	EOParam << endl;
+
 	EOParam << endl << "	--popSize=" << fixedParams["popSize"] << endl;
 	EOParam << endl << "	--nbOffspring=" << fixedParams["nbOffspring"] << endl;
 	EOParam << endl << "	--replacement=" << fixedParams["replacement"] << endl;
 	EOParam << endl << "	--maxGen=" << fixedParams["maxGen"] << endl;
 	EOParam << endl << "	--minGen=" << fixedParams["minGen"] << endl;
 	EOParam << endl << "	--targetFitness=" << fixedParams["targetFitness"] << endl;
-	EOParam << endl << "	--steadyGen=" << fixedParams["steadyGem"] << endl;
+	EOParam << endl << "	--steadyGen=" << fixedParams["steadyGen"] << endl;
 	EOParam << endl << "	--crossType=" << fixedParams["crossType"] << endl;
-	EOParam << endl << "	--corssObj=" << fixedParams["crossObj"] << endl;
+	EOParam << endl << "	--crossObj=" << fixedParams["crossObj"] << endl;
 	EOParam << endl << "	--TauLoc=" << fixedParams["TauLoc"] << endl;
 	EOParam << endl << "	--TauGlob=" << fixedParams["TauGlob"] << endl;
 
-	if (fixedParams["VerboseLevel"] > 2) {
+	if (toInt(fixedParams["VerboseLevel"]) > 2) {
 		EOParam << endl << "	--printBestStat=1" << endl;
 	}
 	else {
 		EOParam << endl << "	--printBestStat=0" << endl;	
 	}
 
-	if (fixedParams["VerboseLevel"] > 4) {
+	if (toInt(fixedParams["VerboseLevel"]) > 4) {
 		EOParam << endl << "	--printPop=1" << endl;
 	}
 	else {
@@ -184,8 +188,6 @@ void EOFitterInterface::writeEOParamsFile(string fileName, ModelTuningParameters
 	}
 	EOParam << endl;
 
-	EOParam << EOParamsContent;
-
 	EOParam.close();
 
 }
@@ -206,7 +208,7 @@ string EOParamsContent = " \
  	--weakElitism=0                          # -w : Old best parent replaces new worst offspring *if necessary* \n\
 \n\
 	# auto filled in --vecSize=4                             # -n : The number of variables \n\
-	# auto filled in --initBounds=[1,100000];[1,100000];[1,100000];[1,100000]                       # -B : Bounds for initialization (MUST be bounded) \
+	# auto filled in --initBounds=[1,100000];[1,100000];[1,100000];[1,100000]# -B : Bounds for initialization (MUST be bounded) \n\
  	--sigmaInit=10                          # -s : Initial value for Sigma(s) \n\
 \n\
 	--useEval=1                              # Use nb of eval. as counter (vs nb of gen.) \n\
@@ -218,7 +220,7 @@ string EOParamsContent = " \
  	--eraseDir=1                             # erase files in dirName if any \n\
  	--fileBestStat=1                         # Output bes/avg/std to file \n\
 \n\
- 	--plotBestStat=0                         # Plot Best/avg Stat \n\
+	--plotBestStat=0                         # Plot Best/avg Stat \n\
  	--plotHisto=0                            # Plot histogram of fitnesses \n\
 \n\
  	--Load=                                  # -L : A save file to restart from \n\
@@ -227,22 +229,22 @@ string EOParamsContent = " \
  	--saveTimeInterval=0                     # Save every T seconds (0 or absent = never) \n\
  	--status=./ESEA.status                   # Status file \n\
 \n\
- 	--maxGen=50                               # -G : Maximum number of generations () = none) \n\
- 	--steadyGen=100                            # -s : Number of generations with no improvement \n\
- 	--minGen=0                               # -g : Minimum number of generations \n\
+ 	# read from main Evolufit parameter file --maxGen=50                               # -G : Maximum number of generations () = none) \n\
+ 	# read from main Evolufit parameter file --steadyGen=100                            # -s : Number of generations with no improvement \n\
+ 	# read from main Evolufit parameter file --minGen=0                               # -g : Minimum number of generations \n\
  	--maxEval=300                              # -E : Maximum number of evaluations (0 = none) \n\
- 	--targetFitness=0.0                        # -T : Stop when fitness reaches \n\
+ 	# read from main Evolufit parameter file --targetFitness=0.0                        # -T : Stop when fitness reaches \n\
  	--CtrlC=1                                # -C : Terminate current generation upon Ctrl C \n\
 \n\
  	# auto filled in --objectBounds=[1,10000];[1,10000];[1,10000];[1,10000]                  # -B : Bounds for variables \n\
  	--operator=SGA                           # -o : Description of the operator (SGA only now) \n\
  	--pCross=1                               # -C : Probability of Crossover \n\
  	--pMut=1                                 # -M : Probability of Mutation \n\
- 	--crossType=global                       # -C : Type of ES recombination (global or standard) \n\
- 	--crossObj=intermediate                      # -O : Recombination of object variables (discrete, intermediate or none) \n\
+ 	# read from main Evolufit parameter file --crossType=global                       # -C : Type of ES recombination (global or standard) \n\
+ 	# read from main Evolufit parameter file --crossObj=intermediate                      # -O : Recombination of object variables (discrete, intermediate or none) \n\
  	--crossStdev=intermediate                # -S : Recombination of mutation strategy parameters (intermediate, discrete or none) \n\
- 	--TauLoc=1                               # -l : Local Tau (before normalization) \n\
- 	--TauGlob=1                              # -g : Global Tau (before normalization) \n\
- 	--Beta=0.0873                            # -b : Beta \n\
+ 	# read from main Evolufit parameter file --TauLoc=1                               # -l : Local Tau (before normalization) \n\
+ 	# read from main Evolufit parameter file --TauGlob=1                              # -g : Global Tau (before normalization) \n\
+ 	# read from main Evolufit parameter file --Beta=0.0873                            # -b : Beta \n\
 ";
 

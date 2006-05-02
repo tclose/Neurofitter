@@ -41,7 +41,7 @@ runModel(const ModelTuningParameters & params) const {
 		if (toInt(fixedParams["VerboseLevel"]) > 4) {cout << endl << "Writing data to parameter file: " << paramFilename << endl;}
 
 		// put output filename in file //
-		string modelOutputname = fixedParams["OutputFilePrefix"] + "_" + str(nRun) +".dat";
+		string modelOutputname = fixedParams["OutputFilePrefix"] + "_Run" + str(nRun) +".dat";
 		paramFile << modelOutputname << endl;		
 		
 		// put run parameters in file //

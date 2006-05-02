@@ -8,23 +8,23 @@ NOMADFitterInterface::NOMADFitterInterface(FitnessCalculator * fit, FixedParamet
 
 }
 
-FitterResults NOMADFitterInterface::runFitter(ModelTuningParameters * startPoints, int seed) {
+FitterResults NOMADFitterInterface::runFitter(ModelTuningParameters * startPoints) {
 	
 	modelParams = startPoints;
       
 	/////
 	/// Writing the NOMAD input file
 	////
-	string startingPointsFile="start_pt.txt";
-	string boundsFile="bounds.txt";
+
+	///todo change nomad to prevent LIBRARY directory
 	string parametersFile="LIBRARY/parameters.dat";
 	string descriptionFile="LIBRARY/description.dat";
 	string preferencesFile="LIBRARY/preferences.dat";
 
-	writeStartingPointsFile(startingPointsFile, *startPoints);
-	writeBoundsFile(boundsFile, *startPoints);  
-	writeParametersFile(parametersFile, seed);
-	writeDescriptionFile(descriptionFile, *startPoints);
+	writeStartingPointsFile(fixedParams["START_PT_FILE"], *startPoints);
+	writeBoundsFile(fixedParams["BOUNDS_FILE"], *startPoints);  
+	writeParametersFile(parametersFile);
+	writeDescriptionFile(descriptionFile);
 	writePreferencesFile(preferencesFile);
 
 	/////
@@ -82,41 +82,82 @@ void NOMADFitterInterface::writeBoundsFile(string fileName, ModelTuningParameter
 
 extern string NOMADDescContents;
 
-void NOMADFitterInterface::writeDescriptionFile(string fileName, ModelTuningParameters & startPts) {
+void NOMADFitterInterface::writeDescriptionFile(string fileName) {
 
 	ofstream file;
 	file.open(fileName.c_str(), ios::out);
 
-	file << endl << "	DIMENSION		"<< startPts.getLength() << endl;	
+	file << "DIMENSION\t"<< fixedParams["Dimensions"] << endl;
 
-	file << NOMADDescContents;
+	file << "PROBLEM_NAME\t"<< "Evolufit" << endl;
+	file << "SCALING_CHOICE\t"<< fixedParams["SCALING_CHOICE"] << endl;
+	file << "GEN_CONS_NB\t"<< fixedParams["GEN_CONS_NB"] << endl;
+	file << "USE_SURROGATE\t"<< fixedParams["USE_SURROGATE"] << endl;
+	
+	file << "USE_BLACK_BOXES\t"<< "0" << endl;
+	file << "USE_BOUNDS\t"<< "1" << endl;
+	file << "USE_CACHES\t"<< "0" << endl;
+	file << "DIRECTORY\t"<< "." << endl;
 
+	file << "START_PT_FILE\t"<< fixedParams["START_PT_FILE"] << endl;
+	file << "BOUNDS_FILE\t"<< fixedParams["BOUNDS_FILE"] << endl;
+	file << "INPUT_FILE\t"<< fixedParams["INPUT_FILE"] << endl;
+	file << "RESULTS_FILE\t"<< fixedParams["RESULTS_FILE"] << endl;
+	
 	file.close();
 }
 
-extern string NOMADParamsContents;
-
-void NOMADFitterInterface::writeParametersFile(string fileName, int seed) {
+void NOMADFitterInterface::writeParametersFile(string fileName) {
 
 	ofstream file;
 	file.open(fileName.c_str(), ios::out);
 
-	file << endl << "	RANDOMSEED		"<< seed << endl;	
+	file << "RANDOMSEED/t"<< toInt(fixedParams["Seed"]) << endl;	
 
-	file << NOMADParamsContents;
+	file << "INITIAL_POLL_SIZE\t" << fixedParams["INITIAL_POLL_SIZE"] << endl;	
+	file << "MAX_POLL_SIZE\t" << fixedParams["MAX_POLL_SIZE"] << endl;	
+	file << "POLL_BASIS/t"<< fixedParams["POLL_BASIS"] << endl;	
+	file << "COARSENING_EXPONENT"<< fixedParams["COARSENING_EXPONENT"] << endl;	
+	file << "REFINING_EXPONENT"<< fixedParams["REFINING_EXPONENT"] << endl;
+	
+	file << "POLL_ORDER"<< fixedParams["POLL_ORDER"] << endl;	
+	file << "POLL_COMPLETE"<< fixedParams["POLL_COMPLETE"] << endl;	
+	file << "POLL_DIRECTIONS"<< fixedParams["POLL_DIRECTIONS"] << endl;
+	
+	file << "INITIAL_SEARCH"<< fixedParams["INITIAL_SEARCH"] << endl;	
+	file << "INITIAL_COMPLETE"<< fixedParams["INITIAL_COMPLETE"] << endl;	
+	file << "INITIAL_POINTS"<< fixedParams["INITIAL_POINTS"] << endl;	
+
+	file << "ITERATIVE_SEARCH"<< fixedParams["ITERATIVE_SEARCH"] << endl;	
+	file << "ITERATIVE_COMPLETE"<< fixedParams["ITERATIVE_COMPLETE"] << endl;	
+	file << "ITERATIVE_POINTS"<< fixedParams["ITERATIVE_POINTS"] << endl;	
+
+	file << "SPECULATIVE_SEARCH"<< fixedParams["SPECULATIVE_SEARCH"] << endl;	
+
+	file << "POLL_SIZE_TERM"<< fixedParams["POLL_SIZE_TERM"] << endl;	
+	file << "CONSECUTIVE_FAILS"<< fixedParams["CONSECUTIVE_FAILS"] << endl;	
+	file << "TRUTH_EVALS"<< fixedParams["TRUTH_EVALS"] << endl;	
+	file << "ITERATIONS"<< fixedParams["ITERATIONS"] << endl;	
+	file << "NEW_TRUTH_EVALS"<< fixedParams["NEW_TRUTH_EVALS"] << endl;	
+
+	file << "FILTER_RELATIVE"<< fixedParams["FILTER_RELATIVE"] << endl;	
+	file << "HMAX"<< fixedParams["HMAX"] << endl;	
+	file << "HMIN"<< fixedParams["HMIN"] << endl;	
+	file << "FILTER_NORM"<< fixedParams["FILTER_NORM"] << endl;
+	
+	file << "SURROGATE_TOLERANCE"<< fixedParams["SURROGATE_TOLERANCE"] << endl;	
 
 	file.close();
 
 }
-
-extern string NOMADPrefContents;
 
 void NOMADFitterInterface::writePreferencesFile(string fileName) {
 
 	ofstream file;
 	file.open(fileName.c_str(), ios::out);
 
-	file << NOMADPrefContents;
+    file << "DISPLAY_FACTOR\t " << fixedParams["VerboseLevel"] << endl;
+    file << "SEND_EMAIL      0" << endl;
 
 	file.close();
 
@@ -156,55 +197,4 @@ void NOMADFitterInterface::solveProblem(const Description & description,
 }
 
 
-string NOMADParamsContents = " \
-	INITIAL_POLL_SIZE   1000 \n\
-	MAX_POLL_SIZE       1000 \n\
-	POLL_BASIS      	4 \n\
-	COARSENING_EXPONENT 2 \n\
-	REFINING_EXPONENT   -2 \n\
-\n\
-	POLL_ORDER      	0 \n\
-	POLL_COMPLETE   	0 \n\
-	POLL_DIRECTIONS 	3 \n\
-\n\
-	INITIAL_SEARCH      1 \n\
-	INITIAL_COMPLETE    0 \n\
-	INITIAL_POINTS      20 \n\
-	ITERATIVE_SEARCH    1 \n\
-	ITERATIVE_COMPLETE  0 \n\
-	ITERATIVE_POINTS    20 \n\
-	SPECULATIVE_SEARCH  1 \n\
-\n\
-	POLL_SIZE_TERM      -1 \n\
-	CONSECUTIVE_FAILS   -1 \n\
-	TRUTH_EVALS     100 \n\
-	ITERATIONS      -1 \n\
-	NEW_TRUTH_EVALS     -1 \n\
-\n\
-	FILTER_RELATIVE     1 \n\
-	HMAX            	50000 \n\
-	HMIN            	0.0001 \n\
-	FILTER_NORM     	2 \n\
-\n\
-	SURROGATE_TOLERANCE 0";
-
-string NOMADDescContents = "\
-	PROBLEM_NAME    PC \
-	SCALING_CHOICE  0 \
-	GEN_CONS_NB 0 \
-	USE_SURROGATE   0 \
-	USE_BLACK_BOXES 0 \
-	USE_BOUNDS  1 \
-	USE_CACHES  1 \
-	CACHE_FILE cache \
-	DIRECTORY . \
-	START_PT_FILE start_pt.txt \
-	INPUT_FILE  input.txt \
-	RESULTS_FILE results.txt \
-	BOUNDS_FILE bounds.txt";
-
-
-string NOMADPrefContents ="\
-	DISPLAY_FACTOR      5 \
-	SEND_EMAIL      0";
 

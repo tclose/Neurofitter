@@ -2,6 +2,10 @@
 
 using namespace std;
 
+///todo check if all files are closed
+///todo check for leaks
+///todo add comments
+
 int main () {
 	cout << "Houston, we have liftoff..." << endl;
 
@@ -43,10 +47,10 @@ int main () {
 	}
 
 	// Make the fixed parameters for the child objects
-	FixedParameters expFixedParams(fixedParameters["FakeExperiment"],fixedParameters.getGlobals());
-	FixedParameters modelFixedParams(fixedParameters["GenesisModel"],fixedParameters.getGlobals());
-	FixedParameters fitFixedParams(fixedParameters["PabloFitnessCalculator"],fixedParameters.getGlobals());
-	FixedParameters fitterFixedParams(fixedParameters["MeshFitter"],fixedParameters.getGlobals());
+	FixedParameters expFixedParams(fixedParameters["Experiment"],fixedParameters.getGlobals());
+	FixedParameters modelFixedParams(fixedParameters["Model"],fixedParameters.getGlobals());
+	FixedParameters fitFixedParams(fixedParameters["FitnessCalculator"],fixedParameters.getGlobals());
+	FixedParameters fitterFixedParams(fixedParameters["Fitter"],fixedParameters.getGlobals());
 
 	//////////////////////////
 	/// Initialize objects ///
@@ -58,13 +62,13 @@ int main () {
 	FakeExperimentInterface experiment(&model, expFixedParams);
 	PabloFitnessCalculator fitcal(&model,&experiment,fitFixedParams);
 
-	MeshFitterInterface fitter = MeshFitterInterface(&fitcal,fitterFixedParams);
+	//MeshFitterInterface fitter = MeshFitterInterface(&fitcal,fitterFixedParams);
 	//SwarmFitterInterface fitter = SwarmFitterInterface(&fitcal,5,10);
-	//PabloFitterInterface fitter(&fitcal);
-	//NOMADFitterInterface fitter(&fitcal, startPoint.getLength());
-	//EOFitterInterface fitter(&fitcal);
+	//PabloFitterInterface fitter(&fitcal,fitterFixedParams);
+	NOMADFitterInterface fitter(&fitcal,fitterFixedParams);
+	//EOFitterInterface fitter(&fitcal,fitterFixedParams);
 
-	fitter.runFitter(&startPoint, toInt(fixedParameters["Seed"]));
+	fitter.runFitter(&startPoint);
 
 	cout << endl << "And we have touchdown" << endl;
 

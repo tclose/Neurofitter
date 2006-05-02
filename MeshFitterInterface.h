@@ -15,7 +15,7 @@ class MeshFitterInterface : FitterInterface, FixedParamObject {
         /////
         //Inherited from FitterInterface
         /////
-        virtual FitterResults runFitter(ModelTuningParameters * resolution, int seed);
+        virtual FitterResults runFitter(ModelTuningParameters * resolution);
 
 	private:
 		void calculateMesh(int startDimension, ModelTuningParameters & resolution, ModelTuningParameters & currentPoint);

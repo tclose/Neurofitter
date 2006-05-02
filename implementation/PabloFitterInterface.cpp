@@ -3,7 +3,7 @@
 PabloFitterInterface::PabloFitterInterface(FitnessCalculator * fit, FixedParameters param) 
 	: FitterInterface(fit), FixedParamObject(param) {}
 
-FitterResults PabloFitterInterface::runFitter(ModelTuningParameters * startPoints, int seed) {
+FitterResults PabloFitterInterface::runFitter(ModelTuningParameters * startPoints) {
 	///////////////////////
 	/// Read parameters ///
 	///////////////////////
@@ -18,7 +18,7 @@ FitterResults PabloFitterInterface::runFitter(ModelTuningParameters * startPoint
 	/// Run EO ///
 	//////////////
 	EOFitterInterface eo(fitness, eoFixParam);
-	ModelTuningParameters eoBest = (eo.runFitter(startPoints, seed)).getBestFit();
+	ModelTuningParameters eoBest = (eo.runFitter(startPoints)).getBestFit();
 
 	cout << endl << "Best solution found by EO: "<< eoBest.toString() << endl;
 
@@ -26,7 +26,7 @@ FitterResults PabloFitterInterface::runFitter(ModelTuningParameters * startPoint
 	/// Run NOMAD with best solution of EO ///
 	//////////////////////////////////////////
 	NOMADFitterInterface nomad(fitness, nomadFixParam);
-    nomad.runFitter(&eoBest, seed);
+    nomad.runFitter(&eoBest);
 
 	return FitterResults();
 }

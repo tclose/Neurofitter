@@ -19,7 +19,7 @@ public:
 	////
 	//Inherited from FitterInterface
 	////
-	FitterResults runFitter(ModelTuningParameters * startingPoint, int seed);
+	FitterResults runFitter(ModelTuningParameters * startingPoint);
 
 private:
 	PabloFitterInterface();
