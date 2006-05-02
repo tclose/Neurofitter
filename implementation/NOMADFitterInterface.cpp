@@ -84,6 +84,8 @@ extern string NOMADDescContents;
 
 void NOMADFitterInterface::writeDescriptionFile(string fileName) {
 
+	if (toInt(fixedParams["VerboseLevel"])>3) cout << "Writing NOMAD description file: " << fileName << endl;
+
 	ofstream file;
 	file.open(fileName.c_str(), ios::out);
 
@@ -109,49 +111,53 @@ void NOMADFitterInterface::writeDescriptionFile(string fileName) {
 
 void NOMADFitterInterface::writeParametersFile(string fileName) {
 
+	if (toInt(fixedParams["VerboseLevel"])>3) cout << "Writing NOMAD parameter file: " << fileName << endl;
+
 	ofstream file;
 	file.open(fileName.c_str(), ios::out);
 
-	file << "RANDOMSEED/t"<< toInt(fixedParams["Seed"]) << endl;	
+	file << "RANDOMSEED	\t"<< toInt(fixedParams["Seed"]) << endl;	
 
 	file << "INITIAL_POLL_SIZE\t" << fixedParams["INITIAL_POLL_SIZE"] << endl;	
 	file << "MAX_POLL_SIZE\t" << fixedParams["MAX_POLL_SIZE"] << endl;	
-	file << "POLL_BASIS/t"<< fixedParams["POLL_BASIS"] << endl;	
-	file << "COARSENING_EXPONENT"<< fixedParams["COARSENING_EXPONENT"] << endl;	
-	file << "REFINING_EXPONENT"<< fixedParams["REFINING_EXPONENT"] << endl;
+	file << "POLL_BASIS\t"<< fixedParams["POLL_BASIS"] << endl;	
+	file << "COARSENING_EXPONENT\t"<< fixedParams["COARSENING_EXPONENT"] << endl;	
+	file << "REFINING_EXPONENT\t"<< fixedParams["REFINING_EXPONENT"] << endl;
 	
-	file << "POLL_ORDER"<< fixedParams["POLL_ORDER"] << endl;	
-	file << "POLL_COMPLETE"<< fixedParams["POLL_COMPLETE"] << endl;	
-	file << "POLL_DIRECTIONS"<< fixedParams["POLL_DIRECTIONS"] << endl;
+	file << "POLL_ORDER\t"<< fixedParams["POLL_ORDER"] << endl;	
+	file << "POLL_COMPLETE\t"<< fixedParams["POLL_COMPLETE"] << endl;	
+	file << "POLL_DIRECTIONS\t"<< fixedParams["POLL_DIRECTIONS"] << endl;
 	
-	file << "INITIAL_SEARCH"<< fixedParams["INITIAL_SEARCH"] << endl;	
-	file << "INITIAL_COMPLETE"<< fixedParams["INITIAL_COMPLETE"] << endl;	
-	file << "INITIAL_POINTS"<< fixedParams["INITIAL_POINTS"] << endl;	
+	file << "INITIAL_SEARCH\t"<< fixedParams["INITIAL_SEARCH"] << endl;	
+	file << "INITIAL_COMPLETE\t"<< fixedParams["INITIAL_COMPLETE"] << endl;	
+	file << "INITIAL_POINTS\t"<< fixedParams["INITIAL_POINTS"] << endl;	
 
-	file << "ITERATIVE_SEARCH"<< fixedParams["ITERATIVE_SEARCH"] << endl;	
-	file << "ITERATIVE_COMPLETE"<< fixedParams["ITERATIVE_COMPLETE"] << endl;	
-	file << "ITERATIVE_POINTS"<< fixedParams["ITERATIVE_POINTS"] << endl;	
+	file << "ITERATIVE_SEARCH\t"<< fixedParams["ITERATIVE_SEARCH"] << endl;	
+	file << "ITERATIVE_COMPLETE\t"<< fixedParams["ITERATIVE_COMPLETE"] << endl;	
+	file << "ITERATIVE_POINTS\t"<< fixedParams["ITERATIVE_POINTS"] << endl;	
 
-	file << "SPECULATIVE_SEARCH"<< fixedParams["SPECULATIVE_SEARCH"] << endl;	
+	file << "SPECULATIVE_SEARCH\t"<< fixedParams["SPECULATIVE_SEARCH"] << endl;	
 
-	file << "POLL_SIZE_TERM"<< fixedParams["POLL_SIZE_TERM"] << endl;	
-	file << "CONSECUTIVE_FAILS"<< fixedParams["CONSECUTIVE_FAILS"] << endl;	
-	file << "TRUTH_EVALS"<< fixedParams["TRUTH_EVALS"] << endl;	
-	file << "ITERATIONS"<< fixedParams["ITERATIONS"] << endl;	
-	file << "NEW_TRUTH_EVALS"<< fixedParams["NEW_TRUTH_EVALS"] << endl;	
+	file << "POLL_SIZE_TERM\t"<< fixedParams["POLL_SIZE_TERM"] << endl;	
+	file << "CONSECUTIVE_FAILS\t"<< fixedParams["CONSECUTIVE_FAILS"] << endl;	
+	file << "TRUTH_EVALS\t"<< fixedParams["TRUTH_EVALS"] << endl;	
+	file << "ITERATIONS\t"<< fixedParams["ITERATIONS"] << endl;	
+	file << "NEW_TRUTH_EVALS\t"<< fixedParams["NEW_TRUTH_EVALS"] << endl;	
 
-	file << "FILTER_RELATIVE"<< fixedParams["FILTER_RELATIVE"] << endl;	
-	file << "HMAX"<< fixedParams["HMAX"] << endl;	
-	file << "HMIN"<< fixedParams["HMIN"] << endl;	
-	file << "FILTER_NORM"<< fixedParams["FILTER_NORM"] << endl;
+	file << "FILTER_RELATIVE\t"<< fixedParams["FILTER_RELATIVE"] << endl;	
+	file << "HMAX\t"<< fixedParams["HMAX"] << endl;	
+	file << "HMIN\t"<< fixedParams["HMIN"] << endl;	
+	file << "FILTER_NORM\t"<< fixedParams["FILTER_NORM"] << endl;
 	
-	file << "SURROGATE_TOLERANCE"<< fixedParams["SURROGATE_TOLERANCE"] << endl;	
+	file << "SURROGATE_TOLERANCE\t"<< fixedParams["SURROGATE_TOLERANCE"] << endl;	
 
 	file.close();
 
 }
 
 void NOMADFitterInterface::writePreferencesFile(string fileName) {
+
+	if (toInt(fixedParams["VerboseLevel"])>3) cout << "Writing NOMAD preferences file: " << fileName << endl;
 
 	ofstream file;
 	file.open(fileName.c_str(), ios::out);

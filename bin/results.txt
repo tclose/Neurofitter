@@ -1,0 +1,52 @@
+Problem specifications:
+-----------------------
+Problem dimension: 2, number of outputs: 1
+Random seed: 1
+Use the caches? No
+Starting point (feasible):  0.478715   (1, 1)
+
+Constraints:
+------------
+Lower bounds: (1, 1)
+Upper bounds: (100000, 100000)
+
+Scaling:
+--------
+No scaling
+
+Speculative search: Executed after a successful iteration.
+-------------
+
+Mesh variables:
+---------------
+Initial poll size: 1000
+Initial mesh size: 500
+Maximum poll size: 1000
+Maximum mesh size: 500
+Poll size basis: 4
+Coarsening exponent: 2
+Refining exponent: -2
+
+Poll strategy variables:
+------------------------
+Fixed order? Fixed
+Continuous poll, opportunistic.
+Dense, n + 1 directions.
+
+Termination criteria:
+---------------------
+Poll size: NA
+Mesh size: NA
+Number of iterations: NA
+Number of truth evaluations: 100
+Number of new truth evaluations: NA
+Number of consecutive failures: NA
+
+
+Run-time information...
+
+feval #   f(x)   Point
+-------   ----   -----
+   1    0.47871516   (1, 1)
+   2    0.47729461   (32.25, 63.5)
+   3    0.47287959

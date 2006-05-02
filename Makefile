@@ -12,13 +12,8 @@ DIR_EO = ../eo/src
 DIR_NOMAD = ../nomad
 DIR_LIBXML2	= /usr/include/libxml2
 
-BERKELEY_DIR      = /opt/local
-BERKELEY_INCLUDE  = $(BERKELEY_DIR)/include/db4
-BERKELEY_LIBDIR	  = $(BERKELEY_DIR)/lib
-BERKELEY_LIB      = -ldb_cxx-4.3 -ldb-4.3 -lpthread
-
-LIBDIRS=-L$(DIR_EO) -L$(DIR_EO)/es -L$(DIR_EO)/utils -L$(DIR_NOMAD) -L$(BERKELEY_LIBDIR) 
-LIBS= $(LIBDIRS) -les -leoutils -leo -lnomad $(BERKELEY_LIB) -lxml2 -lz -lpthread -liconv -lm
+LIBDIRS=-L$(DIR_EO) -L$(DIR_EO)/es -L$(DIR_EO)/utils -L$(DIR_NOMAD)
+LIBS= $(LIBDIRS) -les -leoutils -leo -lnomad -lxml2 -lz -lpthread -liconv -lm
  
 CXXLIBS = $(LIBS) 
 
@@ -70,16 +65,16 @@ $(CPPDIR)/EOFitnessCalculator.o : $(CPPDIR)/EOFitnessCalculator.cpp ;
 	$(CXX) -c $(CXXFLAGS) -I$(DIR_EO) -o $@ $<
 
 $(CPPDIR)/NOMADFitterInterface.o : $(CPPDIR)/NOMADFitterInterface.cpp ;
-	$(CXX) -c $(CXXFLAGS) -I$(DIR_NOMAD) -I$(BERKELEY_INCLUDE) -o $@ $<
+	$(CXX) -c $(CXXFLAGS) -I$(DIR_NOMAD) -o $@ $<
 
 $(CPPDIR)/PabloFitterInterface.o : $(CPPDIR)/PabloFitterInterface.cpp ;
-	$(CXX) -c $(CXXFLAGS) -I$(DIR_EO) -I$(DIR_NOMAD) -I$(BERKELEY_INCLUDE) -o $@ $<
+	$(CXX) -c $(CXXFLAGS) -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
 
 $(CPPDIR)/truthfunction.o : $(CPPDIR)/truthfunction.cpp ;
-	$(CXX) -c $(CXXFLAGS) -I$(DIR_NOMAD) -I$(BERKELEY_INCLUDE) -o $@ $<
+	$(CXX) -c $(CXXFLAGS) -I$(DIR_NOMAD) -o $@ $<
 
 $(CPPDIR)/Evolufit.o : $(CPPDIR)/Evolufit.cpp ;
-	$(CXX) -c $(CXXFLAGS) -I$(DIR_EO) -I$(DIR_NOMAD) -I$(BERKELEY_INCLUDE) -o $@ $<
+	$(CXX) -c $(CXXFLAGS) -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
 
 clean : 
 	@/bin/rm -rf $(ALL) *.gch *.o implementation/*.o

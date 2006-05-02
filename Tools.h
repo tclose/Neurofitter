@@ -3,7 +3,7 @@
 
 #include <sstream>
 #include <string>
-
+#include <stdexcept>
 
 using namespace std;
 
@@ -39,8 +39,9 @@ inline double toDouble(string s)
  }
 
 inline void crash(string object, string message) {
-	cerr << object << ": " << message << endl;
-	exit(1);
+	throw runtime_error(object+": "+message);
+	//cerr << object << ": " << message << endl;
+	//exit(1);
 }
 
 #endif

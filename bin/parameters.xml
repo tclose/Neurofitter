@@ -65,7 +65,7 @@
 		<POLL_BASIS>4</POLL_BASIS> 
 		<COARSENING_EXPONENT>2</COARSENING_EXPONENT>
 		<REFINING_EXPONENT>-2</REFINING_EXPONENT>
-					
+		
 		<POLL_ORDER>0</POLL_ORDER>
 		<POLL_COMPLETE>0</POLL_COMPLETE>
 		<POLL_DIRECTIONS>4</POLL_DIRECTIONS>
@@ -102,9 +102,24 @@
 		<INPUT_FILE>input.txt</INPUT_FILE>
 		<RESULTS_FILE>results.txt</RESULTS_FILE>
 	</Fitter>	
-
-	
 	<!--
+	
+		
+		
+	<Fitter type="EO">
+		<popSize>50</popSize>
+		<nbOffspring>10</nbOffspring>
+		<replacement>Plus</replacement>
+		<maxGen>50</maxGen>
+		<minGen>0</minGen>
+		<targetFitness>0.0</targetFitness>
+		<steadyGen>100</steadyGen>
+		<crossType>global</crossType>
+		<crossObj>intermediate</crossObj> 
+		<TauLoc>1</TauLoc>
+		<TauGlob>1</TauGlob>
+		<Beta>0.0873</Beta>
+	</Fitter>
 		
 	<Fitter type="Mesh">
 		<MeshDimensions>2</MeshDimensions>
@@ -119,20 +134,9 @@
 		<NumberOfRuns>10</NumberOfRuns>
 	</Fitter>
 	
-	<Fitter type="EO">
-		<popSize>50</popSize>
-		<nbOffspring>10</nbOffspring>
-		<replacement>Plus</replacement>
-		<maxGen>50</maxGen>
-		<minGen>0</minGen>
-		<targetFitness>0.0</targetFitness>
-		<steadyGen>100</steadyGen>
-		<crossType>global</crossType>
-		<crossObj>intermediate</crossObj> 
-	<TauLoc>1</TauLoc>
-	<TauGlob>1</TauGlob>
-	<Beta>0.0873</Beta>
-	</Fitter>
+		
+	
+		
 		
 	<Fitter type="Pablo">
 		<EOFitter>
