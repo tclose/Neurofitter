@@ -61,7 +61,7 @@ $(BINDIR)/Evolufit : $(OBJS) ;
 $(CPPDIR)/EOFitterInterface.o : $(CPPDIR)/EOFitterInterface.cpp ;
 	$(CXX) -c $(CXXFLAGS) -I$(DIR_EO) -o $@ $<
 
-$(CPPDIR)/EOFitnessCalculator.o : $(CPPDIR)/EOFitnessCalculator.cpp ;
+$(CPPDIR)/EOFitness.o : $(CPPDIR)/EOFitness.cpp ;
 	$(CXX) -c $(CXXFLAGS) -I$(DIR_EO) -o $@ $<
 
 $(CPPDIR)/NOMADFitterInterface.o : $(CPPDIR)/NOMADFitterInterface.cpp ;

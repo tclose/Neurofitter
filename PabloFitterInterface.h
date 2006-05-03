@@ -10,7 +10,7 @@
 #include "NOMADFitterInterface.h"
 #include "FixedParamObject.h"
 
-///todo make all classes use initializers
+using namespace std;
 
 class PabloFitterInterface : public FitterInterface, public FixedParamObject {
 

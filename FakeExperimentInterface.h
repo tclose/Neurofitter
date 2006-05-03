@@ -7,6 +7,8 @@
 #include "ModelResults.h"
 #include "FixedParamObject.h"
 
+using namespace std;
+
 class FakeExperimentInterface : public ExperimentInterface, public FixedParamObject {
 
 public:

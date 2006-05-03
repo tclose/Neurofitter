@@ -4,6 +4,8 @@
 #include "ModelResults.h"
 #include "ModelTuningParameters.h"
 
+using namespace std;
+
 class ModelInterface {
 
 public:

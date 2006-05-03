@@ -40,7 +40,6 @@ FitterResults EOFitterInterface::runFitter(ModelTuningParameters * startPoint) {
 		cout << "Using eoEsFull" << endl;
       	eoEsFull<eoMinimizingFitness> eoResult = runAlgorithm(eoEsFull<eoMinimizingFitness>(), parser, state);
 		
-
 		stringbuf * buf = new stringbuf();		
 		iostream paramStream(buf);
 		eoResult.printOn(paramStream);
@@ -87,7 +86,7 @@ EOT EOFitterInterface::runAlgorithm(EOT, eoParser& _parser, eoState& _state)
   //////////////////////////////////////////////////////
 
   // The evaluation fn - encapsulated into an eval counter for output
-  EOFitnessCalculator<EOT, double, const std::vector<double>&>
+  EOFitness<EOT, double, const std::vector<double>&>
                mainEval( &real_value, fitness );
   eoEvalFuncCounter<EOT> eval(mainEval);
 

@@ -11,8 +11,6 @@
 class eoParser;
 class eoState;
 
-///todo check the "public" from FitterInterface
-
 class EOFitterInterface : public FitterInterface, public FixedParamObject {
 
 	public:

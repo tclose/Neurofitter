@@ -4,6 +4,8 @@
 #include "FitnessCalculator.h"
 #include "FitterResults.h"
 
+using namespace std;
+
 class FitterInterface {
 
 public:

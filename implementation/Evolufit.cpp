@@ -5,6 +5,7 @@ using namespace std;
 ///todo check if all files are closed
 ///todo check for leaks
 ///todo add comments
+///todo make all classes use initializers
 
 int main () {
 	cout << "Houston, we have liftoff..." << endl;

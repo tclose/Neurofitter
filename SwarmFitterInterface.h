@@ -7,6 +7,8 @@
 #include "SwarmFly.h"
 #include "FixedParamObject.h"
 
+using namespace std;
+
 class SwarmFitterInterface : public FitterInterface, FixedParamObject {
 
     public:

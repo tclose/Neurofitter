@@ -1,26 +1,10 @@
 #include "../ModelResults.h"
 
-ModelResults::ModelResults(const int nOTraces) {
-	numberOfTraces = nOTraces;
-	traces = new DataTrace[numberOfTraces];
-	if (traces == NULL) {cerr << endl<< "Error: Unable to allocate memory for ModelResults" << endl;exit(1);}
-}
+ModelResults::ModelResults()
+	: traces(), numberOfTraces(0) {}
 
-ModelResults::~ModelResults() {
-	if (traces != NULL) delete [] traces;
-}
-
-ModelResults & ModelResults::operator=(const ModelResults & m) {
-	if (this != &m) {
-		if (traces != NULL) delete [] traces;
-		numberOfTraces = m.numberOfTraces;
-		traces = new DataTrace[numberOfTraces];
-		for (int i=0; i < m.getLength(); i++) {
-			(*this)[i] = m[i];
-		}
-	}
-	return *this;
-}
+ModelResults::ModelResults(const int nOTraces) 
+	: traces(nOTraces), numberOfTraces(nOTraces) {}
 
 int ModelResults::getLength() const {
 	return numberOfTraces;

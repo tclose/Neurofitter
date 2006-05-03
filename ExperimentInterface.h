@@ -3,6 +3,8 @@
 
 #include "ModelResults.h"
 
+using namespace std;
+
 class ExperimentInterface {
 
 public:

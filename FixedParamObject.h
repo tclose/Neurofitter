@@ -3,6 +3,8 @@
 
 #include "FixedParameters.h"
 
+using namespace std;
+
 class FixedParamObject {
 	protected:
 		FixedParamObject() : fixedParams() {};

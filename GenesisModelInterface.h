@@ -8,6 +8,7 @@ using namespace std;
 #include "ModelInterface.h"
 #include "FixedParamObject.h"
 
+using namespace std;
 
 class GenesisModelInterface : public ModelInterface, public FixedParamObject {
 

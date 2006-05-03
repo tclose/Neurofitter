@@ -6,6 +6,8 @@
 #include "FitnessCalculator.h"
 #include "FixedParamObject.h"
 
+using namespace std;
+
 extern void setNOMADFitnessCalculator(FitnessCalculator*, int);
 
 class NOMADFitterInterface : public FitterInterface, FixedParamObject {

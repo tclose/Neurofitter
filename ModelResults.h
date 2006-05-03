@@ -2,6 +2,7 @@
 #define MODELRESULTS_H
 
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -11,20 +12,15 @@ using namespace std;
 class ModelResults {
 
 public:
-	ModelResults() {traces = NULL; numberOfTraces = 0;}
+	ModelResults();
 	ModelResults(const int numberOfTraces);
-	ModelResults(const ModelResults & m) {*this = m;};
-
-	ModelResults& operator=(const ModelResults &);
-
-	~ModelResults();
 
 	int getLength() const;
 	DataTrace &operator[] (const int);
 	const DataTrace &operator[] (const int) const;
 
 private:
-	DataTrace * traces;
+	vector< DataTrace > traces;
 	int numberOfTraces;
 
 };

@@ -4,6 +4,8 @@
 #include "ModelTuningParameters.h"
 #include "ModelInterface.h"
 
+using namespace std;
+
 class FitnessCalculator {
 
 	public:

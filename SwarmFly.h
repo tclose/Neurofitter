@@ -3,6 +3,7 @@
 
 #include "SwarmFitterInterface.h"
 
+using namespace std;
 
 class SwarmFly {
 	

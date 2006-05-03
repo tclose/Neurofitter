@@ -9,9 +9,6 @@
 #include <sstream>
 #include <cmath>
 
-//#include <eo>
-//#include <es/make_es.h>
-
 using namespace std;
 
 #include "EvolufitState.h"

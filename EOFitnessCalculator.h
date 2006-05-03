@@ -1,8 +1,10 @@
-#ifndef EOFITNESSCALCULATOR_H
-#define EOFITNESSCALCULATOR_H 
+#ifndef EOFITNESS_H
+#define EOFITNESS_H 
 
 #include <eo>
 #include <eoEvalFunc.h>
+
+using namespace std;
 
 #ifdef _MSC_VER
 	template< class EOT, class FitT = EOT::Fitness, class FunctionArg = const EOT& >
@@ -10,11 +12,9 @@
 	template< class EOT, class FitT = typename EOT::Fitness, class FunctionArg = const EOT& >
 #endif
 
-///todo rename this class
+struct EOFitness: public eoEvalFunc<EOT> {
 
-struct EOFitnessCalculator: public eoEvalFunc<EOT> {
-
-	EOFitnessCalculator( FitT (* _eval)( FunctionArg, FitnessCalculator * ), FitnessCalculator * f)
+	EOFitness( FitT (* _eval)( FunctionArg, FitnessCalculator * ), FitnessCalculator * f)
 		: eoEvalFunc<EOT>(), evalFunc( _eval ) {fitness=f;};
 
 	virtual void operator() ( EOT & _eo ) {
@@ -26,4 +26,5 @@ struct EOFitnessCalculator: public eoEvalFunc<EOT> {
 		FitT (* evalFunc )( FunctionArg, FitnessCalculator* );
 		FitnessCalculator * fitness;
 	}; 
+
 #endif

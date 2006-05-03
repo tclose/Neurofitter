@@ -3,6 +3,8 @@
 
 #include "ModelTuningParameters.h"
 
+using namespace std;
+
 ///todo extend the members
 class FitterResults {
 
