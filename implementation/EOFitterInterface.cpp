@@ -43,6 +43,9 @@ FitterResults EOFitterInterface::runFitter(ModelTuningParameters * startPoint) {
 		stringbuf * buf = new stringbuf();		
 		iostream paramStream(buf);
 		eoResult.printOn(paramStream);
+		cout << "Start: "<< endl;
+		eoResult.printOn(cout);
+		cout << "Stop "<< endl;
 
 		ModelTuningParameters params(*startPoint);
 		double tmp;
@@ -68,7 +71,6 @@ static double real_value(const std::vector<double>& paramVector, FitnessCalculat
 
 	return fitness->calculateFitness(params);
 	
-
 }
 
 

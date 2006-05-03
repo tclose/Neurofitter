@@ -53,13 +53,13 @@
  	# read from main Evolufit parameter file --Beta=0.0873                            # -b : Beta 
 
 
-	--popSize=50
+	--popSize=1
 
 	--nbOffspring=10
 
 	--replacement=Plus
 
-	--maxGen=50
+	--maxGen=2
 
 	--minGen=0
 

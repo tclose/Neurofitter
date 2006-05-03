@@ -14,9 +14,8 @@ void SwarmFly::fly() {
         ModelTuningParameters newPosition(currentPosition);
         ModelTuningParameters newSpeed(currentPosition.getLength());
 
-        ///todo replace this by mercene twister
-        double r1 = ((double)rand() / ((double)(RAND_MAX)+(double)(1)) );
-        double r2 = ((double)rand() / ((double)(RAND_MAX)+(double)(1)) );
+        double r1 = randGen->rand();
+        double r2 = randGen->rand();
 
         for (int i = 0; i < currentPosition.getLength(); i++) {
             newSpeed[i] = inertial*currentSpeed[i] +

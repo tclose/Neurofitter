@@ -8,7 +8,6 @@ using namespace std;
 
 #include "DataTrace.h"
 
-///todo use vectors to implement this
 class ModelResults {
 
 public:

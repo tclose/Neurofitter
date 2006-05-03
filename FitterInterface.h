@@ -11,7 +11,6 @@ class FitterInterface {
 public:
 	//todo make it possible to give a list of startingpoints
 	virtual FitterResults runFitter(ModelTuningParameters * startPoints) = 0;
-//	virtual void readFixedParameters(const string);
 	virtual ~FitterInterface() {};
 
 protected:

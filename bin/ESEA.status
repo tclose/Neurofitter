@@ -2,7 +2,7 @@
 ######                 General    ######
 --help=0                                 # -h : Prints this message
 --stopOnUnknownParam=1                   # Stop if unkown param entered
---seed=1550                              # -S : Random number seed
+--seed=1146654951                        # -S : Random number seed
 
 ######    ES mutation             ######
 --Isotropic=1                            # -i : Isotropic self-adaptive mutation
@@ -10,7 +10,7 @@
 --Correl=1                               # -c : Use correlated mutations
 
 ######    Evolution Engine        ######
---popSize=50                             # -P : Population Size
+--popSize=1                              # -P : Population Size
 --selection=DetTour(5)                   # -S : Selection: DetTour(T), StochTour(t), Roulette, Ranking(p,e) or Sequential(ordered/unordered)
 --nbOffspring=10                         # -O : Nb of offspring (percentage or absolute)
 --replacement=Plus                       # -R : Replacement: Comma, Plus or EPTour(T), SSGAWorst, SSGADet(T), SSGAStoch(t)
@@ -18,14 +18,14 @@
 
 ######    Genotype Initialization    ######
 --vecSize=2                              # -n : The number of variables 
---initBounds=[1,10000];[1,50000]         # -B : Bounds for initialization (MUST be bounded)
-# --sigmaInit=0.3                          # -s : Initial value for Sigmas (with a '%' -> scaled by the range of each variable)
+--initBounds=[1,100000];[1,100000]       # -B : Bounds for initialization (MUST be bounded)
+--sigmaInit=10                           # -s : Initial value for Sigmas (with a '%' -> scaled by the range of each variable)
 
 ######    Output                  ######
 --useEval=1                              # Use nb of eval. as counter (vs nb of gen.)
 --useTime=1                              # Display time (s) every generation
 --printBestStat=1                        # Print Best/avg/stdev every gen.
---printPop=0                             # Print sorted pop. every gen.
+--printPop=1                             # Print sorted pop. every gen.
 
 ######    Output - Disk           ######
 --resDir=ResNew                          # Directory to store DISK outputs
@@ -44,7 +44,7 @@
 --status=./ESEA.status                   # Status file
 
 ######    Stopping criterion      ######
---maxGen=50                              # -G : Maximum number of generations () = none)
+--maxGen=2                               # -G : Maximum number of generations () = none)
 --steadyGen=100                          # -s : Number of generations with no improvement
 --minGen=0                               # -g : Minimum number of generations
 --maxEval=300                            # -E : Maximum number of evaluations (0 = none)
@@ -52,7 +52,7 @@
 --CtrlC=1                                # -C : Terminate current generation upon Ctrl C
 
 ######    Variation Operators     ######
---objectBounds=[1,10000];[1,50000]       # -B : Bounds for variables
+--objectBounds=[1,100000];[1,100000]     # -B : Bounds for variables
 --operator=SGA                           # -o : Description of the operator (SGA only now)
 --pCross=1                               # -C : Probability of Crossover
 --pMut=1                                 # -M : Probability of Mutation
@@ -61,4 +61,4 @@
 --crossStdev=intermediate                # -S : Recombination of mutation strategy parameters (intermediate, discrete or none)
 --TauLoc=1                               # -l : Local Tau (before normalization)
 --TauGlob=1                              # -g : Global Tau (before normalization)
---Beta=0.0873                            # -b : Beta
+# --Beta=0.0873                            # -b : Beta

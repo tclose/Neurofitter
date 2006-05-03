@@ -29,7 +29,7 @@ double TruthFunction::evaluate(const double * coord) {
 	for (int i = 0; i < numberOfParameters; i++) {
 		paramValues[i] = coord[i];
 	}
-	//todo numberOfParameters is not well coded !!!
+	//todo numberOfParameters is not well coded (static) !!!
 	params.setTuningParameters(paramValues, numberOfParameters);
 	
 	return fitness->calculateFitness(params);

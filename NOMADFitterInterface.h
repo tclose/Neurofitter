@@ -17,7 +17,6 @@ class NOMADFitterInterface : public FitterInterface, FixedParamObject {
 		////
 		//Inherited from FitterInterface
     	////
-		///todo check in every class to see if virtual is OK
 		virtual FitterResults runFitter(ModelTuningParameters * startPt);
 
 	private:

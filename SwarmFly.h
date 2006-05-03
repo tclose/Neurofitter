@@ -2,13 +2,14 @@
 #define SWARMFLY_H
 
 #include "SwarmFitterInterface.h"
+#include "MersenneTwister.h"
 
 using namespace std;
 
 class SwarmFly {
 	
 public:
-	SwarmFly() : fitness(NULL), c1(-1), c2(-1), bestLocalFitnessValue(10000000) {} ///todo change MAX constant 
+	SwarmFly(MTRand * rand) : fitness(NULL), c1(-1), c2(-1), bestLocalFitnessValue(10000000), randGen(rand) {} ///todo change MAX constant 
 
 	void setMembers(FitnessCalculator *fit, double newC1, double newC2, ModelTuningParameters startPoint, ModelTuningParameters startSpeed);
 	void fly();
@@ -23,6 +24,8 @@ public:
 	double c1, c2;	
 
 	double bestLocalFitnessValue;
+
+	MTRand * randGen;
 
 	static ModelTuningParameters bestGlobalSolution;
 	static double bestGlobalFitnessValue;

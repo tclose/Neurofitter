@@ -6,6 +6,8 @@ using namespace std;
 ///todo check for leaks
 ///todo add comments
 ///todo make all classes use initializers
+///todo the correct header files to every header file
+///todo check in every class to see if virtual is OK
 
 int main () {
 	cout << "Houston, we have liftoff..." << endl;
@@ -95,16 +97,16 @@ int main () {
 	/// Run ///
 	///////////
 	fitter->runFitter(&startPoint);
-/*
+
 
 	///////////////
 	/// Cleanup ///
 	///////////////
-	//delete model;
-	//delete experiment;
-	//delete fitness;
-	//delete fitter;
-*/
+	delete model;
+	delete experiment;
+	delete fitness;
+	delete fitter;
+
 	cout << endl << "And we have touchdown" << endl;
 
 	return 0;

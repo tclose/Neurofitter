@@ -1,5 +1,5 @@
 #include "../SwarmFitterInterface.h"
-#include "../MersenneTwister.h"
+
 
 FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint) {
 
@@ -9,13 +9,13 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 	int numberOfRuns = toInt(fixedParams["NumberOfRuns"]);
 	if (numberOfRuns < 0) crash("SwarmFitterInterface","Negative number of runs !!");
 
-	SwarmFly * swarm = new SwarmFly [numberOfFlies];
+	MTRand randGen( toInt(fixedParams["Seed"]) );
+
+	vector< SwarmFly > swarm(numberOfFlies, SwarmFly(&randGen));
 
 	ModelTuningParameters startP(startPoint->getLength());
 	ModelTuningParameters startSpeed(startPoint->getLength());
 	
-	MTRand randGen( toInt(fixedParams["Seed"]) );
-
 	for (int i = 0; i < numberOfFlies; i++) {
 		for (int j = 0; j < startP.getLength(); j++) {
 			startP[j] = startPoint->getLowerBound(j)+(startPoint->getUpperBound(j)-startPoint->getLowerBound(j))*randGen.rand();
@@ -32,8 +32,6 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 		}
 		cout << "Best solution after run " << i << " : " << SwarmFly::bestGlobalSolution.toString() << " : " << SwarmFly::bestGlobalFitnessValue << endl;
 	}
-
-	delete [] swarm;
 
 	return FitterResults();
 }

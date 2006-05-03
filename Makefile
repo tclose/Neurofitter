@@ -33,14 +33,12 @@ EVOOBJS=	$(CPPDIR)/Evolufit.o \
 
 MODOBJS=	$(CPPDIR)/ModelResults.o \
 			$(CPPDIR)/GenesisModelInterface.o \
-			$(CPPDIR)/PabloModelInterface.o \
 			$(CPPDIR)/ModelTuningParameters.o
 
 FITOBJS=	$(CPPDIR)/PabloVdVdtMatrix.o \
 			$(CPPDIR)/PabloFitnessCalculator.o
 			
-EXPOBJS=	$(CPPDIR)/PabloExperimentInterface.o \
-			$(CPPDIR)/FakeExperimentInterface.o
+EXPOBJS=	$(CPPDIR)/FakeExperimentInterface.o
 
 FITTEROBJS=	$(CPPDIR)/NOMADFitterInterface.o \
 			$(CPPDIR)/FitterResults.o \

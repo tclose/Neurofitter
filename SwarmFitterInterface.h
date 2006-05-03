@@ -1,6 +1,8 @@
 #ifndef SWARMFITTERINTERFACE_H
 #define SWARMFITTERINTERFACE_H
 
+#include "MersenneTwister.h"
+
 #include "FitterResults.h"
 #include "FitterInterface.h"
 #include "FitnessCalculator.h"

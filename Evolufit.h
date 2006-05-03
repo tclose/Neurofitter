@@ -24,9 +24,7 @@ using namespace std;
 #include "FitnessCalculator.h"
 #include "FitterInterface.h"
 
-#include "PabloModelInterface.h"
 #include "GenesisModelInterface.h"
-#include "PabloExperimentInterface.h"
 #include "FakeExperimentInterface.h"
 #include "PabloVdVdtMatrix.h"
 #include "PabloFitnessCalculator.h"

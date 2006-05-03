@@ -14,6 +14,10 @@ Scaling:
 --------
 No scaling
 
+Iterative search type:
+----------------------
+Latin hypercube search, 4 points, incomplete.
+
 Speculative search: Executed after a successful iteration.
 -------------
 
@@ -54,11 +58,11 @@ feval #   f(x)   Point
    5    0.32271704   (1251, 2501)
    6    0.30244281   (3782.25, 7563.5)
    7    0.21778193   (11376, 22751)
-   10    0.21688933   (11376, 22782.25)
+   10    0.14759288   (26376, 92251)
 
 Problem solution:
 -----------------
-Best point found: 0.21688933   (11376, 22782.25)
+Best point found: 0.14759288   (26376, 92251)
 Final mesh size: 500
 Number of iterations: 7
 Truth evaluations: 10
@@ -72,9 +76,9 @@ Run statistics
 		NUMBER OF	f(x) DECREASE AT
 		SUCCESSES	FEASIBLE POINTS (%)
 		---------	-------------------
-POLL		    2		     1.32
-SEARCH   	    5		     98.68
+POLL		    1		     0.50
+SEARCH   	    6		     99.50
    (Initial   	    0		     0.00)
-   (Iterative	    0		     0.00)
-   (Dense	    5		     98.68)
+   (Iterative	    1		     31.93)
+   (Dense	    5		     67.57)
 

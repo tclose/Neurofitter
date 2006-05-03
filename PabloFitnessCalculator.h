@@ -26,6 +26,7 @@ public:
     virtual void disableFileExport();
     virtual string getExportFile() const;
 
+	virtual vector< pair< ModelTuningParameters, double > > getFitnessHistory();
 
 private:
 	vector< PabloVdVdtMatrix > expVdVdtMatrices;	

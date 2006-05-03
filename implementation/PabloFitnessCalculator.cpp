@@ -48,6 +48,8 @@ double PabloFitnessCalculator::calculateFitness(const ModelTuningParameters & pa
 
 	numberOfEvaluations++;
 
+	fitnessHistory.push_back(pair< ModelTuningParameters, double >(params,fitnessValue));
+
 	if (toInt(fixedParams["VerboseLevel"]) > 2) {
 		cout << "Calculated fitness of: " << params.toString() << ": " << fitnessValue << endl;
 	}
@@ -62,6 +64,11 @@ double PabloFitnessCalculator::calculateFitness(const ModelTuningParameters & pa
 	
 	return fitnessValue;
 }
+
+vector< pair< ModelTuningParameters, double > > PabloFitnessCalculator::getFitnessHistory() {
+	return fitnessHistory;
+}
+
 
 void PabloFitnessCalculator::enableFileExport(const string fileName) {
 	exportFileStream.open(fileName.c_str(), ios::out);
