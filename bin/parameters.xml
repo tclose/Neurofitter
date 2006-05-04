@@ -58,9 +58,7 @@
 		<BOUNDS_FILE>			bounds.txt</BOUNDS_FILE>
 		<RESULTS_FILE>			results.txt</RESULTS_FILE>
 	</FitterParameters>
-	
-	
-	
+		
 	<ModelType>Genesis</ModelType>	
 	<ModelParameters>
 		<GenesisLocation>/usr/local/bin/nxgenesis</GenesisLocation>

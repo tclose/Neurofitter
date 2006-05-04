@@ -14,7 +14,7 @@ string XMLString::toString() const {
 }
         
 string XMLString::getSubString(const string subName) const {
-	xmlDocPtr xml(xmlParseMemory(sourceString.c_str(), sourceString.length()+1));
+	xmlDocPtr xml = xmlParseMemory(sourceString.c_str(), sourceString.length()+1);
 	xmlNodePtr cur = (xmlDocGetRootElement(xml))->xmlChildrenNode;
 
 	string returnString = "";
@@ -44,7 +44,7 @@ XMLString XMLString::getSubXMLString(const string subName) const {
 }
 
 string XMLString::getContent() const {
-	xmlDocPtr xml(xmlParseMemory(sourceString.c_str(), sourceString.length()+1));
+	xmlDocPtr xml = xmlParseMemory(sourceString.c_str(), sourceString.length()+1);
 	char * content = (char*)xmlNodeListGetString(xml, (xmlDocGetRootElement(xml))->xmlChildrenNode, 1);
 	string contentString(content);
 	xmlFree(content);
@@ -55,10 +55,8 @@ string XMLString::getContent() const {
 }
 
 string XMLString::getName() const {
-	xmlDocPtr xml(xmlParseMemory(sourceString.c_str(), sourceString.length()+1));
-	char* rootName = (char*)xmlDocGetRootElement(xml)->name;
-	string returnString(rootName);
-	xmlFree(rootName);
+	xmlDocPtr xml = xmlParseMemory(sourceString.c_str(), sourceString.length()+1);
+	string returnString((char*)xmlDocGetRootElement(xml)->name);
 	xmlFreeDoc(xml);
 	xmlCleanupParser();
 
@@ -66,7 +64,7 @@ string XMLString::getName() const {
 }
 
 vector<string> XMLString::getSubNames() const{
-	xmlDocPtr xml(xmlParseMemory(sourceString.c_str(), sourceString.length()+1));
+	xmlDocPtr xml = xmlParseMemory(sourceString.c_str(), sourceString.length()+1);
 	vector<string> names;
 	
 	if (xml != NULL) {
