@@ -12,10 +12,9 @@ FitterResults NOMADFitterInterface::runFitter(ModelTuningParameters * startPoint
 	
 	modelParams = startPoints;
       
-	/////
-	/// Writing the NOMAD input file
-	////
-
+	////////////////////////////////////
+	/// Writing the NOMAD input file ///
+	////////////////////////////////////
 	///todo change nomad to prevent LIBRARY directory
 	string parametersFile="LIBRARY/parameters.dat";
 	string descriptionFile="LIBRARY/description.dat";
@@ -27,9 +26,9 @@ FitterResults NOMADFitterInterface::runFitter(ModelTuningParameters * startPoint
 	writeDescriptionFile(descriptionFile);
 	writePreferencesFile(preferencesFile);
 
-	/////
-	///	Creating and initiliaze NOMAD objects
-	////
+	/////////////////////////////////////////////
+	///	Creating and initiliaze NOMAD objects ///
+	/////////////////////////////////////////////
     Parameters parameters(parametersFile.c_str());
     Description description(descriptionFile.c_str());
 	//todo ask NOMAD developer to allow location preferences file
@@ -40,9 +39,9 @@ FitterResults NOMADFitterInterface::runFitter(ModelTuningParameters * startPoint
 	description.capture(solver);
 
 
-	/////
-	/// Solve the problem
-	////
+	/////////////////////////
+	/// Solve the problem ///
+	/////////////////////////
 	solveProblem(description, parameters, preferences, solver);
 
 	return FitterResults();
@@ -102,8 +101,8 @@ void NOMADFitterInterface::writeDescriptionFile(string fileName) {
 	file << "DIRECTORY\t"<< "." << endl;
 
 	file << "START_PT_FILE\t"<< fixedParams["START_PT_FILE"] << endl;
+	file << "INPUT_FILE\t"<< "DummyInput.txt" << endl; //INPUT_FILE has to exist even if it is not needed !
 	file << "BOUNDS_FILE\t"<< fixedParams["BOUNDS_FILE"] << endl;
-	file << "INPUT_FILE\t"<< fixedParams["INPUT_FILE"] << endl;
 	file << "RESULTS_FILE\t"<< fixedParams["RESULTS_FILE"] << endl;
 	
 	file.close();

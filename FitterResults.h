@@ -9,13 +9,15 @@ using namespace std;
 class FitterResults {
 
 	public:
-		ModelTuningParameters getBestFit() const;		
-		void setBestFit(const ModelTuningParameters);
+		ModelTuningParameters getBestFit() const;
+		double getBestFitness() const;
+		void setBestFit(const ModelTuningParameters, const double fitness);
 		string getExtraResults() const;
 		void setExtraResults(const string);
 
 	protected:
 		ModelTuningParameters bestFit;
+		double bestFitness;
 		string extraResults;
 
 };

@@ -16,17 +16,17 @@ No scaling
 
 Iterative search type:
 ----------------------
-Latin hypercube search, 4 points, incomplete.
+Random search, 4 points, incomplete.
 
 Speculative search: Executed after a successful iteration.
 -------------
 
 Mesh variables:
 ---------------
-Initial poll size: 1000
-Initial mesh size: 500
-Maximum poll size: 1000
-Maximum mesh size: 500
+Initial poll size: 1
+Initial mesh size: 0.25
+Maximum poll size: 100000
+Maximum mesh size: 50000
 Poll size basis: 4
 Coarsening exponent: 2
 Refining exponent: -2
@@ -52,19 +52,16 @@ Run-time information...
 feval #   f(x)   Point
 -------   ----   -----
    1    0.36738605   (1, 1)
-   2    0.36629586   (32.25, 63.5)
-   3    0.36290759   (126, 251)
-   4    0.35250991   (407.25, 813.5)
-   5    0.32271704   (1251, 2501)
-   6    0.30244281   (3782.25, 7563.5)
-   7    0.21778193   (11376, 22751)
-   10    0.14759288   (26376, 92251)
+   3    0.13725635   (4705.4219, 67886.797)
+   4    0.11996322   (5347.1719, 14917.547)
+   9    0.11966255   (5345.1719, 14915.547)
+   10    0.1196117   (5339.1751, 14909.55)
 
 Problem solution:
 -----------------
-Best point found: 0.14759288   (26376, 92251)
-Final mesh size: 500
-Number of iterations: 7
+Best point found: 0.1196117   (5339.1751, 14909.55)
+Final mesh size: 1024
+Number of iterations: 5
 Truth evaluations: 10
 New truth evaluations: 10
 Number of consecutive failures: 0
@@ -76,9 +73,9 @@ Run statistics
 		NUMBER OF	f(x) DECREASE AT
 		SUCCESSES	FEASIBLE POINTS (%)
 		---------	-------------------
-POLL		    1		     0.50
-SEARCH   	    6		     99.50
+POLL		    1		     0.12
+SEARCH   	    3		     99.88
    (Initial   	    0		     0.00)
-   (Iterative	    1		     31.93)
-   (Dense	    5		     67.57)
+   (Iterative	    2		     99.86)
+   (Dense	    1		     0.02)
 

@@ -48,12 +48,13 @@ FitterResults EOFitterInterface::runFitter(ModelTuningParameters * startPoint) {
 		cout << "Stop "<< endl;
 
 		ModelTuningParameters params(*startPoint);
+		double fitness;
 		double tmp;
-		paramStream >> tmp; paramStream >> tmp;		
+		paramStream >> fitness; paramStream >> tmp;		
 		for (int i = 0; i < startPoint->getLength(); i++) {
 			paramStream >> params[i];
 		}
-		results.setBestFit(params);
+		results.setBestFit(params,fitness);
 		delete buf;
     }
 
