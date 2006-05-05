@@ -79,7 +79,7 @@ runModel(const ModelTuningParameters & params) const {
 
 		errorFile.open((fixedParams["ModelDirectory"]+"/"+errorFileName).c_str(), ios::in);
 		errorFile.seekg (0, ios::end);
-  		int length = errorFile.tellg();
+  		//int length = errorFile.tellg();
 		//if (errorFile.bad() || length != 228) crash("GenesisModelInterface","Error while running genesis simulation");
 		errorFile.close();
 
