@@ -20,7 +20,7 @@ public:
 	PabloFitnessCalculator(const ModelInterface * interface, const ExperimentInterface * experiment, const FixedParameters); 
 	~PabloFitnessCalculator();
 
-	virtual double calculateFitness(const ModelTuningParameters & param);
+	virtual double calculateFitness(ModelTuningParameters & param);
 
 	virtual void enableFileExport(const string fileName);
     virtual void disableFileExport();

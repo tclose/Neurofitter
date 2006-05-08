@@ -12,7 +12,7 @@ class FitnessCalculator {
 
 	public:
 		FitnessCalculator(): model(NULL), exportFile(""), fitnessHistory() {};
-		virtual double calculateFitness(const ModelTuningParameters & params) = 0;
+		virtual double calculateFitness(ModelTuningParameters & params) = 0;
 		virtual void enableFileExport(const string fileName) = 0;
 		virtual void disableFileExport() = 0;
 		virtual string getExportFile() const = 0;

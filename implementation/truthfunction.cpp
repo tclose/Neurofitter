@@ -34,3 +34,16 @@ double TruthFunction::evaluate(const double * coord) {
 	
 	return fitness->calculateFitness(params);
 }
+
+vector< double > TruthFunction::parallelEvaluate(const vector< double* > params) {
+
+	vector < double > fitnessValues(params.size());	
+
+	for (unsigned int i = 0; i < params.size(); i++) {
+		fitnessValues[i] = this->evaluate(params[i]);
+	}
+
+	return fitnessValues;
+
+}
+

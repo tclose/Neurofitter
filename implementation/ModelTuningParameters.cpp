@@ -4,21 +4,21 @@
 
 //todo make this one private to prevent ModelTuningParameters with length 0
 ModelTuningParameters::ModelTuningParameters() : 
-	tuningParameters(), bounds(), tuningParametersLength(0) {}
+	tuningParameters(), bounds(), tuningParametersLength(0), fitnessValue(-1) {}
 
 ModelTuningParameters::ModelTuningParameters(const int newTParamsLength) 
-	: tuningParameters(vector< double >(newTParamsLength)), bounds(), tuningParametersLength(newTParamsLength) {
+	: tuningParameters(vector< double >(newTParamsLength)), bounds(), tuningParametersLength(newTParamsLength), fitnessValue(-1) {
 }
 
 ModelTuningParameters::ModelTuningParameters(const vector< double > newTParams, const int newTParamsLength, const vector < double > newBounds) : 
-	tuningParameters(), bounds() {
+	tuningParameters(), bounds(), fitnessValue(-1) {
 
 	ModelTuningParameters::setTuningParameters(newTParams, newTParamsLength);
 	ModelTuningParameters::setBounds(newBounds, 2*newTParamsLength);
 }
 
 ModelTuningParameters::ModelTuningParameters(const string paramString, const int newTParamsLength, const string newBounds) : 
-	tuningParameters(), bounds() {
+	tuningParameters(), bounds(), fitnessValue(-1) {
 
 	ModelTuningParameters::setTuningParameters(paramString, newTParamsLength);
 	ModelTuningParameters::setBounds(newBounds, 2*newTParamsLength); 
@@ -110,6 +110,19 @@ const double &ModelTuningParameters::operator[]( int subscript ) const {
 
 }
 
+void ModelTuningParameters::setFitnessValue(const double newValue) {
+	fitnessValue = newValue;
+}
+
+double ModelTuningParameters::getFitnessValue() const {
+	if (fitnessValue > 0) {
+		return fitnessValue;
+	}
+	else {
+		crash("ModelTuningParameters","Getting fitness value which is uninitialized");
+	}
+}
+
 string ModelTuningParameters::toString() const {
 	ostringstream o;
 	o << "{ ";
@@ -119,3 +132,5 @@ string ModelTuningParameters::toString() const {
 	o << "}";
 	return o.str();
 }
+
+

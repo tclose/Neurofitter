@@ -50,5 +50,9 @@ class TruthFunction
   TruthFunction();
   ~TruthFunction();
   double evaluate(const double * coord);
+  #ifdef PARANOMAD
+	vector< double > parallelEvaluate(const vector< double* > coord);
+  #endif
+
 };
 #endif

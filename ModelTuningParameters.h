@@ -34,6 +34,9 @@ public:
 	double &operator[](const int);
 	const double &operator[](const int) const;
 
+	void setFitnessValue(const double newValue);
+	double getFitnessValue() const;
+
 	string toString() const;
 	
 
@@ -42,6 +45,8 @@ private:
 	vector < double > bounds;
 	
 	int tuningParametersLength;
+
+	double fitnessValue;
 };
 
 #endif

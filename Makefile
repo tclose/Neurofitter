@@ -63,16 +63,16 @@ $(CPPDIR)/EOFitness.o : $(CPPDIR)/EOFitness.cpp ;
 	$(CXX) -c $(CXXFLAGS) -I$(DIR_EO) -o $@ $<
 
 $(CPPDIR)/NOMADFitterInterface.o : $(CPPDIR)/NOMADFitterInterface.cpp ;
-	$(CXX) -c $(CXXFLAGS) -I$(DIR_NOMAD) -o $@ $<
+	$(CXX) -c $(CXXFLAGS) -DPARANOMAD -I$(DIR_NOMAD) -o $@ $<
 
 $(CPPDIR)/PabloFitterInterface.o : $(CPPDIR)/PabloFitterInterface.cpp ;
-	$(CXX) -c $(CXXFLAGS) -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
+	$(CXX) -c $(CXXFLAGS) -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
 
 $(CPPDIR)/truthfunction.o : $(CPPDIR)/truthfunction.cpp ;
-	$(CXX) -c $(CXXFLAGS) -I$(DIR_NOMAD) -o $@ $<
+	$(CXX) -c $(CXXFLAGS) -DPARANOMAD -I$(DIR_NOMAD) -o $@ $<
 
 $(CPPDIR)/Evolufit.o : $(CPPDIR)/Evolufit.cpp ;
-	$(CXX) -c $(CXXFLAGS) -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
+	$(CXX) -c $(CXXFLAGS) -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
 
 clean : 
 	@/bin/rm -rf $(ALL) *.gch *.o implementation/*.o

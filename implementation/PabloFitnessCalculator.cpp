@@ -29,7 +29,8 @@ PabloFitnessCalculator::~PabloFitnessCalculator() {
 	exportFileStream.close();
 }
 
-double PabloFitnessCalculator::calculateFitness(const ModelTuningParameters & params) {
+/// todo don't return value, but use value inside ModelTuningParameters
+double PabloFitnessCalculator::calculateFitness(ModelTuningParameters & params) {
 
 	double fitnessValue = 0;
 
@@ -61,6 +62,8 @@ double PabloFitnessCalculator::calculateFitness(const ModelTuningParameters & pa
 		}
 		exportFileStream << endl;
 	}
+
+	params.setFitnessValue(fitnessValue);
 	
 	return fitnessValue;
 }
