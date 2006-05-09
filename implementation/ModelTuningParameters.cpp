@@ -25,31 +25,31 @@ ModelTuningParameters::ModelTuningParameters(const string paramString, const int
 }
 
 double ModelTuningParameters::getLowerBound(const int subscript) const {
-	if (0 <= subscript && subscript < tuningParametersLength) {
-		return bounds[2*subscript];
-	}	
-	else {cerr << "Bounds subscript out of range in ModelTuningParameters: "<<subscript<<endl;exit(1);}
+	if (subscript < 0 || subscript >= tuningParametersLength) {
+		crash("ModelTuningParameters","Lower bound subscript out of range: "+subscript);
+	}
+	return bounds[2*subscript];
 }
 
 double ModelTuningParameters::getUpperBound(const int subscript) const {
-	if (0 <= subscript && subscript < tuningParametersLength) {
-		return bounds[2*subscript+1];
-	}	
-	else {cerr << "Bounds subscript out of range in ModelTuningParameters: "<<subscript<<endl;exit(1);}
+	if (subscript < 0 || subscript >= tuningParametersLength) {
+		crash("ModelTuningParameters","Upper bound subscript out of range: "+subscript);
+	}
+	return bounds[2*subscript+1];	
 }
 
 void ModelTuningParameters::setLowerBound(const int subscript, const double newBound) {
 	if (0 <= subscript && subscript < tuningParametersLength) {
 		bounds[2*subscript] = newBound;
 	}	
-	else {cerr << "Bounds subscript out of range in ModelTuningParameters: "<<subscript<<endl;exit(1);}
+	else crash("ModelTuningParameters","Lower bound subscript out of range: "+subscript);
 }
 
 void ModelTuningParameters::setUpperBound(const int subscript, const double newBound) {
 	if (0 <= subscript && subscript < tuningParametersLength) {
 		bounds[2*subscript+1] = newBound;
 	}	
-	else {cerr << "Bounds subscript out of range in ModelTuningParameters: "<<subscript<<endl;exit(1);}
+	else crash("ModelTuningParameters","Upper bound subscript out of range: "+subscript);
 }
 
 int ModelTuningParameters::getLength() const {
@@ -100,14 +100,13 @@ void ModelTuningParameters::setBounds(const string boundString, const int newBou
 }
 
 double &ModelTuningParameters::operator[]( int subscript ) {
-	if (0 <= subscript && subscript < tuningParametersLength) {return tuningParameters[subscript];}	
-	else {cerr << "Subscript out of range in ModelTuningParameters: "<<subscript<<endl;exit(1);}
+	if (subscript < 0 || subscript >= tuningParametersLength) {crash("ModelTuningParameters","Subscript out of range: "+subscript);}
+	return tuningParameters[subscript];
 }
 
 const double &ModelTuningParameters::operator[]( int subscript ) const {
-	if (0 <= subscript && subscript < tuningParametersLength) {return tuningParameters[subscript];}	
-	else {cerr << "Subscript out of range in ModelTuningParameters: "<<subscript<<endl;exit(1);}
-
+	if (subscript < 0 || subscript >= tuningParametersLength) {crash("ModelTuningParameters","Subscript out of range: "+subscript);}
+	return tuningParameters[subscript];
 }
 
 void ModelTuningParameters::setFitnessValue(const double newValue) {
@@ -115,12 +114,12 @@ void ModelTuningParameters::setFitnessValue(const double newValue) {
 }
 
 double ModelTuningParameters::getFitnessValue() const {
-	if (fitnessValue > 0) {
-		return fitnessValue;
-	}
-	else {
+
+	if (fitnessValue < 0) {
 		crash("ModelTuningParameters","Getting fitness value which is uninitialized");
 	}
+	return fitnessValue;
+
 }
 
 string ModelTuningParameters::toString() const {

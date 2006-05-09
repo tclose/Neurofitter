@@ -8,6 +8,8 @@ using namespace std;
 ///todo make all classes use initializers
 ///todo the correct header files to every header file
 ///todo check in every class to see if virtual is OK
+///todo make it possible to fix some variables
+///todo remove Houston
 
 int main () {
 	cout << "Houston, we have liftoff..." << endl;

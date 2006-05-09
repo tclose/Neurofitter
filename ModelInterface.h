@@ -11,7 +11,7 @@ class ModelInterface {
 public:
 
 	virtual ModelResults runModel(const ModelTuningParameters &) const = 0;
-//	virtual void readFixedParameters(const string);
+	virtual vector< ModelResults > runParallelModel(const vector< ModelTuningParameters >) const = 0;	
 	virtual ~ModelInterface() {};
 
 private:	

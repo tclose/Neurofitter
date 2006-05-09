@@ -32,40 +32,52 @@ PabloFitnessCalculator::~PabloFitnessCalculator() {
 /// todo don't return value, but use value inside ModelTuningParameters
 double PabloFitnessCalculator::calculateFitness(ModelTuningParameters & params) {
 
-	double fitnessValue = 0;
-
-	ModelResults results = model->runModel(params);
-
-	if (toInt(fixedParams["VerboseLevel"]) > 4) {
-		cout << "Model VdVdtMatrices: " << endl;
-	}
-    for (int nTrace = 0; nTrace < results.getLength(); nTrace++) {
-		PabloVdVdtMatrix modelVdVdtMatrix(results[nTrace], FixedParameters(fixedParams["PabloVdVdtMatrix"], fixedParams.getGlobals()));
-		fitnessValue += results[nTrace].getWeight() * expVdVdtMatrices[nTrace].compare(modelVdVdtMatrix);
-		if (toInt(fixedParams["VerboseLevel"]) > 4) {
-			cout << modelVdVdtMatrix.toString() << endl;
-		}
-    }
-
-	numberOfEvaluations++;
-
-	fitnessHistory.push_back(pair< ModelTuningParameters, double >(params,fitnessValue));
-
-	if (toInt(fixedParams["VerboseLevel"]) > 2) {
-		cout << "Calculated fitness of: " << params.toString() << ": " << fitnessValue << endl;
-	}
-
-	if (exportFileStream.is_open()) {
-		exportFileStream << numberOfEvaluations << " " << fitnessValue << " ";
-		for (int i = 0; i < params.getLength(); i++) {	
-			exportFileStream << params[i] << " ";
-		}
-		exportFileStream << endl;
-	}
-
-	params.setFitnessValue(fitnessValue);
+	vector< ModelTuningParameters > paramList(1);
+	paramList[0] = params;
 	
-	return fitnessValue;
+	return (calculateParallelFitness(paramList))[0];
+
+}
+
+vector< double > PabloFitnessCalculator::calculateParallelFitness(vector< ModelTuningParameters > paramList) {
+
+	vector< double > fitnessValues(paramList.size());
+
+    vector< ModelResults > results = model->runParallelModel(paramList);
+
+	for (unsigned int i = 0; i < paramList.size(); i++) {
+    	if (toInt(fixedParams["VerboseLevel"]) > 4) {
+        	cout << "Model VdVdtMatrices: " << endl;
+    	}
+    	for (int nTrace = 0; nTrace < results[i].getLength(); nTrace++) {
+        	PabloVdVdtMatrix modelVdVdtMatrix(results[i][nTrace], FixedParameters(fixedParams["PabloVdVdtMatrix"], fixedParams.getGlobals()));
+        	fitnessValues[i] += results[i][nTrace].getWeight() * expVdVdtMatrices[nTrace].compare(modelVdVdtMatrix);
+        	if (toInt(fixedParams["VerboseLevel"]) > 4) {
+            	cout << modelVdVdtMatrix.toString() << endl;
+        	}
+    	}
+    	numberOfEvaluations++;
+
+    	fitnessHistory.push_back(pair< ModelTuningParameters, double >(paramList[i],fitnessValues[i]));
+
+    	if (toInt(fixedParams["VerboseLevel"]) > 2) {
+        	cout << "Calculated fitness of: " << paramList[i].toString() << ": " << fitnessValues[i] << endl;
+    	}
+
+    	if (exportFileStream.is_open()) {
+        	exportFileStream << numberOfEvaluations << " " << fitnessValues[i] << " ";
+        	for (int j = 0; j < paramList[i].getLength(); j++) {
+            	exportFileStream << (paramList[i][j]) << " ";
+        	}
+        	exportFileStream << endl;
+    	}
+
+    	paramList[i].setFitnessValue(fitnessValues[i]);
+
+	}
+
+    return fitnessValues;
+
 }
 
 vector< pair< ModelTuningParameters, double > > PabloFitnessCalculator::getFitnessHistory() {

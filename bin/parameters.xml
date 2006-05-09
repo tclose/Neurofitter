@@ -54,9 +54,9 @@
 		<GEN_CONS_NB>			0</GEN_CONS_NB> <!-- Number of constraints -->
 		<USE_SURROGATE>			0</USE_SURROGATE> <!-- Use surrogate 0/1 -->
 		
-		<START_PT_FILE>			start_pt.txt</START_PT_FILE>
-		<BOUNDS_FILE>			bounds.txt</BOUNDS_FILE>
-		<RESULTS_FILE>			results.txt</RESULTS_FILE>
+		<START_PT_FILE>start_pt.txt</START_PT_FILE>
+		<BOUNDS_FILE>bounds.txt</BOUNDS_FILE>
+		<RESULTS_FILE>results.txt</RESULTS_FILE>
 	</FitterParameters>
 		
 	<ModelType>Genesis</ModelType>	

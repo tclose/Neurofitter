@@ -94,6 +94,18 @@ runModel(const ModelTuningParameters & params) const {
 }
 
 
+vector< ModelResults > GenesisModelInterface::runParallelModel(const vector< ModelTuningParameters > paramList) const {
+
+	vector< ModelResults > resultList(paramList.size()); 
+
+	for (unsigned int i = 0; i < paramList.size(); i++) {
+		resultList[i] = runModel(paramList[i]);
+	}
+
+	return resultList;
+
+}
+
 void GenesisModelInterface::readDataFromFile(ModelResults & results, string inputFileName, int nRun, double runWeight) const {
 
 	int numberOfRecordSites = toInt(fixedParams["NumberOfRecordSites"]);

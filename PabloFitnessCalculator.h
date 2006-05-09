@@ -21,6 +21,7 @@ public:
 	~PabloFitnessCalculator();
 
 	virtual double calculateFitness(ModelTuningParameters & param);
+	virtual vector< double > calculateParallelFitness(vector< ModelTuningParameters > params);
 
 	virtual void enableFileExport(const string fileName);
     virtual void disableFileExport();
