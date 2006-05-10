@@ -11,10 +11,10 @@ CPPDIR = implementation
 DIR_EO = ../EO/src
 DIR_NOMAD = ../NOMAD
 DIR_MPI = /opt/local/include
-DIR_LIB_MPI = /opt/local/lib
-DIR_LIBXML2 = /usr/include/libxml2
+#DIR_LIB_MPI = /opt/local/lib
+#DIR_LIBXML2 = /usr/include/libxml2
 
-LIBDIRS=-L$(DIR_EO) -L$(DIR_EO)/es -L$(DIR_EO)/utils -L$(DIR_NOMAD) -L$(DIR_LIB_MPI)
+LIBDIRS=-L$(DIR_EO) -L$(DIR_EO)/es -L$(DIR_EO)/utils -L$(DIR_NOMAD) #-L$(DIR_LIB_MPI)
 LIBS= $(LIBDIRS) -les -leoutils -leo -lnomad -lxml2
 
 #LIBS= $(LIBDIRS) -les -leoutils -leo -lnomad -lxml2 -lz -lpthread -liconv -lm
@@ -22,7 +22,8 @@ LIBS= $(LIBDIRS) -les -leoutils -leo -lnomad -lxml2
 CXXLIBS = $(LIBS) 
 
 #Added Wno-long-long added for MPI
-CXXFLAGS = -ansi -pedantic -O3 -Wall -Wno-deprecated -Wno-long-long -g -i$(DIR_LIBXML2)
+CXXFLAGS = -ansi -pedantic -O3 -Wall -Wno-deprecated -Wno-long-long -g 
+#-i$(DIR_LIBXML2)
 
 #CXXFLAGS = -ansi -pedantic -O3 -Wall -Wno-deprecated -g -fast -mcpu=7450
 
@@ -34,7 +35,6 @@ EVOOBJS=	$(CPPDIR)/Evolufit.o \
 			$(CPPDIR)/NormalEvolufitStarter.o \
 			$(CPPDIR)/MPIEvolufitStarter.o \
 			$(CPPDIR)/DataTrace.o \
-			$(CPPDIR)/EvolufitResults.o \
 			$(CPPDIR)/FixedParameters.o \
 			$(CPPDIR)/XMLString.o 
 

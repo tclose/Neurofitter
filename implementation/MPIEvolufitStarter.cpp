@@ -8,7 +8,10 @@ MPIEvolufitStarter::MPIEvolufitStarter(FixedParameters params)
 
 void MPIEvolufitStarter::run() {
 
-	MPI_Init(NULL,NULL);
+	int n = 0;
+	char ** test;
+
+	MPI_Init(&n,&test);
 
 	int rank;
 
