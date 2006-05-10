@@ -11,8 +11,6 @@
 
 using namespace std;
 
-#include "EvolufitState.h"
-#include "EvolufitParameters.h"
 #include "DataTrace.h"
 #include "XMLString.h"
 #include "FixedParameters.h"

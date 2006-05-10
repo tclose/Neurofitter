@@ -15,13 +15,8 @@ class PabloVdVdtMatrix : public FixedParamObject {
 
 public:
 	PabloVdVdtMatrix();
-	PabloVdVdtMatrix(FixedParameters);
-	PabloVdVdtMatrix(const DataTrace&, FixedParameters);
-	//PabloVdVdtMatrix(const PabloVdVdtMatrix & v) {*this = v;}; 
-	
-	//PabloVdVdtMatrix& operator=(const PabloVdVdtMatrix&);
-
-	//~PabloVdVdtMatrix();
+	PabloVdVdtMatrix(const FixedParameters);
+	PabloVdVdtMatrix(const DataTrace&, const FixedParameters);
 
 	int getVLength() const;
 	int getdVdtLength() const;
@@ -33,7 +28,7 @@ public:
 
 	string toString() const;
 	
-private:
+protected:
 	int vLength;
 	int dVdtLength;	
 	vector< vector< double > > VdVdtMatrix;

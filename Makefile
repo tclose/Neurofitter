@@ -24,8 +24,6 @@ CXXFLAGS = -ansi -pedantic -O3 -Wall -Wno-deprecated -g -I$(DIR_LIBXML2)
 DOXYGEN = /opt/local/bin/doxygen
 
 EVOOBJS=	$(CPPDIR)/Evolufit.o \
-			$(CPPDIR)/EvolufitParameters.o \
-			$(CPPDIR)/EvolufitState.o \
 			$(CPPDIR)/DataTrace.o \
 			$(CPPDIR)/EvolufitResults.o \
 			$(CPPDIR)/FixedParameters.o \

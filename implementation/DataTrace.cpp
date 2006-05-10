@@ -20,23 +20,23 @@ void DataTrace::resetAndSetLength(const int size) {
 }
 
 double DataTrace::getWeight() const {	
-	if (weight == -1) {cerr << "Error: Weight of DataTrace not set";exit(1);}
+	if (weight == -1) crash("DataTrace","Weight not set");
 	return weight;
 }
 
 
 double DataTrace::getStartTime() const {
-	if (startTime == -1) {cerr << "Error: StartTime of DataTrace not set";exit(1);}
+	if (startTime == -1) crash("DataTrace","StartTime not set");
 	return startTime;
 }
 
 double DataTrace::getStopTime() const {
-	if (stopTime == -1) {cerr << "Error: StopTime of DataTrace not set";exit(1);}
+	if (stopTime == -1) crash("DataTrace","StopTime not set");
 	return stopTime;
 }
 
 double DataTrace::getSamplingFrequency() const{
-	if (samplingFrequency == -1) {cerr << "Error: SamplingFrequency of DataTrace not set";exit(1);}
+	if (samplingFrequency == -1) crash("DataTrace","SamplingFrequency not set");
 	return samplingFrequency;
 }
 
@@ -66,16 +66,16 @@ void DataTrace::setName(const string newName) {
 }
 
 double &DataTrace::operator[] (const int subscript) {
-    if (0 <= subscript && subscript < length)
-        {return points[subscript];}
-    else
-        {cerr << "Invalid subscript in DataTrace";exit(1);}
+    if (subscript < 0 || subscript >= length) {
+        crash("DataTrace","Invalid subscript");
+    }
+	return points[subscript];
 }
 
 const double &DataTrace::operator[] (const int subscript) const {
-    if (0 <= subscript && subscript < length)
-        {return points[subscript];}
-    else
-        {cerr << "Invalid subscript in DataTrace";exit(1);}
+    if (subscript < 0 || subscript >= length) {
+        crash("DataTrace","Invalid subscript");
+    }
+	return points[subscript];
 }
 

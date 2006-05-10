@@ -5,6 +5,8 @@
 #include <vector>
 #include <iostream>
 
+#include "Tools.h"
+
 using namespace std;
 
 class DataTrace {
@@ -30,18 +32,18 @@ public:
 
 	void resetAndSetLength(const int);
 
-
 	double &operator[](const int);
 	const double &operator[](const int) const;
 
-private:
+protected:
 	vector< double > points;
+
 	int length;
+
 	double weight;
 	double startTime;
 	double stopTime;
 	double samplingFrequency;
-
 
 	string name;
 };

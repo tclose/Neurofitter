@@ -41,16 +41,16 @@ PabloVdVdtMatrix::PabloVdVdtMatrix(const DataTrace& trace, FixedParameters param
 		dVdt = (VPrev-VNext) * trace.getSamplingFrequency();
 
 		if (toInt(fixedParams["VerboseLevel"]) > 4) {	
-			if (V < minimalV) {cerr << "Warning: V smaller than minimal V in PabloVdVdtMatrix: "<<str(V)<<endl;}
-			if (V >= maximalV) {cerr << "Warning: V larger than maximal V in PabloVdVdtMatrix: "<<str(V)<<endl;}
-			if (dVdt < minimaldVdt) {cerr << "Warning: dVdt smaller than minimal dVdt in PabloVdVdtMatrix: "<<str(dVdt)<<endl;}
-			if (dVdt >= maximaldVdt) {cerr << "Warning: dVdt larger than maximal dVdt in PabloVdVdtMatrix: "<<str(dVdt)<<endl;}
+			if (V < minimalV) {cout << "Warning: V smaller than minimal V in PabloVdVdtMatrix: "<<str(V)<<endl;}
+			if (V >= maximalV) {cout << "Warning: V larger than maximal V in PabloVdVdtMatrix: "<<str(V)<<endl;}
+			if (dVdt < minimaldVdt) {cout << "Warning: dVdt smaller than minimal dVdt in PabloVdVdtMatrix: "<<str(dVdt)<<endl;}
+			if (dVdt >= maximaldVdt) {cout << "Warning: dVdt larger than maximal dVdt in PabloVdVdtMatrix: "<<str(dVdt)<<endl;}
 		}
 
-		if (V < minimalV) {V=minimalV;}
-		if (V >= maximalV) {V=maximalV-dxVdVdtmatrix;} ///todo check if in extreme cases this cannot cause problems
-		if (dVdt < minimaldVdt) {dVdt=minimaldVdt;}
-		if (dVdt >= maximaldVdt) {dVdt=maximaldVdt-dyVdVdtmatrix;}
+		if (V < minimalV) V=minimalV;
+		if (V >= maximalV) V=maximalV-dxVdVdtmatrix; ///todo check if in extreme cases this cannot cause problems
+		if (dVdt < minimaldVdt) dVdt=minimaldVdt;
+		if (dVdt >= maximaldVdt) dVdt=maximaldVdt-dyVdVdtmatrix;
 
 		int vIndex = (int)( (V-minimalV) / dxVdVdtmatrix );
 		int dVdtIndex = (int)( (dVdt-minimaldVdt) / dyVdVdtmatrix );
@@ -75,8 +75,12 @@ double PabloVdVdtMatrix::compare(const PabloVdVdtMatrix & other) const {
 
   	const double precision = toDouble(fixedParams["comparePrecision"]);
    
-	if (other.getVLength() != vLength) {cerr << endl << "Error: V dimensions don't match in PabloVdVdtMatrix" << endl;exit(1);} 	
-	if (other.getdVdtLength() != dVdtLength) {cerr << endl << "Error: dVdt dimensions don't match in PabloVdVdtMatrix" << endl;exit(1);}	
+	if (other.getVLength() != vLength) crash("PabloVdVdtMatrix","V dimensions don't match");
+	if (other.getdVdtLength() != dVdtLength) crash("PabloVdVdtMatrix","dVdt dimensions don't match");	
+
+	///////////////////////////////////////////////////////////
+	/// Calculate the square root of the sum of the squares ///
+	///////////////////////////////////////////////////////////
 
 	for (int vIndex=0;vIndex<vLength;vIndex++) {
     	for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
@@ -92,20 +96,18 @@ double PabloVdVdtMatrix::compare(const PabloVdVdtMatrix & other) const {
 
 
 inline vector<double>& PabloVdVdtMatrix::operator[] (const int subscript) {
-    if (0 <= subscript && subscript < vLength) {
-		return VdVdtMatrix[subscript];
+    if (subscript < 0 || subscript >= vLength) {
+		crash("PabloVdVdtMatrix","Invalid subscript: "+subscript);
 	}
-    cerr << endl << "Error: Invalid subscript in PabloVdVdtMatrix: "<<subscript<<endl;
-	exit(1);
+	return VdVdtMatrix[subscript];
 }
 
 
 inline const vector<double>& PabloVdVdtMatrix::operator[] (const int subscript) const {
-    if (0 <= subscript && subscript < vLength) {
-		return VdVdtMatrix[subscript];
+    if (subscript < 0 || subscript >= vLength) {
+		crash("PabloVdVdtMatrix","Invalid subscript: "+subscript);
 	}
-	cerr << endl << "Error: Invalid subscript in PabloVdVdtMatrix: "<<subscript<<endl;
-	exit(1);
+	return VdVdtMatrix[subscript];
 }
 
 string PabloVdVdtMatrix::toString() const {
