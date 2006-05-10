@@ -10,20 +10,29 @@ CPPDIR = implementation
 
 DIR_EO = ../eo/src
 DIR_NOMAD = ../nomad
+DIR_MPI = /opt/local/include
+DIR_LIB_MPI = /opt/local/lib
 DIR_LIBXML2	= /usr/include/libxml2
 
-LIBDIRS=-L$(DIR_EO) -L$(DIR_EO)/es -L$(DIR_EO)/utils -L$(DIR_NOMAD)
-LIBS= $(LIBDIRS) -les -leoutils -leo -lnomad -lxml2 -lz -lpthread -liconv -lm
+LIBDIRS=-L$(DIR_EO) -L$(DIR_EO)/es -L$(DIR_EO)/utils -L$(DIR_NOMAD) -L$(DIR_LIB_MPI)
+LIBS= $(LIBDIRS) -les -leoutils -leo -lnomad -lxml2
+
+#LIBS= $(LIBDIRS) -les -leoutils -leo -lnomad -lxml2 -lz -lpthread -liconv -lm
  
 CXXLIBS = $(LIBS) 
 
-CXXFLAGS = -ansi -pedantic -O3 -Wall -Wno-deprecated -g -I$(DIR_LIBXML2)
+#Added Wno-long-long added for MPI
+CXXFLAGS = -ansi -pedantic -O3 -Wall -Wno-deprecated -Wno-long-long -g -I$(DIR_LIBXML2)
+
 #CXXFLAGS = -ansi -pedantic -O3 -Wall -Wno-deprecated -g -fast -mcpu=7450
 
+CXX=mpicxx
 
 DOXYGEN = /opt/local/bin/doxygen
 
 EVOOBJS=	$(CPPDIR)/Evolufit.o \
+			$(CPPDIR)/NormalEvolufitStarter.o \
+			$(CPPDIR)/MPIEvolufitStarter.o \
 			$(CPPDIR)/DataTrace.o \
 			$(CPPDIR)/EvolufitResults.o \
 			$(CPPDIR)/FixedParameters.o \
@@ -70,6 +79,12 @@ $(CPPDIR)/truthfunction.o : $(CPPDIR)/truthfunction.cpp ;
 	$(CXX) -c $(CXXFLAGS) -DPARANOMAD -I$(DIR_NOMAD) -o $@ $<
 
 $(CPPDIR)/Evolufit.o : $(CPPDIR)/Evolufit.cpp ;
+	$(CXX) -c $(CXXFLAGS) -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
+
+$(CPPDIR)/NormalEvolufitStarter.o : $(CPPDIR)/NormalEvolufitStarter.cpp ;
+	$(CXX) -c $(CXXFLAGS) -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
+
+$(CPPDIR)/MPIEvolufitStarter.o : $(CPPDIR)/MPIEvolufitStarter.cpp ;
 	$(CXX) -c $(CXXFLAGS) -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
 
 clean : 

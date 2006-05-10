@@ -35,4 +35,8 @@ using namespace std;
 #include "MeshFitterInterface.h"
 #include "SwarmFitterInterface.h"
 
+#include "EvolufitStarter.h"
+#include "NormalEvolufitStarter.h"
+#include "MPIEvolufitStarter.h"
+
 #endif
