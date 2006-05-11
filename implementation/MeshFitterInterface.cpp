@@ -23,10 +23,10 @@ void MeshFitterInterface::calculateMesh(int startDimension, ModelTuningParameter
 	}
 	else {
 		currentPoint[startDimension] = resolution.getLowerBound(startDimension);  
-		double dx = (resolution.getUpperBound(startDimension)-resolution.getLowerBound(startDimension))/resolution[startDimension];
+		double dx = (resolution.getUpperBound(startDimension)-resolution.getLowerBound(startDimension))/(resolution[startDimension]-1);
 
 		//"Smaller than or equal" to include upperbound
-		for (int i = 0; i <= resolution[startDimension]; i++) {
+		for (int i = 0; i <= resolution[startDimension]-1; i++) {
 			calculateMesh(startDimension+1,resolution,currentPoint);
 			currentPoint[startDimension] += dx; 
     	}
