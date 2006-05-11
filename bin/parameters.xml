@@ -61,7 +61,7 @@
 		
 	<ModelType>Genesis</ModelType>	
 	<ModelParameters>
-		<GenesisLocation>/usr/local/bin/genesis</GenesisLocation>
+		<GenesisLocation>localgenesis</GenesisLocation>
 		
 		<ModelDirectory>../../wernermodel</ModelDirectory>
 		<ModelSource>wernermodel.g</ModelSource>
