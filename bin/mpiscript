@@ -10,7 +10,7 @@
 #$ -o /cluster/home/werner/joboutputs
 
 #$ -q normal.q 
-#$ -pe mpichtight 2 
+#$ -pe mpichtight 1
 
 HOME=/cluster/home/werner
 
@@ -18,14 +18,15 @@ LOCALFILE=/cluster/scratch/local/werner/output_$JOB_ID.dat
 
 LOCALGENESISOUTPUT=/cluster/scratch/local/werner/genesisoutput
 
-mkdir $LOCALGENESISOUTPUT
+#mkdir $LOCALGENESISOUTPUT
 
-ln -s $LOCALGENESISOUTPUT $HOME/EvolufitWork/wernermodel/outputfiles
+#ln -s $LOCALGENESISOUTPUT $HOME/EvolufitWork/wernermodel/outputfiles
 
-/cluster/sw/mpich/bin/mpirun -machinefile $TMPDIR/machines -np 2 $HOME/EvolufitWork/Evolufit/bin/Evolufit > $LOCALFILE
+/cluster/sw/mpich/bin/mpirun -machinefile $TMPDIR/machines -np 1 $HOME/EvolufitWork/Evolufit/bin/MPIEvolufitScript $LOCALGENESISOUTPUT >$LOCALFILE
 
 cp $LOCALFILE $HOME/output
 
+#rm -rf $LOCALGENESISOUTPUT
 rm $LOCALFILE
 
 # END

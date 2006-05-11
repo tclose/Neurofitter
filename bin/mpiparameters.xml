@@ -24,7 +24,7 @@
 	<ModelParameters>
 		<GenesisLocation>localgenesis</GenesisLocation>
 		
-		<ModelDirectory>../../wernermodel</ModelDirectory>
+		<ModelDirectory>/cluster/scratch/local/werner/genesisoutput/wernermodel</ModelDirectory>
 		<ModelSource>wernermodel.g</ModelSource>
 		
 		<ParamFilePrefix>param</ParamFilePrefix>
