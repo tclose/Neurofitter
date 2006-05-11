@@ -17,7 +17,7 @@ void MPIEvolufitStarter::run() {
 
 	MPI_Comm_rank( MPI_COMM_WORLD, &rank );
 
-	cout << "Rank 1: " << rank << endl;
+	cout << "Rank: " << rank << endl;
 
 	/////////////////////////
     /// Declare variables ///
