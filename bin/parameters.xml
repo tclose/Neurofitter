@@ -28,7 +28,7 @@
 		<ModelSource>wernermodel.g</ModelSource>
 		
 		<ParamFilePrefix>param</ParamFilePrefix>
-		<OutputFilePrefix>output</OutputFilePrefix>
+		<OutputFilePrefix>outputfiles/output</OutputFilePrefix>
 		
 		<ErrorFile>generr.out</ErrorFile>
 		

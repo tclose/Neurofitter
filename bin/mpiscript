@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Send mail at begin and end of job
+#$ -M werner@tnb.ua.ac.be
+#$ -m bae
+
+#$ -l arch=g5
+#$ -j y
+
+#$ -o /cluster/home/werner/joboutputs
+
+#$ -q normal.q 
+#$ -pe mpichtight 2 
+
+HOME=/cluster/home/werner
+
+LOCALFILE=/cluster/scratch/local/werner/output_$JOB_ID.dat
+
+LOCALGENESISOUTPUT=/cluster/scratch/local/werner/genesisoutput
+
+mkdir $LOCALGENESISOUTPUT
+
+ln -s $LOCALGENESISOUTPUT $HOME/EvolufitWork/wernermodel/outputfiles
+
+/cluster/sw/mpich/bin/mpirun -machinefile $TMPDIR/machines -np 2 $HOME/EvolufitWork/Evolufit/bin/Evolufit > $LOCALFILE
+
+cp $LOCALFILE $HOME/output
+
+rm $LOCALFILE
+
+# END
+
