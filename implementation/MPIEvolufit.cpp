@@ -1,4 +1,5 @@
 #include "../Evolufit.h"
+#include "../MPIEvolufit.h"
 
 using namespace std;
 
@@ -35,7 +36,7 @@ int main (int argc, const char* argv[]) {
 		///////////////////
 		///	Run program ///
 		///////////////////
-		NormalEvolufitStarter starter(fixedParameters);
+		MPIEvolufitStarter starter(fixedParameters);
 		starter.run();
 
 	cout << endl << "And we have touchdown" << endl;

@@ -37,6 +37,5 @@ using namespace std;
 
 #include "EvolufitStarter.h"
 #include "NormalEvolufitStarter.h"
-#include "MPIEvolufitStarter.h"
 
 #endif

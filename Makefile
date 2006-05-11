@@ -4,6 +4,7 @@ SHELL = /bin/sh
 .SUFFIXES: .cpp .o
 
 ALL = $(BINDIR)/Evolufit
+
 BINDIR = bin
 OBJDIR = ./build
 CPPDIR = implementation
@@ -26,13 +27,12 @@ CXXFLAGS = -ansi -pedantic -O3 -Wall -Wno-deprecated -Wno-long-long -g -I$(DIR_L
 
 #CXXFLAGS = -ansi -pedantic -O3 -Wall -Wno-deprecated -g -fast -mcpu=7450
 
-CXX=mpicxx
+#CXX=mpicxx
 
 DOXYGEN = /opt/local/bin/doxygen
 
 EVOOBJS=	$(CPPDIR)/Evolufit.o \
 			$(CPPDIR)/NormalEvolufitStarter.o \
-			$(CPPDIR)/MPIEvolufitStarter.o \
 			$(CPPDIR)/DataTrace.o \
 			$(CPPDIR)/FixedParameters.o \
 			$(CPPDIR)/XMLString.o 
@@ -55,12 +55,19 @@ FITTEROBJS=	$(CPPDIR)/NOMADFitterInterface.o \
 			$(CPPDIR)/SwarmFitterInterface.o \
 			$(CPPDIR)/SwarmFly.o
 
+MPIOBJS=	$(CPPDIR)/MPIEvolufitStarter.o
+
 OBJS = $(MODOBJS) $(FITOBJS) $(EXPOBJS) $(FITTEROBJS) $(EVOOBJS) 
 
 all : $(ALL)
 
+mpi : $(BINDIR)/MPIEvolufit
+
 $(BINDIR)/Evolufit : $(OBJS) ; 
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(CXXLIBS)
+
+$(BINDIR)/MPIEvolufit : $(OBJS) $(MPIOBJS) ; 
+	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(MPIOBJS) $(CXXLIBS)
 
 $(CPPDIR)/EOFitterInterface.o : $(CPPDIR)/EOFitterInterface.cpp ;
 	$(CXX) $(CXXFLAGS) -c -I$(DIR_EO) -o $@ $<

@@ -68,7 +68,7 @@ runModel(const ModelTuningParameters & params) const {
 		////////////////////
 
 		string genCommand = "cd "+fixedParams["ModelDirectory"]+"; "
-						+fixedParams["GenesisLocation"]+" -nox -notty -batch "+fixedParams["ModelSource"]+" <voidness > gen.out 2> " + errorFileName;
+						+fixedParams["GenesisLocation"]+" -nox -notty -batch "+fixedParams["ModelSource"]+" > gen.out 2> " + errorFileName;
 		if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << endl << "calling " << genCommand << endl;}
 		
 		system(genCommand.c_str());
