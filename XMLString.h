@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
-#include <libxml2/libxml/parser.h>
+#include <libxml/parser.h>
 
 using namespace std;
 
