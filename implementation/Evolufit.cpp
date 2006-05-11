@@ -13,14 +13,15 @@ using namespace std;
 ///todo make separate executable for mpi
 
 
-int main () {
+int main (int argc, const char* argv[]) {
 	cout << "Houston, we have liftoff..." << endl;
 	
 		////////////////////////////
 		///	Read parameters file ///
 		////////////////////////////
 		// Read data from file
-		ifstream paramFile("parameters.xml");
+		if (argc != 2 || argv[1]==NULL) crash("Evolufit","Wrong number of arguments");
+		ifstream paramFile(argv[1]);
 		string fileContent = string(istreambuf_iterator<char>(paramFile),istreambuf_iterator<char>());
 		FixedParameters fixedParameters = FixedParameters(XMLString("<root>"+fileContent+"</root>").getSubString("TestProgram"));
 

@@ -68,7 +68,7 @@ runModel(const ModelTuningParameters & params) const {
 		////////////////////
 
 		string genCommand = "cd "+fixedParams["ModelDirectory"]+"; "
-						+fixedParams["GenesisLocation"]+" -nox -notty -batch "+fixedParams["ModelSource"]+" > gen.out 2> " + errorFileName;
+						+fixedParams["GenesisLocation"]+" -nox -notty -batch "+fixedParams["ModelSource"]+" <voidness > gen.out 2> " + errorFileName;
 		if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << endl << "calling " << genCommand << endl;}
 		
 		system(genCommand.c_str());
@@ -79,8 +79,8 @@ runModel(const ModelTuningParameters & params) const {
 
 		errorFile.open((fixedParams["ModelDirectory"]+"/"+errorFileName).c_str(), ios::in);
 		errorFile.seekg (0, ios::end);
-  		//int length = errorFile.tellg();
-		//if (errorFile.bad() || length != 228) crash("GenesisModelInterface","Error while running genesis simulation");
+  		int length = errorFile.tellg();
+		if (errorFile.bad() || length != 228) crash("GenesisModelInterface","Error while running genesis simulation");
 		errorFile.close();
 
 		////////////////////
