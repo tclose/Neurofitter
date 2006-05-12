@@ -22,7 +22,7 @@
 	
 	<ModelType>Genesis</ModelType>	
 	<ModelParameters>
-		<GenesisLocation>localgenesis</GenesisLocation>
+		<GenesisLocation>./localgenesis</GenesisLocation>
 		
 		<ModelDirectory>/cluster/scratch/local/werner/genesisoutput/wernermodel</ModelDirectory>
 		<ModelSource>wernermodel.g</ModelSource>

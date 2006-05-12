@@ -27,7 +27,7 @@ CXXFLAGS = -ansi -pedantic -O3 -Wall -Wno-deprecated -Wno-long-long -g -I$(DIR_L
 
 #CXXFLAGS = -ansi -pedantic -O3 -Wall -Wno-deprecated -g -fast -mcpu=7450
 
-#CXX=mpicxx
+MPICXX=mpicxx
 
 DOXYGEN = /opt/local/bin/doxygen
 
@@ -67,7 +67,7 @@ $(BINDIR)/Evolufit : $(OBJS) ;
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(CXXLIBS)
 
 $(BINDIR)/MPIEvolufit : $(OBJS) $(MPIOBJS) ; 
-	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(MPIOBJS) $(CXXLIBS)
+	$(MPICXX) $(CXXFLAGS) -o $@ $(OBJS) $(MPIOBJS) $(CXXLIBS)
 
 $(CPPDIR)/EOFitterInterface.o : $(CPPDIR)/EOFitterInterface.cpp ;
 	$(CXX) $(CXXFLAGS) -c -I$(DIR_EO) -o $@ $<
@@ -91,7 +91,7 @@ $(CPPDIR)/NormalEvolufitStarter.o : $(CPPDIR)/NormalEvolufitStarter.cpp ;
 	$(CXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
 
 $(CPPDIR)/MPIEvolufitStarter.o : $(CPPDIR)/MPIEvolufitStarter.cpp ;
-	$(CXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
+	$(MPICXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
 
 clean : 
 	@/bin/rm -rf $(ALL) *.gch *.o implementation/*.o

@@ -5,6 +5,6 @@ mkdir $1/wernermodel
 cd ~/EvolufitWork/Evolufit/bin
 tar -cf - -C ../../wernermodel . | tar xpf - -C $1/wernermodel
 
-Evolufit mpiparameters.xml
+MPIEvolufit mpiparameters.xml
 
 #rm -rf $1
