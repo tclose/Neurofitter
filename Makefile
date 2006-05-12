@@ -31,8 +31,7 @@ MPICXX=mpicxx
 
 DOXYGEN = /opt/local/bin/doxygen
 
-EVOOBJS=	$(CPPDIR)/Evolufit.o \
-			$(CPPDIR)/NormalEvolufitStarter.o \
+EVOOBJS=	$(CPPDIR)/NormalEvolufitStarter.o \
 			$(CPPDIR)/DataTrace.o \
 			$(CPPDIR)/FixedParameters.o \
 			$(CPPDIR)/XMLString.o 
@@ -55,7 +54,8 @@ FITTEROBJS=	$(CPPDIR)/NOMADFitterInterface.o \
 			$(CPPDIR)/SwarmFitterInterface.o \
 			$(CPPDIR)/SwarmFly.o
 
-MPIOBJS=	$(CPPDIR)/MPIEvolufitStarter.o
+NORMALOBJS = $(CPPDIR)/Evolufit.o
+MPIOBJS = $(CPPDIR)/MPIEvolufitStarter.o $(CPPDIR)/MPIEvolufit.o
 
 OBJS = $(MODOBJS) $(FITOBJS) $(EXPOBJS) $(FITTEROBJS) $(EVOOBJS) 
 
@@ -64,7 +64,7 @@ all : $(ALL)
 mpi : $(BINDIR)/MPIEvolufit
 
 $(BINDIR)/Evolufit : $(OBJS) ; 
-	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(CXXLIBS)
+	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(NORMALOBJS) $(CXXLIBS)
 
 $(BINDIR)/MPIEvolufit : $(OBJS) $(MPIOBJS) ; 
 	$(MPICXX) $(CXXFLAGS) -o $@ $(OBJS) $(MPIOBJS) $(CXXLIBS)
@@ -86,6 +86,9 @@ $(CPPDIR)/truthfunction.o : $(CPPDIR)/truthfunction.cpp ;
 
 $(CPPDIR)/Evolufit.o : $(CPPDIR)/Evolufit.cpp ;
 	$(CXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
+
+$(CPPDIR)/MPIEvolufit.o : $(CPPDIR)/MPIEvolufit.cpp ;
+	$(MPICXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
 
 $(CPPDIR)/NormalEvolufitStarter.o : $(CPPDIR)/NormalEvolufitStarter.cpp ;
 	$(CXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<

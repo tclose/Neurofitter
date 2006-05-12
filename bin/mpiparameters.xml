@@ -15,8 +15,8 @@
 	<FitterParameters>
 		<MeshDimensions>2</MeshDimensions>
 		<MeshSize>
-			2
-			2
+			5
+			5
 		</MeshSize>
 	</FitterParameters>
 	

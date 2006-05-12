@@ -10,24 +10,50 @@
 #$ -o /cluster/home/werner/joboutputs
 
 #$ -q normal.q 
-#$ -pe mpichtight 3
+#$ -pe mpichtight 5
+
+#$ -v MPICH_HOME=/cluster/sw/mpich,SGE_QMASTER_PORT
 
 HOME=/cluster/home/werner
 
-LOCALFILE=/cluster/scratch/local/werner/output_$JOB_ID.dat
 
-LOCALGENESISOUTPUT=/cluster/scratch/local/werner/genesisoutput
+###################################################
+### Copy the model to all machines we are using ###
+###################################################
+#rshcmd=/Library/GridEngine/mpi/rsh
+rshcmd=/usr/bin/ssh
+
+scratch=/cluster/scratch/local/$USER/genesisoutput
+#sort -u -o ./Machinelist $TMPDIR/machines 
+
+for machine in `sort -u $TMPDIR/machines`; 
+do
+  echo $machine;
+  $rshcmd $machine mkdir -p $scratch;
+  $rshcmd $machine cp -r $homedir/EvolufitWork/wernermodel $scratch;
+done;
+
+
+#LOCALFILE=/cluster/scratch/local/werner/output_$JOB_ID.dat
+
+#LOCALGENESISOUTPUT=/cluster/scratch/local/werner/genesisoutput
 
 #mkdir $LOCALGENESISOUTPUT
 
 #ln -s $LOCALGENESISOUTPUT $HOME/EvolufitWork/wernermodel/outputfiles
 
-/cluster/sw/mpich/bin/mpirun -machinefile $TMPDIR/machines -np 3 $HOME/EvolufitWork/Evolufit/bin/MPIEvolufitScript $LOCALGENESISOUTPUT >$LOCALFILE
+#/cluster/sw/mpich/bin/mpirun -machinefile $TMPDIR/machines -np $NSLOTS $HOME/EvolufitWork/Evolufit/bin/MPIEvolufitScript
 
-cp $LOCALFILE $HOME/output
+#for machine in `sort -u $TMPDIR/machines`;
+#do
+#  echo $machine
+  #$rshcmd $machine rm -rf $scratch
+#done;
+
+#cp $LOCALFILE $HOME/output
 
 #rm -rf $LOCALGENESISOUTPUT
-rm $LOCALFILE
+#rm $LOCALFILE
 
 # END
 
