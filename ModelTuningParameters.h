@@ -38,15 +38,21 @@ public:
 	double getFitnessValue() const;
 
 	string toString() const;
-	
+
+	string serialize() const;	
+
+	void printOn(ostream) const;
+	void readFrom(istream);
+
 
 private:
 	vector < double > tuningParameters;
 	vector < double > bounds;
 	
-	int tuningParametersLength;
+	//int tuningParametersLength;
 
 	double fitnessValue;
 };
+
 
 #endif

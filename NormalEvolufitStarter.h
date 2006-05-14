@@ -9,7 +9,7 @@ class NormalEvolufitStarter : public EvolufitStarter, FixedParamObject {
 
 public:
 	NormalEvolufitStarter(FixedParameters params);
-	void run();
+	void run(int argc, char** argv);
 
 };
 

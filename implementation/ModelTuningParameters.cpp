@@ -4,10 +4,10 @@
 
 //todo make this one private to prevent ModelTuningParameters with length 0
 ModelTuningParameters::ModelTuningParameters() : 
-	tuningParameters(), bounds(), tuningParametersLength(0), fitnessValue(-1) {}
+	tuningParameters(), bounds(), fitnessValue(-1) {}
 
 ModelTuningParameters::ModelTuningParameters(const int newTParamsLength) 
-	: tuningParameters(vector< double >(newTParamsLength)), bounds(), tuningParametersLength(newTParamsLength), fitnessValue(-1) {
+	: tuningParameters(vector< double >(newTParamsLength)), bounds(), fitnessValue(-1) {
 }
 
 ModelTuningParameters::ModelTuningParameters(const vector< double > newTParams, const int newTParamsLength, const vector < double > newBounds) : 
@@ -25,42 +25,42 @@ ModelTuningParameters::ModelTuningParameters(const string paramString, const int
 }
 
 double ModelTuningParameters::getLowerBound(const int subscript) const {
-	if (subscript < 0 || subscript >= tuningParametersLength) {
+	if (subscript < 0 || subscript >= (int)tuningParameters.size()) {
 		crash("ModelTuningParameters","Lower bound subscript out of range: "+subscript);
 	}
 	return bounds[2*subscript];
 }
 
 double ModelTuningParameters::getUpperBound(const int subscript) const {
-	if (subscript < 0 || subscript >= tuningParametersLength) {
+	if (subscript < 0 || subscript >= (int)tuningParameters.size()) {
 		crash("ModelTuningParameters","Upper bound subscript out of range: "+subscript);
 	}
 	return bounds[2*subscript+1];	
 }
 
 void ModelTuningParameters::setLowerBound(const int subscript, const double newBound) {
-	if (0 <= subscript && subscript < tuningParametersLength) {
+	if (0 <= subscript && subscript < (int)tuningParameters.size()) {
 		bounds[2*subscript] = newBound;
 	}	
 	else crash("ModelTuningParameters","Lower bound subscript out of range: "+subscript);
 }
 
 void ModelTuningParameters::setUpperBound(const int subscript, const double newBound) {
-	if (0 <= subscript && subscript < tuningParametersLength) {
+	if (0 <= subscript && subscript < (int)tuningParameters.size()) {
 		bounds[2*subscript+1] = newBound;
 	}	
 	else crash("ModelTuningParameters","Upper bound subscript out of range: "+subscript);
 }
 
 int ModelTuningParameters::getLength() const {
-	return tuningParametersLength;	
+	return tuningParameters.size();	
 }
 
 
 void ModelTuningParameters::setTuningParameters(const vector< double > newTParams, const int newTParamsLength) {
 
 	tuningParameters = newTParams;	
-	tuningParametersLength = newTParamsLength;	
+
 }
 
 void ModelTuningParameters::setTuningParameters(const string paramString, const int newTParamsLength) {
@@ -100,12 +100,12 @@ void ModelTuningParameters::setBounds(const string boundString, const int newBou
 }
 
 double &ModelTuningParameters::operator[]( int subscript ) {
-	if (subscript < 0 || subscript >= tuningParametersLength) {crash("ModelTuningParameters","Subscript out of range: "+subscript);}
+	if (subscript < 0 || subscript >= (int)tuningParameters.size()) {crash("ModelTuningParameters","Subscript out of range: "+subscript);}
 	return tuningParameters[subscript];
 }
 
 const double &ModelTuningParameters::operator[]( int subscript ) const {
-	if (subscript < 0 || subscript >= tuningParametersLength) {crash("ModelTuningParameters","Subscript out of range: "+subscript);}
+	if (subscript < 0 || subscript >= (int)tuningParameters.size()) {crash("ModelTuningParameters","Subscript out of range: "+subscript);}
 	return tuningParameters[subscript];
 }
 
@@ -132,4 +132,43 @@ string ModelTuningParameters::toString() const {
 	return o.str();
 }
 
+string ModelTuningParameters::serialize() const {
 
+	string serialString;
+	
+	
+	
+	return serialString;
+}
+
+void ModelTuningParameters::printOn(ostream output) const {
+
+	output << tuningParameters.size(); 
+	for (int i = 0; i < (int)tuningParameters.size(); i++) {	
+		output << tuningParameters[i];
+	}
+	output << bounds.size(); 
+	for (int i = 0; i < (int)bounds.size(); i++) {	
+		output << bounds[i];
+	}
+	output << fitnessValue;
+
+}
+
+void ModelTuningParameters::readFrom(istream input) {
+
+	int length;
+	input >> length;
+	vector< double > tuningParameters(length);
+	for (int i = 0; i < (int)tuningParameters.size(); i++) {
+		input >> tuningParameters[i];
+	}
+	
+	int boundsLength;
+	input >> boundsLength;
+	vector< double > bounds(boundsLength);
+	for (int i = 0; i < (int)bounds.size(); i++) {
+		input >> bounds[i];
+	}
+	
+}

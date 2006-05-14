@@ -19,38 +19,41 @@
 			5
 		</MeshSize>
 	</FitterParameters>
-	
-	<ModelType>Genesis</ModelType>	
-	<ModelParameters>
-		<GenesisLocation>./localgenesis</GenesisLocation>
+
+	<ModelType>MPI</ModelType>
+	<ModelParameters>	
+		<ModelType>Genesis</ModelType>	
+		<ModelParameters>
+			<GenesisLocation>./localgenesis</GenesisLocation>
 		
-		<ModelDirectory>/cluster/scratch/local/werner/genesisoutput/wernermodel</ModelDirectory>
-		<ModelSource>wernermodel.g</ModelSource>
+			<ModelDirectory>/cluster/scratch/local/werner/genesisoutput/wernermodel</ModelDirectory>
+			<ModelSource>wernermodel.g</ModelSource>
 		
-		<ParamFilePrefix>param</ParamFilePrefix>
-		<OutputFilePrefix>output</OutputFilePrefix>
+			<ParamFilePrefix>param</ParamFilePrefix>
+			<OutputFilePrefix>output</OutputFilePrefix>
 		
-		<ErrorFile>generr.out</ErrorFile>
+			<ErrorFile>generr.out</ErrorFile>
 		
-		<NumberOfRuns>1</NumberOfRuns>
-		<NumberOfRunParameters>1</NumberOfRunParameters>
-		<RunParameters>
-			0 0.33
-			0.1 0.33
-			0.4 0.33
-		</RunParameters>
+			<NumberOfRuns>1</NumberOfRuns>
+			<NumberOfRunParameters>1</NumberOfRunParameters>
+			<RunParameters>
+				0 0.33
+				0.1 0.33
+				0.4 0.33
+			</RunParameters>
 		
-		<NumberOfPeriods>2</NumberOfPeriods>
-		<Periods>
-			1.0 1.5 0.5
-			2.0 3.9 0.5
-		</Periods>
+			<NumberOfPeriods>2</NumberOfPeriods>
+			<Periods>
+				1.0 1.5 0.5
+				2.0 3.9 0.5
+			</Periods>
 		
-		<NumberOfRecordSites>1</NumberOfRecordSites>
-		<RecordSites>
-			1
-		</RecordSites>
-	</ModelParameters>	
+			<NumberOfRecordSites>1</NumberOfRecordSites>
+			<RecordSites>
+				1
+			</RecordSites>
+		</ModelParameters>	
+	</ModelParameters>
 	
 	<ExperimentType>Fake</ExperimentType>
 	<ExperimentParameters>

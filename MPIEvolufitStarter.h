@@ -9,7 +9,7 @@ class MPIEvolufitStarter : public EvolufitStarter, FixedParamObject {
 
 public:
 	MPIEvolufitStarter(FixedParameters params);
-	void run();
+	void run(int argc, char** argv);
 
 };
 

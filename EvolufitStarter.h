@@ -4,7 +4,7 @@
 class EvolufitStarter {
 
 public:
-	virtual void run() = 0;
+	virtual void run(int argc, char** argv) = 0;
 	virtual ~EvolufitStarter() {}
 
 };

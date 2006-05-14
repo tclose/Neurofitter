@@ -1,10 +1,2 @@
-
-#mkdir /cluster/scratch/local/werner/genesisoutput
-#mkdir /cluster/scratch/local/werner/genesisoutput/wernermodel
-
-#cd ~/EvolufitWork/Evolufit/bin
-#tar -cf - -C ../../wernermodel . | tar xpf - -C /cluster/scratch/local/werner/genesisoutput/wernermodel
-
-MPIEvolufit mpiparameters.xml >/cluster/scratch/local/werner/genesisoutput/localfile
-
-#rm -rf $1
+cd /cluster/home/werner/EvolufitWork/Evolufit/bin
+MPIEvolufit mpiparameters.xml

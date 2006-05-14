@@ -4,56 +4,46 @@
 #$ -M werner@tnb.ua.ac.be
 #$ -m bae
 
-#$ -l arch=g5
+# -l arch=g5
 #$ -j y
 
 #$ -o /cluster/home/werner/joboutputs
 
 #$ -q normal.q 
-#$ -pe mpichtight 5
+#$ -pe mpichtight 6
 
-#$ -v MPICH_HOME=/cluster/sw/mpich,SGE_QMASTER_PORT
+#$ -v MPICH_HOME=/cluster/sw/mpich,SGE_QMASTER_PORT=536
 
-HOME=/cluster/home/werner
-
+HOME=/cluster/home/$USER
+EVOLUBINDIR=$HOME/EvolufitWork/Evolufit/bin
 
 ###################################################
 ### Copy the model to all machines we are using ###
 ###################################################
 #rshcmd=/Library/GridEngine/mpi/rsh
-rshcmd=/usr/bin/ssh
+rshcmd=/Library/GridEngine/utilbin/darwin/rsh
 
 scratch=/cluster/scratch/local/$USER/genesisoutput
 #sort -u -o ./Machinelist $TMPDIR/machines 
 
+echo "Creating scratch directory on:"
 for machine in `sort -u $TMPDIR/machines`; 
 do
   echo $machine;
   $rshcmd $machine mkdir -p $scratch;
-  $rshcmd $machine cp -r $homedir/EvolufitWork/wernermodel $scratch;
+  $rshcmd $machine cp -r $HOME/EvolufitWork/wernermodel $scratch;
 done;
+echo
 
+/cluster/sw/mpich/bin/mpirun -machinefile $TMPDIR/machines -np $NSLOTS $EVOLUBINDIR/MPIEvolufit $EVOLUBINDIR/mpiparameters.xml
 
-#LOCALFILE=/cluster/scratch/local/werner/output_$JOB_ID.dat
-
-#LOCALGENESISOUTPUT=/cluster/scratch/local/werner/genesisoutput
-
-#mkdir $LOCALGENESISOUTPUT
-
-#ln -s $LOCALGENESISOUTPUT $HOME/EvolufitWork/wernermodel/outputfiles
-
-#/cluster/sw/mpich/bin/mpirun -machinefile $TMPDIR/machines -np $NSLOTS $HOME/EvolufitWork/Evolufit/bin/MPIEvolufitScript
-
-#for machine in `sort -u $TMPDIR/machines`;
-#do
-#  echo $machine
-  #$rshcmd $machine rm -rf $scratch
-#done;
-
-#cp $LOCALFILE $HOME/output
-
-#rm -rf $LOCALGENESISOUTPUT
-#rm $LOCALFILE
+echo
+echo "Removing scratch directory from:"
+for machine in `sort -u $TMPDIR/machines`;
+do
+  echo $machine
+  $rshcmd $machine rm -rf $scratch
+done;
 
 # END
 
