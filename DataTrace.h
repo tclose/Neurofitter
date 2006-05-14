@@ -32,14 +32,15 @@ public:
 
 	void resetAndSetLength(const int);
 
+	void printOn(ostream &) const;
+	void readFrom(istream &);
+
 	double &operator[](const int);
 	const double &operator[](const int) const;
 
 protected:
 	vector< double > points;
-
-	int length;
-
+	
 	double weight;
 	double startTime;
 	double stopTime;

@@ -11,7 +11,8 @@ CPPDIR = implementation
 
 DIR_EO = ../EO/src
 DIR_NOMAD = ../NOMAD
-DIR_MPI = /opt/local/include
+#DIR_MPI = /cluster/sw/mpich/include
+#DIR_MPI = /opt/local/include
 #DIR_LIB_MPI = /opt/local/lib
 DIR_LIBXML2 = /usr/include/libxml2
 
@@ -55,7 +56,7 @@ FITTEROBJS=	$(CPPDIR)/NOMADFitterInterface.o \
 			$(CPPDIR)/SwarmFly.o
 
 NORMALOBJS = $(CPPDIR)/Evolufit.o
-MPIOBJS = $(CPPDIR)/MPIEvolufitStarter.o $(CPPDIR)/MPIEvolufit.o
+MPIOBJS = $(CPPDIR)/MPIEvolufitStarter.o $(CPPDIR)/MPIModelInterface.o $(CPPDIR)/MPIEvolufit.o 
 
 OBJS = $(MODOBJS) $(FITOBJS) $(EXPOBJS) $(FITTEROBJS) $(EVOOBJS) 
 
@@ -86,6 +87,9 @@ $(CPPDIR)/truthfunction.o : $(CPPDIR)/truthfunction.cpp ;
 
 $(CPPDIR)/Evolufit.o : $(CPPDIR)/Evolufit.cpp ;
 	$(CXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
+
+$(CPPDIR)/MPIModelInterface.o : $(CPPDIR)/MPIModelInterface.cpp ;
+	$(MPICXX) $(CXXFLAGS) -c -o $@ $<
 
 $(CPPDIR)/MPIEvolufit.o : $(CPPDIR)/MPIEvolufit.cpp ;
 	$(MPICXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<

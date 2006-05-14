@@ -1,13 +1,13 @@
 #include "../DataTrace.h"
 
 DataTrace::DataTrace() 
-	:  points(vector< double >(0)),length(0), weight(-1), startTime(-1), stopTime(-1) {}
+	:  points(vector< double >(0)), weight(-1), startTime(-1), stopTime(-1) {}
 
 DataTrace::DataTrace(int size)
-	: points(vector< double >(size)), length(size), weight(-1), startTime(-1), stopTime(-1) {}
+	: points(vector< double >(size)), weight(-1), startTime(-1), stopTime(-1) {}
 
 int DataTrace::getLength() const {
-	return length;
+	return points.size();
 }
 
 ///
@@ -16,7 +16,6 @@ int DataTrace::getLength() const {
 void DataTrace::resetAndSetLength(const int size) {
 	points.clear();
 	points.resize(size,0);
-	length = size;
 }
 
 double DataTrace::getWeight() const {	
@@ -65,15 +64,50 @@ void DataTrace::setName(const string newName) {
 	name = newName;
 }
 
+void DataTrace::printOn(ostream & output) const {
+	output << points.size() << " ";
+	for (unsigned i = 0; i < points.size(); i++) {
+		output << points[i] << " ";
+	}
+	output << weight << " ";
+	output << startTime << " ";
+	output << stopTime << " ";
+	output << samplingFrequency << " ";
+	output << name.length() << " ";
+	for (unsigned i = 0; i < name.length(); i++) {
+		output << name[i] << " ";
+	}
+
+}
+
+void DataTrace::readFrom(istream & input) {
+	int length;
+	input >> length;
+	points = vector< double >(length);
+	for (unsigned i = 0; i < points.size(); i++) {
+		input >> points[i];
+	}
+	input >> weight;
+	input >> startTime;
+	input >> stopTime;
+	input >> samplingFrequency;
+	input >> length;
+	name = string(length,' ');
+	for (unsigned i = 0; i < name.length(); i++) {
+		input >> name[i];
+	}
+}
+    
+
 double &DataTrace::operator[] (const int subscript) {
-    if (subscript < 0 || subscript >= length) {
+    if (subscript < 0 || subscript >= (int)points.size()) {
         crash("DataTrace","Invalid subscript");
     }
 	return points[subscript];
 }
 
 const double &DataTrace::operator[] (const int subscript) const {
-    if (subscript < 0 || subscript >= length) {
+    if (subscript < 0 || (int)points.size()) {
         crash("DataTrace","Invalid subscript");
     }
 	return points[subscript];

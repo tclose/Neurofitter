@@ -18,9 +18,11 @@ public:
 	DataTrace &operator[] (const int);
 	const DataTrace &operator[] (const int) const;
 
+	void printOn(ostream &) const;
+	void readFrom(istream &);
+
 private:
 	vector< DataTrace > traces;
-	int numberOfTraces;
 
 };
 

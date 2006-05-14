@@ -5,6 +5,8 @@
 #include "Evolufit.h"
 #include "EvolufitStarter.h"
 
+#include "MPIModelInterface.h"
+
 class MPIEvolufitStarter : public EvolufitStarter, FixedParamObject {
 
 public:

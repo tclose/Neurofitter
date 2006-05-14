@@ -3,7 +3,7 @@
 NormalEvolufitStarter::NormalEvolufitStarter(FixedParameters params)
 		: FixedParamObject(params) {}
 
-void NormalEvolufitStarter::run() {
+void NormalEvolufitStarter::run(int argc, char** argv) {
 
 	/////////////////////////
     /// Declare variables ///

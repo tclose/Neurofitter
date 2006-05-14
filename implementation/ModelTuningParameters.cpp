@@ -143,15 +143,15 @@ string ModelTuningParameters::serialize() const {
 
 void ModelTuningParameters::printOn(ostream output) const {
 
-	output << tuningParameters.size(); 
+	output << tuningParameters.size() << " "; 
 	for (int i = 0; i < (int)tuningParameters.size(); i++) {	
-		output << tuningParameters[i];
+		output << tuningParameters[i] << " ";
 	}
-	output << bounds.size(); 
+	output << bounds.size() << " "; 
 	for (int i = 0; i < (int)bounds.size(); i++) {	
-		output << bounds[i];
+		output << bounds[i] << " ";
 	}
-	output << fitnessValue;
+	output << fitnessValue << " ";
 
 }
 

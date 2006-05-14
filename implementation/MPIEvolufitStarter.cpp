@@ -39,7 +39,7 @@ void MPIEvolufitStarter::run(int argc, char** argv) {
 		model = new GenesisModelInterface(modelFixedParams);
 	}
 	else if (fixedParams["ModelType"] == "MPI") {
-		fitter = new MeshFitterInterface(fitness,fitterFixedParams);
+		model = new MPIModelInterface(modelFixedParams);
 	}
 	else crash("Main program", "No matching model type");
 	if (rank == 0) {
@@ -96,4 +96,5 @@ void MPIEvolufitStarter::run(int argc, char** argv) {
 		delete fitness;
 		delete fitter;
 	}
+	MPI_Finalize();
 }
