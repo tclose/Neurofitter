@@ -2,9 +2,8 @@
 
 static int numberOfEvaluations = 0;
 
-PabloFitnessCalculator::PabloFitnessCalculator(const ModelInterface * interface, const ExperimentInterface * experiment, const FixedParameters params) 
-	: FixedParamObject(params) {
-	model = interface;
+PabloFitnessCalculator::PabloFitnessCalculator(ModelInterface * interface, ExperimentInterface * experiment, FixedParameters params) 
+	: FitnessCalculator(interface), FixedParamObject(params) {
 
 	if (toInt(fixedParams["enableFileExport"]) > 0) {
 		this->enableFileExport(fixedParams["exportFile"]);

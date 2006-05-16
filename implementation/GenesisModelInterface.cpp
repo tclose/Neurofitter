@@ -1,7 +1,7 @@
 #include "../GenesisModelInterface.h"
 
 ModelResults	GenesisModelInterface::
-runModel(const ModelTuningParameters & params) const {
+runModel(const ModelTuningParameters & params) {
 
 	const int       numberOfRuns = toInt(fixedParams["NumberOfRuns"]);
 	const int       numberOfRunParameters = toInt(fixedParams["NumberOfRunParameters"]);
@@ -106,7 +106,7 @@ runModel(const ModelTuningParameters & params) const {
 }
 
 
-vector< ModelResults > GenesisModelInterface::runParallelModel(const vector< ModelTuningParameters > paramList) const {
+vector< ModelResults > GenesisModelInterface::runParallelModel(const vector< ModelTuningParameters > paramList) {
 
 	vector< ModelResults > resultList(paramList.size()); 
 

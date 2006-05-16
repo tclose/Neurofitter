@@ -10,8 +10,8 @@ class ModelInterface {
 
 public:
 
-	virtual ModelResults runModel(const ModelTuningParameters &) const = 0;
-	virtual vector< ModelResults > runParallelModel(const vector< ModelTuningParameters >) const = 0;	
+	virtual ModelResults runModel(const ModelTuningParameters &) = 0;
+	virtual vector< ModelResults > runParallelModel(const vector< ModelTuningParameters >) = 0;	
 	virtual ~ModelInterface() {};
 
 private:	

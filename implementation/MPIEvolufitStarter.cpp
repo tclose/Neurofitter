@@ -87,14 +87,14 @@ void MPIEvolufitStarter::run(int argc, char** argv) {
 		///////////
 		fitter->runFitter(&startPoint);
 
-
 		///////////////
 		/// Cleanup ///
 		///////////////
-		delete model;
 		delete experiment;
 		delete fitness;
 		delete fitter;
 	}
+	delete model;
+
 	MPI_Finalize();
 }

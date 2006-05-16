@@ -17,7 +17,7 @@ using namespace std;
 class PabloFitnessCalculator : public FitnessCalculator, public FixedParamObject {
 
 public:
-	PabloFitnessCalculator(const ModelInterface * interface, const ExperimentInterface * experiment, const FixedParameters); 
+	PabloFitnessCalculator(ModelInterface * interface, ExperimentInterface * experiment, FixedParameters); 
 	~PabloFitnessCalculator();
 
 	virtual double calculateFitness(ModelTuningParameters & param);

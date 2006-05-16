@@ -13,6 +13,7 @@ using namespace std;
 #include "GenesisModelInterface.h"
 #include "ModelResults.h"
 #include "ModelTuningParameters.h"
+#include "MPIStream.h"
 
 using namespace std;
 
@@ -21,16 +22,17 @@ class MPIModelInterface : public ModelInterface, public FixedParamObject {
 public:	
 	MPIModelInterface(FixedParameters params); 
 	~MPIModelInterface();
-    virtual ModelResults runModel(const ModelTuningParameters &) const;
-	virtual vector< ModelResults > runParallelModel(const vector< ModelTuningParameters >) const; 
+    virtual ModelResults runModel(const ModelTuningParameters &);
+	virtual vector< ModelResults > runParallelModel(const vector< ModelTuningParameters >); 
 
 private:
 	MPIModelInterface();
 	int rank, ntasks;
+	mpi_stream mpiChannel;
 	ModelInterface * localModel;
 	
-	void runModelOnSlave(int slaveNumber, int resultNumber, const ModelTuningParameters params) const;
-	void receiveResultsFromSlave(int & taskRank, vector< ModelResults > & results) const;
+	void runModelOnSlave(int slaveNumber, int resultNumber, const ModelTuningParameters params);
+	void receiveResultsFromSlave(int & taskRank, vector< ModelResults > & results);
 	void startSlave();
 };
 

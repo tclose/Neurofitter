@@ -56,7 +56,7 @@ FITTEROBJS=	$(CPPDIR)/NOMADFitterInterface.o \
 			$(CPPDIR)/SwarmFly.o
 
 NORMALOBJS = $(CPPDIR)/Evolufit.o
-MPIOBJS = $(CPPDIR)/MPIEvolufitStarter.o $(CPPDIR)/MPIModelInterface.o $(CPPDIR)/MPIEvolufit.o 
+MPIOBJS = $(CPPDIR)/MPIEvolufitStarter.o $(CPPDIR)/MPIModelInterface.o $(CPPDIR)/MPIEvolufit.o $(CPPDIR)/MPIStream.o
 
 OBJS = $(MODOBJS) $(FITOBJS) $(EXPOBJS) $(FITTEROBJS) $(EVOOBJS) 
 
@@ -87,6 +87,9 @@ $(CPPDIR)/truthfunction.o : $(CPPDIR)/truthfunction.cpp ;
 
 $(CPPDIR)/Evolufit.o : $(CPPDIR)/Evolufit.cpp ;
 	$(CXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
+
+$(CPPDIR)/MPIStream.o : $(CPPDIR)/MPIStream.cpp ;
+	$(MPICXX) $(CXXFLAGS) -c -o $@ $<
 
 $(CPPDIR)/MPIModelInterface.o : $(CPPDIR)/MPIModelInterface.cpp ;
 	$(MPICXX) $(CXXFLAGS) -c -o $@ $<
