@@ -41,8 +41,8 @@ public:
 
 	string serialize() const;	
 
-	void printOn(ostream) const;
-	void readFrom(istream);
+	void printOn(ostream &) const;
+	void readFrom(istream &);
 
 
 private:

@@ -7,9 +7,6 @@ FitterResults PabloFitterInterface::runFitter(ModelTuningParameters * startPoint
 	///////////////////////
 	/// Read parameters ///
 	///////////////////////
-	FixedParameters globalParam;
-	globalParam["Dimensions"] = fixedParams["Dimensions"];
-	globalParam["VerboseLevel"] = fixedParams["VerboseLevel"];
  
 	FixedParameters eoFixParam = FixedParameters(fixedParams["EOFitter"], fixedParams.getGlobals());
 	FixedParameters nomadFixParam = FixedParameters(fixedParams["NOMADFitter"], fixedParams.getGlobals());

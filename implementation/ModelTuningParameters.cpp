@@ -67,7 +67,7 @@ void ModelTuningParameters::setTuningParameters(const string paramString, const 
 	vector< double > newTParams(newTParamsLength);
 
 	if (paramString != "") {
-		istringstream stream (paramString);	
+		istringstream stream(paramString);	
 		for (int i = 0; i < newTParamsLength; i++) {
 			stream >> newTParams[i];
 		}
@@ -141,7 +141,7 @@ string ModelTuningParameters::serialize() const {
 	return serialString;
 }
 
-void ModelTuningParameters::printOn(ostream output) const {
+void ModelTuningParameters::printOn(ostream & output) const {
 
 	output << tuningParameters.size() << " "; 
 	for (int i = 0; i < (int)tuningParameters.size(); i++) {	
@@ -155,20 +155,22 @@ void ModelTuningParameters::printOn(ostream output) const {
 
 }
 
-void ModelTuningParameters::readFrom(istream input) {
+void ModelTuningParameters::readFrom(istream & input) {
 
 	int length;
 	input >> length;
-	vector< double > tuningParameters(length);
-	for (int i = 0; i < (int)tuningParameters.size(); i++) {
+	tuningParameters = vector< double >(length);
+	for (int i = 0; i < length; i++) {
 		input >> tuningParameters[i];
 	}
 	
 	int boundsLength;
 	input >> boundsLength;
-	vector< double > bounds(boundsLength);
-	for (int i = 0; i < (int)bounds.size(); i++) {
+	bounds = vector< double >(boundsLength);
+	for (int i = 0; i < boundsLength; i++) {
 		input >> bounds[i];
 	}
+	
+	input >> fitnessValue;
 	
 }

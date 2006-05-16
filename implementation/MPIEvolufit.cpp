@@ -21,13 +21,14 @@ int main (int argc, char* argv[]) {
 		///	Read parameters file ///
 		////////////////////////////
 		// Read data from file
-		cout << "Arguments: " << endl;
+		cout << "Arguments: {" << endl;
 		for (int i = 0; i < argc; i++) {
-			cout << string(argv[i]) << endl;
+			cout << string(argv[i]) << ",";
 		}
-		
-		if (argc < 2 || argv[1]==NULL) crash("Evolufit","Not enough arguments: "+str(argc));
-		ifstream paramFile(argv[1]);
+		cout << "}" << endl;
+		/*if (argc < 2 || argv[1]==NULL) crash("Evolufit","Not enough arguments: "+str(argc));
+		ifstream paramFile(argv[1]);*/
+		ifstream paramFile("/cluster/home/werner/EvolufitWork/Evolufit/bin/mpiparameters.xml");
 		string fileContent = string(istreambuf_iterator<char>(paramFile),istreambuf_iterator<char>());
 		FixedParameters fixedParameters = FixedParameters(XMLString("<root>"+fileContent+"</root>").getSubString("TestProgram"));
 

@@ -2,6 +2,7 @@
 #define MPIMODELINTERFACE_H
 
 #include <vector> 
+#include <sstream> 
 #include <fstream> 
 #include <mpi.h> 
 
@@ -28,8 +29,8 @@ private:
 	int rank, ntasks;
 	ModelInterface * localModel;
 	
-	void runModelOnSlave(int slaveNumber, int resultNumber, ModelTuningParameters params);
-	void receiveResultsFromSlave(int * taskRank, vector< ModelResults > & results);
+	void runModelOnSlave(int slaveNumber, int resultNumber, const ModelTuningParameters params) const;
+	void receiveResultsFromSlave(int * taskRank, vector< ModelResults > & results) const;
 	void startSlave();
 };
 
