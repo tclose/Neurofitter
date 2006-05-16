@@ -30,7 +30,7 @@ private:
 	ModelInterface * localModel;
 	
 	void runModelOnSlave(int slaveNumber, int resultNumber, const ModelTuningParameters params) const;
-	void receiveResultsFromSlave(int * taskRank, vector< ModelResults > & results) const;
+	void receiveResultsFromSlave(int & taskRank, vector< ModelResults > & results) const;
 	void startSlave();
 };
 

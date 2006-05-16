@@ -19,7 +19,7 @@ class MeshFitterInterface : public FitterInterface, FixedParamObject {
         virtual FitterResults runFitter(ModelTuningParameters * resolution);
 
 	private:
-		void calculateMesh(int startDimension, ModelTuningParameters & resolution, ModelTuningParameters & currentPoint);
+		void calculateMesh(int startDimension, ModelTuningParameters & resolution, ModelTuningParameters & currentPoint, vector< ModelTuningParameters > & mesh);
 
 };
 

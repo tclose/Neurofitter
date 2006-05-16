@@ -8,18 +8,29 @@ FitterResults MeshFitterInterface::runFitter(ModelTuningParameters * unusedStart
 	if (toInt(fixedParams["MeshSize"]) > 4) {
 		cout << "Creating MeshInterface with " << toInt(fixedParams["Dimensions"]) << " dimensions" << endl;
 	}
+	//////////////////////////////////////
+	/// Calculate the size of the mesh ///
+	//////////////////////////////////////
+	//int meshSize = 0;
+	//for (int i = 0; i < toInt(fixedParams["Dimensions"]); i++) {
+	//	meshSize += (int)resolution[i];
+	//}
+	vector< ModelTuningParameters > mesh;
+
 
 	ModelTuningParameters currentPoint("",toInt(fixedParams["Dimensions"]),fixedParams["Bounds"]);
 
-	calculateMesh(0,resolution,currentPoint);
+	calculateMesh(0,resolution,currentPoint, mesh);
+
+	fitness->calculateParallelFitness(mesh);
 
 	return FitterResults();
 }
 
-void MeshFitterInterface::calculateMesh(int startDimension, ModelTuningParameters & resolution, ModelTuningParameters & currentPoint) {
+void MeshFitterInterface::calculateMesh(int startDimension, ModelTuningParameters & resolution, ModelTuningParameters & currentPoint, vector< ModelTuningParameters > & mesh ) {
 
 	if (startDimension == toInt(fixedParams["MeshDimensions"])) {
-		fitness->calculateFitness(currentPoint);
+		mesh.push_back(currentPoint);
 	}
 	else {
 		currentPoint[startDimension] = resolution.getLowerBound(startDimension);  
@@ -27,7 +38,7 @@ void MeshFitterInterface::calculateMesh(int startDimension, ModelTuningParameter
 
 		//"Smaller than or equal" to include upperbound
 		for (int i = 0; i <= resolution[startDimension]-1; i++) {
-			calculateMesh(startDimension+1,resolution,currentPoint);
+			calculateMesh(startDimension+1,resolution,currentPoint,mesh);
 			currentPoint[startDimension] += dx; 
     	}
 	}

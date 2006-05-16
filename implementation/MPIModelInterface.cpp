@@ -41,26 +41,31 @@ runModel(const ModelTuningParameters & params) const {
 vector< ModelResults > MPIModelInterface::runParallelModel(const vector< ModelTuningParameters > paramList) const {
 
 	vector< ModelResults > results(paramList.size());
+
+	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Running "<< paramList.size() << " jobs in parallel" << endl;
 	
 	int nSubmitted = 0;
 	int nReceived = 0;
 	int taskRank = 1;
 	
 	//Run models on all available slaves
-	while (nSubmitted < (int)ntasks && nSubmitted < (int)paramList.size()) {
-		runModelOnSlave(taskRank++, nSubmitted, paramList[nSubmitted++]);
+	while (nSubmitted < (int)ntasks-1 && nSubmitted < (int)paramList.size()) {
+		runModelOnSlave(taskRank++, nSubmitted, paramList[nSubmitted]);
+		nSubmitted++;
 	}
+	
 
 	//There are more jobs than slaves
 	while (nSubmitted < (int)paramList.size()) {
-		receiveResultsFromSlave(&taskRank, results);
+		receiveResultsFromSlave(taskRank, results);
 		nReceived++;
-		runModelOnSlave(taskRank, nSubmitted ,paramList[nSubmitted++]);
+		runModelOnSlave(taskRank, nSubmitted ,paramList[nSubmitted]);
+		nSubmitted++;
 	}
 
 	//Receive the remainder of the results
 	while (nReceived < nSubmitted) {
-		receiveResultsFromSlave(&taskRank, results);
+		receiveResultsFromSlave(taskRank, results);
 		nReceived++;
 	}
 
@@ -83,7 +88,7 @@ void MPIModelInterface::runModelOnSlave(int slaveNumber, int resultNumber, const
 
 }
 
-void MPIModelInterface::receiveResultsFromSlave(int * taskRank, vector< ModelResults > & results) const {
+void MPIModelInterface::receiveResultsFromSlave(int & taskRank, vector< ModelResults > & results) const {
 
 	int resultNumber;
 	int resultLength;
@@ -91,10 +96,11 @@ void MPIModelInterface::receiveResultsFromSlave(int * taskRank, vector< ModelRes
 
 	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Waiting for  results from slave ... ";	
 	MPI_Recv(&resultNumber,1,MPI_INT,MPI_ANY_SOURCE,tag, MPI_COMM_WORLD, &status);		
+	taskRank = status.MPI_SOURCE;
 	MPI_Recv(&resultLength,1,MPI_INT,MPI_ANY_SOURCE,tag, MPI_COMM_WORLD, &status);		
 	
 	char * resultString = new char[resultLength];
-	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Receiving results from slave ... ";	
+	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Receiving result " << resultNumber <<" from slave " << taskRank << "... ";	
 	MPI_Recv(resultString,resultLength,MPI_CHAR,MPI_ANY_SOURCE,tag, MPI_COMM_WORLD, &status);		
 	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << " Results received results" << endl;
 
