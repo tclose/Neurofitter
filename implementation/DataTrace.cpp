@@ -75,13 +75,14 @@ void DataTrace::printOn(ostream & output) const {
 	output << samplingFrequency << " ";
 	output << name.length() << " ";
 	for (unsigned i = 0; i < name.length(); i++) {
-		output << name[i] << " ";
+		output << name[i];
 	}
+	output << " ";
 
 }
 
 void DataTrace::readFrom(istream & input) {
-	int length;
+	unsigned length;
 	input >> length;
 	points = vector< double >(length);
 	for (unsigned i = 0; i < points.size(); i++) {
@@ -93,8 +94,9 @@ void DataTrace::readFrom(istream & input) {
 	input >> samplingFrequency;
 	input >> length;
 	name = string(length,' ');
+	input.rdbuf()->snextc(); // Remove whitespace after length
 	for (unsigned i = 0; i < name.length(); i++) {
-		input >> name[i];
+		name[i] = input.rdbuf()->sbumpc();
 	}
 }
     

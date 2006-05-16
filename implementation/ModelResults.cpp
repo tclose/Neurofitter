@@ -15,9 +15,10 @@ void ModelResults::printOn(ostream & output) const {
 
 	for (unsigned int i = 0; i < traces.size(); i++) {
 		(traces[i]).printOn(output);
+		output << endl;
 	}
 	
-	output << " ";
+	output << endl;
 }
     
 void ModelResults::readFrom(istream & input) {
@@ -27,6 +28,9 @@ void ModelResults::readFrom(istream & input) {
 	
 	for (unsigned i = 0; i < length; i++) {
 		(traces[i]).readFrom(input);
+		//cout << "Reading trace ";
+		//traces[i].printOn(cout);
+		//cout << endl;
 	}
 }
    
