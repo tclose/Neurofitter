@@ -64,7 +64,7 @@ all : $(ALL)
 
 mpi : $(BINDIR)/MPIEvolufit
 
-$(BINDIR)/Evolufit : $(OBJS) ; 
+$(BINDIR)/Evolufit : $(OBJS) $(NORMALOBJS) ; 
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(NORMALOBJS) $(CXXLIBS)
 
 $(BINDIR)/MPIEvolufit : $(OBJS) $(MPIOBJS) ; 

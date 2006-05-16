@@ -13,7 +13,7 @@ using namespace std;
 ///todo make separate executable for mpi
 
 
-int main (int argc, const char* argv[]) {
+int main (int argc, char* argv[]) {
 	cout << "Houston, we have liftoff..." << endl;
 	
 		////////////////////////////
@@ -36,7 +36,7 @@ int main (int argc, const char* argv[]) {
 		///	Run program ///
 		///////////////////
 		NormalEvolufitStarter starter(fixedParameters);
-		starter.run();
+		starter.run(argc, argv);
 
 	cout << endl << "And we have touchdown" << endl;
 

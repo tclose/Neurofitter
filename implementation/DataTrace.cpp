@@ -101,14 +101,14 @@ void DataTrace::readFrom(istream & input) {
 
 double &DataTrace::operator[] (const int subscript) {
     if (subscript < 0 || subscript >= (int)points.size()) {
-        crash("DataTrace","Invalid subscript");
+        crash("DataTrace","Invalid subscript: "+str(subscript));
     }
 	return points[subscript];
 }
 
 const double &DataTrace::operator[] (const int subscript) const {
-    if (subscript < 0 || (int)points.size()) {
-        crash("DataTrace","Invalid subscript");
+    if (subscript < 0 || subscript >= (int)points.size()) {
+        crash("DataTrace","Invalid subscript: "+str(subscript));
     }
 	return points[subscript];
 }

@@ -1,6 +1,6 @@
 <TestProgram>
 	<Dimensions>2</Dimensions>	
-	<VerboseLevel>4</VerboseLevel>
+	<VerboseLevel>5</VerboseLevel>
 	<Seed>1550</Seed>
 	<SamplingFrequency>5000</SamplingFrequency>
 	<StartingPoints>
