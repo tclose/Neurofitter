@@ -5,15 +5,15 @@ const int tag = 42;
 const int dietag = 666;
 
 MPIModelInterface::MPIModelInterface(FixedParameters params) : 
-	FixedParamObject(params), mpiChannel(COMM_WORLD) {
+	FixedParamObject(params), mpiChannel(MPI_COMM_WORLD) {
 
 	//MPI_Comm_rank( MPI_COMM_WORLD, &rank );
 	//MPI_Comm_size(MPI_COMM_WORLD, &ntasks);
 	
 	//mpiChannel = new mpi_stream(COMM_WORLD);
-	mpiChannel.messageId(tag);
-	rank = mpiChannel.rank();
-	ntasks = mpiChannel.size();
+	mpiChannel.setMessageId(tag);
+	rank = mpiChannel.getRank();
+	ntasks = mpiChannel.getSize();
 	
 	if (fixedParams["ModelType"] == "Genesis") {
 		localModel = new GenesisModelInterface(FixedParameters(fixedParams["ModelParameters"],fixedParams.getGlobals()));
@@ -27,8 +27,9 @@ MPIModelInterface::~MPIModelInterface() {
 	if (rank == 0) {
 		for (int i = 1; i < ntasks; ++i) {
 			if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Sending kill signal to slave " << i << endl;
-			mpiChannel.messageId(dietag);
-			mpiChannel.messageRank(i);
+			mpiChannel.setMessageId(dietag);
+			mpiChannel.setMessageRank(i);
+			mpiChannel << 0;
 	    	//MPI_Send(0, 0, MPI_INT, i, dietag, MPI_COMM_WORLD);
 		}
 	}
@@ -88,7 +89,7 @@ void MPIModelInterface::runModelOnSlave(int slaveNumber, int resultNumber, const
 	//unsigned int paramLength = paramString.length()+1 ;
 
 	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Sending parameters to slave: " << slaveNumber << "... ";
-	mpiChannel.messageRank(slaveNumber);
+	mpiChannel.setMessageRank(slaveNumber);
 	mpiChannel << resultNumber;
 	params.printOn(mpiChannel);
 	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << " Parameters sent " << endl;
@@ -106,9 +107,9 @@ void MPIModelInterface::receiveResultsFromSlave(int & taskRank, vector< ModelRes
 	//MPI_Status status;
 
 	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Waiting for  results from slave ... ";	
-	mpiChannel.messageRank(MPI_ANY_SOURCE);
+	mpiChannel.setMessageRank(MPI_ANY_SOURCE);
 	mpiChannel >> resultNumber;
-	taskRank = mpiChannel.messageRank();
+	taskRank = mpiChannel.getMessageRank();
 
 	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Receiving result " << resultNumber <<" from slave " << taskRank << "... ";	
 	
@@ -142,18 +143,18 @@ void MPIModelInterface::startSlave() {
 	
 	while (true) {
 		if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank <<  " is waiting for parameters from master ..." << endl;
-		mpiChannel.messageRank(0);
-		mpiChannel.messageId(MPI_ANY_TAG);
+		mpiChannel.setMessageRank(0);
+		mpiChannel.setMessageId(MPI_ANY_TAG);
 		mpiChannel >> resultNumber;
 		//MPI_Recv(&resultNumber, 1, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status); 
-		if (mpiChannel.messageId() == dietag) {
+		if (mpiChannel.getMessageId() == dietag) {
 			if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank <<  " received a kill signal from master" << endl;
 			return;
 		}
-		else if (mpiChannel.messageId() != tag) {
+		else if (mpiChannel.getMessageId() != tag) {
 			crash("MPIModelInterface", "Slave "+str(rank)+" received message with wrong tag: "+str(status.MPI_TAG));
 		}
-		mpiChannel.messageId(tag);
+		mpiChannel.setMessageId(tag);
 
 		ModelTuningParameters parameters;
 		parameters.readFrom(mpiChannel);
@@ -164,7 +165,7 @@ void MPIModelInterface::startSlave() {
 
 		if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank << " sending results back to master ... ";
 
-		mpiChannel.messageRank(0);
+		mpiChannel.setMessageRank(0);
 		mpiChannel << resultNumber;
 		result.printOn(mpiChannel);
 		

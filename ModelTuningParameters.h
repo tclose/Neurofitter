@@ -6,6 +6,10 @@
 #include <sstream>
 #include <vector>
 
+///todo remove this
+#include "InputChannel.h"
+#include "OutputChannel.h"
+
 #include "Tools.h"
 
 using namespace std;
@@ -41,8 +45,8 @@ public:
 
 	string serialize() const;	
 
-	void printOn(ostream &) const;
-	void readFrom(istream &);
+	void printOn(OutputChannel &) const;
+	void readFrom(InputChannel &);
 
 
 private:

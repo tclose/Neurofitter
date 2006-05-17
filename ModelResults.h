@@ -8,6 +8,10 @@ using namespace std;
 
 #include "DataTrace.h"
 
+#include "InputChannel.h"
+#include "OutputChannel.h"
+
+
 class ModelResults {
 
 public:
@@ -18,8 +22,8 @@ public:
 	DataTrace &operator[] (const int);
 	const DataTrace &operator[] (const int) const;
 
-	void printOn(ostream &) const;
-	void readFrom(istream &);
+	void printOn(OutputChannel &) const;
+	void readFrom(InputChannel &);
 
 private:
 	vector< DataTrace > traces;

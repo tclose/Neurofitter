@@ -90,19 +90,19 @@ runModel(const ModelTuningParameters & params) {
 		readDataFromFile(results, fixedParams["ModelDirectory"]+"/"+modelOutputname, nRun, runWeights[nRun]);
 	}
 
-	ostringstream output;
-	results.printOn(output);	
+	//ostringstream output;
+	//results.printOn(output);	
 
-	istringstream input;
+	//istringstream input;
 	
-	string test = output.str();
+	//string test = output.str();
 	//cout << test << endl;
-	input.str(test);
+	//input.str(test);
 
-	ModelResults results2;
-	results2.readFrom(input);
+	//ModelResults results2;
+	//results2.readFrom(input);
 
-	return results2;
+	return results;
 }
 
 

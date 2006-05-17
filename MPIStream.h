@@ -6,51 +6,57 @@
 #include <iostream>
 #include <mpi.h>
 
+#include "InputChannel.h"
+#include "OutputChannel.h"
+
 using namespace MPI;
 using namespace std;
 
 class message_communicator{
 public:
-  message_communicator(void);
-  message_communicator(MPI_Comm X);
-  void messageRank(int X);
-  int messageRank(void);
-  int rank(void);
-  int messageId(void);
-  void messageId(int X);
-  int size(void);
+  //message_communicator(void);
+  message_communicator(MPI_Comm X=MPI_COMM_WORLD);
+  void setMessageRank(int X);
+  int getMessageRank(void);
+  int getRank(void);
+  int getMessageId(void);
+  void setMessageId(int X);
+  int getSize(void);
 protected:
-  Intracomm Communicator;
-  int MessageRank;
-  int MessageId;
+  //Intracomm Communicator;
+  int messageRank;
+  int messageId;
+  int size;
+  int rank;
+  MPI_Comm handle;
 
 };
 
-class impi_stream : public virtual message_communicator, public istream {
+class impi_stream : public virtual message_communicator,  public InputChannel {
 public:
   impi_stream(void);
-  //impi_stream(streambuf * sb) : istream(sb) {};
   impi_stream(MPI_Comm X);
   impi_stream &operator>>(int &Data);
+  impi_stream &operator>>(unsigned &Data);
   impi_stream &operator>>(string &Data);
   impi_stream &operator>>(float &Data);
-  impi_stream &operator>>(vector<string> &X);
+  impi_stream &operator>>(double &Data);
 private:
-  MPI::Status Status;
+  MPI_Status status;
 };
 
 
-class ompi_stream : public virtual message_communicator, public ostream {
+class ompi_stream : public virtual message_communicator, public OutputChannel {
 public:
   ompi_stream(void);
-  //ompi_stream(streambuf * sb) : ostream(sb) {};
   ompi_stream(MPI_Comm X);
-  ompi_stream &operator<<(int Data);
-  ompi_stream &operator<<(string Data);
-  ompi_stream &operator<<(float Data);
-  ompi_stream &operator<<(vector<string> &X);
+  ompi_stream &operator<<(const int& Data);
+  ompi_stream &operator<<(const unsigned& Data);
+  ompi_stream &operator<<(const string& Data);
+  ompi_stream &operator<<(const float& Data);
+  ompi_stream &operator<<(const double& Data);
 private:
-  MPI::Status Status;
+  MPI_Status status;
 };
 
 

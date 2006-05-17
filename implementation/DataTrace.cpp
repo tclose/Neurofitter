@@ -64,24 +64,27 @@ void DataTrace::setName(const string newName) {
 	name = newName;
 }
 
-void DataTrace::printOn(ostream & output) const {
-	output << points.size() << " ";
-	for (unsigned i = 0; i < points.size(); i++) {
-		output << points[i] << " ";
+void DataTrace::printOn(OutputChannel & output) const {
+	int length = points.size();
+	output << length;
+	for (int i = 0; i < length; i++) {
+		output << points[i];
 	}
-	output << weight << " ";
-	output << startTime << " ";
-	output << stopTime << " ";
-	output << samplingFrequency << " ";
-	output << name.length() << " ";
-	for (unsigned i = 0; i < name.length(); i++) {
-		output << name[i];
-	}
-	output << " ";
+	output << weight;
+	output << startTime;
+	output << stopTime;
+	output << samplingFrequency;
+	output << name;
+	//output << name.length();
+	
+	//for (unsigned i = 0; i < name.length(); i++) {
+	//	output << name[i];
+	//}
+	//output;
 
 }
 
-void DataTrace::readFrom(istream & input) {
+void DataTrace::readFrom(InputChannel & input) {
 	unsigned length;
 	input >> length;
 	points = vector< double >(length);
@@ -92,12 +95,13 @@ void DataTrace::readFrom(istream & input) {
 	input >> startTime;
 	input >> stopTime;
 	input >> samplingFrequency;
-	input >> length;
-	name = string(length,' ');
-	input.rdbuf()->snextc(); // Remove whitespace after length
-	for (unsigned i = 0; i < name.length(); i++) {
-		name[i] = input.rdbuf()->sbumpc();
-	}
+	//input >> length;
+	input >> name;
+	//name = string(length,' ');
+	//input.rdbuf()->snextc(); // Remove whitespace after length
+	//for (unsigned i = 0; i < name.length(); i++) {
+	//	name[i] = input.rdbuf()->sbumpc();
+	//}
 }
     
 

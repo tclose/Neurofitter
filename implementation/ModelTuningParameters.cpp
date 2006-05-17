@@ -141,21 +141,23 @@ string ModelTuningParameters::serialize() const {
 	return serialString;
 }
 
-void ModelTuningParameters::printOn(ostream & output) const {
+void ModelTuningParameters::printOn(OutputChannel & output) const {
 
-	output << tuningParameters.size() << " "; 
-	for (int i = 0; i < (int)tuningParameters.size(); i++) {	
-		output << tuningParameters[i] << " ";
+	int length = tuningParameters.size();
+	output << length; 
+	for (int i = 0; i < length; i++) {	
+		output << tuningParameters[i];
 	}
-	output << bounds.size() << " "; 
-	for (int i = 0; i < (int)bounds.size(); i++) {	
-		output << bounds[i] << " ";
+	int boundsLength = bounds.size();
+	output << boundsLength; 
+	for (int i = 0; i < boundsLength; i++) {	
+		output << bounds[i];
 	}
-	output << fitnessValue << " ";
+	output << fitnessValue;
 
 }
 
-void ModelTuningParameters::readFrom(istream & input) {
+void ModelTuningParameters::readFrom(InputChannel & input) {
 
 	int length;
 	input >> length;

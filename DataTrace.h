@@ -7,6 +7,9 @@
 
 #include "Tools.h"
 
+#include "InputChannel.h"
+#include "OutputChannel.h"
+
 using namespace std;
 
 class DataTrace {
@@ -32,8 +35,8 @@ public:
 
 	void resetAndSetLength(const int);
 
-	void printOn(ostream &) const;
-	void readFrom(istream &);
+	void printOn(OutputChannel &) const;
+	void readFrom(InputChannel &);
 
 	double &operator[](const int);
 	const double &operator[](const int) const;

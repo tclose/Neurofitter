@@ -10,27 +10,22 @@ int ModelResults::getLength() const {
 	return traces.size();
 }
 
-void ModelResults::printOn(ostream & output) const {
-	output << traces.size() << " ";
+void ModelResults::printOn(OutputChannel & output) const {
+	int length = (int)traces.size();
+	output << length;
 
 	for (unsigned int i = 0; i < traces.size(); i++) {
 		(traces[i]).printOn(output);
-		output << endl;
 	}
-	
-	output << endl;
 }
     
-void ModelResults::readFrom(istream & input) {
-	unsigned length;
+void ModelResults::readFrom(InputChannel & input) {
+ 	int length;
 	input >> length;
 	traces = vector< DataTrace >(length);
 	
-	for (unsigned i = 0; i < length; i++) {
+	for (int i = 0; i < length; i++) {
 		(traces[i]).readFrom(input);
-		//cout << "Reading trace ";
-		//traces[i].printOn(cout);
-		//cout << endl;
 	}
 }
    
