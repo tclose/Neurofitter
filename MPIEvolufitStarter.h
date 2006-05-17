@@ -6,6 +6,7 @@
 #include "EvolufitStarter.h"
 
 #include "MPIModelInterface.h"
+#include "MPIFitnessCalculator.h"
 
 class MPIEvolufitStarter : public EvolufitStarter, FixedParamObject {
 

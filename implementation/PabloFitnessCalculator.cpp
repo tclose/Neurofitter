@@ -38,7 +38,7 @@ double PabloFitnessCalculator::calculateFitness(ModelTuningParameters & params) 
 
 }
 
-vector< double > PabloFitnessCalculator::calculateParallelFitness(vector< ModelTuningParameters > paramList) {
+vector< double > PabloFitnessCalculator::calculateParallelFitness(vector< ModelTuningParameters > & paramList) {
 
 	vector< double > fitnessValues(paramList.size());
 

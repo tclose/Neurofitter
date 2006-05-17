@@ -42,24 +42,29 @@ void MPIEvolufitStarter::run(int argc, char** argv) {
 		model = new MPIModelInterface(modelFixedParams);
 	}
 	else crash("Main program", "No matching model type");
-	if (rank == 0) {
-		/////////////////////////////
-		/// Initialize Experiment ///
-		/////////////////////////////
-		FixedParameters expFixedParams(fixedParams["ExperimentParameters"],fixedParams.getGlobals());
-		if (fixedParams["ExperimentType"] == "Fake") {
-			experiment = new FakeExperimentInterface(model, expFixedParams);
-		}
-		else crash("Main program", "No matching experiment type");
+	
+	/////////////////////////////
+	/// Initialize Experiment ///
+	/////////////////////////////
+	FixedParameters expFixedParams(fixedParams["ExperimentParameters"],fixedParams.getGlobals());
+	if (fixedParams["ExperimentType"] == "Fake") {
+		experiment = new FakeExperimentInterface(model, expFixedParams);
+	}
+	else crash("Main program", "No matching experiment type");
 
-		/////////////////////////////////////
-		/// Initialize Fitness Calculator ///
-		/////////////////////////////////////
-		FixedParameters fitFixedParams(fixedParams["FitnessCalculatorParameters"],fixedParams.getGlobals());
-		if (fixedParams["FitnessCalculatorType"] == "Pablo") {
-			fitness = new PabloFitnessCalculator(model,experiment,fitFixedParams);
-		}
-		else crash("Main program", "No matching fitness calculator type");
+	/////////////////////////////////////
+	/// Initialize Fitness Calculator ///
+	/////////////////////////////////////
+	FixedParameters fitFixedParams(fixedParams["FitnessCalculatorParameters"],fixedParams.getGlobals());
+	if (fixedParams["FitnessCalculatorType"] == "Pablo") {
+		fitness = new PabloFitnessCalculator(model,experiment,fitFixedParams);
+	}
+	else if (fixedParams["FitnessCalculatorType"] == "MPI") {
+		fitness = new MPIFitnessCalculator(model,experiment,fitFixedParams);
+	}
+	else crash("Main program", "No matching fitness calculator type");
+	
+	if (rank == 0) {
 
 		/////////////////////////
 		/// Initialize Fitter ///

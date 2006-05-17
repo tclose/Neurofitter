@@ -21,7 +21,7 @@ int main (int argc, char* argv[]) {
 		///	Read parameters file ///
 		////////////////////////////
 		// Read data from file
-		cout << "Arguments: {" << endl;
+		cout << "Arguments: {";
 		for (int i = 0; i < argc; i++) {
 			cout << string(argv[i]) << ",";
 		}

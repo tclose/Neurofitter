@@ -1,6 +1,6 @@
 <TestProgram>
 	<Dimensions>2</Dimensions>	
-	<VerboseLevel>5</VerboseLevel>
+	<VerboseLevel>4</VerboseLevel>
 	<Seed>1550</Seed>
 	<SamplingFrequency>5000</SamplingFrequency>
 	<StartingPoints>
@@ -15,13 +15,13 @@
 	<FitterParameters>
 		<MeshDimensions>2</MeshDimensions>
 		<MeshSize>
-			5
-			5
+			200
+			200
 		</MeshSize>
 	</FitterParameters>
 
-	<ModelType>MPI</ModelType>
-	<ModelParameters>	
+	<!-- <ModelType>MPIModel</ModelType>
+	<ModelParameters> -->	
 		<ModelType>Genesis</ModelType>	
 		<ModelParameters>
 			<GenesisLocation>./localgenesis</GenesisLocation>
@@ -53,24 +53,29 @@
 				1
 			</RecordSites>
 		</ModelParameters>	
-	</ModelParameters>
+	<!-- </ModelParameters> -->
 	
 	<ExperimentType>Fake</ExperimentType>
 	<ExperimentParameters>
 		<Parameters>2800.0 11200.0</Parameters>	
 	</ExperimentParameters>
-	
-	<FitnessCalculatorType>Pablo</FitnessCalculatorType>
+
+	<FitnessCalculatorType>MPI</FitnessCalculatorType>
 	<FitnessCalculatorParameters>
-		<PabloVdVdtMatrix>
-			<vLength>100</vLength>
-			<dVdtLength>100</dVdtLength>
-			<minimalV>-0.1</minimalV>
-			<maximalV>0.1</maximalV>
-			<comparePrecision>1e-15</comparePrecision>
-		</PabloVdVdtMatrix>
-		<enableFileExport>0</enableFileExport>
-		<exportFile>fitness.dat</exportFile>
+		<FitnessCalculatorType>Pablo</FitnessCalculatorType>
+		<FitnessCalculatorParameters>
+			<PabloVdVdtMatrix>
+				<vLength>100</vLength>
+				<dVdtLength>100</dVdtLength>
+				<minimalV>-0.1</minimalV>
+				<maximalV>0.1</maximalV>
+				<comparePrecision>1e-15</comparePrecision>
+			</PabloVdVdtMatrix>
+			<enableFileExport>0</enableFileExport>
+			<exportFile>fitness.dat</exportFile>
+		</FitnessCalculatorParameters>
+		<enableFileExport>1</enableFileExport>
+		<exportFile>parallelFitness.dat</exportFile>
 	</FitnessCalculatorParameters>
 	
 

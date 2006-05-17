@@ -14,7 +14,7 @@ class FitnessCalculator {
 		FitnessCalculator(): model(NULL), exportFile(""), fitnessHistory() {};
 		FitnessCalculator(ModelInterface * interface): model(interface), exportFile(""), fitnessHistory() {};
 		virtual double calculateFitness(ModelTuningParameters & params) = 0;
-		virtual vector< double > calculateParallelFitness(vector< ModelTuningParameters > params) = 0;
+		virtual vector< double > calculateParallelFitness(vector< ModelTuningParameters > & params) = 0;
 		virtual void enableFileExport(const string fileName) = 0;
 		virtual void disableFileExport() = 0;
 		virtual string getExportFile() const = 0;

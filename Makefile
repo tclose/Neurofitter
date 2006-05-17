@@ -56,7 +56,11 @@ FITTEROBJS=	$(CPPDIR)/NOMADFitterInterface.o \
 			$(CPPDIR)/SwarmFly.o
 
 NORMALOBJS = $(CPPDIR)/Evolufit.o
-MPIOBJS = $(CPPDIR)/MPIEvolufitStarter.o $(CPPDIR)/MPIModelInterface.o $(CPPDIR)/MPIEvolufit.o $(CPPDIR)/MPIStream.o
+MPIOBJS = 	$(CPPDIR)/MPIEvolufitStarter.o \
+			$(CPPDIR)/MPIModelInterface.o \
+			$(CPPDIR)/MPIFitnessCalculator.o \
+			$(CPPDIR)/MPIEvolufit.o \
+			$(CPPDIR)/MPIStream.o
 
 OBJS = $(MODOBJS) $(FITOBJS) $(EXPOBJS) $(FITTEROBJS) $(EVOOBJS) 
 
@@ -92,6 +96,9 @@ $(CPPDIR)/MPIStream.o : $(CPPDIR)/MPIStream.cpp ;
 	$(MPICXX) $(CXXFLAGS) -c -o $@ $<
 
 $(CPPDIR)/MPIModelInterface.o : $(CPPDIR)/MPIModelInterface.cpp ;
+	$(MPICXX) $(CXXFLAGS) -c -o $@ $<
+
+$(CPPDIR)/MPIFitnessCalculator.o : $(CPPDIR)/MPIFitnessCalculator.cpp ;
 	$(MPICXX) $(CXXFLAGS) -c -o $@ $<
 
 $(CPPDIR)/MPIEvolufit.o : $(CPPDIR)/MPIEvolufit.cpp ;

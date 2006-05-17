@@ -1,5 +1,7 @@
 //From : Simplifying Cluster (PVM and MPI) Application Programming Using Interface Classes: Part 2 
 
+#ifndef MPISTREAM_H
+#define MPISTREAM_H
 
 #include <string>
 #include <vector>
@@ -65,3 +67,5 @@ public:
   mpi_stream(void);
   mpi_stream(MPI_Comm X);
 };
+
+#endif

@@ -7,10 +7,6 @@ const int dietag = 666;
 MPIModelInterface::MPIModelInterface(FixedParameters params) : 
 	FixedParamObject(params), mpiChannel(MPI_COMM_WORLD) {
 
-	//MPI_Comm_rank( MPI_COMM_WORLD, &rank );
-	//MPI_Comm_size(MPI_COMM_WORLD, &ntasks);
-	
-	//mpiChannel = new mpi_stream(COMM_WORLD);
 	mpiChannel.setMessageId(tag);
 	rank = mpiChannel.getRank();
 	ntasks = mpiChannel.getSize();
@@ -30,11 +26,9 @@ MPIModelInterface::~MPIModelInterface() {
 			mpiChannel.setMessageId(dietag);
 			mpiChannel.setMessageRank(i);
 			mpiChannel << 0;
-	    	//MPI_Send(0, 0, MPI_INT, i, dietag, MPI_COMM_WORLD);
 		}
 	}
 	if (localModel != NULL) delete localModel;
-	//if (mpiChannel != NULL) delete mpiChannel;
 }
 
 ModelResults	MPIModelInterface::
@@ -94,10 +88,6 @@ void MPIModelInterface::runModelOnSlave(int slaveNumber, int resultNumber, const
 	params.printOn(mpiChannel);
 	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << " Parameters sent " << endl;
 	
-	//MPI_Send(&resultNumber,1,MPI_INT,slaveNumber,tag,MPI_COMM_WORLD);
-	//MPI_Send(&paramLength,1,MPI_INT,slaveNumber,tag,MPI_COMM_WORLD);
-	//MPI_Send((void*)paramString.c_str(),paramString.length(),MPI_CHAR,slaveNumber,tag,MPI_COMM_WORLD);
-
 }
 
 void MPIModelInterface::receiveResultsFromSlave(int & taskRank, vector< ModelResults > & results) {
@@ -117,28 +107,11 @@ void MPIModelInterface::receiveResultsFromSlave(int & taskRank, vector< ModelRes
 
 	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << " Results received results" << endl;
 	
-	//MPI_Recv(&resultNumber,1,MPI_INT,MPI_ANY_SOURCE,tag, MPI_COMM_WORLD, &status);		
-	//taskRank = status.MPI_SOURCE;
-	//MPI_Recv(&resultLength,1,MPI_INT,MPI_ANY_SOURCE,tag, MPI_COMM_WORLD, &status);		
-	
-	//char * resultString = new char[resultLength];
-	//MPI_Recv(resultString,resultLength,MPI_CHAR,MPI_ANY_SOURCE,tag, MPI_COMM_WORLD, &status);		
-
-	//cout << string(resultString) << endl;
-
-	//istringstream resultStream; 
-	//resultStream.str(string(resultString));
-	
-	//results[resultNumber].readFrom(resultStream);
-	
-	//delete resultString;
 }
 
 void MPIModelInterface::startSlave() {
 
 	int resultNumber;
-	//int parametersLength;
-	//int resultsLength;
 	MPI_Status status;
 	
 	while (true) {
@@ -146,7 +119,6 @@ void MPIModelInterface::startSlave() {
 		mpiChannel.setMessageRank(0);
 		mpiChannel.setMessageId(MPI_ANY_TAG);
 		mpiChannel >> resultNumber;
-		//MPI_Recv(&resultNumber, 1, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status); 
 		if (mpiChannel.getMessageId() == dietag) {
 			if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank <<  " received a kill signal from master" << endl;
 			return;
@@ -171,37 +143,6 @@ void MPIModelInterface::startSlave() {
 		
 		if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank << " has sent results back" << endl;
 
-		//MPI_Recv(&parametersLength, 1, MPI_INT, 0, tag, MPI_COMM_WORLD, &status); 
-
-		//char * parametersString = new char[parametersLength];
-		//MPI_Recv(parametersString, parametersLength, MPI_CHAR, 0, tag, MPI_COMM_WORLD, &status);
-
-		//if (toInt(fixedParams["VerboseLevel"]) > 4) cout << "Slave " << rank << " received parameters string from master: " << string(parametersString) <<  endl;
-
-		//istringstream parametersStream;
-		//parametersStream.str(string(parametersString));
-
-		//ModelTuningParameters parameters;
-		//parameters.readFrom(parametersStream);
-
-		//if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank << " running model with parameters: " << parameters.toString() << endl;
-	
-		//ModelResults result = localModel->runModel(parameters);
-		
-		//ostringstream resultStream;
-		//result.printOn(resultStream);
-		//string resultString = resultStream.str();
-		//resultsLength = resultString.length()+1;
-
-		//if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank << " sending results back to master ... ";
-
-		//MPI_Send(&resultNumber, 1, MPI_INT, 0, tag, MPI_COMM_WORLD);
-		//MPI_Send(&resultsLength, 1, MPI_INT, 0, tag, MPI_COMM_WORLD);
-		//MPI_Send((void*)resultString.c_str(), resultsLength, MPI_CHAR, 0, tag, MPI_COMM_WORLD);
-
-		//if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank << " has sent results back" << endl;
-	
-		//delete parametersString;
 	}
 	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank << " has stopped" << endl;
 }
