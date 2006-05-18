@@ -38,6 +38,7 @@ int main (int argc, char* argv[]) {
 		fixedParameters.setGlobal("SamplingFrequency");
 		fixedParameters.setGlobal("Seed");
 		fixedParameters.setGlobal("Bounds");
+		fixedParameters.setGlobal("WorkingDirectory");
 
 		///////////////////
 		///	Run program ///

@@ -16,7 +16,6 @@
 #$ -V
 
 HOME=/cluster/home/$USER
-EVOLUBINDIR=$HOME/EvolufitWork/Evolufit/bin
 
 ###################################################
 ### Copy the model to all machines we are using ###
@@ -24,7 +23,7 @@ EVOLUBINDIR=$HOME/EvolufitWork/Evolufit/bin
 #rshcmd=/Library/GridEngine/mpi/rsh
 rshcmd=/Library/GridEngine/utilbin/darwin/rsh
 
-scratch=/cluster/scratch/local/$USER/genesisoutput
+scratch=/cluster/scratch/local/$USER/EvoOutput
 #sort -u -o ./Machinelist $TMPDIR/machines 
 
 echo "Creating scratch directory on:"
@@ -32,9 +31,13 @@ for machine in `sort -u $TMPDIR/machines`;
 do
   echo $machine;
   $rshcmd $machine mkdir -p $scratch;
-  $rshcmd $machine cp -rf $HOME/EvolufitWork/wernermodel $scratch;
+  $rshcmd $machine mkdir -p $scratch/genesisoutput;
+  $rshcmd $machine cp -rf $HOME/EvolufitWork/wernermodel $scratch/genesisoutput;
+  $rshcmd $machine cp -rf $HOME/EvolufitWork/Evolufit/bin $scratch;
 done;
 echo
+
+EVOLUBINDIR=$scratch/bin
 
 /cluster/sw/mpich/bin/mpirun -machinefile $TMPDIR/machines -np $NSLOTS $EVOLUBINDIR/MPIEvolufit $EVOLUBINDIR/mpiparameters.xml
 

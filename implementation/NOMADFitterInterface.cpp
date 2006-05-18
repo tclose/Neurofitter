@@ -16,15 +16,15 @@ FitterResults NOMADFitterInterface::runFitter(ModelTuningParameters * startPoint
 	/// Writing the NOMAD input file ///
 	////////////////////////////////////
 	///todo change nomad to prevent LIBRARY directory
-	string parametersFile="LIBRARY/parameters.dat";
-	string descriptionFile="LIBRARY/description.dat";
-	string preferencesFile="LIBRARY/preferences.dat";
+	string parametersFile=fixedParams["WorkingDirectory"]+"/"+"LIBRARY/parameters.dat";
+	string descriptionFile=fixedParams["WorkingDirectory"]+"/"+"LIBRARY/description.dat";
+	string preferencesFile=fixedParams["WorkingDirectory"]+"/"+"LIBRARY/preferences.dat";
 
-	writeStartingPointsFile(fixedParams["START_PT_FILE"], *startPoints);
-	writeBoundsFile(fixedParams["BOUNDS_FILE"], *startPoints);  
-	writeParametersFile(parametersFile);
-	writeDescriptionFile(descriptionFile);
-	writePreferencesFile(preferencesFile);
+	writeStartingPointsFile(fixedParams["WorkingDirectory"]+"/"+fixedParams["START_PT_FILE"], *startPoints);
+	writeBoundsFile(fixedParams["WorkingDirectory"]+"/"+fixedParams["BOUNDS_FILE"], *startPoints);  
+	writeParametersFile(fixedParams["WorkingDirectory"]+"/"+parametersFile);
+	writeDescriptionFile(fixedParams["WorkingDirectory"]+"/"+descriptionFile);
+	writePreferencesFile(fixedParams["WorkingDirectory"]+"/"+preferencesFile);
 
 	/////////////////////////////////////////////
 	///	Creating and initiliaze NOMAD objects ///
@@ -100,9 +100,9 @@ void NOMADFitterInterface::writeDescriptionFile(string fileName) {
 	file << "USE_CACHES\t"<< "0" << endl;
 	file << "DIRECTORY\t"<< "." << endl;
 
-	file << "START_PT_FILE\t"<< fixedParams["START_PT_FILE"] << endl;
+	file << "START_PT_FILE\t"<< fixedParams["WorkingDirectory"]+"/"+fixedParams["START_PT_FILE"] << endl;
 	file << "INPUT_FILE\t"<< "DummyInput.txt" << endl; //INPUT_FILE has to exist even if it is not needed !
-	file << "BOUNDS_FILE\t"<< fixedParams["BOUNDS_FILE"] << endl;
+	file << "BOUNDS_FILE\t"<< fixedParams["WorkingDirectory"]+"/"+fixedParams["BOUNDS_FILE"] << endl;
 	file << "RESULTS_FILE\t"<< fixedParams["RESULTS_FILE"] << endl;
 	
 	file.close();
