@@ -40,7 +40,7 @@
                         
                 <POLL_SIZE_TERM>                -1</POLL_SIZE_TERM> <!-- Terminate when poll size is smaller than this value -->
                 <ITERATIONS>                    -1</ITERATIONS> <!-- Max number of iterations -->
-                <TRUTH_EVALS>                   10</TRUTH_EVALS> <!-- Max number of truth evaluations -->
+                <TRUTH_EVALS>                   1000</TRUTH_EVALS> <!-- Max number of truth evaluations -->
                 <NEW_TRUTH_EVALS>               -1</NEW_TRUTH_EVALS> <!-- Max number of non-cache truth evaluations -->
                 <CONSECUTIVE_FAILS>             -1</CONSECUTIVE_FAILS> <!-- Max number of consecutive better-solution-failures -->
 

@@ -37,13 +37,18 @@ double TruthFunction::evaluate(const double * coord) {
 
 vector< double > TruthFunction::parallelEvaluate(const vector< double* > params) {
 
-	vector < double > fitnessValues(params.size());	
+	vector< ModelTuningParameters > paramList(params.size());
+	vector< double > paramValues(numberOfParameters); 
 
-	for (unsigned int i = 0; i < params.size(); i++) {
-		fitnessValues[i] = this->evaluate(params[i]);
+	for (int nParams = 0; nParams < (int)params.size(); nParams++) {
+		for (int i = 0; i < numberOfParameters; i++) {
+			paramValues[i] = params[nParams][i];
+		}
+		//todo numberOfParameters is not well coded (static) !!!
+		paramList[nParams].setTuningParameters(paramValues, numberOfParameters);
 	}
-
-	return fitnessValues;
+	
+	return fitness->calculateParallelFitness(paramList);
 
 }
 
