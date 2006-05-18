@@ -6,6 +6,8 @@
 #include <iostream>
 #include <libxml/parser.h>
 
+#include "Tools.h"
+
 using namespace std;
 
 class XMLString {

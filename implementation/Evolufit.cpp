@@ -11,6 +11,7 @@ using namespace std;
 ///todo make it possible to fix some variables
 ///todo remove Houston
 ///todo make separate executable for mpi
+///todo trim the string in parameters.xml
 
 
 int main (int argc, char* argv[]) {
@@ -31,6 +32,7 @@ int main (int argc, char* argv[]) {
 		fixedParameters.setGlobal("SamplingFrequency");
 		fixedParameters.setGlobal("Seed");
 		fixedParameters.setGlobal("Bounds");
+		fixedParameters.setGlobal("WorkingDirectory");
 
 		///////////////////
 		///	Run program ///

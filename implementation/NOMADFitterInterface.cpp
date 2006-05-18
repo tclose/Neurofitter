@@ -22,17 +22,18 @@ FitterResults NOMADFitterInterface::runFitter(ModelTuningParameters * startPoint
 
 	writeStartingPointsFile(fixedParams["WorkingDirectory"]+"/"+fixedParams["START_PT_FILE"], *startPoints);
 	writeBoundsFile(fixedParams["WorkingDirectory"]+"/"+fixedParams["BOUNDS_FILE"], *startPoints);  
-	writeParametersFile(fixedParams["WorkingDirectory"]+"/"+parametersFile);
-	writeDescriptionFile(fixedParams["WorkingDirectory"]+"/"+descriptionFile);
-	writePreferencesFile(fixedParams["WorkingDirectory"]+"/"+preferencesFile);
+	writeParametersFile(parametersFile);
+	writeDescriptionFile(descriptionFile);
+	writePreferencesFile(preferencesFile);
 
 	/////////////////////////////////////////////
 	///	Creating and initiliaze NOMAD objects ///
 	/////////////////////////////////////////////
+	cout << parametersFile.c_str();
     Parameters parameters(parametersFile.c_str());
     Description description(descriptionFile.c_str());
 	//todo ask NOMAD developer to allow location preferences file
-    Preferences preferences;
+    Preferences preferences(preferencesFile.c_str());
     Solver solver;
 
     if (!description.readyToSolve()) {cerr << endl << "Error while processing NOMAD description file" << endl;exit(1);}

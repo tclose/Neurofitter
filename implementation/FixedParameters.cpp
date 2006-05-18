@@ -14,7 +14,7 @@ string FixedParameters::getGlobals() const {
 	map<const string, pair< string, bool > >::const_iterator i;
     for (i=params.begin(); i !=params.end(); i++) {
 		if ((i->second).second) {
-        	returnString += "<" + i->first + ">\n" + (i->second).first + "</" + i->first + ">\n";
+        	returnString += "<" + i->first + ">" + (i->second).first + "</" + i->first + ">";
 		}
     }
 	return returnString;	
@@ -33,7 +33,7 @@ const string& FixedParameters::operator[](const string index) const {
 }
 
 void FixedParameters::readFromXML(string parameters, bool global) {
-	XMLString xml("<xmlroot>\n"+parameters+"</xmlroot>");
+	XMLString xml("<xmlroot>"+parameters+"</xmlroot>");
 	vector<string> names = xml.getSubNames();
 	vector<string>::iterator i;
 	

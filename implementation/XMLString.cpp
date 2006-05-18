@@ -32,7 +32,7 @@ string XMLString::getSubString(const string subName) const {
 		}	
         cur = cur->next;
     }
-	if (returnString == "") {cerr << "Unable to find content of sub in XMLString: " << subName << endl; exit(1);}
+	if (returnString == "") crash("XMLString","Unable to find content of sub in XMLString: " + subName);
 	xmlFreeDoc(xml);
 	//xmlFree(cur);
 	//xmlCleanupParser();
