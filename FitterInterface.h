@@ -1,3 +1,6 @@
+// This file is part of the source code of Neurofitter 
+// For Copyright(c) information see the file "AUTHORS"
+
 #ifndef FITTERINTERFACE_H
 #define FITTERINTERFACE_H
 
