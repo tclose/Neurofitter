@@ -3,9 +3,18 @@
 
 #include <eo>
 
+
+#include <es/make_es.h>
+
+// ParadisEO
+//#include <eoDistPopLoopEval.h>
+//#include <eoDistPopLoopSolver.h>
+
+
 #include "FitterInterface.h"
 #include "FitnessCalculator.h"
 #include "EOFitnessCalculator.h"
+#include "EODistFitnessCalculator.h"
 #include "FixedParamObject.h"
 
 class eoParser;

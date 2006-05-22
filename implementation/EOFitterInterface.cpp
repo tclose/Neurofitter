@@ -83,7 +83,7 @@ static double real_value(const std::vector<double>& paramVector, FitnessCalculat
 template <class EOT>
 EOT EOFitterInterface::runAlgorithm(EOT, eoParser& _parser, eoState& _state)
 {
-	typedef typename EOT::Fitness FitT;
+	//typedef typename EOT::Fitness FitT;
 
   ///// FIRST, problem or representation dependent stuff
   //////////////////////////////////////////////////////
@@ -99,20 +99,27 @@ EOT EOFitterInterface::runAlgorithm(EOT, eoParser& _parser, eoState& _state)
   // Build the variation operator (any seq/prop construct)
   eoGenOp<EOT>& op = make_op(_parser, _state, init);
 
-  //// Now the representation-independent things
-  //////////////////////////////////////////////
 
-  // initialize the population - and evaluate
-  // yes, this is representation indepedent once you have an eoInit
-  eoPop<EOT>& pop   = make_pop(_parser, _state, init);
-  apply<EOT>(eval, pop);
+//// Now the representation-independent things
+    //////////////////////////////////////////////
 
-  // stopping criteria
-  eoContinue<EOT> & term = make_continue(_parser, _state, eval);
-  // output
-  eoCheckPoint<EOT> & checkpoint = make_checkpoint(_parser, _state, eval, term);
-  // algorithm (need the operator!)
-  eoAlgo<EOT>& ga = make_algo_scalar(_parser, _state, eval, checkpoint, op);
+    // initialize the population - and evaluate
+    // yes, this is representation indepedent once you have an eoInit
+    eoPop<EOT>& pop = make_pop(_parser, _state, init);
+    //apply<EOT>(eval, pop);
+
+    // stopping criteria
+    eoContinue<EOT> & term = make_continue(_parser, _state, eval);
+    // output
+    eoCheckPoint<EOT> & checkpoint = make_checkpoint(_parser, _state, eval, term);
+    // algorithm (need the operator!)
+
+    // Enabling the distributed evaluation of the population
+    EODistFitness<EOT> pop_eval(fitness);
+    pop_eval(pop,pop);
+
+    eoAlgo<EOT>& ga = make_algo_scalar(_parser, _state, pop_eval, checkpoint, op);
+
 
   ///// End of construction of the algorith
   /////////////////////////////////////////
@@ -249,4 +256,24 @@ string EOParamsContent = " \
  	# read from main Evolufit parameter file --TauGlob=1                              # -g : Global Tau (before normalization) \n\
  	# read from main Evolufit parameter file --Beta=0.0873                            # -b : Beta \n\
 ";
+
+
+
+
+/*
+  //// Now the representation-independent things
+  //////////////////////////////////////////////
+
+  // initialize the population - and evaluate
+  // yes, this is representation indepedent once you have an eoInit
+  eoPop<EOT>& pop   = make_pop(_parser, _state, init);
+  apply<EOT>(eval, pop);
+
+  // stopping criteria
+  eoContinue<EOT> & term = make_continue(_parser, _state, eval);
+  // output
+  eoCheckPoint<EOT> & checkpoint = make_checkpoint(_parser, _state, eval, term);
+  // algorithm (need the operator!)
+  eoAlgo<EOT>& ga = make_algo_scalar(_parser, _state, eval, checkpoint, op);
+*/
 
