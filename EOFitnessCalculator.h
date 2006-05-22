@@ -15,7 +15,7 @@ using namespace std;
 struct EOFitness: public eoEvalFunc<EOT> {
 
 	EOFitness( FitT (* _eval)( FunctionArg, FitnessCalculator * ), FitnessCalculator * f)
-		: eoEvalFunc<EOT>(), evalFunc( _eval ) {fitness=f;};
+		: eoEvalFunc<EOT>(), evalFunc( _eval ), fitness(f) {};
 
 	virtual void operator() ( EOT & _eo ) {
 		if (_eo.invalid())

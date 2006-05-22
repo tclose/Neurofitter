@@ -13,7 +13,7 @@ class OutputChannel {
     	virtual OutputChannel &operator<<(const string &) = 0;
     	virtual OutputChannel &operator<<(const float &) = 0;
     	virtual OutputChannel &operator<<(const double &) = 0;
-    	virtual ~OutputChannel() = 0;
+    	virtual ~OutputChannel() {};
             
 };	
             

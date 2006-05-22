@@ -13,7 +13,7 @@ class InputChannel {
 		virtual InputChannel &operator>>(string &) = 0;
 		virtual InputChannel &operator>>(float &) = 0;
 		virtual InputChannel &operator>>(double &) = 0;
-		virtual ~InputChannel() = 0;	      
+		virtual ~InputChannel() {};	      
 };
 
 #endif
