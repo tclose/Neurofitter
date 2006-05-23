@@ -21,18 +21,15 @@ FitterResults EOFitterInterface::runFitter(ModelTuningParameters * startPoint) {
   	eoValueParam<bool>& corrParam = parser.createParam(false, "Correl", "Use correlated mutations", 'c', "ES mutation");
 
     // Run the appropriate algorithm
-    if (simpleParam.value() == false)
-    {
+    if (simpleParam.value() == false) {
       cout << "Using eoReal" << endl;
       runAlgorithm(eoReal<eoMinimizingFitness>(), parser, state);
     }
-    else if (stdevsParam.value() == false)
-    {
+    else if (stdevsParam.value() == false) {
       cout << "Using eoEsSimple" << endl;
       runAlgorithm(eoEsSimple<eoMinimizingFitness>(), parser, state);
     }
-    else if (corrParam.value() == false)
-    {
+    else if (corrParam.value() == false) {
       cout << "Using eoEsStdev" << endl;
       runAlgorithm(eoEsStdev<eoMinimizingFitness>(), parser, state);
     }
@@ -81,31 +78,22 @@ static double real_value(const std::vector<double>& paramVector, FitnessCalculat
  *  (e.g. t-eoReal and t-eoGA in test dir)
  */
 template <class EOT>
-EOT EOFitterInterface::runAlgorithm(EOT, eoParser& _parser, eoState& _state)
-{
-	//typedef typename EOT::Fitness FitT;
+EOT EOFitterInterface::runAlgorithm(EOT, eoParser& _parser, eoState& _state) {
 
-  ///// FIRST, problem or representation dependent stuff
-  //////////////////////////////////////////////////////
+	// The evaluation fn - encapsulated into an eval counter for output
+	EOFitness<EOT, double, const std::vector<double>&> mainEval( &real_value, fitness );
+	eoEvalFuncCounter<EOT> eval(mainEval);
 
-  // The evaluation fn - encapsulated into an eval counter for output
-  EOFitness<EOT, double, const std::vector<double>&>
-               mainEval( &real_value, fitness );
-  eoEvalFuncCounter<EOT> eval(mainEval);
+	// the genotype - through a genotype initializer
+	eoRealInitBounded<EOT>& init = make_genotype(_parser, _state, EOT());
 
-  // the genotype - through a genotype initializer
-  eoRealInitBounded<EOT>& init = make_genotype(_parser, _state, EOT());
+	// Build the variation operator (any seq/prop construct)
+	eoGenOp<EOT>& op = make_op(_parser, _state, init);
 
-  // Build the variation operator (any seq/prop construct)
-  eoGenOp<EOT>& op = make_op(_parser, _state, init);
-
-
-//// Now the representation-independent things
-    //////////////////////////////////////////////
 
     // initialize the population - and evaluate
     // yes, this is representation indepedent once you have an eoInit
-    eoPop<EOT>& pop = make_pop(_parser, _state, init);
+	eoPop<EOT>& pop = make_pop(_parser, _state, init);
     //apply<EOT>(eval, pop);
 
     // stopping criteria
@@ -119,6 +107,25 @@ EOT EOFitterInterface::runAlgorithm(EOT, eoParser& _parser, eoState& _state)
     pop_eval(pop,pop);
 
     eoAlgo<EOT>& ga = make_algo_scalar(_parser, _state, pop_eval, checkpoint, op);
+
+
+
+/*  //// Now the representation-independent things
+  //////////////////////////////////////////////
+
+  // initialize the population - and evaluate
+  // yes, this is representation indepedent once you have an eoInit
+  eoPop<EOT>& pop   = make_pop(_parser, _state, init);
+  apply<EOT>(eval, pop);
+
+  // stopping criteria
+  eoContinue<EOT> & term = make_continue(_parser, _state, eval);
+  // output
+  eoCheckPoint<EOT> & checkpoint = make_checkpoint(_parser, _state, eval, term);
+  // algorithm (need the operator!)
+  eoAlgo<EOT>& ga = make_algo_scalar(_parser, _state, eval, checkpoint, op);
+
+*/
 
 
   ///// End of construction of the algorith
@@ -158,6 +165,7 @@ void EOFitterInterface::writeEOParamsFile(string fileName, ModelTuningParameters
 	EOParam << endl << "	--replacement=" << fixedParams["replacement"] << endl;
 	EOParam << endl << "	--maxGen=" << fixedParams["maxGen"] << endl;
 	EOParam << endl << "	--minGen=" << fixedParams["minGen"] << endl;
+	EOParam << endl << "	--maxEval=" << fixedParams["maxEval"] << endl;
 	EOParam << endl << "	--targetFitness=" << fixedParams["targetFitness"] << endl;
 	EOParam << endl << "	--steadyGen=" << fixedParams["steadyGen"] << endl;
 	EOParam << endl << "	--crossType=" << fixedParams["crossType"] << endl;
@@ -241,7 +249,7 @@ string EOParamsContent = " \
  	# read from main Evolufit parameter file --maxGen=50                               # -G : Maximum number of generations () = none) \n\
  	# read from main Evolufit parameter file --steadyGen=100                            # -s : Number of generations with no improvement \n\
  	# read from main Evolufit parameter file --minGen=0                               # -g : Minimum number of generations \n\
- 	--maxEval=300                              # -E : Maximum number of evaluations (0 = none) \n\
+ 	# read from main Evolufit parameter file --maxEval=300                              # -E : Maximum number of evaluations (0 = none) \n\
  	# read from main Evolufit parameter file --targetFitness=0.0                        # -T : Stop when fitness reaches \n\
  	--CtrlC=1                                # -C : Terminate current generation upon Ctrl C \n\
 \n\
@@ -259,21 +267,4 @@ string EOParamsContent = " \
 
 
 
-
-/*
-  //// Now the representation-independent things
-  //////////////////////////////////////////////
-
-  // initialize the population - and evaluate
-  // yes, this is representation indepedent once you have an eoInit
-  eoPop<EOT>& pop   = make_pop(_parser, _state, init);
-  apply<EOT>(eval, pop);
-
-  // stopping criteria
-  eoContinue<EOT> & term = make_continue(_parser, _state, eval);
-  // output
-  eoCheckPoint<EOT> & checkpoint = make_checkpoint(_parser, _state, eval, term);
-  // algorithm (need the operator!)
-  eoAlgo<EOT>& ga = make_algo_scalar(_parser, _state, eval, checkpoint, op);
-*/
 

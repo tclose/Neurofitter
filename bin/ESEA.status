@@ -10,7 +10,7 @@
 --Correl=1                               # -c : Use correlated mutations
 
 ######    Evolution Engine        ######
---popSize=1                              # -P : Population Size
+--popSize=10                             # -P : Population Size
 --selection=DetTour(5)                   # -S : Selection: DetTour(T), StochTour(t), Roulette, Ranking(p,e) or Sequential(ordered/unordered)
 --nbOffspring=10                         # -O : Nb of offspring (percentage or absolute)
 --replacement=Plus                       # -R : Replacement: Comma, Plus or EPTour(T), SSGAWorst, SSGADet(T), SSGAStoch(t)
@@ -25,7 +25,7 @@
 --useEval=1                              # Use nb of eval. as counter (vs nb of gen.)
 --useTime=1                              # Display time (s) every generation
 --printBestStat=1                        # Print Best/avg/stdev every gen.
---printPop=1                             # Print sorted pop. every gen.
+--printPop=0                             # Print sorted pop. every gen.
 
 ######    Output - Disk           ######
 --resDir=ResNew                          # Directory to store DISK outputs

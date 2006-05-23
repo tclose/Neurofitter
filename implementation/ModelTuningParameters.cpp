@@ -132,15 +132,6 @@ string ModelTuningParameters::toString() const {
 	return o.str();
 }
 
-string ModelTuningParameters::serialize() const {
-
-	string serialString;
-	
-	
-	
-	return serialString;
-}
-
 void ModelTuningParameters::printOn(OutputChannel & output) const {
 
 	int length = tuningParameters.size();

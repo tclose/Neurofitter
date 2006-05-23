@@ -1,6 +1,6 @@
 <TestProgram>
 	<Dimensions>2</Dimensions>	
-	<VerboseLevel>5</VerboseLevel>
+	<VerboseLevel>3</VerboseLevel>
 	<Seed>1550</Seed>
 	<SamplingFrequency>5000</SamplingFrequency>
 	<StartingPoints>
@@ -15,11 +15,12 @@
 
 		<FitterType>EO</FitterType>
 		<FitterParameters>
-		<popSize>1</popSize>
+		<popSize>10</popSize>
 		<nbOffspring>10</nbOffspring>
 		<replacement>Plus</replacement>
 		<maxGen>2</maxGen>
 		<minGen>0</minGen>
+		<maxEval>300</maxEval>
 		<targetFitness>0.0</targetFitness>
 		<steadyGen>100</steadyGen>
 		<crossType>global</crossType>

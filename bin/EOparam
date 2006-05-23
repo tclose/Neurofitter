@@ -37,7 +37,7 @@
  	# read from main Evolufit parameter file --maxGen=50                               # -G : Maximum number of generations () = none) 
  	# read from main Evolufit parameter file --steadyGen=100                            # -s : Number of generations with no improvement 
  	# read from main Evolufit parameter file --minGen=0                               # -g : Minimum number of generations 
- 	--maxEval=300                              # -E : Maximum number of evaluations (0 = none) 
+ 	# read from main Evolufit parameter file --maxEval=300                              # -E : Maximum number of evaluations (0 = none) 
  	# read from main Evolufit parameter file --targetFitness=0.0                        # -T : Stop when fitness reaches 
  	--CtrlC=1                                # -C : Terminate current generation upon Ctrl C 
 
@@ -53,7 +53,7 @@
  	# read from main Evolufit parameter file --Beta=0.0873                            # -b : Beta 
 
 
-	--popSize=1
+	--popSize=10
 
 	--nbOffspring=10
 
@@ -62,6 +62,8 @@
 	--maxGen=2
 
 	--minGen=0
+
+	--maxEval=300
 
 	--targetFitness=0.0
 
@@ -77,7 +79,7 @@
 
 	--printBestStat=1
 
-	--printPop=1
+	--printPop=0
 
 	--seed=1550
 

@@ -43,8 +43,6 @@ public:
 
 	string toString() const;
 
-	string serialize() const;	
-
 	void printOn(OutputChannel &) const;
 	void readFrom(InputChannel &);
 
