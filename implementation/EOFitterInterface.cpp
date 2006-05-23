@@ -54,7 +54,7 @@ FitterResults EOFitterInterface::runFitter(ModelTuningParameters * startPoint) {
 		results.setBestFit(params,fitness);
 		delete buf;
     }
-
+ 
 	return results;
 
 }
@@ -102,50 +102,18 @@ EOT EOFitterInterface::runAlgorithm(EOT, eoParser& _parser, eoState& _state) {
     eoCheckPoint<EOT> & checkpoint = make_checkpoint(_parser, _state, eval, term);
     // algorithm (need the operator!)
 
-    // Enabling the distributed evaluation of the population
+    // Enabling the distributed evaluation of the population 
     EODistFitness<EOT> pop_eval(fitness);
-    pop_eval(pop,pop);
 
     eoAlgo<EOT>& ga = make_algo_scalar(_parser, _state, pop_eval, checkpoint, op);
 
+	run_ea(ga, pop); // run the ga
 
+	cout << "Final Population\n";
+	pop.sortedPrintOn(cout);
+	cout << endl;
 
-/*  //// Now the representation-independent things
-  //////////////////////////////////////////////
-
-  // initialize the population - and evaluate
-  // yes, this is representation indepedent once you have an eoInit
-  eoPop<EOT>& pop   = make_pop(_parser, _state, init);
-  apply<EOT>(eval, pop);
-
-  // stopping criteria
-  eoContinue<EOT> & term = make_continue(_parser, _state, eval);
-  // output
-  eoCheckPoint<EOT> & checkpoint = make_checkpoint(_parser, _state, eval, term);
-  // algorithm (need the operator!)
-  eoAlgo<EOT>& ga = make_algo_scalar(_parser, _state, eval, checkpoint, op);
-
-*/
-
-
-  ///// End of construction of the algorith
-  /////////////////////////////////////////
-  // to be called AFTER all parameters have been read!!!
-  	make_help(_parser);
-  //// GO
-  ///////
-
-  cout << "Initial Population\n";
-  pop.sortedPrintOn(cout);
-  cout << endl;
-
-  run_ea(ga, pop); // run the ga
-
-  cout << "Final Population\n";
-  pop.sortedPrintOn(cout);
-  cout << endl;
-
-  return pop.best_element();
+	return pop.best_element();
 
 }
 
@@ -267,4 +235,22 @@ string EOParamsContent = " \
 
 
 
+
+/*/// THIS IS USED IF YOU DON'T WANT PARALLEL EVALUATION WVG
+  //// Now the representation-independent things
+  //////////////////////////////////////////////
+
+  // initialize the population - and evaluate
+  // yes, this is representation indepedent once you have an eoInit
+  eoPop<EOT>& pop   = make_pop(_parser, _state, init);
+  apply<EOT>(eval, pop);
+
+  // stopping criteria
+  eoContinue<EOT> & term = make_continue(_parser, _state, eval);
+  // output
+  eoCheckPoint<EOT> & checkpoint = make_checkpoint(_parser, _state, eval, term);
+  // algorithm (need the operator!)
+  eoAlgo<EOT>& ga = make_algo_scalar(_parser, _state, eval, checkpoint, op);
+
+*/
 

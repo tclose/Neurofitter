@@ -3,7 +3,6 @@
 
 #include <eo>
 
-
 #include <es/make_es.h>
 
 // ParadisEO
@@ -14,7 +13,7 @@
 #include "FitterInterface.h"
 #include "FitnessCalculator.h"
 #include "EOFitnessCalculator.h"
-#include "EODistFitnessCalculator.h"
+#include "EODistFitness.h"
 #include "FixedParamObject.h"
 
 class eoParser;

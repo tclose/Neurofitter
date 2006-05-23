@@ -1,5 +1,5 @@
-#ifndef EODISTFITNESSCALCULATOR_h
-#define EODISTFITNESSCALCULATOR_h
+#ifndef EODISTFITNESS_h
+#define EODISTFITNESS_h
 
 #include <queue>
 #include <algorithm>
@@ -9,7 +9,6 @@
 
 #include "FitnessCalculator.h"
 
-/** ? */
 template <class EOT> class EODistFitness : public eoPopEvalFunc <EOT> {
   
 public :

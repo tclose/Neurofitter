@@ -10,7 +10,7 @@
 --Correl=1                               # -c : Use correlated mutations
 
 ######    Evolution Engine        ######
---popSize=10                             # -P : Population Size
+--popSize=2                              # -P : Population Size
 --selection=DetTour(5)                   # -S : Selection: DetTour(T), StochTour(t), Roulette, Ranking(p,e) or Sequential(ordered/unordered)
 --nbOffspring=10                         # -O : Nb of offspring (percentage or absolute)
 --replacement=Plus                       # -R : Replacement: Comma, Plus or EPTour(T), SSGAWorst, SSGADet(T), SSGAStoch(t)

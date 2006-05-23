@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include <stdexcept>
+#include <unistd.h>
 
 using namespace std;
 
@@ -38,6 +39,40 @@ inline void crash(string object, string message) {
 	//cerr << object << ": " << message << endl;
 	//cerr.flush();
 	//exit(1);
+}
+
+inline string getDateAndTime() {
+  	ostringstream o;
+  	
+	// Date
+  	time_t t ;
+  	time (& t) ;
+  	struct tm * tt = localtime (& t) ;
+  	o << '[' ;
+
+
+	unsigned day = tt -> tm_mday ;
+  	o << day << '/' ;
+  	unsigned month = 1+tt -> tm_mon ;
+  	o << month << '/' ;
+  	unsigned year = 1900+tt -> tm_year ;
+  	o << year << ' ' ;
+
+   
+  	unsigned hours = tt -> tm_hour ;
+  	if (hours < 10)
+    	o << '0' ;
+  	o << hours << ':' ;
+  	unsigned min = tt -> tm_min ;
+  	if (min < 10)
+    	o << '0' ;
+  	o << min << ':' ;
+  	unsigned sec = tt -> tm_sec ;
+  	if (sec < 10)
+    	o << '0' ;
+  	o << sec << "] " ;
+
+	return o.str();
 }
 
 #endif

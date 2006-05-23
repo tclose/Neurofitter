@@ -13,10 +13,9 @@ using namespace std;
 ///todo make separate executable for mpi
 ///todo trim the string in parameters.xml
 
-
 int main (int argc, char* argv[]) {
 	cout << "Houston, we have liftoff..." << endl;
-	
+	cout << "The date is: " << getDateAndTime() << endl;	
 		////////////////////////////
 		///	Read parameters file ///
 		////////////////////////////

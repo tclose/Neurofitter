@@ -53,7 +53,7 @@
  	# read from main Evolufit parameter file --Beta=0.0873                            # -b : Beta 
 
 
-	--popSize=10
+	--popSize=2
 
 	--nbOffspring=10
 
