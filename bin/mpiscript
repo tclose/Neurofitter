@@ -10,7 +10,7 @@
 #$ -o /cluster/home/werner/joboutputs
 
 #$ -q normal.q 
-#$ -pe mpichtight 10
+#$ -pe mpichtight 22
 
 #$ -v MPICH_HOME=/cluster/sw/mpich,SGE_QMASTER_PORT=536,MPICH_PROCESS_GROUP=no
 #$ -V
@@ -23,31 +23,38 @@ HOME=/cluster/home/$USER
 #rshcmd=/Library/GridEngine/mpi/rsh
 rshcmd=/Library/GridEngine/utilbin/darwin/rsh
 
-scratch=/cluster/scratch/local/$USER/EvoOutput
-#sort -u -o ./Machinelist $TMPDIR/machines 
+scratchBase=/cluster/scratch/local/$USER/NeurofitterWork
 
 echo "Creating scratch directory on:"
-for machine in `sort -u $TMPDIR/machines`; 
+i=0
+for machine in `cat $TMPDIR/machines`; 
 do
-  echo $machine;
-  $rshcmd $machine mkdir -p $scratch;
-  $rshcmd $machine mkdir -p $scratch/genesisoutput;
+  scratch=${scratchBase}_${JOB_ID}_${i};
+  echo $machine ":" $scratch;
+  $rshcmd $machine mkdir -p ${scratch};
+  $rshcmd $machine mkdir -p ${scratch}/genesisoutput;
+  $rshcmd $machine mkdir -p ${scratchBase}_${JOB_ID};
   $rshcmd $machine cp -rf $HOME/EvolufitWork/wernermodel $scratch/genesisoutput;
   $rshcmd $machine cp -rf $HOME/EvolufitWork/Evolufit/bin $scratch;
+  $rshcmd $machine "sed s#NEUROFITTERSCRATCH#${scratch}# $HOME/EvolufitWork/Evolufit/bin/mpiparameters.xml >${scratchBase}_${JOB_ID}/mpiparameters.xml_${i}"
+  i=`expr $i + 1`;
 done;
 echo
 
-EVOLUBINDIR=$scratch/bin
-
-/cluster/sw/mpich/bin/mpirun -machinefile $TMPDIR/machines -np $NSLOTS $EVOLUBINDIR/MPIEvolufit $EVOLUBINDIR/mpiparameters.xml
+/cluster/sw/mpich/bin/mpirun -machinefile $TMPDIR/machines -np $NSLOTS $HOME/EvolufitWork/Evolufit/bin/MPIEvolufit ${scratchBase}_${JOB_ID}/mpiparameters.xml
 
 echo
 echo "Removing scratch directory from:"
-for machine in `sort -u $TMPDIR/machines`;
+i=0
+for machine in `cat $TMPDIR/machines`;
 do
-  echo $machine
-  $rshcmd $machine rm -rf $scratch
+  scratch=${scratchBase}_${JOB_ID}_${i};
+  echo $machine ":" $scratch;
+  $rshcmd $machine rm -rf $scratch;
+  $rshcmd $machine rm -f ${scratchBase}_${JOB_ID}/mpiparameters.xml_${i};
+  i=`expr $i + 1`;
 done;
 
 # END
+
 

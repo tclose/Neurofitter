@@ -6,14 +6,10 @@ SHELL = /bin/sh
 ALL = $(BINDIR)/Evolufit
 
 BINDIR = bin
-OBJDIR = ./build
 CPPDIR = implementation
 
 DIR_EO = ../EO/src
 DIR_NOMAD = ../NOMAD
-#DIR_MPI = /cluster/sw/mpich/include
-#DIR_MPI = /opt/local/include
-#DIR_LIB_MPI = /opt/local/lib
 DIR_LIBXML2 = /usr/include/libxml2
 
 LIBDIRS=-L$(DIR_EO) -L$(DIR_EO)/es -L$(DIR_EO)/utils -L$(DIR_NOMAD) #-L$(DIR_LIB_MPI)
@@ -32,8 +28,7 @@ MPICXX=mpicxx
 
 DOXYGEN = /opt/local/bin/doxygen
 
-EVOOBJS=	$(CPPDIR)/NormalEvolufitStarter.o \
-			$(CPPDIR)/DataTrace.o \
+EVOOBJS=	$(CPPDIR)/DataTrace.o \
 			$(CPPDIR)/FixedParameters.o \
 			$(CPPDIR)/XMLString.o 
 
@@ -56,8 +51,7 @@ FITTEROBJS=	$(CPPDIR)/NOMADFitterInterface.o \
 			$(CPPDIR)/SwarmFly.o
 
 NORMALOBJS = $(CPPDIR)/Evolufit.o
-MPIOBJS = 	$(CPPDIR)/MPIEvolufitStarter.o \
-			$(CPPDIR)/MPIModelInterface.o \
+MPIOBJS = 	$(CPPDIR)/MPIModelInterface.o \
 			$(CPPDIR)/MPIFitnessCalculator.o \
 			$(CPPDIR)/MPIEvolufit.o \
 			$(CPPDIR)/MPIStream.o
@@ -102,12 +96,6 @@ $(CPPDIR)/MPIFitnessCalculator.o : $(CPPDIR)/MPIFitnessCalculator.cpp ;
 	$(MPICXX) $(CXXFLAGS) -c -o $@ $<
 
 $(CPPDIR)/MPIEvolufit.o : $(CPPDIR)/MPIEvolufit.cpp ;
-	$(MPICXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
-
-$(CPPDIR)/NormalEvolufitStarter.o : $(CPPDIR)/NormalEvolufitStarter.cpp ;
-	$(CXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
-
-$(CPPDIR)/MPIEvolufitStarter.o : $(CPPDIR)/MPIEvolufitStarter.cpp ;
 	$(MPICXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
 
 clean : 

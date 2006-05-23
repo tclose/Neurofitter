@@ -2,7 +2,6 @@
 #define MPIEVOLUFIT_H
 
 #include <mpi.h>
-
-#include "MPIEvolufitStarter.h"
-
+#include "MPIModelInterface.h"
+#include "MPIFitnessCalculator.h"
 #endif

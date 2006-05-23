@@ -1,7 +1,5 @@
 #include "../PabloFitnessCalculator.h"
 
-static int numberOfEvaluations = 0;
-
 PabloFitnessCalculator::PabloFitnessCalculator(ModelInterface * interface, ExperimentInterface * experiment, FixedParameters params) 
 	: FitnessCalculator(interface), FixedParamObject(params) {
 
@@ -64,7 +62,7 @@ vector< double > PabloFitnessCalculator::calculateParallelFitness(vector< ModelT
     	}
 
     	if (exportFileStream.is_open()) {
-        	exportFileStream << numberOfEvaluations << " " << fitnessValues[i] << " ";
+        	exportFileStream << numberOfGenerations << " "<< numberOfEvaluations << " " << fitnessValues[i] << " ";
         	for (int j = 0; j < paramList[i].getLength(); j++) {
             	exportFileStream << (paramList[i][j]) << " ";
         	}
@@ -74,6 +72,8 @@ vector< double > PabloFitnessCalculator::calculateParallelFitness(vector< ModelT
     	paramList[i].setFitnessValue(fitnessValues[i]);
 
 	}
+	
+	numberOfGenerations++;
 
     return fitnessValues;
 

@@ -13,40 +13,142 @@ using namespace std;
 ///todo remove Houston
 ///todo make separate executable for mpi
 
+FixedParameters readParameters(int argc, char* argv[],int rank);
 
 int main (int argc, char* argv[]) {
 	cout << "Houston, we have liftoff..." << endl;
+	cout << "The date is: " << getDateAndTime() << endl;
+		MPI_Init(&argc,&argv);
 
+		int rank;
+		MPI_Comm_rank( MPI_COMM_WORLD, &rank );
+		cout << "Rank: " << rank << endl;
+		
 		////////////////////////////
 		///	Read parameters file ///
 		////////////////////////////
-		// Read data from file
-		cout << "Arguments: {";
-		for (int i = 0; i < argc; i++) {
-			cout << string(argv[i]) << ",";
+		FixedParameters fixedParams = readParameters(argc,argv,rank);
+
+		fixedParams["Rank"] = str(rank);
+		fixedParams.setGlobal("Rank");
+		
+		/////////////////////////
+    	/// Declare variables ///
+    	/////////////////////////
+    	ModelInterface * model;
+    	ExperimentInterface * experiment;
+    	FitnessCalculator * fitness;
+    	FitterInterface * fitter;
+
+    	ModelTuningParameters startPoint(fixedParams["StartingPoints"],toInt(fixedParams["Dimensions"]),fixedParams["Bounds"]);
+
+		////////////////////////
+		/// Initialize Model ///
+		////////////////////////
+		FixedParameters modelFixedParams(fixedParams["ModelParameters"],fixedParams.getGlobals());
+		if (fixedParams["ModelType"] == "Genesis") {
+			model = new GenesisModelInterface(modelFixedParams);
 		}
-		cout << "}" << endl;
-		/*if (argc < 2 || argv[1]==NULL) crash("Evolufit","Not enough arguments: "+str(argc));
-		ifstream paramFile(argv[1]);*/
-		ifstream paramFile("/cluster/home/werner/EvolufitWork/Evolufit/bin/mpiparameters.xml");
-		string fileContent = string(istreambuf_iterator<char>(paramFile),istreambuf_iterator<char>());
-		FixedParameters fixedParameters = FixedParameters(XMLString("<root>"+fileContent+"</root>").getSubString("TestProgram"));
+		else if (fixedParams["ModelType"] == "MPI") {
+			model = new MPIModelInterface(modelFixedParams);
+		}
+		else crash("Main program", "No matching model type");
+	
+		/////////////////////////////
+		/// Initialize Experiment ///
+		/////////////////////////////
+		FixedParameters expFixedParams(fixedParams["ExperimentParameters"],fixedParams.getGlobals());
+		if (fixedParams["ExperimentType"] == "Fake") {
+			experiment = new FakeExperimentInterface(model, expFixedParams);
+		}
+		else crash("Main program", "No matching experiment type");
 
-		// Say which parameters should be passed to child objects
-		fixedParameters.setGlobal("Dimensions");
-		fixedParameters.setGlobal("VerboseLevel");
-		fixedParameters.setGlobal("SamplingFrequency");
-		fixedParameters.setGlobal("Seed");
-		fixedParameters.setGlobal("Bounds");
-		fixedParameters.setGlobal("WorkingDirectory");
+		/////////////////////////////////////
+		/// Initialize Fitness Calculator ///
+		/////////////////////////////////////
+		FixedParameters fitFixedParams(fixedParams["FitnessCalculatorParameters"],fixedParams.getGlobals());
+		if (fixedParams["FitnessCalculatorType"] == "Pablo") {
+			fitness = new PabloFitnessCalculator(model,experiment,fitFixedParams);
+		}
+		else if (fixedParams["FitnessCalculatorType"] == "MPI") {
+			fitness = new MPIFitnessCalculator(model,experiment,fitFixedParams);
+		}
+		else crash("Main program", "No matching fitness calculator type");
+	
+		if (rank == 0) {
 
-		///////////////////
-		///	Run program ///
-		///////////////////
-		MPIEvolufitStarter starter(fixedParameters);
-		starter.run(argc, argv);
+			/////////////////////////
+			/// Initialize Fitter ///
+			/////////////////////////
+			FixedParameters fitterFixedParams(fixedParams["FitterParameters"],fixedParams.getGlobals());
+			if (fixedParams["FitterType"] == "Pablo") {
+				fitter = new PabloFitterInterface(fitness,fitterFixedParams);
+			}
+			else if (fixedParams["FitterType"] == "Mesh") {
+				fitter = new MeshFitterInterface(fitness,fitterFixedParams);
+			}
+			else if (fixedParams["FitterType"] == "Swarm") {
+				fitter = new SwarmFitterInterface(fitness,fitterFixedParams);
+			}
+			else if (fixedParams["FitterType"] == "NOMAD") {
+				fitter = new NOMADFitterInterface(fitness,fitterFixedParams);
+			}
+			else if (fixedParams["FitterType"] == "EO") {
+				fitter = new EOFitterInterface(fitness,fitterFixedParams);
+			}
+			else crash("Main program", "No matching fitter type");
+
+			///////////
+			/// Run ///
+			///////////
+			fitter->runFitter(&startPoint);
+
+			///////////////
+			/// Cleanup ///
+			///////////////
+			delete fitter;
+		}
+		delete experiment;
+		delete fitness;
+		delete model;
+
+		MPI_Finalize();
 
 	cout << endl << "And we have touchdown" << endl;
 
 	return 0;
+}
+
+
+FixedParameters readParameters(int argc, char* argv[], int rank) {
+
+	cout << "Arguments: {";
+	for (int i = 0; i < argc; i++) {
+		cout << string(argv[i]) << ",";
+	}
+	cout << "}" << endl;
+	if (argc < 2 || argv[1]==NULL) crash("Evolufit","Not enough arguments: "+str(argc));
+	
+	string fileLoc = string(argv[1]) + "_" + str(rank);
+	ifstream paramFile(fileLoc.c_str());
+	string fileContent = string(istreambuf_iterator<char>(paramFile),istreambuf_iterator<char>());
+	FixedParameters fixedParameters = FixedParameters(XMLString("<root>"+fileContent+"</root>").getSubString("TestProgram"));
+
+	// Say which parameters should be passed to child objects
+	fixedParameters.setGlobal("Dimensions");
+	fixedParameters.setGlobal("VerboseLevel");
+	fixedParameters.setGlobal("SamplingFrequency");
+	fixedParameters.setGlobal("Seed");
+	fixedParameters.setGlobal("Bounds");
+	fixedParameters.setGlobal("WorkingDirectory");
+
+    if (toInt(fixedParameters["VerboseLevel"]) > 2) {
+    	cout << "VerboseLevel: " << fixedParameters["VerboseLevel"] << endl;
+        cout << "Dimensions: " << fixedParameters["Dimensions"] << endl;
+        cout << "Bounds: "<< fixedParameters["Bounds"] << endl;
+        cout << "StartingPoints: " << fixedParameters["StartingPoints"] << endl;
+    }
+
+	return fixedParameters;
+	
 }

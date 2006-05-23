@@ -11,35 +11,127 @@ using namespace std;
 ///todo make it possible to fix some variables
 ///todo remove Houston
 ///todo make separate executable for mpi
-///todo trim the string in parameters.xml
+
+FixedParameters readParameters(int argc, char* argv[]);
 
 int main (int argc, char* argv[]) {
 	cout << "Houston, we have liftoff..." << endl;
-	cout << "The date is: " << getDateAndTime() << endl;	
+	cout << "The date is: " << getDateAndTime() << endl;		
 		////////////////////////////
 		///	Read parameters file ///
 		////////////////////////////
-		// Read data from file
-		if (argc != 2 || argv[1]==NULL) crash("Evolufit","Wrong number of arguments");
-		ifstream paramFile(argv[1]);
-		string fileContent = string(istreambuf_iterator<char>(paramFile),istreambuf_iterator<char>());
-		FixedParameters fixedParameters = FixedParameters(XMLString("<root>"+fileContent+"</root>").getSubString("TestProgram"));
+		FixedParameters fixedParams = readParameters(argc,argv);
 
-		// Say which parameters should be passed to child objects
-		fixedParameters.setGlobal("Dimensions");
-		fixedParameters.setGlobal("VerboseLevel");
-		fixedParameters.setGlobal("SamplingFrequency");
-		fixedParameters.setGlobal("Seed");
-		fixedParameters.setGlobal("Bounds");
-		fixedParameters.setGlobal("WorkingDirectory");
+		//Set invalid rank, only used for parallel version
+		fixedParams["Rank"] = str(-1);
+		fixedParams.setGlobal("Rank");
+		
+		/////////////////////////
+    	/// Declare variables ///
+    	/////////////////////////
+    	ModelInterface * model;
+    	ExperimentInterface * experiment;
+    	FitnessCalculator * fitness;
+    	FitterInterface * fitter;
 
-		///////////////////
-		///	Run program ///
-		///////////////////
-		NormalEvolufitStarter starter(fixedParameters);
-		starter.run(argc, argv);
+    	ModelTuningParameters startPoint(fixedParams["StartingPoints"],toInt(fixedParams["Dimensions"]),fixedParams["Bounds"]);
+
+		////////////////////////
+		/// Initialize Model ///
+		////////////////////////
+		FixedParameters modelFixedParams(fixedParams["ModelParameters"],fixedParams.getGlobals());
+		if (fixedParams["ModelType"] == "Genesis") {
+			model = new GenesisModelInterface(modelFixedParams);
+		}
+		else crash("Main program", "No matching model type");
+	
+		/////////////////////////////
+		/// Initialize Experiment ///
+		/////////////////////////////
+		FixedParameters expFixedParams(fixedParams["ExperimentParameters"],fixedParams.getGlobals());
+		if (fixedParams["ExperimentType"] == "Fake") {
+			experiment = new FakeExperimentInterface(model, expFixedParams);
+		}
+		else crash("Main program", "No matching experiment type");
+
+		/////////////////////////////////////
+		/// Initialize Fitness Calculator ///
+		/////////////////////////////////////
+		FixedParameters fitFixedParams(fixedParams["FitnessCalculatorParameters"],fixedParams.getGlobals());
+		if (fixedParams["FitnessCalculatorType"] == "Pablo") {
+			fitness = new PabloFitnessCalculator(model,experiment,fitFixedParams);
+		}
+		else crash("Main program", "No matching fitness calculator type");
+	
+
+		/////////////////////////
+		/// Initialize Fitter ///
+		/////////////////////////
+		FixedParameters fitterFixedParams(fixedParams["FitterParameters"],fixedParams.getGlobals());
+		if (fixedParams["FitterType"] == "Pablo") {
+			fitter = new PabloFitterInterface(fitness,fitterFixedParams);
+		}
+		else if (fixedParams["FitterType"] == "Mesh") {
+			fitter = new MeshFitterInterface(fitness,fitterFixedParams);
+		}
+		else if (fixedParams["FitterType"] == "Swarm") {
+			fitter = new SwarmFitterInterface(fitness,fitterFixedParams);
+		}
+		else if (fixedParams["FitterType"] == "NOMAD") {
+			fitter = new NOMADFitterInterface(fitness,fitterFixedParams);
+		}
+		else if (fixedParams["FitterType"] == "EO") {
+			fitter = new EOFitterInterface(fitness,fitterFixedParams);
+		}
+		else crash("Main program", "No matching fitter type");
+
+		///////////
+		/// Run ///
+		///////////
+		fitter->runFitter(&startPoint);
+
+		///////////////
+		/// Cleanup ///
+		///////////////
+		delete fitter;
+		delete experiment;
+		delete fitness;
+		delete model;
 
 	cout << endl << "And we have touchdown" << endl;
 
 	return 0;
+}
+
+
+FixedParameters readParameters(int argc, char* argv[]) {
+
+	cout << "Arguments: {";
+	for (int i = 0; i < argc; i++) {
+		cout << string(argv[i]) << ",";
+	}
+	cout << "}" << endl;
+	if (argc < 2 || argv[1]==NULL) crash("Evolufit","Not enough arguments: "+str(argc));
+	
+	ifstream paramFile(argv[1]);
+	string fileContent = string(istreambuf_iterator<char>(paramFile),istreambuf_iterator<char>());
+	FixedParameters fixedParameters = FixedParameters(XMLString("<root>"+fileContent+"</root>").getSubString("TestProgram"));
+
+	// Say which parameters should be passed to child objects
+	fixedParameters.setGlobal("Dimensions");
+	fixedParameters.setGlobal("VerboseLevel");
+	fixedParameters.setGlobal("SamplingFrequency");
+	fixedParameters.setGlobal("Seed");
+	fixedParameters.setGlobal("Bounds");
+	fixedParameters.setGlobal("WorkingDirectory");
+
+    if (toInt(fixedParameters["VerboseLevel"]) > 2) {
+    	cout << "VerboseLevel: " << fixedParameters["VerboseLevel"] << endl;
+        cout << "Dimensions: " << fixedParameters["Dimensions"] << endl;
+        cout << "Bounds: "<< fixedParameters["Bounds"] << endl;
+        cout << "StartingPoints: " << fixedParameters["StartingPoints"] << endl;
+    }
+
+	return fixedParameters;
+	
 }

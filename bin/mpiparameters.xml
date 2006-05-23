@@ -10,15 +10,16 @@
 		1.0 100000.0 
 		1.0 100000.0
 	</Bounds>
-	<WorkingDirectory>/cluster/scratch/local/werner/EvoOutput/bin</WorkingDirectory>
+	<WorkingDirectory>NEUROFITTERSCRATCH/bin</WorkingDirectory>
 	
-		<FitterType>EO</FitterType>
-		<FitterParameters>
-		<popSize>1</popSize>
-		<nbOffspring>10</nbOffspring>
+	<FitterType>EO</FitterType>
+	<FitterParameters>
+		<popSize>22</popSize>
+		<nbOffspring>22</nbOffspring>
 		<replacement>Plus</replacement>
-		<maxGen>10</maxGen>
+		<maxGen>1000</maxGen>
 		<minGen>0</minGen>
+		<maxEval>300</maxEval>
 		<targetFitness>0.0</targetFitness>
 		<steadyGen>100</steadyGen>
 		<crossType>global</crossType>
@@ -26,7 +27,7 @@
 		<TauLoc>1</TauLoc>
 		<TauGlob>1</TauGlob>
 		<Beta>0.0873</Beta>
-		</FitterParameters>
+	</FitterParameters>
 	
 
 	<!-- <ModelType>MPIModel</ModelType>
@@ -35,7 +36,7 @@
 		<ModelParameters>
 			<GenesisLocation>./localgenesis</GenesisLocation>
 		
-			<ModelDirectory>/cluster/scratch/local/werner/EvoOutput/genesisoutput/wernermodel</ModelDirectory>
+			<ModelDirectory>NEUROFITTERSCRATCH/genesisoutput/wernermodel</ModelDirectory>
 			<ModelSource>wernermodel.g</ModelSource>
 		
 			<ParamFilePrefix>param</ParamFilePrefix>

@@ -3,8 +3,6 @@
 const int tag = 42;
 const int dietag = 666;
 
-static int numberOfEvaluations = 0;
-
 MPIFitnessCalculator::MPIFitnessCalculator(ModelInterface * model, ExperimentInterface * experiment, FixedParameters params) 
 	: FitnessCalculator(NULL), FixedParamObject(params) {
 
@@ -79,6 +77,8 @@ vector< double > MPIFitnessCalculator::calculateParallelFitness(vector< ModelTun
         nReceived++;
     }
 
+	numberOfGenerations++;
+
     return fitnessValues;
 
 }
@@ -110,7 +110,7 @@ void MPIFitnessCalculator::receiveFitnessFromSlave(int & taskRank, vector< doubl
 	numberOfEvaluations++;
 
 	if (exportFileStream.is_open()) {
-			exportFileStream << numberOfEvaluations << " " << results[resultNumber] << " ";
+			exportFileStream << numberOfGenerations << " " << numberOfEvaluations << " " << results[resultNumber] << " ";
 			for (int j = 0; j < paramList[resultNumber].getLength(); j++) {
 				exportFileStream << (paramList[resultNumber][j]) << " ";
 			}
