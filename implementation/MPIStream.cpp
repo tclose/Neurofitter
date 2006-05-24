@@ -68,10 +68,10 @@ impi_stream &impi_stream::operator>>(string &Data) {
   char *value;
   int stringLength;
   MPI_Recv(&stringLength,1,MPI_INT,messageRank,messageId,handle,&status);
-  value = new char[stringLength];
-  MPI_Recv(value,stringLength,MPI_CHAR,messageRank,messageId,handle,&status);
   messageRank = status.MPI_SOURCE;
   messageId = status.MPI_TAG;
+  value = new char[stringLength];
+  MPI_Recv(value,stringLength,MPI_CHAR,messageRank,messageId,handle,&status);
   Data.assign(value);
   delete value;
   return(*this);
