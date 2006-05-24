@@ -11,17 +11,19 @@ MPIFitnessCalculator::MPIFitnessCalculator(ModelInterface * model, ExperimentInt
 		localFitness = new PabloFitnessCalculator(model,experiment,fitFixedParams);
 	}
 	else crash("MPIFitnessCalculator", "No matching fitness calculator type");
-                                    
-	if (toInt(fixedParams["enableFileExport"]) > 0) {
-		this->enableFileExport(fixedParams["exportFile"]);
-	}
-	
+    
 	mpiChannel.setMessageId(tag);
 	rank = mpiChannel.getRank();
 	ntasks = mpiChannel.getSize();
 
 	if (rank != 0) startSlave();
-	        
+	
+	if (rank == 0) {                                
+		if (toInt(fixedParams["enableFileExport"]) > 0) {
+			this->enableFileExport(fixedParams["exportFile"]);
+		}
+	}
+        
 }
 
 MPIFitnessCalculator::~MPIFitnessCalculator() {
@@ -68,7 +70,7 @@ vector< double > MPIFitnessCalculator::calculateParallelFitness(vector< ModelTun
 		receiveFitnessFromSlave(taskRank, fitnessValues, paramList);
 		nReceived++;
 		runFitnessOnSlave(taskRank, nSubmitted ,paramList[nSubmitted]);
-        	nSubmitted++;
+		nSubmitted++;
     }
 
     //Receive the remainder of the results
