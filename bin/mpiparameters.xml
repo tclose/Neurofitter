@@ -11,22 +11,14 @@
 		1.0 100000.0
 	</Bounds>
 	<WorkingDirectory>NEUROFITTERSCRATCH/bin</WorkingDirectory>
-	
-	<FitterType>EO</FitterType>
+
+	<FitterType>Mesh</FitterType>
 	<FitterParameters>
-		<popSize>22</popSize>
-		<nbOffspring>22</nbOffspring>
-		<replacement>Plus</replacement>
-		<maxGen>1000</maxGen>
-		<minGen>0</minGen>
-		<maxEval>300</maxEval>
-		<targetFitness>0.0</targetFitness>
-		<steadyGen>100</steadyGen>
-		<crossType>global</crossType>
-		<crossObj>intermediate</crossObj> 
-		<TauLoc>1</TauLoc>
-		<TauGlob>1</TauGlob>
-		<Beta>0.0873</Beta>
+		<MeshDimensions>2</MeshDimensions>
+		<MeshSize>
+			2000
+			2000
+		</MeshSize>
 	</FitterParameters>
 	
 
@@ -89,16 +81,25 @@
 	</FitnessCalculatorParameters>
 	
 
+	
 <Unused>
-
-	<FitterType>Mesh</FitterType>
+	<FitterType>EO</FitterType>
 	<FitterParameters>
-		<MeshDimensions>2</MeshDimensions>
-		<MeshSize>
-			200
-			200
-		</MeshSize>
+		<popSize>22</popSize>
+		<nbOffspring>22</nbOffspring>
+		<replacement>Plus</replacement>
+		<maxGen>1000</maxGen>
+		<minGen>0</minGen>
+		<maxEval>300</maxEval>
+		<targetFitness>0.0</targetFitness>
+		<steadyGen>100</steadyGen>
+		<crossType>global</crossType>
+		<crossObj>intermediate</crossObj> 
+		<TauLoc>1</TauLoc>
+		<TauGlob>1</TauGlob>
+		<Beta>0.0873</Beta>
 	</FitterParameters>
+
 
 
 
