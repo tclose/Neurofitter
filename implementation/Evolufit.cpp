@@ -11,6 +11,7 @@ using namespace std;
 ///todo make it possible to fix some variables
 ///todo remove Houston
 ///todo make separate executable for mpi
+///todo report bug in EO
 
 FixedParameters readParameters(int argc, char* argv[]);
 
@@ -29,10 +30,10 @@ int main (int argc, char* argv[]) {
 		/////////////////////////
     	/// Declare variables ///
     	/////////////////////////
-    	ModelInterface * model;
-    	ExperimentInterface * experiment;
-    	FitnessCalculator * fitness;
-    	FitterInterface * fitter;
+    	ModelInterface * model = NULL;
+    	ExperimentInterface * experiment = NULL;
+    	FitnessCalculator * fitness = NULL;
+    	FitterInterface * fitter = NULL;
 
     	ModelTuningParameters startPoint(fixedParams["StartingPoints"],toInt(fixedParams["Dimensions"]),fixedParams["Bounds"]);
 

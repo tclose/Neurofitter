@@ -12,7 +12,7 @@ void FitterResults::setBestFit(const ModelTuningParameters newBestFit, const dou
 	bestFit = newBestFit;
 	bestFitness = fitness;
 }
-
+/*
 string FitterResults::getExtraResults() const{
 	return extraResults;
 }
@@ -20,4 +20,4 @@ string FitterResults::getExtraResults() const{
 
 void FitterResults::setExtraResults(const string newExtraResults) {
 	extraResults = newExtraResults;
-}
+}*/

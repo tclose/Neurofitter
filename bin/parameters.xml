@@ -1,6 +1,6 @@
 <TestProgram>
 	<Dimensions>2</Dimensions>	
-	<VerboseLevel>4</VerboseLevel>
+	<VerboseLevel>1</VerboseLevel>
 	<Seed>1550</Seed>
 	<SamplingFrequency>5000</SamplingFrequency>
 	<StartingPoints>
@@ -12,15 +12,23 @@
 	</Bounds>
 	<WorkingDirectory>/Users/werner/Desktop/EvolufitWork/Evolufit/bin</WorkingDirectory>
 
+		<FitterType>EO</FitterType>
+		<FitterParameters>
+		<popSize>2</popSize>
+		<nbOffspring>10</nbOffspring>
+		<replacement>Plus</replacement>
+		<maxGen>2</maxGen>
+		<minGen>0</minGen>
+		<maxEval>300</maxEval>
+		<targetFitness>0.0</targetFitness>
+		<steadyGen>100</steadyGen>
+		<crossType>global</crossType>
+		<crossObj>intermediate</crossObj> 
+		<TauLoc>1</TauLoc>
+		<TauGlob>1</TauGlob>
+		<Beta>0.0873</Beta>
+		</FitterParameters>
 
-    <FitterType>Mesh</FitterType>
-    <FitterParameters>
-        <MeshDimensions>2</MeshDimensions>
-        <MeshSize>
-            20
-            20
-        </MeshSize>
-    </FitterParameters>
 
 
 	<ModelType>Genesis</ModelType>	
@@ -75,24 +83,16 @@
 	
 
 <Unused>
+    <FitterType>Mesh</FitterType>
+    <FitterParameters>
+        <MeshDimensions>2</MeshDimensions>
+        <MeshSize>
+            20
+            20
+        </MeshSize>
+    </FitterParameters>
 
 
-		<FitterType>EO</FitterType>
-		<FitterParameters>
-		<popSize>2</popSize>
-		<nbOffspring>10</nbOffspring>
-		<replacement>Plus</replacement>
-		<maxGen>2</maxGen>
-		<minGen>0</minGen>
-		<maxEval>300</maxEval>
-		<targetFitness>0.0</targetFitness>
-		<steadyGen>100</steadyGen>
-		<crossType>global</crossType>
-		<crossObj>intermediate</crossObj> 
-		<TauLoc>1</TauLoc>
-		<TauGlob>1</TauGlob>
-		<Beta>0.0873</Beta>
-		</FitterParameters>
 
 
 

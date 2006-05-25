@@ -77,7 +77,7 @@
 
 	--TauGlob=1
 
-	--printBestStat=1
+	--printBestStat=0
 
 	--printPop=0
 
