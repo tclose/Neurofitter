@@ -53,7 +53,7 @@ vector< double > MPIFitnessCalculator::calculateParallelFitness(vector< ModelTun
 
 	vector< double > fitnessValues(paramList.size());
 
-	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Running "<< paramList.size() << " jobs in parallel" << endl;
+	if (toInt(fixedParams["VerboseLevel"]) > 2) cout << "Running "<< paramList.size() << " jobs in parallel" << endl;
 
 	int nSubmitted = 0;
 	int nReceived = 0;
@@ -135,7 +135,7 @@ void MPIFitnessCalculator::startSlave() {
         mpiChannel.setMessageId(MPI_ANY_TAG);
         mpiChannel >> resultNumber;
         if (mpiChannel.getMessageId() == dietag) {
-            if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank <<  " received a kill signal from master" << endl;
+            if (toInt(fixedParams["VerboseLevel"]) > 2) cout << "Slave " << rank <<  " received a kill signal from master" << endl;
             return;
         }
         else if (mpiChannel.getMessageId() != tag) {
@@ -146,7 +146,7 @@ void MPIFitnessCalculator::startSlave() {
         ModelTuningParameters parameters;
         parameters.readFrom(mpiChannel);
 
-        if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank << " running model with parameters: " << parameters.toString() << endl;
+        if (toInt(fixedParams["VerboseLevel"]) > 2) cout << "Slave " << rank << " running model with parameters: " << parameters.toString() << endl;
     
         double result = localFitness->calculateFitness(parameters);
     
