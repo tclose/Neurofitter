@@ -5,7 +5,7 @@ FitterResults MeshFitterInterface::runFitter(ModelTuningParameters * unusedStart
 
 	ModelTuningParameters resolution(fixedParams["MeshSize"],toInt(fixedParams["Dimensions"]),fixedParams["Bounds"]);
 
-	if (toInt(fixedParams["MeshSize"]) > 4) {
+	if (toInt(fixedParams["VerboseLevel"]) > 4) {
 		cout << "Creating MeshInterface with " << toInt(fixedParams["Dimensions"]) << " dimensions" << endl;
 	}
 	//////////////////////////////////////

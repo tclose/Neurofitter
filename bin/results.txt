@@ -3,12 +3,12 @@ Problem specifications:
 Problem dimension: 2, number of outputs: 1
 Random seed: 1
 Use the caches? No
-Starting point (feasible):  0.367386   (1, 1)
+Starting point (feasible):  0.0406316   (3608.59, 8713.06)
 
 Constraints:
 ------------
 Lower bounds: (1, 1)
-Upper bounds: (100000, 100000)
+Upper bounds: (10000, 50000)
 
 Scaling:
 --------
@@ -16,17 +16,17 @@ No scaling
 
 Iterative search type:
 ----------------------
-Random search, 4 points, incomplete.
+Random search, 10 points, incomplete.
 
 Speculative search: Executed after a successful iteration.
 -------------
 
 Mesh variables:
 ---------------
-Initial poll size: 1
-Initial mesh size: 0.25
-Maximum poll size: 100000
-Maximum mesh size: 50000
+Initial poll size: 1000
+Initial mesh size: 500
+Maximum poll size: 1000
+Maximum mesh size: 500
 Poll size basis: 4
 Coarsening exponent: 2
 Refining exponent: -2
@@ -42,7 +42,7 @@ Termination criteria:
 Poll size: NA
 Mesh size: NA
 Number of iterations: NA
-Number of truth evaluations: 10
+Number of truth evaluations: 100
 Number of new truth evaluations: NA
 Number of consecutive failures: NA
 
@@ -51,18 +51,20 @@ Run-time information...
 
 feval #   f(x)   Point
 -------   ----   -----
-   1    0.36738605   (1, 1)
-   6    0.13725635   (4705.4219, 67886.797)
-   13    0.13725635   (4705.4219, 67886.797)
+   1    0.040631616   (3608.59, 8713.06)
+   4    0.040604978   (3608.59, 8681.81)
+   57    0.040469975   (3609.0783, 8681.6879)
+   81    0.038668836   (2190.9875, 28245.287)
+   107    0.038668836   (2190.9875, 28245.287)
 
 Problem solution:
 -----------------
-Best point found: 0.13725635   (4705.4219, 67886.797)
-Final mesh size: 0.25
-Number of iterations: 3
-Truth evaluations: 13
-New truth evaluations: 13
-Number of consecutive failures: 0
+Best point found: 0.038668836   (2190.9875, 28245.287)
+Final mesh size: 0.12207031
+Number of iterations: 9
+Truth evaluations: 107
+New truth evaluations: 107
+Number of consecutive failures: 13
 
 
 Run statistics
@@ -71,9 +73,9 @@ Run statistics
 		NUMBER OF	f(x) DECREASE AT
 		SUCCESSES	FEASIBLE POINTS (%)
 		---------	-------------------
-POLL		    0		     0.00
-SEARCH   	    1		     100.00
+POLL		    2		     8.24
+SEARCH   	    1		     91.76
    (Initial   	    0		     0.00)
-   (Iterative	    1		     100.00)
+   (Iterative	    1		     91.76)
    (Dense	    0		     0.00)
 

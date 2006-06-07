@@ -33,6 +33,7 @@ using namespace std;
 #include "NOMADFitterInterface.h"
 #include "PabloFitterInterface.h"
 #include "MeshFitterInterface.h"
+#include "RandomFitterInterface.h"
 #include "SwarmFitterInterface.h"
 
 #endif

@@ -53,17 +53,17 @@
  	# read from main Evolufit parameter file --Beta=0.0873                            # -b : Beta 
 
 
-	--popSize=2
+	--popSize=50
 
 	--nbOffspring=10
 
 	--replacement=Plus
 
-	--maxGen=2
+	--maxGen=10
 
 	--minGen=0
 
-	--maxEval=300
+	--maxEval=
 
 	--targetFitness=0.0
 
@@ -77,7 +77,7 @@
 
 	--TauGlob=1
 
-	--printBestStat=0
+	--printBestStat=1
 
 	--printPop=0
 
@@ -85,6 +85,6 @@
 
 	--vecSize=2
 
-	--initBounds=[1,100000];[1,100000];
+	--initBounds=[1,10000];[1,50000];
 
-	--objectBounds=[1,100000];[1,100000];
+	--objectBounds=[1,10000];[1,50000];

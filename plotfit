@@ -4,7 +4,8 @@
 #set zrange [0.0001:0.1];
 
 #splot "~/Desktop/fitnessSQRTMESH.dat" using 3:4:2; 
-splot "bin/parallelFitness.dat" using 4:5:3; 
+#splot "bin/parallelfitness.dat" using 4:5:3; 
+plot "bin/parallelfitness.dat" using 4:5; 
 
 
 set pm3d at bs;
@@ -13,5 +14,5 @@ set dgrid3d ,,16
 #set hidden3d
 set ticslevel 0
 #splot "~/Desktop/fitnessSQRTMESH.dat" using 3:4:2;# with lines; 
-#splot "bin/parallelFitness.dat" using 3:4:2;# with lines; 
+#splot "bin/parallelFitness.dat" using 4:5:3;# with lines; 
 pause -1;
