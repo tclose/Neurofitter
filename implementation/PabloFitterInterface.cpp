@@ -8,8 +8,8 @@ FitterResults PabloFitterInterface::runFitter(ModelTuningParameters * startPoint
 	/// Read parameters ///
 	///////////////////////
  
-	FixedParameters eoFixParam = FixedParameters(fixedParams["EOFitter"], fixedParams.getGlobals());
-	FixedParameters nomadFixParam = FixedParameters(fixedParams["NOMADFitter"], fixedParams.getGlobals());
+	FixedParameters eoFixParam = FixedParameters(fixedParams["EOFitterParameters"], fixedParams.getGlobals());
+	FixedParameters nomadFixParam = FixedParameters(fixedParams["NOMADFitterParameters"], fixedParams.getGlobals());
 
 	//////////////
 	/// Run EO ///

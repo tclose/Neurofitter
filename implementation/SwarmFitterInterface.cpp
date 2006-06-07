@@ -1,10 +1,12 @@
 #include "../SwarmFitterInterface.h"
 
+// Standard PSO version 2006
 
 FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint) {
 
-	int numberOfFlies = toInt(fixedParams["NumberOfFlies"]);
-	if (numberOfFlies < 0) crash("SwarmFitterInterface","Negative number of flies !!");
+	int numberOfFlies = 10+2*sqrt(toInt(fixedParams["Dimensions"]));
+	double w = 1.0/(2.0*log(2.0));
+	double c = 0.5 + log(2.0);
 
 	int numberOfRuns = toInt(fixedParams["NumberOfRuns"]);
 	if (numberOfRuns < 0) crash("SwarmFitterInterface","Negative number of runs !!");
@@ -14,14 +16,19 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 	vector< SwarmFly > swarm(numberOfFlies, SwarmFly(&randGen));
 
 	ModelTuningParameters startP(startPoint->getLength());
+	ModelTuningParameters startX;
+	ModelTuningParameters startY;
 	ModelTuningParameters startSpeed(startPoint->getLength());
 	
 	for (int i = 0; i < numberOfFlies; i++) {
+		///todo check random bounds
 		for (int j = 0; j < startP.getLength(); j++) {
-			startP[j] = startPoint->getLowerBound(j)+(startPoint->getUpperBound(j)-startPoint->getLowerBound(j))*randGen.rand();
+			startP[j] = startPoint->getLowerBound(j)+randGen.rand(startPoint->getUpperBound(j)-startPoint->getLowerBound(j));
 		}
 		for (int j = 0; j < startSpeed.getLength(); j++) {
-			startSpeed[j] = 0.0*randGen.rand();
+			startX = startPoint->getLowerBound(j)+randGen.rand(startPoint->getUpperBound(j)-startPoint->getLowerBound(j));
+			startY = startPoint->getLowerBound(j)+*randGen.rand(startPoint->getUpperBound(j)-startPoint->getLowerBound(j));
+			startSpeed[j] = startX-startY;
 		}
 		swarm[i].setMembers(fitness,0.9,0.9,startP,startSpeed);
 	}

@@ -1,10 +1,9 @@
 #include "../SwarmFly.h"
 
 
-void SwarmFly::setMembers(FitnessCalculator *fit, double newC1, double newC2, ModelTuningParameters startPoint, ModelTuningParameters startSpeed) {
+void SwarmFly::setMembers(FitnessCalculator *fit, double inertial, double newC, ModelTuningParameters startPoint, ModelTuningParameters startSpeed) {
         fitness = fit;
-        c1 = newC1;
-        c2 = newC2;
+        c = newC;
 		currentSpeed = startSpeed;
         move(startPoint);
 }
@@ -14,13 +13,8 @@ void SwarmFly::fly() {
         ModelTuningParameters newPosition(currentPosition);
         ModelTuningParameters newSpeed(currentPosition.getLength());
 
-        double r1 = randGen->rand();
-        double r2 = randGen->rand();
-
         for (int i = 0; i < currentPosition.getLength(); i++) {
-            newSpeed[i] = inertial*currentSpeed[i] +
-                              c1*r1*(bestLocalSolution[i]-currentPosition[i]) +
-                              c2*r2*(bestGlobalSolution[i]-currentPosition[i]);
+            newSpeed[i] = inertial*currentSpeed[i] + randGen->rand(c)*(bestLocalSolution[i]-currentPosition[i]);
             currentSpeed = newSpeed;
             newPosition[i] = currentPosition[i] + currentSpeed[i];
         }

@@ -4,15 +4,26 @@
 #set zrange [0.0001:0.1];
 
 #splot "~/Desktop/fitnessSQRTMESH.dat" using 3:4:2; 
+<<<<<<< .mine
+#splot "bin/fitness.dat" using 4:5:3; 
+set xlabel "evaluations"
+set ylabel "NaP conductance"
+plot "bin/fitness.dat" using 2:3;
+=======
 #splot "bin/parallelfitness.dat" using 4:5:3; 
 plot "bin/parallelfitness.dat" using 4:5; 
+>>>>>>> .r79
 
 
 set pm3d at bs;
-set dgrid3d ,,16
+set dgrid3d ,,8
 #set contour
 #set hidden3d
 set ticslevel 0
 #splot "~/Desktop/fitnessSQRTMESH.dat" using 3:4:2;# with lines; 
+<<<<<<< .mine
+#splot "bin/fitness.dat" using 4:5:3;# with lines; 
+=======
 #splot "bin/parallelFitness.dat" using 4:5:3;# with lines; 
+>>>>>>> .r79
 pause -1;
