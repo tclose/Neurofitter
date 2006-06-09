@@ -1,2 +1,3 @@
 make mpi
-qsub bin/mpiscript
+cd bin
+qsub mpiscript
