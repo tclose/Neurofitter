@@ -180,16 +180,16 @@ void EOFitterInterface::writeEOParamsFile(string fileName, ModelTuningParameters
 string EOParamsContent = " \
 	 --help=0                                 # -h : Prints this message \n\
 	 --stopOnUnknownParam=1                   # Stop if unkown param entered \n\
- 	 # read from main Evolufit parameter file --seed=1098191371                        # -S : Random number seed \n\
+ 	 # read from main Neurofitter parameter file --seed=1098191371                        # -S : Random number seed \n\
 \n\
 	 --Isotropic=1                            # -i : Isotropic self-adaptive mutation \n\
  	 --Stdev=1                                # -s : One self-adaptive stDev per variable \n\
  	 --Correl=1                               # -c : Use correlated mutations \n\
 \n\
-	# read from main Evolufit parameter file --popSize=50                             # -P : Population Size \n\
+	# read from main Neurofitter parameter file --popSize=50                             # -P : Population Size \n\
  	--selection=DetTour(5)                   # -S : Selection: Roulette, Ranking(p,e), DetTour(T), StochTour(t) or Sequential(ordered/unordered) \n\
- 	# read from main Evolufit parameter file--nbOffspring=10                       # -O : Nb of offspring (percentage or absolute) \n\
- 	# read from main Evolufit parameter file--replacement=Plus                       # -R : Replacement: Comma, Plus or EPTour(T), SSGAWorst, SSGADet(T), SSGAStoch(t) \n\
+ 	# read from main Neurofitter parameter file--nbOffspring=10                       # -O : Nb of offspring (percentage or absolute) \n\
+ 	# read from main Neurofitter parameter file--replacement=Plus                       # -R : Replacement: Comma, Plus or EPTour(T), SSGAWorst, SSGADet(T), SSGAStoch(t) \n\
  	--weakElitism=0                          # -w : Old best parent replaces new worst offspring *if necessary* \n\
 \n\
 	# auto filled in --vecSize=4                             # -n : The number of variables \n\
@@ -198,8 +198,8 @@ string EOParamsContent = " \
 \n\
 	--useEval=1                              # Use nb of eval. as counter (vs nb of gen.) \n\
  	--useTime=1                              # Display time (s) every generation \n\
- 	# read from main Evolufit parameter file --printBestStat=1                        # Print Best/avg/stdev every gen. \n\
- 	# read from main Evolufit parameter file --printPop=0                             # Print sorted pop. every gen. \n\
+ 	# read from main Neurofitter parameter file --printBestStat=1                        # Print Best/avg/stdev every gen. \n\
+ 	# read from main Neurofitter parameter file --printPop=0                             # Print sorted pop. every gen. \n\
 \n\
  	--resDir=ResNew                             # Directory to store DISK outputs \n\
  	--eraseDir=1                             # erase files in dirName if any \n\
@@ -214,23 +214,23 @@ string EOParamsContent = " \
  	--saveTimeInterval=0                     # Save every T seconds (0 or absent = never) \n\
  	--status=./ESEA.status                   # Status file \n\
 \n\
- 	# read from main Evolufit parameter file --maxGen=50                               # -G : Maximum number of generations () = none) \n\
- 	# read from main Evolufit parameter file --steadyGen=100                            # -s : Number of generations with no improvement \n\
- 	# read from main Evolufit parameter file --minGen=0                               # -g : Minimum number of generations \n\
- 	# read from main Evolufit parameter file --maxEval=300                              # -E : Maximum number of evaluations (0 = none) \n\
- 	# read from main Evolufit parameter file --targetFitness=0.0                        # -T : Stop when fitness reaches \n\
+ 	# read from main Neurofitter parameter file --maxGen=50                               # -G : Maximum number of generations () = none) \n\
+ 	# read from main Neurofitter parameter file --steadyGen=100                            # -s : Number of generations with no improvement \n\
+ 	# read from main Neurofitter parameter file --minGen=0                               # -g : Minimum number of generations \n\
+ 	# read from main Neurofitter parameter file --maxEval=300                              # -E : Maximum number of evaluations (0 = none) \n\
+ 	# read from main Neurofitter parameter file --targetFitness=0.0                        # -T : Stop when fitness reaches \n\
  	--CtrlC=1                                # -C : Terminate current generation upon Ctrl C \n\
 \n\
  	# auto filled in --objectBounds=[1,10000];[1,10000];[1,10000];[1,10000]                  # -B : Bounds for variables \n\
  	--operator=SGA                           # -o : Description of the operator (SGA only now) \n\
  	--pCross=1                               # -C : Probability of Crossover \n\
  	--pMut=1                                 # -M : Probability of Mutation \n\
- 	# read from main Evolufit parameter file --crossType=global                       # -C : Type of ES recombination (global or standard) \n\
- 	# read from main Evolufit parameter file --crossObj=intermediate                      # -O : Recombination of object variables (discrete, intermediate or none) \n\
+ 	# read from main Neurofitter parameter file --crossType=global                       # -C : Type of ES recombination (global or standard) \n\
+ 	# read from main Neurofitter parameter file --crossObj=intermediate                      # -O : Recombination of object variables (discrete, intermediate or none) \n\
  	--crossStdev=intermediate                # -S : Recombination of mutation strategy parameters (intermediate, discrete or none) \n\
- 	# read from main Evolufit parameter file --TauLoc=1                               # -l : Local Tau (before normalization) \n\
- 	# read from main Evolufit parameter file --TauGlob=1                              # -g : Global Tau (before normalization) \n\
- 	# read from main Evolufit parameter file --Beta=0.0873                            # -b : Beta \n\
+ 	# read from main Neurofitter parameter file --TauLoc=1                               # -l : Local Tau (before normalization) \n\
+ 	# read from main Neurofitter parameter file --TauGlob=1                              # -g : Global Tau (before normalization) \n\
+ 	# read from main Neurofitter parameter file --Beta=0.0873                            # -b : Beta \n\
 ";
 
 

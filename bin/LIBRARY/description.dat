@@ -1,5 +1,5 @@
 DIMENSION	2
-PROBLEM_NAME	Evolufit
+PROBLEM_NAME	Neurofitter
 SCALING_CHOICE	0
 GEN_CONS_NB	0
 USE_SURROGATE	0
@@ -7,7 +7,7 @@ USE_BLACK_BOXES	0
 USE_BOUNDS	1
 USE_CACHES	0
 DIRECTORY	.
-START_PT_FILE	/Users/werner/Desktop/EvolufitWork/Evolufit/bin/start_pt.txt
+START_PT_FILE	/Users/werner/Desktop/NeurofitterWork/Neurofitter/bin/start_pt.txt
 INPUT_FILE	DummyInput.txt
-BOUNDS_FILE	/Users/werner/Desktop/EvolufitWork/Evolufit/bin/bounds.txt
+BOUNDS_FILE	/Users/werner/Desktop/NeurofitterWork/Neurofitter/bin/bounds.txt
 RESULTS_FILE	results.txt

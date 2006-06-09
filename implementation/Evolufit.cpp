@@ -1,4 +1,4 @@
-#include "../Evolufit.h"
+#include "../Neurofitter.h"
 
 using namespace std;
 
@@ -115,7 +115,7 @@ FixedParameters readParameters(int argc, char* argv[]) {
 		cout << string(argv[i]) << ",";
 	}
 	cout << "}" << endl;
-	if (argc < 2 || argv[1]==NULL) crash("Evolufit","Not enough arguments: "+str(argc));
+	if (argc < 2 || argv[1]==NULL) crash("Neurofitter","Not enough arguments: "+str(argc));
 	
 	ifstream paramFile(argv[1]);
 	string fileContent = string(istreambuf_iterator<char>(paramFile),istreambuf_iterator<char>());

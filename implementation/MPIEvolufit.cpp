@@ -1,5 +1,5 @@
-#include "../Evolufit.h"
-#include "../MPIEvolufit.h"
+#include "../Neurofitter.h"
+#include "../MPINeurofitter.h"
 
 using namespace std;
 
@@ -127,7 +127,7 @@ FixedParameters readParameters(int argc, char* argv[], int rank) {
 		cout << string(argv[i]) << ",";
 	}
 	cout << "}" << endl;
-	if (argc < 2 || argv[1]==NULL) crash("Evolufit","Not enough arguments: "+str(argc));
+	if (argc < 2 || argv[1]==NULL) crash("Neurofitter","Not enough arguments: "+str(argc));
 	
 	string fileLoc = string(argv[1]) + "_" + str(rank);
 	ifstream paramFile(fileLoc.c_str());

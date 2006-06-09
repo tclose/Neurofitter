@@ -3,7 +3,7 @@ SHELL = /bin/sh
 # .SUFFIXES:
 .SUFFIXES: .cpp .o
 
-ALL = $(BINDIR)/Evolufit
+ALL = $(BINDIR)/Neurofitter
 
 BINDIR = bin
 CPPDIR = implementation
@@ -28,7 +28,7 @@ MPICXX=mpicxx
 
 DOXYGEN = /opt/local/bin/doxygen
 
-EVOOBJS=	$(CPPDIR)/DataTrace.o \
+NEUROFITTEROBJS=	$(CPPDIR)/DataTrace.o \
 			$(CPPDIR)/FixedParameters.o \
 			$(CPPDIR)/XMLString.o 
 
@@ -51,22 +51,22 @@ FITTEROBJS=	$(CPPDIR)/NOMADFitterInterface.o \
 			$(CPPDIR)/SwarmFitterInterface.o \
 			$(CPPDIR)/SwarmFly.o
 
-NORMALOBJS = $(CPPDIR)/Evolufit.o
+NORMALOBJS = $(CPPDIR)/Neurofitter.o
 MPIOBJS = 	$(CPPDIR)/MPIModelInterface.o \
 			$(CPPDIR)/MPIFitnessCalculator.o \
-			$(CPPDIR)/MPIEvolufit.o \
+			$(CPPDIR)/MPINeurofitter.o \
 			$(CPPDIR)/MPIStream.o
 
-OBJS = $(MODOBJS) $(FITOBJS) $(EXPOBJS) $(FITTEROBJS) $(EVOOBJS) 
+OBJS = $(MODOBJS) $(FITOBJS) $(EXPOBJS) $(FITTEROBJS) $(NEUROFITTEROBJS) 
 
 all : $(ALL)
 
-mpi : $(BINDIR)/MPIEvolufit
+mpi : $(BINDIR)/MPINeurofitter
 
-$(BINDIR)/Evolufit : $(OBJS) $(NORMALOBJS) ; 
+$(BINDIR)/Neurofitter : $(OBJS) $(NORMALOBJS) ; 
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(NORMALOBJS) $(CXXLIBS)
 
-$(BINDIR)/MPIEvolufit : $(OBJS) $(MPIOBJS) ; 
+$(BINDIR)/MPINeurofitter : $(OBJS) $(MPIOBJS) ; 
 	$(MPICXX) $(CXXFLAGS) -o $@ $(OBJS) $(MPIOBJS) $(CXXLIBS)
 
 $(CPPDIR)/EOFitterInterface.o : $(CPPDIR)/EOFitterInterface.cpp ;
@@ -84,7 +84,7 @@ $(CPPDIR)/PabloFitterInterface.o : $(CPPDIR)/PabloFitterInterface.cpp ;
 $(CPPDIR)/truthfunction.o : $(CPPDIR)/truthfunction.cpp ;
 	$(CXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_NOMAD) -o $@ $<
 
-$(CPPDIR)/Evolufit.o : $(CPPDIR)/Evolufit.cpp ;
+$(CPPDIR)/Neurofitter.o : $(CPPDIR)/Neurofitter.cpp ;
 	$(CXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
 
 $(CPPDIR)/MPIStream.o : $(CPPDIR)/MPIStream.cpp ;
@@ -96,7 +96,7 @@ $(CPPDIR)/MPIModelInterface.o : $(CPPDIR)/MPIModelInterface.cpp ;
 $(CPPDIR)/MPIFitnessCalculator.o : $(CPPDIR)/MPIFitnessCalculator.cpp ;
 	$(MPICXX) $(CXXFLAGS) -c -o $@ $<
 
-$(CPPDIR)/MPIEvolufit.o : $(CPPDIR)/MPIEvolufit.cpp ;
+$(CPPDIR)/MPINeurofitter.o : $(CPPDIR)/MPINeurofitter.cpp ;
 	$(MPICXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
 
 clean : 

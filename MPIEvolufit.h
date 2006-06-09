@@ -1,5 +1,5 @@
-#ifndef MPIEVOLUFIT_H
-#define MPIEVOLUFIT_H
+#ifndef MPINEUROFITTER_H
+#define MPINEUROFITTER_H
 
 #include <mpi.h>
 #include "MPIModelInterface.h"

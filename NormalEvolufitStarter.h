@@ -1,14 +1,14 @@
-#ifndef NORMALEVOLUFITSTARTER_H
-#define NORMALEVOLUFITSTARTER_H
+#ifndef NORMALNEUROFITTERSTARTER_H
+#define NORMALNEUROFITTERSTARTER_H
 
 ///todo include the right header files
-#include "Evolufit.h"
-#include "EvolufitStarter.h"
+#include "Neurofitter.h"
+#include "NeurofitterStarter.h"
 
-class NormalEvolufitStarter : public EvolufitStarter, FixedParamObject {
+class NormalNeurofitterStarter : public NeurofitterStarter, FixedParamObject {
 
 public:
-	NormalEvolufitStarter(FixedParameters params);
+	NormalNeurofitterStarter(FixedParameters params);
 	void run(int argc, char** argv);
 
 };

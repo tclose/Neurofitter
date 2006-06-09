@@ -1,9 +1,9 @@
-#include "../NormalEvolufitStarter.h"
+#include "../NormalNeurofitterStarter.h"
 
-NormalEvolufitStarter::NormalEvolufitStarter(FixedParameters params)
+NormalNeurofitterStarter::NormalNeurofitterStarter(FixedParameters params)
 		: FixedParamObject(params) {}
 
-void NormalEvolufitStarter::run(int argc, char** argv) {
+void NormalNeurofitterStarter::run(int argc, char** argv) {
 
 	/////////////////////////
     /// Declare variables ///

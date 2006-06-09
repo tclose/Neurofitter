@@ -1,7 +1,7 @@
-#ifndef EVOLUFIT_H
-#define EVOLUFIT_H
+#ifndef NEUROFITTER_H
+#define NEUROFITTER_H
 
-///todo add EVOLUFIT to header file constants
+///todo add NEUROFITTER to header file constants
 
 #include <string>
 #include <iostream>

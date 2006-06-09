@@ -36,14 +36,14 @@ do
   $rshcmd $machine mkdir -p ${scratch};
   $rshcmd $machine mkdir -p ${scratch}/genesisoutput;
   $rshcmd $machine mkdir -p ${scratchBase}_${JOB_ID};
-  $rshcmd $machine cp -rf $HOME/EvolufitWork/wernermodel $scratch/genesisoutput;
-  $rshcmd $machine cp -rf $HOME/EvolufitWork/Evolufit/bin $scratch;
-  $rshcmd $machine "sed s#NEUROFITTERSCRATCH#${scratch}# $HOME/EvolufitWork/Evolufit/bin/mpiparameters.xml >${scratchBase}_${JOB_ID}/mpiparameters.xml_${i}"
+  $rshcmd $machine cp -rf $HOME/NeurofitterWork/wernermodel $scratch/genesisoutput;
+  $rshcmd $machine cp -rf $HOME/NeurofitterWork/Neurofitter/bin $scratch;
+  $rshcmd $machine "sed s#NEUROFITTERSCRATCH#${scratch}# $HOME/NeurofitterWork/Neurofitter/bin/mpiparameters.xml >${scratchBase}_${JOB_ID}/mpiparameters.xml_${i}"
   i=`expr $i + 1`;
 done;
 echo
 
-/cluster/sw/mpich/bin/mpirun -e -machinefile $TMPDIR/machines -np $NSLOTS $HOME/EvolufitWork/Evolufit/bin/MPIEvolufit ${scratchBase}_${JOB_ID}/mpiparameters.xml
+/cluster/sw/mpich/bin/mpirun -e -machinefile $TMPDIR/machines -np $NSLOTS $HOME/NeurofitterWork/Neurofitter/bin/MPINeurofitter ${scratchBase}_${JOB_ID}/mpiparameters.xml
 
 echo
 echo "Removing scratch directory from:"

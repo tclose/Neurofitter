@@ -1,2 +1,2 @@
 #qdel $1
-cat ~/joboutputs/mpiscript.po$1 | grep -v catch_rsh | xargs -tn 1 -J % rsh % killall MPIEvolufit 
+cat ~/joboutputs/mpiscript.po$1 | grep -v catch_rsh | xargs -tn 1 -J % rsh % killall MPINeurofitter 

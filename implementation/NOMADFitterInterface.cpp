@@ -91,7 +91,7 @@ void NOMADFitterInterface::writeDescriptionFile(string fileName) {
 
 	file << "DIMENSION\t"<< fixedParams["Dimensions"] << endl;
 
-	file << "PROBLEM_NAME\t"<< "Evolufit" << endl;
+	file << "PROBLEM_NAME\t"<< "Neurofitter" << endl;
 	file << "SCALING_CHOICE\t"<< fixedParams["SCALING_CHOICE"] << endl;
 	file << "GEN_CONS_NB\t"<< fixedParams["GEN_CONS_NB"] << endl;
 	file << "USE_SURROGATE\t"<< fixedParams["USE_SURROGATE"] << endl;

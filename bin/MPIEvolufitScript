@@ -1,2 +1,2 @@
-cd /cluster/home/werner/EvolufitWork/Evolufit/bin
-MPIEvolufit mpiparameters.xml
+cd /cluster/home/werner/NeurofitterWork/Neurofitter/bin
+MPINeurofitter mpiparameters.xml
