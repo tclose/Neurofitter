@@ -14,7 +14,7 @@ void SwarmFly::fly() {
         ModelTuningParameters newSpeed(currentPosition.getLength());
 
         for (int i = 0; i < currentPosition.getLength(); i++) {
-            newSpeed[i] = inertial*currentSpeed[i] + randGen->rand(c)*(bestLocalSolution[i]-currentPosition[i]);
+            newSpeed[i] = w*currentSpeed[i] + randGen->rand(c)*(bestLocalSolution[i]-currentPosition[i]);
             currentSpeed = newSpeed;
             newPosition[i] = currentPosition[i] + currentSpeed[i];
         }

@@ -4,9 +4,12 @@
 
 FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint) {
 
-	int numberOfFlies = 10+2*sqrt(toInt(fixedParams["Dimensions"]));
+	int numberOfFlies = (int)(10.0+2.0*sqrt(toInt(fixedParams["Dimensions"])));
 	double w = 1.0/(2.0*log(2.0));
 	double c = 0.5 + log(2.0);
+	
+	(void)w;
+	(void)c;
 
 	int numberOfRuns = toInt(fixedParams["NumberOfRuns"]);
 	if (numberOfRuns < 0) crash("SwarmFitterInterface","Negative number of runs !!");
@@ -26,8 +29,8 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 			startP[j] = startPoint->getLowerBound(j)+randGen.rand(startPoint->getUpperBound(j)-startPoint->getLowerBound(j));
 		}
 		for (int j = 0; j < startSpeed.getLength(); j++) {
-			startX = startPoint->getLowerBound(j)+randGen.rand(startPoint->getUpperBound(j)-startPoint->getLowerBound(j));
-			startY = startPoint->getLowerBound(j)+*randGen.rand(startPoint->getUpperBound(j)-startPoint->getLowerBound(j));
+			double startX = startPoint->getLowerBound(j)+randGen.rand(startPoint->getUpperBound(j)-startPoint->getLowerBound(j));
+			double startY = startPoint->getLowerBound(j)+randGen.rand(startPoint->getUpperBound(j)-startPoint->getLowerBound(j));
 			startSpeed[j] = startX-startY;
 		}
 		swarm[i].setMembers(fitness,0.9,0.9,startP,startSpeed);
