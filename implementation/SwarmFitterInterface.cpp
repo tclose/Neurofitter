@@ -4,7 +4,7 @@
 
 FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint) {
 
-	int numberOfFlies = (int)(10.0+2.0*sqrt(toInt(fixedParams["Dimensions"])));
+	int numberOfFlies = (int)(10.0+2.0*sqrt((double)toInt(fixedParams["Dimensions"])));
 	double w = 1.0/(2.0*log(2.0));
 	double c = 0.5 + log(2.0);
 	

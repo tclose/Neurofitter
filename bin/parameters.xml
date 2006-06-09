@@ -10,13 +10,11 @@
 		1.0 10000.0 
 		1.0 50000.0
 	</Bounds>
-	<WorkingDirectory>/Users/werner/Desktop/NeurofitterWork/Neurofitter/bin</WorkingDirectory>
-
-
+	<WorkingDirectory>/Users/werner/NeurofitterWork/Neurofitter/bin</WorkingDirectory>
 		
 	<FitterType>Pablo</FitterType>
 	<FitterParameters>
-		<EOFitter>
+		<EOFitterParameters>
 			<popSize>50</popSize>
 			<nbOffspring>10</nbOffspring>
 			<replacement>Plus</replacement>
@@ -29,10 +27,10 @@
 			<TauLoc>1</TauLoc>
 			<TauGlob>1</TauGlob>
 			<Beta>0.0873</Beta>
-		</EOFitter>
+		</EOFitterParameters>
 	
 		
-		<NOMADFitter>
+		<NOMADFitterParameters>
 			<INITIAL_POLL_SIZE>1000</INITIAL_POLL_SIZE>
 			<MAX_POLL_SIZE>1000</MAX_POLL_SIZE>
 			<POLL_BASIS>4</POLL_BASIS> 
@@ -74,7 +72,7 @@
 			<BOUNDS_FILE>bounds.txt</BOUNDS_FILE>
 			<INPUT_FILE>input.txt</INPUT_FILE>
 			<RESULTS_FILE>results.txt</RESULTS_FILE>
-		</NOMADFitter>	
+		</NOMADFitterParameters>	
 	</FitterParameters>
 
 

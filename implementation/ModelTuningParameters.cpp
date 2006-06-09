@@ -95,7 +95,7 @@ void ModelTuningParameters::setBounds(const string boundString, const int newBou
     	ModelTuningParameters::setBounds(newBounds, newBoundsLength);
 	}
 	else {
-		ModelTuningParameters::setBounds(NULL, 0);	
+		ModelTuningParameters::setBounds(vector< double >(0), 0);	
 	}
 }
 
