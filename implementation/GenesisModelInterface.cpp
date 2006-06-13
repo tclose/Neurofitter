@@ -74,11 +74,13 @@ runModel(const ModelTuningParameters & params) {
 						+fixedParams["GenesisLocation"]+" -nox -notty -batch "+fixedParams["ModelSource"]+" > gen.out 2> " + errorFileName;
 		if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << endl << "calling " << genCommand << endl;}
 		
-		system(genCommand.c_str());
+		int exitCode = system(genCommand.c_str());
 
-		/////////////////////////////////////////////////////
-		/// Check to see if there was no error in genesis ///
-		/////////////////////////////////////////////////////
+		if (exitCode == -1) crash("GenesisModelInterface","Genesis returned with error code");
+		
+		///////////////////////////////////////////////////////////////////////////////
+		/// Check to see if there was no error in genesis (not used at this moment) ///
+		///////////////////////////////////////////////////////////////////////////////
 
 		errorFile.open((fixedParams["ModelDirectory"]+"/"+errorFileName).c_str(), ios::in);
 		errorFile.seekg (0, ios::end);
