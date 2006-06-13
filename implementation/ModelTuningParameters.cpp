@@ -89,6 +89,7 @@ void ModelTuningParameters::setBounds(const string boundString, const int newBou
 
     	istringstream stream (boundString);
     	for (int i = 0; i < newBoundsLength; i++) {
+			if (!stream.good()) crash("ModelTuningParameters","Error while reading bounds from parameters file");
         	stream >> newBounds[i];
     	}   
     
