@@ -59,7 +59,7 @@ int main (int argc, char* argv[]) {
 		/// Initialize Fitness Calculator ///
 		/////////////////////////////////////
 		FixedParameters fitFixedParams(fixedParams["FitnessCalculatorParameters"],fixedParams.getGlobals());
-		if (fixedParams["FitnessCalculatorType"] == "Pablo") {
+		if (fixedParams["FitnessCalculatorType"] == "Matrix") {
 			fitness = new MatrixFitnessCalculator(model,experiment,fitFixedParams);
 		}
 		else crash("Main program", "No matching fitness calculator type");

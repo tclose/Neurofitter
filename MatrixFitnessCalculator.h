@@ -9,7 +9,7 @@ using namespace std;
 
 #include "ModelInterface.h"
 #include "ExperimentInterface.h"
-#include "PabloVdVdtMatrix.h"
+#include "VdVdtMatrix.h"
 #include "ModelTuningParameters.h"
 #include "FitnessCalculator.h"
 #include "FixedParamObject.h"
@@ -30,7 +30,7 @@ public:
 	virtual vector< pair< ModelTuningParameters, double > > getFitnessHistory();
 
 private:
-	vector< PabloVdVdtMatrix > expVdVdtMatrices;	
+	vector< VdVdtMatrix > expVdVdtMatrices;	
 	ofstream exportFileStream;
 };
 

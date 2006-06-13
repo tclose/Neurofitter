@@ -1,14 +1,14 @@
-#include "../PabloVdVdtMatrix.h"
+#include "../VdVdtMatrix.h"
 
 ///todo make this object use maps
 
-PabloVdVdtMatrix::PabloVdVdtMatrix() 
+VdVdtMatrix::VdVdtMatrix() 
 	: FixedParamObject(), vLength(0), dVdtLength(0), VdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {}
 
-PabloVdVdtMatrix::PabloVdVdtMatrix(FixedParameters params) 
+VdVdtMatrix::VdVdtMatrix(FixedParameters params) 
 	: FixedParamObject(params), vLength(0), dVdtLength(0), VdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {}
 
-PabloVdVdtMatrix::PabloVdVdtMatrix(const DataTrace& trace, FixedParameters params) 
+VdVdtMatrix::VdVdtMatrix(const DataTrace& trace, FixedParameters params) 
 	:	FixedParamObject(params), 
 		vLength(toInt(fixedParams["vLength"])), 
 		dVdtLength(toInt(fixedParams["dVdtLength"])), 
@@ -41,10 +41,10 @@ PabloVdVdtMatrix::PabloVdVdtMatrix(const DataTrace& trace, FixedParameters param
 		dVdt = (VPrev-VNext) * trace.getSamplingFrequency();
 
 		if (toInt(fixedParams["VerboseLevel"]) > 4) {	
-			if (V < minimalV) {cout << "Warning: V smaller than minimal V in PabloVdVdtMatrix: "<<str(V)<<endl;}
-			if (V >= maximalV) {cout << "Warning: V larger than maximal V in PabloVdVdtMatrix: "<<str(V)<<endl;}
-			if (dVdt < minimaldVdt) {cout << "Warning: dVdt smaller than minimal dVdt in PabloVdVdtMatrix: "<<str(dVdt)<<endl;}
-			if (dVdt >= maximaldVdt) {cout << "Warning: dVdt larger than maximal dVdt in PabloVdVdtMatrix: "<<str(dVdt)<<endl;}
+			if (V < minimalV) {cout << "Warning: V smaller than minimal V in VdVdtMatrix: "<<str(V)<<endl;}
+			if (V >= maximalV) {cout << "Warning: V larger than maximal V in VdVdtMatrix: "<<str(V)<<endl;}
+			if (dVdt < minimaldVdt) {cout << "Warning: dVdt smaller than minimal dVdt in VdVdtMatrix: "<<str(dVdt)<<endl;}
+			if (dVdt >= maximaldVdt) {cout << "Warning: dVdt larger than maximal dVdt in VdVdtMatrix: "<<str(dVdt)<<endl;}
 		}
 
 		if (V < minimalV) V=minimalV;
@@ -59,15 +59,15 @@ PabloVdVdtMatrix::PabloVdVdtMatrix(const DataTrace& trace, FixedParameters param
 	}
 }
 
-int PabloVdVdtMatrix::getVLength() const {
+int VdVdtMatrix::getVLength() const {
 	return vLength;
 }
 
-int PabloVdVdtMatrix::getdVdtLength() const {
+int VdVdtMatrix::getdVdtLength() const {
 	return dVdtLength;
 }
 
-double PabloVdVdtMatrix::compare(const PabloVdVdtMatrix & other) const {
+double VdVdtMatrix::compare(const VdVdtMatrix & other) const {
 
 	double fitnessValue = 0;
 
@@ -75,8 +75,8 @@ double PabloVdVdtMatrix::compare(const PabloVdVdtMatrix & other) const {
 
   	const double precision = toDouble(fixedParams["comparePrecision"]);
    
-	if (other.getVLength() != vLength) crash("PabloVdVdtMatrix","V dimensions don't match");
-	if (other.getdVdtLength() != dVdtLength) crash("PabloVdVdtMatrix","dVdt dimensions don't match");	
+	if (other.getVLength() != vLength) crash("VdVdtMatrix","V dimensions don't match");
+	if (other.getdVdtLength() != dVdtLength) crash("VdVdtMatrix","dVdt dimensions don't match");	
 
 	///////////////////////////////////////////////////////////
 	/// Calculate the square root of the sum of the squares ///
@@ -95,22 +95,22 @@ double PabloVdVdtMatrix::compare(const PabloVdVdtMatrix & other) const {
 }
 
 
-inline vector<double>& PabloVdVdtMatrix::operator[] (const int subscript) {
+inline vector<double>& VdVdtMatrix::operator[] (const int subscript) {
     if (subscript < 0 || subscript >= vLength) {
-		crash("PabloVdVdtMatrix","Invalid subscript: "+subscript);
+		crash("VdVdtMatrix","Invalid subscript: "+subscript);
 	}
 	return VdVdtMatrix[subscript];
 }
 
 
-inline const vector<double>& PabloVdVdtMatrix::operator[] (const int subscript) const {
+inline const vector<double>& VdVdtMatrix::operator[] (const int subscript) const {
     if (subscript < 0 || subscript >= vLength) {
-		crash("PabloVdVdtMatrix","Invalid subscript: "+subscript);
+		crash("VdVdtMatrix","Invalid subscript: "+subscript);
 	}
 	return VdVdtMatrix[subscript];
 }
 
-string PabloVdVdtMatrix::toString() const {
+string VdVdtMatrix::toString() const {
 	ostringstream result;
 
 	for (int vIndex=0;vIndex<vLength;vIndex++) {

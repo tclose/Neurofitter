@@ -102,15 +102,15 @@
 
 	<FitnessCalculatorType>MPI</FitnessCalculatorType>
 	<FitnessCalculatorParameters>
-		<FitnessCalculatorType>Pablo</FitnessCalculatorType>
+		<FitnessCalculatorType>Matrix</FitnessCalculatorType>
 		<FitnessCalculatorParameters>
-			<PabloVdVdtMatrix>
+			<VdVdtMatrix>
 				<vLength>100</vLength>
 				<dVdtLength>100</dVdtLength>
 				<minimalV>-0.1</minimalV>
 				<maximalV>0.1</maximalV>
 				<comparePrecision>1e-15</comparePrecision>
-			</PabloVdVdtMatrix>
+			</VdVdtMatrix>
 			<enableFileExport>0</enableFileExport>
 			<exportFile>fitness.dat</exportFile>
 		</FitnessCalculatorParameters>

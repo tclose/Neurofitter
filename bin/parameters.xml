@@ -55,15 +55,15 @@
 		<Parameters>2800.0 11200.0</Parameters>	
 	</ExperimentParameters>
 	
-	<FitnessCalculatorType>Pablo</FitnessCalculatorType>
+	<FitnessCalculatorType>Matrix</FitnessCalculatorType>
 	<FitnessCalculatorParameters>
-		<PabloVdVdtMatrix>
+		<VdVdtMatrix>
 			<vLength>100</vLength>
 			<dVdtLength>100</dVdtLength>
 			<minimalV>-0.1</minimalV>
 			<maximalV>0.1</maximalV>
 			<comparePrecision>1e-15</comparePrecision>
-		</PabloVdVdtMatrix>
+		</VdVdtMatrix>
 		<enableFileExport>1</enableFileExport>
 		<exportFile>parallelFitness.dat</exportFile>
 	</FitnessCalculatorParameters>
