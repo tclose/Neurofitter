@@ -45,7 +45,7 @@ FITTEROBJS=	$(CPPDIR)/NOMADFitterInterface.o \
 			$(CPPDIR)/FitterResults.o \
 			$(CPPDIR)/truthfunction.o \
 			$(CPPDIR)/EOFitterInterface.o \
-			$(CPPDIR)/PabloFitterInterface.o \
+			$(CPPDIR)/EONOMADFitterInterface.o \
 			$(CPPDIR)/MeshFitterInterface.o \
 			$(CPPDIR)/RandomFitterInterface.o \
 			$(CPPDIR)/SwarmFitterInterface.o \
@@ -78,7 +78,7 @@ $(CPPDIR)/EOFitness.o : $(CPPDIR)/EOFitness.cpp ;
 $(CPPDIR)/NOMADFitterInterface.o : $(CPPDIR)/NOMADFitterInterface.cpp ;
 	$(CXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_NOMAD) -o $@ $<
 
-$(CPPDIR)/PabloFitterInterface.o : $(CPPDIR)/PabloFitterInterface.cpp ;
+$(CPPDIR)/EONOMADFitterInterface.o : $(CPPDIR)/EONOMADFitterInterface.cpp ;
 	$(CXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
 
 $(CPPDIR)/truthfunction.o : $(CPPDIR)/truthfunction.cpp ;

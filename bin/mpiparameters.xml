@@ -197,7 +197,7 @@
 	
 	
 		
-	<Fitter type="Pablo">
+	<Fitter type="EONOMAD">
 		<EOFitter>
 			<popSize>50</popSize>
 			<nbOffspring>10</nbOffspring>

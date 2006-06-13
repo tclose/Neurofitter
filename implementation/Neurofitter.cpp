@@ -69,8 +69,8 @@ int main (int argc, char* argv[]) {
 		/// Initialize Fitter ///
 		/////////////////////////
 		FixedParameters fitterFixedParams(fixedParams["FitterParameters"],fixedParams.getGlobals());
-		if (fixedParams["FitterType"] == "Pablo") {
-			fitter = new PabloFitterInterface(fitness,fitterFixedParams);
+		if (fixedParams["FitterType"] == "EONOMAD") {
+			fitter = new EONOMADFitterInterface(fitness,fitterFixedParams);
 		}
 		else if (fixedParams["FitterType"] == "Mesh") {
 			fitter = new MeshFitterInterface(fitness,fitterFixedParams);

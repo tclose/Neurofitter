@@ -1,5 +1,5 @@
-#ifndef PABLOFITTERINTERFACE_H
-#define PABLOFITTERINTERFACE_H
+#ifndef NEUROFITTER_EONOMADFITTERINTERFACE_H
+#define NEUROFITTER_EONOMADFITTERINTERFACE_H
 
 #include "FitterInterface.h"
 #include "ModelInterface.h"
@@ -12,17 +12,17 @@
 
 using namespace std;
 
-class PabloFitterInterface : public FitterInterface, public FixedParamObject {
+class EONOMADFitterInterface : public FitterInterface, public FixedParamObject {
 
 public:
-	PabloFitterInterface(FitnessCalculator*, FixedParameters);
+	EONOMADFitterInterface(FitnessCalculator*, FixedParameters);
 	////
 	//Inherited from FitterInterface
 	////
 	FitterResults runFitter(ModelTuningParameters * startingPoint);
 
 private:
-	PabloFitterInterface();
+	EONOMADFitterInterface();
 
 };
 

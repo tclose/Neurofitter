@@ -1,9 +1,9 @@
-#include "../PabloFitterInterface.h"
+#include "../EONOMADFitterInterface.h"
 
-PabloFitterInterface::PabloFitterInterface(FitnessCalculator * fit, FixedParameters param) 
+EONOMADFitterInterface::EONOMADFitterInterface(FitnessCalculator * fit, FixedParameters param) 
 	: FitterInterface(fit), FixedParamObject(param) {}
 
-FitterResults PabloFitterInterface::runFitter(ModelTuningParameters * startPoints) {
+FitterResults EONOMADFitterInterface::runFitter(ModelTuningParameters * startPoints) {
 	///////////////////////
 	/// Read parameters ///
 	///////////////////////

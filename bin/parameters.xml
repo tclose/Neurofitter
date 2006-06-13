@@ -71,7 +71,7 @@
 
 <Unused>
 
-	<FitterType>Pablo</FitterType>
+	<FitterType>EONOMAD</FitterType>
 	<FitterParameters>
 		<EOFitterParameters>
 			<popSize>50</popSize>
