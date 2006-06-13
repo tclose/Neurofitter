@@ -3,16 +3,16 @@
 ///todo make this object use maps
 
 NormalVdVdtMatrix::NormalVdVdtMatrix() 
-	: FixedParamObject(), vLength(0), dVdtLength(0), NormalVdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {}
+	: FixedParamObject(), vLength(0), dVdtLength(0), VdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {}
 
 NormalVdVdtMatrix::NormalVdVdtMatrix(FixedParameters params) 
-	: FixedParamObject(params), vLength(0), dVdtLength(0), NormalVdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {}
+	: FixedParamObject(params), vLength(0), dVdtLength(0), VdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {}
 
 NormalVdVdtMatrix::NormalVdVdtMatrix(const DataTrace& trace, FixedParameters params) 
 	:	FixedParamObject(params), 
 		vLength(toInt(fixedParams["vLength"])), 
 		dVdtLength(toInt(fixedParams["dVdtLength"])), 
-		NormalVdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {
+		VdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {
 
 	//////////////////
 	/// Initialize ///
@@ -99,7 +99,7 @@ inline vector<double>& NormalVdVdtMatrix::operator[] (const int subscript) {
     if (subscript < 0 || subscript >= vLength) {
 		crash("NormalVdVdtMatrix","Invalid subscript: "+subscript);
 	}
-	return NormalVdVdtMatrix[subscript];
+	return VdVdtMatrix[subscript];
 }
 
 
@@ -107,7 +107,7 @@ inline const vector<double>& NormalVdVdtMatrix::operator[] (const int subscript)
     if (subscript < 0 || subscript >= vLength) {
 		crash("NormalVdVdtMatrix","Invalid subscript: "+subscript);
 	}
-	return NormalVdVdtMatrix[subscript];
+	return VdVdtMatrix[subscript];
 }
 
 string NormalVdVdtMatrix::toString() const {

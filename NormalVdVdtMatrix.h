@@ -1,5 +1,5 @@
-#ifndef PABLOVDVDTMATRIX_H
-#define PABLOVDVDTMATRIX_H
+#ifndef NEUROFITTER_NORMALVDVDTMATRIX_H
+#define NEUROFITTER_NORMALVDVDTMATRIX_H
 
 #include <iostream>
 #include <cmath>
@@ -31,7 +31,7 @@ public:
 protected:
 	int vLength;
 	int dVdtLength;	
-	vector< vector< double > > NormalVdVdtMatrix;
+	vector< vector< double > > VdVdtMatrix;
 };
 	
 #endif
