@@ -67,7 +67,8 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 		for (int j = 0; j < numberOfFlies; j++) {
 			swarm[j].setNewPositionFitness(flyPositions[j]);
 		}
-		cout << "Best solution after run " << i << " : " << SwarmFly::bestGlobalSolution.toString() << " : " << SwarmFly::bestGlobalSolution.getFitnessValue() << endl;
+		if (toInt(fixedParams["VerboseLevel"]) > 1)
+			cout << "Best solution after run " << i << " : " << SwarmFly::bestGlobalSolution.toString() << " : " << SwarmFly::bestGlobalSolution.getFitnessValue() << endl;
 		if (!(SwarmFly::bestGlobalSolution.getFitnessValue() < tempBestValue)) {
 			if (toInt(fixedParams["VerboseLevel"]) > 2) cout << "No better solution found in the last : Randomizing swarm topology" << endl; 
 			randomizeTopology(swarm, maxInformed, randGen);

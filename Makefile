@@ -37,7 +37,7 @@ MODOBJS=	$(CPPDIR)/ModelResults.o \
 			$(CPPDIR)/ModelTuningParameters.o
 
 FITOBJS=	$(CPPDIR)/PabloVdVdtMatrix.o \
-			$(CPPDIR)/PabloFitnessCalculator.o
+			$(CPPDIR)/MatrixFitnessCalculator.o
 			
 EXPOBJS=	$(CPPDIR)/FakeExperimentInterface.o
 

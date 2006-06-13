@@ -14,11 +14,11 @@ using namespace std;
 #include "FitnessCalculator.h"
 #include "FixedParamObject.h"
 
-class PabloFitnessCalculator : public FitnessCalculator, public FixedParamObject {
+class MatrixFitnessCalculator : public FitnessCalculator, public FixedParamObject {
 
 public:
-	PabloFitnessCalculator(ModelInterface * interface, ExperimentInterface * experiment, FixedParameters); 
-	~PabloFitnessCalculator();
+	MatrixFitnessCalculator(ModelInterface * interface, ExperimentInterface * experiment, FixedParameters); 
+	~MatrixFitnessCalculator();
 
 	virtual double calculateFitness(ModelTuningParameters & param);
 	virtual vector< double > calculateParallelFitness(vector< ModelTuningParameters > & params);

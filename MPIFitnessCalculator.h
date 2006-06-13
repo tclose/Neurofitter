@@ -12,7 +12,7 @@ using namespace std;
 #include "ExperimentInterface.h"
 #include "ModelTuningParameters.h"
 #include "FitnessCalculator.h"
-#include "PabloFitnessCalculator.h"
+#include "MatrixFitnessCalculator.h"
 #include "FixedParamObject.h"
 #include "MPIStream.h"
 

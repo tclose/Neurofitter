@@ -1,6 +1,6 @@
-#include "../PabloFitnessCalculator.h"
+#include "../MatrixFitnessCalculator.h"
 
-PabloFitnessCalculator::PabloFitnessCalculator(ModelInterface * interface, ExperimentInterface * experiment, FixedParameters params) 
+MatrixFitnessCalculator::MatrixFitnessCalculator(ModelInterface * interface, ExperimentInterface * experiment, FixedParameters params) 
 	: FitnessCalculator(interface), FixedParamObject(params) {
 
 	if (toInt(fixedParams["enableFileExport"]) > 0) {
@@ -22,12 +22,12 @@ PabloFitnessCalculator::PabloFitnessCalculator(ModelInterface * interface, Exper
 
 }
 
-PabloFitnessCalculator::~PabloFitnessCalculator() {
+MatrixFitnessCalculator::~MatrixFitnessCalculator() {
 	exportFileStream.close();
 }
 
 /// todo don't return value, but use value inside ModelTuningParameters
-double PabloFitnessCalculator::calculateFitness(ModelTuningParameters & params) {
+double MatrixFitnessCalculator::calculateFitness(ModelTuningParameters & params) {
 
 	vector< ModelTuningParameters > paramList(1);
 	paramList[0] = params;
@@ -36,7 +36,7 @@ double PabloFitnessCalculator::calculateFitness(ModelTuningParameters & params) 
 
 }
 
-vector< double > PabloFitnessCalculator::calculateParallelFitness(vector< ModelTuningParameters > & paramList) {
+vector< double > MatrixFitnessCalculator::calculateParallelFitness(vector< ModelTuningParameters > & paramList) {
 
 	vector< double > fitnessValues(paramList.size());
 
@@ -79,22 +79,22 @@ vector< double > PabloFitnessCalculator::calculateParallelFitness(vector< ModelT
 
 }
 
-vector< pair< ModelTuningParameters, double > > PabloFitnessCalculator::getFitnessHistory() {
+vector< pair< ModelTuningParameters, double > > MatrixFitnessCalculator::getFitnessHistory() {
 	return fitnessHistory;
 }
 
 
-void PabloFitnessCalculator::enableFileExport(const string fileName) {
+void MatrixFitnessCalculator::enableFileExport(const string fileName) {
 	exportFileStream.open(fileName.c_str(), ios::out);
 	if (toInt(fixedParams["VerboseLevel"]) > 2) {
-		cout << "PabloFitnessCalculator: Enabled export to file: " << fileName << endl;
+		cout << "MatrixFitnessCalculator: Enabled export to file: " << fileName << endl;
 	}
 }
 
-void PabloFitnessCalculator::disableFileExport() {
+void MatrixFitnessCalculator::disableFileExport() {
 	exportFileStream.close();
 }
    
-string PabloFitnessCalculator::getExportFile() const {
+string MatrixFitnessCalculator::getExportFile() const {
 	return exportFile;
 }

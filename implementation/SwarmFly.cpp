@@ -31,8 +31,6 @@ ModelTuningParameters SwarmFly::calculateNewPosition() {
             newPosition[i] = currentPosition[i] + currentSpeed[i];
         }
 
-		cout << "Position before KeepInBox: New position: " << newPosition.toString() << " New Speed: " << currentSpeed.toString() << endl;
-
 		//Adapt speed and position to keep fly inside the bounds
 		keepInBox(newPosition);
 

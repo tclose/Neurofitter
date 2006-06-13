@@ -25,7 +25,7 @@ using namespace std;
 #include "GenesisModelInterface.h"
 #include "FakeExperimentInterface.h"
 #include "PabloVdVdtMatrix.h"
-#include "PabloFitnessCalculator.h"
+#include "MatrixFitnessCalculator.h"
 
 #include "EOFitnessCalculator.h"
 

@@ -5,7 +5,7 @@
 #include "ModelInterface.h"
 #include "ExperimentInterface.h"
 #include "FitnessCalculator.h"
-#include "PabloFitnessCalculator.h"
+#include "MatrixFitnessCalculator.h"
 #include "EOFitterInterface.h"
 #include "NOMADFitterInterface.h"
 #include "FixedParamObject.h"

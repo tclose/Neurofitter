@@ -68,7 +68,7 @@ int main (int argc, char* argv[]) {
 		/////////////////////////////////////
 		FixedParameters fitFixedParams(fixedParams["FitnessCalculatorParameters"],fixedParams.getGlobals());
 		if (fixedParams["FitnessCalculatorType"] == "Pablo") {
-			fitness = new PabloFitnessCalculator(model,experiment,fitFixedParams);
+			fitness = new MatrixFitnessCalculator(model,experiment,fitFixedParams);
 		}
 		else if (fixedParams["FitnessCalculatorType"] == "MPI") {
 			fitness = new MPIFitnessCalculator(model,experiment,fitFixedParams);

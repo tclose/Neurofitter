@@ -8,7 +8,7 @@ MPIFitnessCalculator::MPIFitnessCalculator(ModelInterface * model, ExperimentInt
 
 	FixedParameters fitFixedParams(fixedParams["FitnessCalculatorParameters"],fixedParams.getGlobals());
 	if (fixedParams["FitnessCalculatorType"] == "Pablo") {
-		localFitness = new PabloFitnessCalculator(model,experiment,fitFixedParams);
+		localFitness = new MatrixFitnessCalculator(model,experiment,fitFixedParams);
 	}
 	else crash("MPIFitnessCalculator", "No matching fitness calculator type");
     
