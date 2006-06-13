@@ -9,12 +9,12 @@ MatrixFitnessCalculator::MatrixFitnessCalculator(ModelInterface * interface, Exp
 
 	ModelResults expData = experiment->getData();	
 
-	expVdVdtMatrices = vector< VdVdtMatrix >(expData.getLength()); 
+	expVdVdtMatrices = vector< NormalVdVdtMatrix >(expData.getLength()); 
 	if (toInt(fixedParams["VerboseLevel"]) > 4) {
 		cout << "Experiment VdVdtMatrices: "<< endl;
 	}
 	for (int nTrace = 0; nTrace < expData.getLength(); nTrace++) {
-		expVdVdtMatrices[nTrace] = VdVdtMatrix(expData[nTrace], FixedParameters(fixedParams["VdVdtMatrix"],fixedParams.getGlobals()));
+		expVdVdtMatrices[nTrace] = NormalVdVdtMatrix(expData[nTrace], FixedParameters(fixedParams["NormalVdVdtMatrix"],fixedParams.getGlobals()));
 		if (toInt(fixedParams["VerboseLevel"]) > 4) {
 			cout << expVdVdtMatrices[nTrace].toString() << endl;
         }
@@ -47,10 +47,10 @@ vector< double > MatrixFitnessCalculator::calculateParallelFitness(vector< Model
         	cout << "Model VdVdtMatrices: " << endl;
     	}
     	for (int nTrace = 0; nTrace < results[i].getLength(); nTrace++) {
-        	VdVdtMatrix modelVdVdtMatrix(results[i][nTrace], FixedParameters(fixedParams["VdVdtMatrix"], fixedParams.getGlobals()));
-        	fitnessValues[i] += results[i][nTrace].getWeight() * expVdVdtMatrices[nTrace].compare(modelVdVdtMatrix);
+        	NormalVdVdtMatrix modelNormalVdVdtMatrix(results[i][nTrace], FixedParameters(fixedParams["NormalVdVdtMatrix"], fixedParams.getGlobals()));
+        	fitnessValues[i] += results[i][nTrace].getWeight() * expVdVdtMatrices[nTrace].compare(modelNormalVdVdtMatrix);
         	if (toInt(fixedParams["VerboseLevel"]) > 4) {
-            	cout << modelVdVdtMatrix.toString() << endl;
+            	cout << modelNormalVdVdtMatrix.toString() << endl;
         	}
     	}
     	numberOfEvaluations++;

@@ -11,12 +11,12 @@ using namespace std;
 #include "Tools.h"
 
 ///todo use a map to implement this
-class VdVdtMatrix : public FixedParamObject {
+class NormalVdVdtMatrix : public FixedParamObject {
 
 public:
-	VdVdtMatrix();
-	VdVdtMatrix(const FixedParameters);
-	VdVdtMatrix(const DataTrace&, const FixedParameters);
+	NormalVdVdtMatrix();
+	NormalVdVdtMatrix(const FixedParameters);
+	NormalVdVdtMatrix(const DataTrace&, const FixedParameters);
 
 	int getVLength() const;
 	int getdVdtLength() const;
@@ -24,14 +24,14 @@ public:
 	inline vector<double>& operator[](const int);
 	inline const vector<double>& operator[](const int) const;
 
-	double compare(const VdVdtMatrix&) const;
+	double compare(const NormalVdVdtMatrix&) const;
 
 	string toString() const;
 	
 protected:
 	int vLength;
 	int dVdtLength;	
-	vector< vector< double > > VdVdtMatrix;
+	vector< vector< double > > NormalVdVdtMatrix;
 };
 	
 #endif

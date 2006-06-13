@@ -1,18 +1,18 @@
-#include "../VdVdtMatrix.h"
+#include "../NormalVdVdtMatrix.h"
 
 ///todo make this object use maps
 
-VdVdtMatrix::VdVdtMatrix() 
-	: FixedParamObject(), vLength(0), dVdtLength(0), VdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {}
+NormalVdVdtMatrix::NormalVdVdtMatrix() 
+	: FixedParamObject(), vLength(0), dVdtLength(0), NormalVdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {}
 
-VdVdtMatrix::VdVdtMatrix(FixedParameters params) 
-	: FixedParamObject(params), vLength(0), dVdtLength(0), VdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {}
+NormalVdVdtMatrix::NormalVdVdtMatrix(FixedParameters params) 
+	: FixedParamObject(params), vLength(0), dVdtLength(0), NormalVdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {}
 
-VdVdtMatrix::VdVdtMatrix(const DataTrace& trace, FixedParameters params) 
+NormalVdVdtMatrix::NormalVdVdtMatrix(const DataTrace& trace, FixedParameters params) 
 	:	FixedParamObject(params), 
 		vLength(toInt(fixedParams["vLength"])), 
 		dVdtLength(toInt(fixedParams["dVdtLength"])), 
-		VdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {
+		NormalVdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {
 
 	//////////////////
 	/// Initialize ///
@@ -41,10 +41,10 @@ VdVdtMatrix::VdVdtMatrix(const DataTrace& trace, FixedParameters params)
 		dVdt = (VPrev-VNext) * trace.getSamplingFrequency();
 
 		if (toInt(fixedParams["VerboseLevel"]) > 4) {	
-			if (V < minimalV) {cout << "Warning: V smaller than minimal V in VdVdtMatrix: "<<str(V)<<endl;}
-			if (V >= maximalV) {cout << "Warning: V larger than maximal V in VdVdtMatrix: "<<str(V)<<endl;}
-			if (dVdt < minimaldVdt) {cout << "Warning: dVdt smaller than minimal dVdt in VdVdtMatrix: "<<str(dVdt)<<endl;}
-			if (dVdt >= maximaldVdt) {cout << "Warning: dVdt larger than maximal dVdt in VdVdtMatrix: "<<str(dVdt)<<endl;}
+			if (V < minimalV) {cout << "Warning: V smaller than minimal V in NormalVdVdtMatrix: "<<str(V)<<endl;}
+			if (V >= maximalV) {cout << "Warning: V larger than maximal V in NormalVdVdtMatrix: "<<str(V)<<endl;}
+			if (dVdt < minimaldVdt) {cout << "Warning: dVdt smaller than minimal dVdt in NormalVdVdtMatrix: "<<str(dVdt)<<endl;}
+			if (dVdt >= maximaldVdt) {cout << "Warning: dVdt larger than maximal dVdt in NormalVdVdtMatrix: "<<str(dVdt)<<endl;}
 		}
 
 		if (V < minimalV) V=minimalV;
@@ -59,15 +59,15 @@ VdVdtMatrix::VdVdtMatrix(const DataTrace& trace, FixedParameters params)
 	}
 }
 
-int VdVdtMatrix::getVLength() const {
+int NormalVdVdtMatrix::getVLength() const {
 	return vLength;
 }
 
-int VdVdtMatrix::getdVdtLength() const {
+int NormalVdVdtMatrix::getdVdtLength() const {
 	return dVdtLength;
 }
 
-double VdVdtMatrix::compare(const VdVdtMatrix & other) const {
+double NormalVdVdtMatrix::compare(const NormalVdVdtMatrix & other) const {
 
 	double fitnessValue = 0;
 
@@ -75,8 +75,8 @@ double VdVdtMatrix::compare(const VdVdtMatrix & other) const {
 
   	const double precision = toDouble(fixedParams["comparePrecision"]);
    
-	if (other.getVLength() != vLength) crash("VdVdtMatrix","V dimensions don't match");
-	if (other.getdVdtLength() != dVdtLength) crash("VdVdtMatrix","dVdt dimensions don't match");	
+	if (other.getVLength() != vLength) crash("NormalVdVdtMatrix","V dimensions don't match");
+	if (other.getdVdtLength() != dVdtLength) crash("NormalVdVdtMatrix","dVdt dimensions don't match");	
 
 	///////////////////////////////////////////////////////////
 	/// Calculate the square root of the sum of the squares ///
@@ -95,22 +95,22 @@ double VdVdtMatrix::compare(const VdVdtMatrix & other) const {
 }
 
 
-inline vector<double>& VdVdtMatrix::operator[] (const int subscript) {
+inline vector<double>& NormalVdVdtMatrix::operator[] (const int subscript) {
     if (subscript < 0 || subscript >= vLength) {
-		crash("VdVdtMatrix","Invalid subscript: "+subscript);
+		crash("NormalVdVdtMatrix","Invalid subscript: "+subscript);
 	}
-	return VdVdtMatrix[subscript];
+	return NormalVdVdtMatrix[subscript];
 }
 
 
-inline const vector<double>& VdVdtMatrix::operator[] (const int subscript) const {
+inline const vector<double>& NormalVdVdtMatrix::operator[] (const int subscript) const {
     if (subscript < 0 || subscript >= vLength) {
-		crash("VdVdtMatrix","Invalid subscript: "+subscript);
+		crash("NormalVdVdtMatrix","Invalid subscript: "+subscript);
 	}
-	return VdVdtMatrix[subscript];
+	return NormalVdVdtMatrix[subscript];
 }
 
-string VdVdtMatrix::toString() const {
+string NormalVdVdtMatrix::toString() const {
 	ostringstream result;
 
 	for (int vIndex=0;vIndex<vLength;vIndex++) {
