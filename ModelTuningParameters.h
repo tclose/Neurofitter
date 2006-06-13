@@ -51,8 +51,6 @@ private:
 	vector < double > tuningParameters;
 	vector < double > bounds;
 	
-	//int tuningParametersLength;
-
 	double fitnessValue;
 };
 

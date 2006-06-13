@@ -1,46 +1,89 @@
 #include "../SwarmFly.h"
 
+ModelTuningParameters SwarmFly::bestGlobalSolution = ModelTuningParameters();
+bool SwarmFly::bestGlobalInited = false;
 
-void SwarmFly::setMembers(FitnessCalculator *fit, double inertial, double newC, ModelTuningParameters startPoint, ModelTuningParameters startSpeed) {
-        fitness = fit;
+void SwarmFly::setMembers(double newW, double newC, ModelTuningParameters startPoint, ModelTuningParameters startSpeed) {
         c = newC;
+		w = newW;
 		currentSpeed = startSpeed;
-        move(startPoint);
+        setNewPositionFitness(startPoint);
 }
 
-void SwarmFly::fly() {
+ModelTuningParameters SwarmFly::calculateNewPosition() {
+
+		bestInformantsSolution = bestLocalSolution;
+
+		ModelTuningParameters informantsSolution;
+		for (int i = 0; i < (int)informants.size(); i++) {
+			informantsSolution = informants[i]->getBestLocalSolution();
+			if (informantsSolution.getFitnessValue() < bestInformantsSolution.getFitnessValue()) 
+				bestInformantsSolution = informantsSolution;
+		}
+		
         ///todo is this necessary ???
         ModelTuningParameters newPosition(currentPosition);
         ModelTuningParameters newSpeed(currentPosition.getLength());
 
         for (int i = 0; i < currentPosition.getLength(); i++) {
-            newSpeed[i] = w*currentSpeed[i] + randGen->rand(c)*(bestLocalSolution[i]-currentPosition[i]);
-            currentSpeed = newSpeed;
+            newSpeed[i] = w*currentSpeed[i] + randGen->rand(c)*(bestLocalSolution[i]-currentPosition[i]) + randGen->rand(c)*(bestInformantsSolution[i]-currentPosition[i]);
+            currentSpeed[i] = newSpeed[i];
             newPosition[i] = currentPosition[i] + currentSpeed[i];
         }
-        move(newPosition);
+
+		cout << "Position before KeepInBox: New position: " << newPosition.toString() << " New Speed: " << currentSpeed.toString() << endl;
+
+		//Adapt speed and position to keep fly inside the bounds
+		keepInBox(newPosition);
+
+        return newPosition;
 }
 
 
-void SwarmFly::move(ModelTuningParameters position) {
+void SwarmFly::setNewPositionFitness(ModelTuningParameters & newPosition) {
        
-	currentPosition = position;
-	double fitnessValue = fitness->calculateFitness(currentPosition);
+	currentPosition = newPosition;
+	double fitnessValue = currentPosition.getFitnessValue();
 
-	cout << "Current speed: " << currentSpeed.toString() << endl;
+	if (toInt(fixedParams["VerboseLevel"]) > 3)
+		cout << "New position: " << currentPosition.toString() << " New Speed: " << currentSpeed.toString() << endl;
 
-
-	if (fitnessValue < bestLocalFitnessValue) {
-		bestLocalFitnessValue = fitnessValue;
-		bestLocalSolution = position;
+	if (!bestLocalInited || fitnessValue < bestLocalSolution.getFitnessValue()) {
+		bestLocalInited = true;
+		bestLocalSolution = currentPosition;
 	}
-	if (fitnessValue < bestGlobalFitnessValue) {
-		bestGlobalFitnessValue = fitnessValue;
-		bestGlobalSolution = position;
+	if (!bestGlobalInited || fitnessValue < bestGlobalSolution.getFitnessValue()) {
+		bestGlobalInited = true;
+		bestGlobalSolution = currentPosition;
 	}
 }
 
+void SwarmFly::addInformant(SwarmFly * informant) {
+	informants.push_back(informant);
+}
 
-double SwarmFly::bestGlobalFitnessValue = 10000000;
-double SwarmFly::inertial = 0.9;
-ModelTuningParameters SwarmFly::bestGlobalSolution = ModelTuningParameters();
+void SwarmFly::resetInformants() {
+	informants.clear();
+}
+
+ModelTuningParameters SwarmFly::getBestLocalSolution() {
+	return bestLocalSolution;
+}
+
+vector< SwarmFly * > SwarmFly::getInformants() {
+	return informants;
+}
+
+void SwarmFly::keepInBox(ModelTuningParameters & newPosition) {
+
+	for (int i = 0; i < newPosition.getLength(); i++) {
+		if (newPosition[i] > newPosition.getUpperBound(i)) {
+			newPosition[i] = newPosition.getUpperBound(i);
+			currentSpeed[i] = 0;
+		}
+		if (newPosition[i] < newPosition.getLowerBound(i)) {
+			newPosition[i] = newPosition.getLowerBound(i);
+			currentSpeed[i] = 0;
+		}
+	}
+}

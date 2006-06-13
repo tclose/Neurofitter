@@ -1,6 +1,8 @@
 #ifndef SWARMFITTERINTERFACE_H
 #define SWARMFITTERINTERFACE_H
 
+#include <vector>
+
 #include "MersenneTwister.h"
 
 #include "FitterResults.h"
@@ -10,6 +12,8 @@
 #include "FixedParamObject.h"
 
 using namespace std;
+
+class SwarmFly;
 
 class SwarmFitterInterface : public FitterInterface, FixedParamObject {
 
@@ -24,7 +28,8 @@ class SwarmFitterInterface : public FitterInterface, FixedParamObject {
 	private:
 		int numberOfFlies;
 		int numberOfRuns;
+
+		void randomizeTopology(vector< SwarmFly > & swarm, int maxInformed, MTRand & randGen);
 };
 
 #endif
-

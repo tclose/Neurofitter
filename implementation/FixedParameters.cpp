@@ -1,7 +1,7 @@
 #include "../FixedParameters.h"
     
-FixedParameters::FixedParameters(string parameters) {
-	readFromXML(parameters,false);
+FixedParameters::FixedParameters(string parameters, bool isGlobal) {
+	readFromXML(parameters,isGlobal);
 }
 
 FixedParameters::FixedParameters(string parameters, string globalParameters) {

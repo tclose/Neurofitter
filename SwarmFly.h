@@ -1,35 +1,51 @@
 #ifndef SWARMFLY_H
 #define SWARMFLY_H
 
-#include "SwarmFitterInterface.h"
 #include "MersenneTwister.h"
+
+#include "FixedParamObject.h"
+#include "SwarmFitterInterface.h"
 
 using namespace std;
 
-class SwarmFly {
+class SwarmFitterInterface;
+
+class SwarmFly : public FixedParamObject {
 	
 public:
-	SwarmFly(MTRand * rand) : fitness(NULL), c(-1), w(-1), bestLocalFitnessValue(10000000), randGen(rand) {} ///todo change MAX constant 
+	SwarmFly(MTRand * rand, FixedParameters params) : FixedParamObject(params),c(-1), w(-1), randGen(rand), bestLocalInited(false) {};
 
-	void setMembers(FitnessCalculator *fit, double newC1, double newC2, ModelTuningParameters startPoint, ModelTuningParameters startSpeed);
-	void fly();
-	void move(ModelTuningParameters position);
+	void setMembers(double w, double c, ModelTuningParameters startPoint, ModelTuningParameters startSpeed);
+
+	ModelTuningParameters calculateNewPosition();
+	void setNewPositionFitness(ModelTuningParameters & newPosition);
+
+	void addInformant(SwarmFly *);
+	vector< SwarmFly * > getInformants();
+	void resetInformants();
 
 
-	FitnessCalculator *fitness;
+	static ModelTuningParameters bestGlobalSolution;
+	static bool bestGlobalInited;
+
+private:
 	ModelTuningParameters currentPosition;
 	ModelTuningParameters currentSpeed;
 	ModelTuningParameters bestLocalSolution;
+	ModelTuningParameters bestInformantsSolution;
 
 	double c, w;	
 
-	double bestLocalFitnessValue;
+	vector< SwarmFly * > informants;
 
 	MTRand * randGen;
 
-	static ModelTuningParameters bestGlobalSolution;
-	static double bestGlobalFitnessValue;
-	static double inertial;
+	ModelTuningParameters getBestLocalSolution();
+
+	bool bestLocalInited;
+
+	void keepInBox(ModelTuningParameters & newPosition);
+
 };
 
 #endif

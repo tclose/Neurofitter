@@ -15,7 +15,7 @@ class FixedParameters {
 
 	public:
 		FixedParameters() {};
-		FixedParameters(string parameters);
+		FixedParameters(string parameters, bool isGlobal = false);
 		FixedParameters(string parameters, string globalparameters);
 
 		string& operator[](const string index);

@@ -11,7 +11,66 @@
 		1.0 50000.0
 	</Bounds>
 	<WorkingDirectory>/Users/werner/NeurofitterWork/Neurofitter/bin</WorkingDirectory>
+
+	<FitterType>Swarm</FitterType>
+	<FitterParameters>
+		<NumberOfRuns>10</NumberOfRuns>
+	</FitterParameters>
+
 		
+	<ModelType>Genesis</ModelType>	
+	<ModelParameters>
+		<GenesisLocation>localgenesis</GenesisLocation>
+		
+		<ModelDirectory>../../wernermodel</ModelDirectory>
+		<ModelSource>wernermodel.g</ModelSource>
+		
+		<ParamFilePrefix>param</ParamFilePrefix>
+		<OutputFilePrefix>output</OutputFilePrefix>
+		
+		<ErrorFile>generr.out</ErrorFile>
+		
+		<NumberOfRuns>1</NumberOfRuns>
+		<NumberOfRunParameters>1</NumberOfRunParameters>
+		<RunParameters>
+			0 0.33
+			0.1 0.33
+			0.4 0.33
+		</RunParameters>
+		
+		<NumberOfPeriods>1</NumberOfPeriods>
+		<Periods>
+			2.0 3.9 0.5
+			1.0 1.5 0.5
+		</Periods>
+		
+		<NumberOfRecordSites>1</NumberOfRecordSites>
+		<RecordSites>
+			1
+		</RecordSites>
+	</ModelParameters>	
+	
+	<ExperimentType>Fake</ExperimentType>
+	<ExperimentParameters>
+		<Parameters>2800.0 11200.0</Parameters>	
+	</ExperimentParameters>
+	
+	<FitnessCalculatorType>Pablo</FitnessCalculatorType>
+	<FitnessCalculatorParameters>
+		<PabloVdVdtMatrix>
+			<vLength>100</vLength>
+			<dVdtLength>100</dVdtLength>
+			<minimalV>-0.1</minimalV>
+			<maximalV>0.1</maximalV>
+			<comparePrecision>1e-15</comparePrecision>
+		</PabloVdVdtMatrix>
+		<enableFileExport>1</enableFileExport>
+		<exportFile>parallelFitness.dat</exportFile>
+	</FitnessCalculatorParameters>
+	
+
+<Unused>
+
 	<FitterType>Pablo</FitterType>
 	<FitterParameters>
 		<EOFitterParameters>
@@ -76,58 +135,7 @@
 	</FitterParameters>
 
 
-	<ModelType>Genesis</ModelType>	
-	<ModelParameters>
-		<GenesisLocation>localgenesis</GenesisLocation>
-		
-		<ModelDirectory>../../wernermodel</ModelDirectory>
-		<ModelSource>wernermodel.g</ModelSource>
-		
-		<ParamFilePrefix>param</ParamFilePrefix>
-		<OutputFilePrefix>output</OutputFilePrefix>
-		
-		<ErrorFile>generr.out</ErrorFile>
-		
-		<NumberOfRuns>1</NumberOfRuns>
-		<NumberOfRunParameters>1</NumberOfRunParameters>
-		<RunParameters>
-			0 0.33
-			0.1 0.33
-			0.4 0.33
-		</RunParameters>
-		
-		<NumberOfPeriods>1</NumberOfPeriods>
-		<Periods>
-			2.0 3.9 0.5
-			1.0 1.5 0.5
-		</Periods>
-		
-		<NumberOfRecordSites>1</NumberOfRecordSites>
-		<RecordSites>
-			1
-		</RecordSites>
-	</ModelParameters>	
-	
-	<ExperimentType>Fake</ExperimentType>
-	<ExperimentParameters>
-		<Parameters>2800.0 11200.0</Parameters>	
-	</ExperimentParameters>
-	
-	<FitnessCalculatorType>Pablo</FitnessCalculatorType>
-	<FitnessCalculatorParameters>
-		<PabloVdVdtMatrix>
-			<vLength>100</vLength>
-			<dVdtLength>100</dVdtLength>
-			<minimalV>-0.1</minimalV>
-			<maximalV>0.1</maximalV>
-			<comparePrecision>1e-15</comparePrecision>
-		</PabloVdVdtMatrix>
-		<enableFileExport>1</enableFileExport>
-		<exportFile>parallelFitness.dat</exportFile>
-	</FitnessCalculatorParameters>
-	
 
-<Unused>
     <FitterType>Random</FitterType>
     <FitterParameters>
         <NumberOfPoints>200</NumberOfPoints>
@@ -260,11 +268,6 @@
 		
 		
 		
-		<FitterType>Swarm</FitterType>
-		<FitterParameters>
-		<NumberOfFlies>5</NumberOfFlies>
-		<NumberOfRuns>10</NumberOfRuns>
-		</FitterParameters>
 		
 		
 		

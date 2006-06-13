@@ -21,6 +21,10 @@ class FitnessCalculator {
 		virtual vector< pair< ModelTuningParameters, double > > getFitnessHistory() = 0;
 		int getNumberOfEvalutions() const {return numberOfEvaluations;};
 		int getNumberOfGenerations() const {return numberOfGenerations;};
+
+		void putOnStack();
+		
+
 		virtual ~FitnessCalculator() {};
 
 
