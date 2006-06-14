@@ -13,7 +13,7 @@ using namespace std;
 class GenesisModelInterface : public ModelInterface, public FixedParamObject {
 
 public:	
-	GenesisModelInterface(FixedParameters params) : FixedParamObject(params) {}; 
+	GenesisModelInterface(TracesReader * t, FixedParameters params) : ModelInterface(t), FixedParamObject(params) {}; 
     virtual ModelResults runModel(const ModelTuningParameters &) ;
 	virtual vector< ModelResults > runParallelModel(const vector< ModelTuningParameters >);
 	void readDataFromFile(ModelResults&, string inputFileName, int startTrace, double injWeight) const;

@@ -1,8 +1,9 @@
 #ifndef EOFITTERINTERFACE_H
 #define EOFITTERINTERFACE_H
 
-#include <eo>
+//#include <eo>
 
+#include <fstream>
 #include <es/make_es.h>
 
 // ParadisEO

@@ -1,7 +1,7 @@
 #ifndef EOFITNESS_H
 #define EOFITNESS_H 
 
-#include <eo>
+//#include <eo>
 #include <eoEvalFunc.h>
 
 using namespace std;

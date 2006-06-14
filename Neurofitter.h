@@ -15,6 +15,9 @@ using namespace std;
 #include "XMLString.h"
 #include "FixedParameters.h"
 
+#include "TracesReader.h"
+#include "NormalTracesReader.h"
+
 #include "ModelTuningParameters.h"
 #include "ModelResults.h"
 #include "ExperimentInterface.h"

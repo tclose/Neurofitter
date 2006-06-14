@@ -1,6 +1,6 @@
 #include "../EOFitterInterface.h"
 
-#include <eo>
+//#include <eo>
 #include <es/make_es.h>
 
 FitterResults EOFitterInterface::runFitter(ModelTuningParameters * startPoint) {

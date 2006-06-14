@@ -3,17 +3,13 @@
 ModelResults	GenesisModelInterface::
 runModel(const ModelTuningParameters & params) {
 
-	const int       numberOfRuns = toInt(fixedParams["NumberOfRuns"]);
-	const int       numberOfRunParameters = toInt(fixedParams["NumberOfRunParameters"]);
-	const int       numberOfRecordSites = toInt(fixedParams["NumberOfRecordSites"]);
-	const int       numberOfPeriods = toInt(fixedParams["NumberOfPeriods"]);
+	const int       numberOfRuns = tracesReader->getNumberOfRuns();
+	const int       numberOfRunParameters = tracesReader->getNumberOfRunParameters();
 
 	ofstream		paramFile;
 	ofstream        fixedParamFile;
 
 	ifstream		errorFile;
-
-	ModelResults	results(numberOfRuns*numberOfPeriods*numberOfRecordSites);
 
 	vector< vector< int > > runParameters(numberOfRuns, vector< int >(numberOfRunParameters,0));
 	vector<double> runWeights(numberOfRuns,0);
@@ -24,7 +20,7 @@ runModel(const ModelTuningParameters & params) {
 	/////////////////////////////////////////////////////
 	/// Read the parameters and weights for every run ///
 	/////////////////////////////////////////////////////
-	istringstream runStream(fixedParams["RunParameters"]);
+	istringstream runStream(tracesReader->getRunParameters());
 	for (int i = 0; i < numberOfRuns; i++) {
 		for (int j = 0; j < numberOfRunParameters; j++) {
 			runStream >> runParameters[i][j];
@@ -44,11 +40,11 @@ runModel(const ModelTuningParameters & params) {
 		if (toInt(fixedParams["VerboseLevel"]) > 4) {cout << endl << "Writing data to parameter file: " << paramFilename << endl;}
 
 		// put output filename in file //
-		string modelOutputname = fixedParams["OutputFilePrefix"] + "_Run" + str(nRun) +".dat";
+		string modelOutputname = fixedParams["OutputDirectory"] + "/" + tracesReader->getOutputFilePrefix() + "_Run" + str(nRun) +".dat";
 		paramFile << modelOutputname << endl;		
 		
 		// put run parameters in file //
-		for (int i = 0; i < toInt(fixedParams["NumberOfRunParameters"]); i++) {
+		for (int i = 0; i < tracesReader->getNumberOfRunParameters(); i++) {
 			paramFile << runParameters[nRun][i] << " ";
 		}
 		paramFile << endl;
@@ -88,26 +84,14 @@ runModel(const ModelTuningParameters & params) {
 		//if (errorFile.bad() || length != 228) crash("GenesisModelInterface","Error while running genesis simulation");
 		errorFile.close();
 
-		////////////////////
-		/// read results ///
-		////////////////////
-	
-		readDataFromFile(results, fixedParams["ModelDirectory"]+"/"+modelOutputname, nRun, runWeights[nRun]);
 	}
 
-	//ostringstream output;
-	//results.printOn(output);	
+	////////////////////
+	/// read results ///
+	////////////////////
 
-	//istringstream input;
-	
-	//string test = output.str();
-	//cout << test << endl;
-	//input.str(test);
+	return tracesReader->readTraces(fixedParams["OutputDirectory"]);
 
-	//ModelResults results2;
-	//results2.readFrom(input);
-
-	return results;
 }
 
 

@@ -12,24 +12,15 @@
 	</Bounds>
 	<WorkingDirectory>/Users/werner/NeurofitterWork/Neurofitter/bin</WorkingDirectory>
 
+
 	<FitterType>Swarm</FitterType>
 	<FitterParameters>
 		<NumberOfRuns>10</NumberOfRuns>
 	</FitterParameters>
 
-		
-	<ModelType>Genesis</ModelType>	
-	<ModelParameters>
-		<GenesisLocation>localgenesis</GenesisLocation>
-		
-		<ModelDirectory>../../wernermodel</ModelDirectory>
-		<ModelSource>wernermodel.g</ModelSource>
-		
-		<ParamFilePrefix>param</ParamFilePrefix>
-		<OutputFilePrefix>output</OutputFilePrefix>
-		
-		<ErrorFile>generr.out</ErrorFile>
-		
+
+	<TracesReaderType>Normal</TracesReaderType>
+	<TracesReaderParameters>
 		<NumberOfRuns>1</NumberOfRuns>
 		<NumberOfRunParameters>1</NumberOfRunParameters>
 		<RunParameters>
@@ -48,6 +39,23 @@
 		<RecordSites>
 			1
 		</RecordSites>
+
+		<OutputFilePrefix>output</OutputFilePrefix>
+	</TracesReaderParameters>
+
+			
+	<ModelType>Genesis</ModelType>	
+	<ModelParameters>
+		<GenesisLocation>localgenesis</GenesisLocation>
+		
+		<ModelDirectory>/Users/werner/NeurofitterWork/wernermodel</ModelDirectory>
+		<OutputDirectory>/Users/werner/NeurofitterWork/wernermodel/outputs</OutputDirectory>
+		<ModelSource>wernermodel.g</ModelSource>
+		
+		<ParamFilePrefix>param</ParamFilePrefix>
+		
+		<ErrorFile>generr.out</ErrorFile>
+		
 	</ModelParameters>	
 	
 	<ExperimentType>Fake</ExperimentType>
