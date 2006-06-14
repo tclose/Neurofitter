@@ -24,8 +24,7 @@ int main (int argc, char* argv[]) {
 		FixedParameters fixedParams = readParameters(argc,argv);
 
 		//Set invalid rank, only used for parallel version
-		fixedParams["Rank"] = str(-1);
-		fixedParams.setGlobal("Rank");
+		fixedParams.addParameter("Rank",str(-1),1);
 		
 		/////////////////////////
     	/// Declare variables ///

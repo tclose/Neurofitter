@@ -21,10 +21,10 @@ string FixedParameters::getGlobals() const {
 }
 
 string& FixedParameters::operator[](const string index) {
-	return params[index].first; ///todo check if second is false
-	//map<const string, pair< string, bool > >::iterator i = params.find(index);
-	//if (i == params.end()) crash("FixedParameters","Unable to find key: "+index);
-	//return (i->second).first;
+	//return params[index].first; ///todo check if second is false
+	map<const string, pair< string, bool > >::iterator i = params.find(index);
+	if (i == params.end()) crash("FixedParameters","Unable to find key: "+index);
+	return (i->second).first;
 }
 
 const string& FixedParameters::operator[](const string index) const {
@@ -42,6 +42,11 @@ void FixedParameters::readFromXML(string parameters, bool global) {
 		params[*i].first = xml.getSubString(*i);
 		params[*i].second = global;
 	}
+}
+
+void FixedParameters::addParameter(const string index, const string value, const bool isGlobal) {
+	params[index].first = value;
+	params[index].second = isGlobal;
 }
 
 string FixedParameters::toString() const {
@@ -66,5 +71,6 @@ void FixedParameters::notGlobal(string index) {
 bool FixedParameters::getGlobal(string index) {
 	return params[index].second;
 }
+
 
 

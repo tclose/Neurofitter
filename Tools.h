@@ -35,10 +35,10 @@ inline double toDouble(string s) {
 }
 
 inline void crash(string object, string message) {
-	//throw runtime_error(object+": "+message);
-	cerr << "Erro in " << object << ": " << message << endl;
-	cerr.flush();
-	exit(1);
+	throw runtime_error("Error in "+object+": "+message);
+	//cerr << "Error in " << object << ": " << message << endl;
+	//cerr.flush();
+	//exit(1);
 }
 
 inline string getDateAndTime() {

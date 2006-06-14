@@ -25,6 +25,8 @@ class FixedParameters {
 
 		void readFromXML(string parameters, bool global);
 
+		void addParameter(const string index, const string value, const bool isGlobal = false);
+
 		void setGlobal(string);
 		void notGlobal(string);
 		bool getGlobal(string);

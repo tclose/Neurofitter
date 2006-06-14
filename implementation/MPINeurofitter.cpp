@@ -29,8 +29,7 @@ int main (int argc, char* argv[]) {
 		////////////////////////////
 		FixedParameters fixedParams = readParameters(argc,argv,rank);
 
-		fixedParams["Rank"] = str(rank);
-		fixedParams.setGlobal("Rank");
+		fixedParams.addParameter("Rank",str(rank),1);
 		
 		/////////////////////////
     	/// Declare variables ///

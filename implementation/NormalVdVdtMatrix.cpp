@@ -97,7 +97,7 @@ double NormalVdVdtMatrix::compare(const NormalVdVdtMatrix & other) const {
 
 inline vector<double>& NormalVdVdtMatrix::operator[] (const int subscript) {
     if (subscript < 0 || subscript >= vLength) {
-		crash("NormalVdVdtMatrix","Invalid subscript: "+subscript);
+		crash("NormalVdVdtMatrix","Invalid subscript: "+str(subscript));
 	}
 	return VdVdtMatrix[subscript];
 }
@@ -105,7 +105,7 @@ inline vector<double>& NormalVdVdtMatrix::operator[] (const int subscript) {
 
 inline const vector<double>& NormalVdVdtMatrix::operator[] (const int subscript) const {
     if (subscript < 0 || subscript >= vLength) {
-		crash("NormalVdVdtMatrix","Invalid subscript: "+subscript);
+		crash("NormalVdVdtMatrix","Invalid subscript: "+str(subscript));
 	}
 	return VdVdtMatrix[subscript];
 }
