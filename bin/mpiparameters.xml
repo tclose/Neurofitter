@@ -1,16 +1,125 @@
 <TestProgram>
 	<Dimensions>2</Dimensions>	
-	<VerboseLevel>2</VerboseLevel>
+	<VerboseLevel>4</VerboseLevel>
 	<Seed>1550</Seed>
 	<SamplingFrequency>5000</SamplingFrequency>
 	<StartingPoints>
 		1.0 1.0
 	</StartingPoints>
 	<Bounds>
-		1.0 100000.0 
-		1.0 100000.0
+		1.0 10000.0 
+		1.0 50000.0
 	</Bounds>
 	<WorkingDirectory>NEUROFITTERSCRATCH/bin</WorkingDirectory>
+
+		
+	<FitterType>Swarm</FitterType>
+	<FitterParameters>
+		<NumberOfRuns>1000</NumberOfRuns>
+	</FitterParameters>
+
+	<TracesReaderType>Normal</TracesReaderType>
+	<TracesReaderParameters>
+			<NumberOfRuns>1</NumberOfRuns>
+			<NumberOfRunParameters>1</NumberOfRunParameters>
+			<RunParameters>
+				0 0.33
+				0.1 0.33
+				0.4 0.33
+			</RunParameters>
+		
+			<NumberOfPeriods>2</NumberOfPeriods>
+			<Periods>
+				1.0 1.5 0.5
+				2.0 3.9 0.5
+			</Periods>
+		
+			<NumberOfRecordSites>1</NumberOfRecordSites>
+			<RecordSites>
+				1
+			</RecordSites>
+			<OutputFilePrefix>output</OutputFilePrefix>
+	</TracesReaderParameters>
+
+
+	<!-- <ModelType>MPIModel</ModelType>
+	<ModelParameters> -->	
+		<ModelType>Genesis</ModelType>	
+		<ModelParameters>
+			<GenesisLocation>./localgenesis</GenesisLocation>
+		
+			<ModelDirectory>NEUROFITTERSCRATCH/genesisoutput/wernermodel</ModelDirectory>
+			<OutputDirectory>NEUROFITTERSCRATCH/genesisoutput/wernermodel/outputs</OutputDirectory>
+			<ModelSource>wernermodel.g</ModelSource>
+		
+			<ParamFilePrefix>param</ParamFilePrefix>
+		
+			<ErrorFile>generr.out</ErrorFile>
+		
+		</ModelParameters>	
+	<!-- </ModelParameters> -->
+
+	<ExperimentType>File</ExperimentType>
+    <ExperimentParameters>
+            <FilesDirectory>NEUROFITTERSCRATCH/genesisoutput/wernermodel/data</FilesDirectory>
+    </ExperimentParameters>
+	
+	<FitnessCalculatorType>MPI</FitnessCalculatorType>
+	<FitnessCalculatorParameters>
+		<FitnessCalculatorType>Matrix</FitnessCalculatorType>
+		<FitnessCalculatorParameters>
+			<NormalVdVdtMatrix>
+				<vLength>100</vLength>
+				<dVdtLength>100</dVdtLength>
+				<minimalV>-0.1</minimalV>
+				<maximalV>0.1</maximalV>
+				<comparePrecision>1e-15</comparePrecision>
+			</NormalVdVdtMatrix>
+			<enableFileExport>0</enableFileExport>
+			<exportFile>fitness.dat</exportFile>
+		</FitnessCalculatorParameters>
+		<enableFileExport>1</enableFileExport>
+		<exportFile>parallelFitness.dat</exportFile>
+	</FitnessCalculatorParameters>
+	
+
+	
+<Unused>
+
+
+	<ExperimentType>Fake</ExperimentType>
+	<ExperimentParameters>
+		<Parameters>2800.0 11200.0</Parameters>	
+	</ExperimentParameters>
+
+	<FitterType>Mesh</FitterType>
+	<FitterParameters>
+		<MeshDimensions>2</MeshDimensions>
+		<MeshSize>
+			2000
+			2000
+		</MeshSize>
+	</FitterParameters>
+
+
+	<FitterType>EO</FitterType>
+	<FitterParameters>
+		<popSize>22</popSize>
+		<nbOffspring>200</nbOffspring>
+		<replacement>Plus</replacement>
+		<maxGen>5000</maxGen>
+		<minGen>0</minGen>
+		<maxEval>30000000</maxEval>
+		<targetFitness>0.0</targetFitness>
+		<steadyGen>10000000</steadyGen>
+		<crossType>global</crossType>
+		<crossObj>intermediate</crossObj> 
+		<TauLoc>1</TauLoc>
+		<TauGlob>1</TauGlob>
+		<Beta>0.0873</Beta>
+	</FitterParameters>
+	
+
 	<FitterType>NOMAD</FitterType>
         <FitterParameters>
                 <outputfile>output.dat</outputfile>
@@ -60,96 +169,6 @@
         </FitterParameters>
 
 
-	<!-- <ModelType>MPIModel</ModelType>
-	<ModelParameters> -->	
-		<ModelType>Genesis</ModelType>	
-		<ModelParameters>
-			<GenesisLocation>./localgenesis</GenesisLocation>
-		
-			<ModelDirectory>NEUROFITTERSCRATCH/genesisoutput/wernermodel</ModelDirectory>
-			<ModelSource>wernermodel.g</ModelSource>
-		
-			<ParamFilePrefix>param</ParamFilePrefix>
-			<OutputFilePrefix>output</OutputFilePrefix>
-		
-			<ErrorFile>generr.out</ErrorFile>
-		
-			<NumberOfRuns>1</NumberOfRuns>
-			<NumberOfRunParameters>1</NumberOfRunParameters>
-			<RunParameters>
-				0 0.33
-				0.1 0.33
-				0.4 0.33
-			</RunParameters>
-		
-			<NumberOfPeriods>2</NumberOfPeriods>
-			<Periods>
-				1.0 1.5 0.5
-				2.0 3.9 0.5
-			</Periods>
-		
-			<NumberOfRecordSites>1</NumberOfRecordSites>
-			<RecordSites>
-				1
-			</RecordSites>
-		</ModelParameters>	
-	<!-- </ModelParameters> -->
-	
-	<ExperimentType>Fake</ExperimentType>
-	<ExperimentParameters>
-		<Parameters>2800.0 11200.0</Parameters>	
-	</ExperimentParameters>
-
-	<FitnessCalculatorType>MPI</FitnessCalculatorType>
-	<FitnessCalculatorParameters>
-		<FitnessCalculatorType>Matrix</FitnessCalculatorType>
-		<FitnessCalculatorParameters>
-			<VdVdtMatrix>
-				<vLength>100</vLength>
-				<dVdtLength>100</dVdtLength>
-				<minimalV>-0.1</minimalV>
-				<maximalV>0.1</maximalV>
-				<comparePrecision>1e-15</comparePrecision>
-			</VdVdtMatrix>
-			<enableFileExport>0</enableFileExport>
-			<exportFile>fitness.dat</exportFile>
-		</FitnessCalculatorParameters>
-		<enableFileExport>1</enableFileExport>
-		<exportFile>parallelFitness.dat</exportFile>
-	</FitnessCalculatorParameters>
-	
-
-	
-<Unused>
-	<FitterType>Mesh</FitterType>
-	<FitterParameters>
-		<MeshDimensions>2</MeshDimensions>
-		<MeshSize>
-			2000
-			2000
-		</MeshSize>
-	</FitterParameters>
-
-
-	<FitterType>EO</FitterType>
-	<FitterParameters>
-		<popSize>22</popSize>
-		<nbOffspring>200</nbOffspring>
-		<replacement>Plus</replacement>
-		<maxGen>5000</maxGen>
-		<minGen>0</minGen>
-		<maxEval>30000000</maxEval>
-		<targetFitness>0.0</targetFitness>
-		<steadyGen>10000000</steadyGen>
-		<crossType>global</crossType>
-		<crossObj>intermediate</crossObj> 
-		<TauLoc>1</TauLoc>
-		<TauGlob>1</TauGlob>
-		<Beta>0.0873</Beta>
-	</FitterParameters>
-	
-
-
 
 
 	
@@ -162,12 +181,6 @@
 	
 		
 		
-		
-		<FitterType>Swarm</FitterType>
-		<FitterParameters>
-		<NumberOfFlies>5</NumberOfFlies>
-		<NumberOfRuns>10</NumberOfRuns>
-		</FitterParameters>
 		
 		
 		

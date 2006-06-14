@@ -1,7 +1,7 @@
 #ifndef MODELINTERFACE_H
 #define MODELINTERFACE_H
 
-#include "TracesReader.h""
+#include "TracesReader.h"
 #include "ModelResults.h"
 #include "ModelTuningParameters.h"
 

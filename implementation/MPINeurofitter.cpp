@@ -34,6 +34,7 @@ int main (int argc, char* argv[]) {
 		/////////////////////////
     	/// Declare variables ///
     	/////////////////////////
+    	TracesReader * tracesReader = NULL;
     	ModelInterface * model = NULL;
     	ExperimentInterface * experiment = NULL;
     	FitnessCalculator * fitness = NULL;
@@ -41,15 +42,25 @@ int main (int argc, char* argv[]) {
 
     	ModelTuningParameters startPoint(fixedParams["StartingPoints"],toInt(fixedParams["Dimensions"]),fixedParams["Bounds"]);
 
+		///////////////////////////////
+		/// Initialize TracesReader ///
+		///////////////////////////////
+		FixedParameters tracesReaderFixedParams(fixedParams["TracesReaderParameters"],fixedParams.getGlobals());
+		if (fixedParams["TracesReaderType"] == "Normal") {
+			tracesReader = new NormalTracesReader(tracesReaderFixedParams);
+		}
+		else crash("Main program", "No matching trace reader type");
+
+
 		////////////////////////
 		/// Initialize Model ///
 		////////////////////////
 		FixedParameters modelFixedParams(fixedParams["ModelParameters"],fixedParams.getGlobals());
 		if (fixedParams["ModelType"] == "Genesis") {
-			model = new GenesisModelInterface(modelFixedParams);
+			model = new GenesisModelInterface(tracesReader, modelFixedParams);
 		}
 		else if (fixedParams["ModelType"] == "MPI") {
-			model = new MPIModelInterface(modelFixedParams);
+			model = new MPIModelInterface(tracesReader, modelFixedParams);
 		}
 		else crash("Main program", "No matching model type");
 	
@@ -59,6 +70,9 @@ int main (int argc, char* argv[]) {
 		FixedParameters expFixedParams(fixedParams["ExperimentParameters"],fixedParams.getGlobals());
 		if (fixedParams["ExperimentType"] == "Fake") {
 			experiment = new FakeExperimentInterface(model, expFixedParams);
+		}
+		else if (fixedParams["ExperimentType"] == "File") {
+			experiment = new FileExperimentInterface(tracesReader, expFixedParams);
 		}
 		else crash("Main program", "No matching experiment type");
 

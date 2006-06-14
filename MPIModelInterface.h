@@ -20,7 +20,7 @@ using namespace std;
 class MPIModelInterface : public ModelInterface, public FixedParamObject {
 
 public:	
-	MPIModelInterface(FixedParameters params); 
+	MPIModelInterface(TracesReader*, FixedParameters params); 
 	~MPIModelInterface();
     virtual ModelResults runModel(const ModelTuningParameters &);
 	virtual vector< ModelResults > runParallelModel(const vector< ModelTuningParameters >); 

@@ -4,15 +4,15 @@
 const int tag = 42;
 const int dietag = 666;
 
-MPIModelInterface::MPIModelInterface(FixedParameters params) : 
-	FixedParamObject(params), mpiChannel(MPI_COMM_WORLD) {
+MPIModelInterface::MPIModelInterface(TracesReader * t, FixedParameters params) : 
+	ModelInterface(t), FixedParamObject(params), mpiChannel(MPI_COMM_WORLD) {
 
 	mpiChannel.setMessageId(tag);
 	rank = mpiChannel.getRank();
 	ntasks = mpiChannel.getSize();
 	
 	if (fixedParams["ModelType"] == "Genesis") {
-		localModel = new GenesisModelInterface(FixedParameters(fixedParams["ModelParameters"],fixedParams.getGlobals()));
+		localModel = new GenesisModelInterface(tracesReader, FixedParameters(fixedParams["ModelParameters"],fixedParams.getGlobals()));
 	}
 	else crash("MPIModelInterface", "No matching model type");
 	                
