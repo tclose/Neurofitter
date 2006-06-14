@@ -58,10 +58,11 @@
 		
 	</ModelParameters>	
 	
-	<ExperimentType>Fake</ExperimentType>
+	<ExperimentType>File</ExperimentType>
 	<ExperimentParameters>
-		<Parameters>2800.0 11200.0</Parameters>	
+		<FilesDirectory>/Users/werner/NeurofitterWork/wernermodel/data</FilesDirectory>	
 	</ExperimentParameters>
+
 	
 	<FitnessCalculatorType>Matrix</FitnessCalculatorType>
 	<FitnessCalculatorParameters>
@@ -78,6 +79,12 @@
 	
 
 <Unused>
+
+	<ExperimentType>Fake</ExperimentType>
+	<ExperimentParameters>
+		<Parameters>2800.0 11200.0</Parameters>	
+	</ExperimentParameters>
+
 
 	<FitterType>EONOMAD</FitterType>
 	<FitterParameters>

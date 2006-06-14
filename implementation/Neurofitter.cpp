@@ -64,6 +64,9 @@ int main (int argc, char* argv[]) {
 		if (fixedParams["ExperimentType"] == "Fake") {
 			experiment = new FakeExperimentInterface(model, expFixedParams);
 		}
+		else if (fixedParams["ExperimentType"] == "File") {
+			experiment = new FileExperimentInterface(tracesReader, expFixedParams);
+		}
 		else crash("Main program", "No matching experiment type");
 
 		/////////////////////////////////////

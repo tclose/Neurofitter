@@ -41,7 +41,8 @@ MODOBJS=	$(CPPDIR)/ModelResults.o \
 FITOBJS=	$(CPPDIR)/NormalVdVdtMatrix.o \
 			$(CPPDIR)/MatrixFitnessCalculator.o
 			
-EXPOBJS=	$(CPPDIR)/FakeExperimentInterface.o
+EXPOBJS=	$(CPPDIR)/FakeExperimentInterface.o \
+			$(CPPDIR)/FileExperimentInterface.o
 
 FITTEROBJS=	$(CPPDIR)/NOMADFitterInterface.o \
 			$(CPPDIR)/FitterResults.o \

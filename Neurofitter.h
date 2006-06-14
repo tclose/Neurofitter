@@ -27,6 +27,7 @@ using namespace std;
 
 #include "GenesisModelInterface.h"
 #include "FakeExperimentInterface.h"
+#include "FileExperimentInterface.h"
 #include "NormalVdVdtMatrix.h"
 #include "MatrixFitnessCalculator.h"
 
