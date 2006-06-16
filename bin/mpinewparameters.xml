@@ -1,10 +1,10 @@
 <TestProgram>
 	<Dimensions>24</Dimensions>	
-	<VerboseLevel>15</VerboseLevel>
+	<VerboseLevel>3</VerboseLevel>
 	<Seed>1550</Seed>
 	<SamplingFrequency>50000</SamplingFrequency>
 	<StartingPoints>
-		1.0 1.0
+		75000.0 15.0 10.0 10.0 10.0 50.0 50.0 50.0 50.0 250.0 30.0 5000.0 500.0 1.5 0.5 0.5 0.5 1000.0 1000.0 1000.0 5.0 5.0 5.0 5.0
 	</StartingPoints>
 	<Bounds>
 		50000.0 100000.0 
@@ -34,10 +34,24 @@
 	</Bounds>
 	<WorkingDirectory>NEUROFITTERSCRATCH/bin</WorkingDirectory>
 
-	<FitterType>Swarm</FitterType>
+
+	<FitterType>EO</FitterType>
 	<FitterParameters>
-		<NumberOfRuns>20</NumberOfRuns>
+		<popSize>5</popSize>
+		<nbOffspring>19</nbOffspring>
+		<replacement>Plus</replacement>
+		<maxGen>20</maxGen>
+		<minGen>0</minGen>
+		<maxEval>300</maxEval>
+		<targetFitness>0.0</targetFitness>
+		<steadyGen>100</steadyGen>
+		<crossType>global</crossType>
+		<crossObj>intermediate</crossObj> 
+		<TauLoc>1</TauLoc>
+		<TauGlob>1</TauGlob>
+		<Beta>0.0873</Beta>
 	</FitterParameters>
+
 
 	<TracesReaderType>Normal</TracesReaderType>
     <TracesReaderParameters>
@@ -106,6 +120,10 @@
 
 <Unused>
 
+	<FitterType>Swarm</FitterType>
+	<FitterParameters>
+		<NumberOfRuns>20</NumberOfRuns>
+	</FitterParameters>
 
 	<FitterType>EONOMAD</FitterType>
 	<FitterParameters>
@@ -225,22 +243,6 @@
                 <RESULTS_FILE>results.txt</RESULTS_FILE>
 	</FitterParameters>
 
-		<FitterType>EO</FitterType>
-		<FitterParameters>
-		<popSize>2</popSize>
-		<nbOffspring>10</nbOffspring>
-		<replacement>Plus</replacement>
-		<maxGen>20</maxGen>
-		<minGen>0</minGen>
-		<maxEval>300</maxEval>
-		<targetFitness>0.0</targetFitness>
-		<steadyGen>100</steadyGen>
-		<crossType>global</crossType>
-		<crossObj>intermediate</crossObj> 
-		<TauLoc>1</TauLoc>
-		<TauGlob>1</TauGlob>
-		<Beta>0.0873</Beta>
-		</FitterParameters>
 
 
 

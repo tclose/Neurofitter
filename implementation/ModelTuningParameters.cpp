@@ -69,6 +69,7 @@ void ModelTuningParameters::setTuningParameters(const string paramString, const 
 	if (paramString != "") {
 		istringstream stream(paramString);	
 		for (int i = 0; i < newTParamsLength; i++) {
+			if (!stream.good()) crash("ModelTuningParameters","Error while converting string into parameters");
 			stream >> newTParams[i];
 		}
 	}
@@ -89,7 +90,7 @@ void ModelTuningParameters::setBounds(const string boundString, const int newBou
 
     	istringstream stream (boundString);
     	for (int i = 0; i < newBoundsLength; i++) {
-			if (!stream.good()) crash("ModelTuningParameters","Error while reading bounds from parameters file");
+			if (!stream.good()) crash("ModelTuningParameters","Error while converting string into bounds");
         	stream >> newBounds[i];
     	}   
     

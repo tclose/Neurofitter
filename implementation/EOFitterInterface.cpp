@@ -159,16 +159,16 @@ void EOFitterInterface::writeEOParamsFile(string fileName, ModelTuningParameters
 	///todo check to see if floating point seed is possible
 	EOParam << endl << "	--seed=" << fixedParams["Seed"] << endl;
 
-	EOParam << endl << "	--vecSize=" << startPoint.getLength() << endl;
+	EOParam << endl << "	--vecSize=" << fixedParams["Dimensions"] << endl;
 
 	EOParam << endl << "	--initBounds=";
-	for (int i = 0; i < startPoint.getLength(); i++) {
+	for (int i = 0; i < toInt(fixedParams["Dimensions"]); i++) {
 		EOParam << "[" << startPoint.getLowerBound(i) << "," << startPoint.getUpperBound(i)  << "];";
 	}
 	EOParam << endl;
 
 	EOParam << endl << "	--objectBounds=";
-	for (int i = 0; i < startPoint.getLength(); i++) {
+	for (int i = 0; i < toInt(fixedParams["Dimensions"]); i++) {
 		EOParam << "[" << startPoint.getLowerBound(i) << "," << startPoint.getUpperBound(i)  << "];";
 	}
 	EOParam << endl;
