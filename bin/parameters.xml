@@ -21,13 +21,9 @@
 
 	<TracesReaderType>Normal</TracesReaderType>
 	<TracesReaderParameters>
-		<NumberOfRuns>1</NumberOfRuns>
+		<NumberOfRuns>3</NumberOfRuns>
 		<NumberOfRunParameters>1</NumberOfRunParameters>
-		<RunParameters>
-			0 0.33
-			0.1 0.33
-			0.4 0.33
-		</RunParameters>
+		<RunParameters>0 0.33 0.1 0.33 0.4 0.33</RunParameters>
 		
 		<NumberOfPeriods>1</NumberOfPeriods>
 		<Periods>

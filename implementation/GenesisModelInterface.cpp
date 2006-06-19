@@ -11,11 +11,11 @@ runModel(const ModelTuningParameters & params) {
 
 	ifstream		errorFile;
 
-	vector< vector< int > > runParameters(numberOfRuns, vector< int >(numberOfRunParameters,0));
+	vector< vector< double > > runParameters(numberOfRuns, vector< double >(numberOfRunParameters,0));
 	vector<double> runWeights(numberOfRuns,0);
 
 
-	if (toInt(fixedParams["VerboseLevel"]) > 2) {cout << "Running Genesis model with parameters: " << params.toString() << endl;}
+	if (toInt(fixedParams["VerboseLevel"]) > 2) {cout << "Running Genesis model with parameters: " << params.toString();}
 
 	/////////////////////////////////////////////////////
 	/// Read the parameters and weights for every run ///
@@ -26,11 +26,12 @@ runModel(const ModelTuningParameters & params) {
 		if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << "{";}
 		for (int j = 0; j < numberOfRunParameters; j++) {
 			runStream >> runParameters[i][j];
-			if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << runParameters[i][j]  << " ";}
+			if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << " " << runParameters[i][j]  << " ";}
 		}
 		runStream >> runWeights[i];
 		if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << "} ";}
 	}
+	if (toInt(fixedParams["VerboseLevel"]) > 2) {cout << endl;}
 
 
 	for (int nRun = 0; nRun < numberOfRuns; nRun++) {
@@ -72,7 +73,7 @@ runModel(const ModelTuningParameters & params) {
 
 		string genCommand = "cd "+fixedParams["ModelDirectory"]+"; "
 						+fixedParams["GenesisLocation"]+" -nox -notty -batch "+fixedParams["ModelSource"]+" > gen.out 2> " + errorFileName;
-		if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << endl << "calling " << genCommand << endl;}
+		if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << "calling " << genCommand << endl;}
 		
 		int exitCode = system(genCommand.c_str());
 
