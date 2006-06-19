@@ -24,16 +24,17 @@ public :
 
 		vector< ModelTuningParameters > paramList(__offspring.size());
 
-    	for (int i = 0; i < (int)__offspring.size (); i++) {
+
+    	for (int i = 0; i < (int)__offspring.size(); i++) {
 			paramList[i] = ModelTuningParameters(__offspring[i].size());
-			for (int j = 0; j < (int)__offspring[j].size(); j++) {
+			for (int j = 0; j < (int)__offspring[i].size(); j++) {
 				paramList[i][j] = __offspring[i][j];
 			}
     	}
 
-		vector < double > fitnessValues = fitness->calculateParallelFitness(paramList);
+		vector< double > fitnessValues = fitness->calculateParallelFitness(paramList);
 
-    	for (int i = 0; i < (int)__offspring.size (); i++) {
+    	for (int i = 0; i < (int)__offspring.size(); i++) {
 			__offspring[i].fitness(fitnessValues[i]);
 		}
 

@@ -34,10 +34,24 @@
 	</Bounds>
 	<WorkingDirectory>/Users/werner/NeurofitterWork/Neurofitter/bin</WorkingDirectory>
 
-	<FitterType>Swarm</FitterType>
+
+	<FitterType>EO</FitterType>
 	<FitterParameters>
-		<NumberOfRuns>1</NumberOfRuns>
+		<popSize>2</popSize>
+		<nbOffspring>3</nbOffspring>
+		<replacement>Plus</replacement>
+		<maxGen>20</maxGen>
+		<minGen>0</minGen>
+		<maxEval>300</maxEval>
+		<targetFitness>0.0</targetFitness>
+		<steadyGen>100</steadyGen>
+		<crossType>global</crossType>
+		<crossObj>intermediate</crossObj> 
+		<TauLoc>1</TauLoc>
+		<TauGlob>1</TauGlob>
+		<Beta>0.0873</Beta>
 	</FitterParameters>
+
 
 	<TracesReaderType>Normal</TracesReaderType>
     <TracesReaderParameters>
@@ -99,6 +113,11 @@
 	
 
 <Unused>
+
+	<FitterType>Swarm</FitterType>
+	<FitterParameters>
+		<NumberOfRuns>1</NumberOfRuns>
+	</FitterParameters>
 
 
 	<FitterType>EONOMAD</FitterType>
@@ -219,22 +238,6 @@
                 <RESULTS_FILE>results.txt</RESULTS_FILE>
 	</FitterParameters>
 
-		<FitterType>EO</FitterType>
-		<FitterParameters>
-		<popSize>2</popSize>
-		<nbOffspring>10</nbOffspring>
-		<replacement>Plus</replacement>
-		<maxGen>20</maxGen>
-		<minGen>0</minGen>
-		<maxEval>300</maxEval>
-		<targetFitness>0.0</targetFitness>
-		<steadyGen>100</steadyGen>
-		<crossType>global</crossType>
-		<crossObj>intermediate</crossObj> 
-		<TauLoc>1</TauLoc>
-		<TauGlob>1</TauGlob>
-		<Beta>0.0873</Beta>
-		</FitterParameters>
 
 
 
