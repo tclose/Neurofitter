@@ -15,17 +15,21 @@ runModel(const ModelTuningParameters & params) {
 	vector<double> runWeights(numberOfRuns,0);
 
 
-	if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << endl << "Running Genesis model with parameters: " << params.toString() << endl;}
+	if (toInt(fixedParams["VerboseLevel"]) > 2) {cout << "Running Genesis model with parameters: " << params.toString() << endl;}
 
 	/////////////////////////////////////////////////////
 	/// Read the parameters and weights for every run ///
 	/////////////////////////////////////////////////////
 	istringstream runStream(tracesReader->getRunParameters());
+	if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << " and run parameters: ";}
 	for (int i = 0; i < numberOfRuns; i++) {
+		if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << "{";}
 		for (int j = 0; j < numberOfRunParameters; j++) {
 			runStream >> runParameters[i][j];
+			if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << runParameters[i][j]  << " ";}
 		}
 		runStream >> runWeights[i];
+		if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << "} ";}
 	}
 
 

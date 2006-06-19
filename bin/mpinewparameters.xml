@@ -38,7 +38,7 @@
 	<FitterType>EO</FitterType>
 	<FitterParameters>
 		<popSize>5</popSize>
-		<nbOffspring>19</nbOffspring>
+		<nbOffspring>10</nbOffspring>
 		<replacement>Plus</replacement>
 		<maxGen>20</maxGen>
 		<minGen>0</minGen>
@@ -55,10 +55,22 @@
 
 	<TracesReaderType>Normal</TracesReaderType>
     <TracesReaderParameters>
-        <NumberOfRuns>1</NumberOfRuns>
+        <NumberOfRuns>13</NumberOfRuns>
         <NumberOfRunParameters>1</NumberOfRunParameters>
         <RunParameters>
-            0 1.0
+			-0.89 0.05
+			-0.71 0.05
+			-0.53 0.05
+			-0.36 0.05
+			-0.17 0.05
+			0.00 0.05
+			0.18 0.05
+			0.36 0.05
+			0.53 0.05
+			0.71 0.05
+			0.89 0.05
+			1.06 0.05
+			1.25 0.05
         </RunParameters>
 
         <NumberOfPeriods>3</NumberOfPeriods>
@@ -95,7 +107,7 @@
 	
 	<ExperimentType>File</ExperimentType>
 	<ExperimentParameters>
-		<FilesDirectory>NEUROFITTERSCRATCH/genesisoutput/NewPC/ZeroInjectData</FilesDirectory>	
+		<FilesDirectory>NEUROFITTERSCRATCH/genesisoutput/NewPC/data</FilesDirectory>	
 	</ExperimentParameters>
 
 	<FitnessCalculatorType>MPI</FitnessCalculatorType>
