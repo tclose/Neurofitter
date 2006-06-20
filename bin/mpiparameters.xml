@@ -12,6 +12,7 @@
 	</Bounds>
 	<WorkingDirectory>NEUROFITTERSCRATCH/bin</WorkingDirectory>
 
+	<PrintParameterFile>1</PrintParameterFile>
 		
 	<FitterType>Swarm</FitterType>
 	<FitterParameters>

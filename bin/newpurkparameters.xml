@@ -34,6 +34,7 @@
 	</Bounds>
 	<WorkingDirectory>/Users/werner/NeurofitterWork/Neurofitter/bin</WorkingDirectory>
 
+	<PrintParameterFile>1</PrintParameterFile>
 
 	<FitterType>EO</FitterType>
 	<FitterParameters>

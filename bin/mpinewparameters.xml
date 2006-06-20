@@ -34,6 +34,8 @@
 	</Bounds>
 	<WorkingDirectory>NEUROFITTERSCRATCH/bin</WorkingDirectory>
 
+	<PrintParameterFile>1</PrintParameterFile>
+
 	<FitterType>EO</FitterType>
 	<FitterParameters>
 		<popSize>5</popSize>
