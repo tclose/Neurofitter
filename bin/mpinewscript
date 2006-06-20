@@ -35,9 +35,10 @@ do
   echo $machine ":" $scratch;
   $rshcmd $machine mkdir -p ${scratch};
   $rshcmd $machine mkdir -p ${scratch}/genesisoutput;
+  $rshcmd $machine mkdir -p ${scratch}/genesisoutput/NewPC;
   $rshcmd $machine mkdir -p ${scratchBase}_${JOB_ID};
   #$rshcmd $machine cp -rf $HOME/NeurofitterWork/NewPC $scratch/genesisoutput;
-  $rshcmd $machine tar czf - $HOME/NeurofitterWork/NewPC/* | ( cd $scratch/genesisoutput; tar xzfp -)
+  $rshcmd $machine "cd $HOME/NeurofitterWork/NewPC; tar cf - * | ( cd $scratch/genesisoutput/NewPC; tar xfp -)"
   $rshcmd $machine cp -rf $HOME/NeurofitterWork/Neurofitter/bin $scratch;
   $rshcmd $machine "sed s#NEUROFITTERSCRATCH#${scratch}# $HOME/NeurofitterWork/Neurofitter/bin/mpinewparameters.xml >${scratchBase}_${JOB_ID}/mpinewparameters.xml_${i}"
   i=`expr $i + 1`;

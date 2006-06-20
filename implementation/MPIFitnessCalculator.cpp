@@ -100,7 +100,7 @@ void MPIFitnessCalculator::receiveFitnessFromSlave(int & taskRank, vector< doubl
 
     int resultNumber;
 
-    if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Waiting for  results from slave ... ";
+    if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Waiting for fitness value from slave ... ";
     mpiChannel.setMessageRank(MPI_ANY_SOURCE);
     mpiChannel >> resultNumber;
     taskRank = mpiChannel.getMessageRank();
@@ -120,7 +120,7 @@ void MPIFitnessCalculator::receiveFitnessFromSlave(int & taskRank, vector< doubl
    	}
                                                                         
 
-    if (toInt(fixedParams["VerboseLevel"]) > 3) cout << " Results received results" << endl;
+    if (toInt(fixedParams["VerboseLevel"]) > 3) cout << " Fitness value received" << endl;
 
 }
 

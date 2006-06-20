@@ -15,7 +15,7 @@ runModel(const ModelTuningParameters & params) {
 	vector<double> runWeights(numberOfRuns,0);
 
 
-	if (toInt(fixedParams["VerboseLevel"]) > 2) {cout << "Running Genesis model with parameters: " << params.toString();}
+	if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << "Running Genesis model with parameters: " << params.toString();}
 
 	/////////////////////////////////////////////////////
 	/// Read the parameters and weights for every run ///
