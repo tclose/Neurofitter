@@ -25,6 +25,8 @@ class XMLString {
 		string getContent() const;
 		string getName() const;
 
+		static string removeXMLComments(string);
+
 	private:
 		string sourceString;
 };

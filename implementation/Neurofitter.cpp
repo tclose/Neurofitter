@@ -9,14 +9,13 @@ using namespace std;
 ///todo the correct header files to every header file
 ///todo check in every class to see if virtual is OK
 ///todo make it possible to fix some variables
-///todo remove Houston
 ///todo make separate executable for mpi
 ///todo report bug in EO
 
 FixedParameters readParameters(int argc, char* argv[]);
 
 int main (int argc, char* argv[]) {
-	cout << "Houston, we have liftoff..." << endl;
+	cout << "Starting Neurofitter..." << endl;
 	cout << "The date is: " << getDateAndTime() << endl;		
 		////////////////////////////
 		///	Read parameters file ///
@@ -116,7 +115,7 @@ int main (int argc, char* argv[]) {
 		delete fitness;
 		delete model;
 
-	cout << endl << "And we have touchdown" << endl;
+	cout << endl << "Neurofitter has finished" << endl;
 
 	return 0;
 }
@@ -133,6 +132,7 @@ FixedParameters readParameters(int argc, char* argv[]) {
 	
 	ifstream paramFile(argv[1]);
 	string fileContent = string(istreambuf_iterator<char>(paramFile),istreambuf_iterator<char>());
+	fileContent = XMLString::removeXMLComments(fileContent);
 	FixedParameters fixedParameters = FixedParameters(XMLString("<root>"+fileContent+"</root>").getSubString("TestProgram"));
 
 	// Say which parameters should be passed to child objects
@@ -143,11 +143,18 @@ FixedParameters readParameters(int argc, char* argv[]) {
 	fixedParameters.setGlobal("Bounds");
 	fixedParameters.setGlobal("WorkingDirectory");
 
+    if (toInt(fixedParameters["PrintParameterFile"]) >= 1) {
+		cout << "Parameter file: " << endl << fileContent << endl;
+	}
+
     if (toInt(fixedParameters["VerboseLevel"]) > 2) {
     	cout << "VerboseLevel: " << fixedParameters["VerboseLevel"] << endl;
         cout << "Dimensions: " << fixedParameters["Dimensions"] << endl;
         cout << "Bounds: "<< fixedParameters["Bounds"] << endl;
         cout << "StartingPoints: " << fixedParameters["StartingPoints"] << endl;
+        cout << "Sampling Frequency: " << fixedParameters["SamplingFrequency"] << endl;
+        cout << "Seed: " << fixedParameters["Seed"] << endl;
+        cout << "Working Directory: " << fixedParameters["WorkingDirectory"] << endl;
     }
 
 	return fixedParameters;

@@ -10,13 +10,12 @@ using namespace std;
 ///todo the correct header files to every header file
 ///todo check in every class to see if virtual is OK
 ///todo make it possible to fix some variables
-///todo remove Houston
 ///todo make separate executable for mpi
 
 FixedParameters readParameters(int argc, char* argv[],int rank);
 
 int main (int argc, char* argv[]) {
-	cout << "Houston, we have liftoff..." << endl;
+	cout << "Starting Neurofitter..." << endl;
 	cout << "The date is: " << getDateAndTime() << endl;
 		MPI_Init(&argc,&argv);
 
@@ -127,7 +126,7 @@ int main (int argc, char* argv[]) {
 
 		MPI_Finalize();
 
-	cout << endl << "And we have touchdown" << endl;
+	cout << endl << "Neurofitter has finished" << endl;
 
 	return 0;
 }

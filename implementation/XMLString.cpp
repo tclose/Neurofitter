@@ -83,3 +83,20 @@ vector<string> XMLString::getSubNames() const{
 	return names;
 }
 
+/// Removes comments from the XML file, not very efficient but fast enough
+
+string XMLString::removeXMLComments(string input) {
+
+	string output = input;
+	unsigned int start, stop;
+	
+	if ((start = output.find("<!--",0)) != string::npos) {
+		output = output.substr(0,start)+removeXMLComments(output.substr(start+4));
+		stop = output.find("-->",start);
+		if (stop == string::npos) crash("XMLString","Mismatch in XML comments");
+		output = output.substr(0,start)+output.substr(stop+3);
+	}
+
+	return output;
+
+}
