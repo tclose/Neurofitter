@@ -90,28 +90,30 @@
     </TracesReaderParameters>   
 
 
+
+	<!-- <ModelType>MPIModel</ModelType>
+	<ModelParameters>  -->
+	    	<ModelType>Genesis</ModelType>	
+			<ModelParameters>
+				<GenesisLocation>localgenesis</GenesisLocation>
 		
-	<ModelType>Genesis</ModelType>	
-	<ModelParameters>
-		<GenesisLocation>localgenesis</GenesisLocation>
+				<ModelDirectory>NEUROFITTERSCRATCH/genesisoutput/NewPC</ModelDirectory>
+				<OutputDirectory>NEUROFITTERSCRATCH/genesisoutput/NewPC/outputs</OutputDirectory>
+				<ModelSource>runNewPC.g</ModelSource>
 		
-		<ModelDirectory>NEUROFITTERSCRATCH/genesisoutput/NewPC</ModelDirectory>
-		<OutputDirectory>NEUROFITTERSCRATCH/genesisoutput/NewPC/outputs</OutputDirectory>
-		<ModelSource>runNewPC.g</ModelSource>
+				<ParamFilePrefix>param</ParamFilePrefix>
+				<OutputFilePrefix>output</OutputFilePrefix>
 		
-		<ParamFilePrefix>param</ParamFilePrefix>
-		<OutputFilePrefix>output</OutputFilePrefix>
-		
-		<ErrorFile>generr.out</ErrorFile>
-		
-	</ModelParameters>	
+				<ErrorFile>generr.out</ErrorFile>
+			</ModelParameters>	
+	<!-- </ModelParameters>	-->
 	
 	<ExperimentType>File</ExperimentType>
 	<ExperimentParameters>
-		<FilesDirectory>NEUROFITTERSCRATCH/genesisoutput/NewPC/data</FilesDirectory>	
+		<FilesDirectory>NEUROFITTERSCRATCH/genesisoutput/NewPC/data</FilesDirectory>
 	</ExperimentParameters>
 
-	<FitnessCalculatorType>MPI</FitnessCalculatorType>
+	<FitnessCalculatorType>MPI</FitnessCalculatorType> 
     <FitnessCalculatorParameters>
     	<FitnessCalculatorType>Matrix</FitnessCalculatorType>
 		<FitnessCalculatorParameters>
@@ -127,7 +129,7 @@
 		</FitnessCalculatorParameters>
 		<enableFileExport>1</enableFileExport>
 		<exportFile>parallelFitness.dat</exportFile>
-    </FitnessCalculatorParameters>
+	</FitnessCalculatorParameters>
 
 	
 

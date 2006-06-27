@@ -10,7 +10,7 @@
 #$ -o /cluster/home/werner/joboutputs
 
 #$ -q normal.q 
-#$ -pe mpichtight 20
+#$ -pe mpichtight 5
 
 #$ -v MPICH_HOME=/cluster/sw/mpich,SGE_QMASTER_PORT=536,MPICH_PROCESS_GROUP=no
 #$ -V

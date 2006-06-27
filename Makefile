@@ -19,8 +19,7 @@ LIBS= $(LIBDIRS) -les -leoutils -leo -lnomad -lxml2
 CXXLIBS = $(LIBS) 
 
 #Added Wno-long-long added for MPI
-#CXXFLAGS = -ansi -pedantic -O3 -Wall -Wno-deprecated -Wno-long-long -g -I$(DIR_LIBXML2)
-CXXFLAGS = -ansi -pedantic -O3 -Wall -Wno-deprecated -g -I$(DIR_LIBXML2)
+CXXFLAGS = -ansi -pedantic -O3 -Wall -Wno-deprecated -Wno-long-long -g -I$(DIR_LIBXML2)
 
 MPICXX=mpicxx
 
