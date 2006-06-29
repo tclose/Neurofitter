@@ -1,7 +1,7 @@
 #include "../MPIFitnessCalculator.h"
 
 const int tag = 42;
-const int dietag = 666;
+const int dietag = 666; //Qui habet intellectum, computet numerum bestiae
 
 MPIFitnessCalculator::MPIFitnessCalculator(ModelInterface * model, ExperimentInterface * experiment, FixedParameters params) 
 	: FitnessCalculator(NULL), FixedParamObject(params) {

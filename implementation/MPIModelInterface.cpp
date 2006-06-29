@@ -2,7 +2,7 @@
 #include "../MPIModelInterface.h"
 
 const int tag = 42;
-const int dietag = 666;
+const int dietag = 666; //Qui habet intellectum, computet numerum bestiae
 
 MPIModelInterface::MPIModelInterface(TracesReader * t, FixedParameters params) : 
 	ModelInterface(t), FixedParamObject(params), mpiChannel(MPI_COMM_WORLD) {
