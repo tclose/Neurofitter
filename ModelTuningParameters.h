@@ -14,44 +14,58 @@
 
 using namespace std;
 
+/// Class that contains the parameters of the model that need to be tuned
+
 class ModelTuningParameters {
 
-public:
-	ModelTuningParameters();
-	ModelTuningParameters(const int);
-	ModelTuningParameters(const vector< double > params, const int length, const vector< double > bounds);
-	ModelTuningParameters(const string, const int length, const string bounds); //Read parameters from string like "5.0 14.0 1.0 8.0"
+	public:
 
-	int getLength() const;
-	void setTuningParameters(const vector< double >, const int);
-	void setTuningParameters(const string, const int);
+		ModelTuningParameters();	///< Default constructor
+		ModelTuningParameters(const int length); ///< Construct with certain length
+			/// Construct with initial parameters and bounds
+		ModelTuningParameters(const vector< double > params, const int length, const vector< double > bounds);
+			
+			/// Construct with initial parameters and bounds read from strings
+			///
+			/// Read parameters from string like "param1 param2 param3". \n
+			/// Read bounds from string like "lower1 upper1 lower2 upper2 lower3 upper3".
+		ModelTuningParameters(const string, const int length, const string bounds); 
 
-	void setBounds(const vector< double >, const int boundsLength);
-	void setBounds(const string, const int boundsLength);
-
-	double getLowerBound(const int) const;
-	double getUpperBound(const int) const;
-
-	void setLowerBound(const int, const double);
-	void setUpperBound(const int, const double);
-
-	double &operator[](const int);
-	const double &operator[](const int) const;
-
-	void setFitnessValue(const double newValue);
-	double getFitnessValue() const;
-
-	string toString() const;
-
-	void printOn(OutputChannel &) const;
-	void readFrom(InputChannel &);
-
-
-private:
-	vector < double > tuningParameters;
-	vector < double > bounds;
+		int getLength() const;	///< Get the number of parameters
 	
-	double fitnessValue;
+		void setTuningParameters(const vector< double >, const int); ///< Change the parameters in the object
+		void setTuningParameters(const string, const int); ///< Change the parameters in the object (read from a string)
+
+		void setBounds(const vector< double >, const int boundsLength);	///< Change the bounds in the object	
+		void setBounds(const string, const int boundsLength); ///< Change the bounds in the object (read from a string)
+
+		double getLowerBound(const int) const; ///< Get the lower bound of the parameters at index
+		double getUpperBound(const int) const; ///< Get the upper bound of the parameters at index
+
+		void setLowerBound(const int, const double); ///< Set the lower bound of the parameter at index
+		void setUpperBound(const int, const double); ///< Set the upper bound of the parameter at index
+
+		double &operator[](const int);	///< Get parameters at index
+		const double &operator[](const int) const;	///< Get parameters at index (const)
+
+
+		void setFitnessValue(const double newValue);	///< Set the fitness value of the parameters
+		double getFitnessValue() const;	///< Get the fitness value of the parameters
+
+		string toString() const; ///< Returns a string containing the parameters
+
+		void printOn(OutputChannel &) const; ///< Print the object on a stream
+		void readFrom(InputChannel &); ///< Read the object from a stream
+
+
+	private:
+
+		vector < double > tuningParameters; ///< Vector containing the parameters
+		vector < double > bounds; ///< Vector containing the bounds
+	
+		double fitnessValue; ///< The fitness value of the parameters
+
+		bool fitnessIsValid; ///< Set only when fitness value is initialized
 };
 
 

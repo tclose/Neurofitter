@@ -1,24 +1,21 @@
 #include "../ModelTuningParameters.h"
 
-///todo clean up from non-vector era
-
-//todo make this one private to prevent ModelTuningParameters with length 0
 ModelTuningParameters::ModelTuningParameters() : 
-	tuningParameters(), bounds(), fitnessValue(-1) {}
+	tuningParameters(), bounds(), fitnessIsValid(false) {}
 
 ModelTuningParameters::ModelTuningParameters(const int newTParamsLength) 
-	: tuningParameters(vector< double >(newTParamsLength)), bounds(), fitnessValue(-1) {
+	: tuningParameters(vector< double >(newTParamsLength)), bounds(), fitnessIsValid(false) {
 }
 
 ModelTuningParameters::ModelTuningParameters(const vector< double > newTParams, const int newTParamsLength, const vector < double > newBounds) : 
-	tuningParameters(), bounds(), fitnessValue(-1) {
+	tuningParameters(), bounds(), fitnessIsValid(false) {
 
 	ModelTuningParameters::setTuningParameters(newTParams, newTParamsLength);
 	ModelTuningParameters::setBounds(newBounds, 2*newTParamsLength);
 }
 
 ModelTuningParameters::ModelTuningParameters(const string paramString, const int newTParamsLength, const string newBounds) : 
-	tuningParameters(), bounds(), fitnessValue(-1) {
+	tuningParameters(), bounds(), fitnessIsValid(false) {
 
 	ModelTuningParameters::setTuningParameters(paramString, newTParamsLength);
 	ModelTuningParameters::setBounds(newBounds, 2*newTParamsLength); 
@@ -65,7 +62,8 @@ void ModelTuningParameters::setTuningParameters(const vector< double > newTParam
 
 void ModelTuningParameters::setTuningParameters(const string paramString, const int newTParamsLength) {
 	vector< double > newTParams(newTParamsLength);
-
+	
+	// "Parse" the string
 	if (paramString != "") {
 		istringstream stream(paramString);	
 		for (int i = 0; i < newTParamsLength; i++) {
@@ -87,7 +85,8 @@ void ModelTuningParameters::setBounds(const vector< double > newBounds, const in
 void ModelTuningParameters::setBounds(const string boundString, const int newBoundsLength) {
 	if (boundString != "") {
 		vector< double > newBounds(newBoundsLength);
-
+		
+		// "Parse" the string
     	istringstream stream (boundString);
     	for (int i = 0; i < newBoundsLength; i++) {
 			if (!stream.good()) crash("ModelTuningParameters","Error while converting string into bounds");
@@ -113,11 +112,12 @@ const double &ModelTuningParameters::operator[]( int subscript ) const {
 
 void ModelTuningParameters::setFitnessValue(const double newValue) {
 	fitnessValue = newValue;
+	fitnessIsValid = true;
 }
 
 double ModelTuningParameters::getFitnessValue() const {
 
-	if (fitnessValue < 0) {
+	if (!fitnessIsValid) {
 		crash("ModelTuningParameters","Getting fitness value which is uninitialized");
 	}
 	return fitnessValue;
@@ -146,6 +146,7 @@ void ModelTuningParameters::printOn(OutputChannel & output) const {
 	for (int i = 0; i < boundsLength; i++) {	
 		output << bounds[i];
 	}
+	output << (int)fitnessIsValid;
 	output << fitnessValue;
 
 }
@@ -166,6 +167,8 @@ void ModelTuningParameters::readFrom(InputChannel & input) {
 		input >> bounds[i];
 	}
 	
+	int fValid;
+	input >> fValid; fitnessIsValid = (bool)fValid;
 	input >> fitnessValue;
 	
 }
