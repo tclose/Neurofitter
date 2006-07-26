@@ -1,10 +1,11 @@
 #include "../NormalTracesReader.h"
 
-
+/// Read data traces from a directory 
 ModelResults NormalTracesReader::readTraces(string dirName) {
 
 	int numberOfRuns = toInt(fixedParams["NumberOfRuns"]);
 
+	// "results" will contain all the traces
 	ModelResults results(getNumberOfRuns()*getNumberOfPeriods()*getNumberOfRecordSites());
 
 	//////////////////////////////////////
@@ -16,12 +17,12 @@ ModelResults NormalTracesReader::readTraces(string dirName) {
 
     istringstream runStream(fixedParams["RunParameters"]);
     for (int i = 0; i < numberOfRuns; i++) {
+		// Skip the run parameters
         for (int j = 0; j < getNumberOfRunParameters(); j++) {
             runStream >> dummy;
         }
         runStream >> runWeights[i];
     }
-
 
 	for (int nRun = 0; nRun < numberOfRuns; nRun++) {
 

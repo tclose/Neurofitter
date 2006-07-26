@@ -7,11 +7,12 @@
 #include "ModelResults.h"
 #include "TracesReader.h"
 
+/// The standard reader of traces from files
 class NormalTracesReader : public TracesReader {
 
 	public:
-		NormalTracesReader(FixedParameters params) : TracesReader(params) {};
-		ModelResults readTraces(string dirName);
+		NormalTracesReader(FixedParameters params) : TracesReader(params) {}; ///< Constructor that reads the fixed parameters
+		virtual ModelResults readTraces(string dirName); /// Read the traces from a directory
 
 	protected:
 

@@ -33,7 +33,7 @@ public:
 
 private:
 	int rank, ntasks;
-	mpi_stream mpiChannel;
+	MPIStream mpiChannel;
 	ExperimentInterface * localExperiment;
 	FitnessCalculator * localFitness;
 

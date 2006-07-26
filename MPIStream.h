@@ -1,7 +1,7 @@
 //From : Simplifying Cluster (PVM and MPI) Application Programming Using Interface Classes: Part 2 
 
-#ifndef MPISTREAM_H
-#define MPISTREAM_H
+#ifndef NEUROFITTER_MPISTREAM_H
+#define NEUROFITTER_MPISTREAM_H
 
 #include <string>
 #include <vector>
@@ -14,58 +14,64 @@
 using namespace MPI;
 using namespace std;
 
-class message_communicator{
+/// A general class which has functionality the communicate messages using MPI
+class MPICommunicator {
 public:
-  //message_communicator(void);
-  message_communicator(MPI_Comm X=MPI_COMM_WORLD);
-  void setMessageRank(int X);
-  int getMessageRank(void);
-  int getRank(void);
-  int getMessageId(void);
-  void setMessageId(int X);
-  int getSize(void);
+  MPICommunicator(MPI_Comm X=MPI_COMM_WORLD);
+  void setMessageRank(int X); ///< Set the message rank of the next message that will be sent
+  int getMessageRank(void); ///< Get message rank of the last message
+  int getRank(void); ///< Get the rank of this process
+  int getMessageId(void); ///< Get the message id of the last message
+  void setMessageId(int X); ///< Set the message id of the next message that will be sent
+  int getSize(void); ///< Get the number of processes in the environment
 protected:
-  //Intracomm Communicator;
-  int messageRank;
-  int messageId;
-  int size;
-  int rank;
-  MPI_Comm handle;
+  int messageRank; ///< Rank of the last message
+  int messageId; ///< Id of the last message
+  int size; ///< Number of processes in the environment
+  int rank; ///< Rank of the current process
+  MPI_Comm handle; ///< Handle to the MPI_comm object
 
 };
 
-class impi_stream : public virtual message_communicator,  public InputChannel {
+/// A stream that reads from other processes using MPI 
+class MPIInputStream : public virtual MPICommunicator,  public InputChannel {
+
 public:
-  impi_stream(void);
-  impi_stream(MPI_Comm X);
-  impi_stream &operator>>(int &Data);
-  impi_stream &operator>>(unsigned &Data);
-  impi_stream &operator>>(string &Data);
-  impi_stream &operator>>(float &Data);
-  impi_stream &operator>>(double &Data);
+  MPIInputStream(void); ///< Default constructor of MPIInputStream
+  MPIInputStream(MPI_Comm X); ///< Constructor of MPIInputStream using an MPI_Comm
+  MPIInputStream &operator>>(int &Data); ///< Read an integer from the MPI channel
+  MPIInputStream &operator>>(unsigned &Data); ///< Read an unsigned integer from the MPI channel
+  MPIInputStream &operator>>(string &Data); ///< Read a string from the MPI channel
+  MPIInputStream &operator>>(float &Data); ///< Read a float from the MPI channel
+  MPIInputStream &operator>>(double &Data); ///< Read a double from the MPI channel
+
 private:
-  MPI_Status status;
+  MPI_Status status; ///< The status value of the last received message
+
 };
 
+/// A stream that writes to other processes using MPI 
+class MPIOutputStream : public virtual MPICommunicator, public OutputChannel {
 
-class ompi_stream : public virtual message_communicator, public OutputChannel {
 public:
-  ompi_stream(void);
-  ompi_stream(MPI_Comm X);
-  ompi_stream &operator<<(const int& Data);
-  ompi_stream &operator<<(const unsigned& Data);
-  ompi_stream &operator<<(const string& Data);
-  ompi_stream &operator<<(const float& Data);
-  ompi_stream &operator<<(const double& Data);
+  MPIOutputStream(void); ///< Default constructor of MPIOutputStream
+  MPIOutputStream(MPI_Comm X); ///< Constructor of MPIOutputStream that uses an MPI_Comm
+  MPIOutputStream &operator<<(const int& Data); ///< Write an integer to the MPI channel
+  MPIOutputStream &operator<<(const unsigned& Data); ///< Write an unsigned integer to the MPI channel
+  MPIOutputStream &operator<<(const string& Data); ///< Write a string to the MPI channel
+  MPIOutputStream &operator<<(const float& Data); ///< Write a float to the MPI channel
+  MPIOutputStream &operator<<(const double& Data); ///< Write a double to the MPI channel
+
 private:
-  MPI_Status status;
+  MPI_Status status; ///< The status value of the last sent message
+
 };
 
-
-class mpi_stream : public ompi_stream, public impi_stream{
+/// A stream that reads and writes to other processses using MPI
+class MPIStream : public MPIOutputStream, public MPIInputStream{
 public:
-  mpi_stream(void);
-  mpi_stream(MPI_Comm X);
+  MPIStream(void); ///< Default constructor of MPIStream
+  MPIStream(MPI_Comm X); ///< Constructor of MPIStream that uses an MPI_Comm
 };
 
 #endif

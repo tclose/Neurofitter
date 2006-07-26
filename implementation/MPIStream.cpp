@@ -1,70 +1,82 @@
 #include "../MPIStream.h"
 
-int message_communicator::getSize(void) {
+/// Get the number of processes in the environment
+int MPICommunicator::getSize(void) {
   return size;
 }
 
-int message_communicator::getRank(void) {
+/// Get the rank of this process
+int MPICommunicator::getRank(void) {
   return rank;
 }
 
-void message_communicator::setMessageId(int X) {
+
+/// Set the message id of the next message that will be sent
+void MPICommunicator::setMessageId(int X) {
   messageId = X;
 }
 
-int message_communicator::getMessageId(void) {
+/// Get the message id of the last message
+int MPICommunicator::getMessageId(void) {
  return messageId;
 }
 
-
-void message_communicator::setMessageRank(int X) {
+/// Set the message rank of the next message that will be sent
+void MPICommunicator::setMessageRank(int X) {
   messageRank = X;
 }
 
-int message_communicator::getMessageRank(void) {
+/// Get message rank of the last message
+int MPICommunicator::getMessageRank(void) {
   return(messageRank);
 }
 
-//message_communicator::message_communicator(void) : message_communicator(MPI::COMM_WORLD) {}
-
-message_communicator::message_communicator(MPI_Comm X) : handle(X) {
+/// Constructor of MPICommunicator
+MPICommunicator::MPICommunicator(MPI_Comm X) : handle(X) {
 	MPI_Comm_size(handle, &size);
 	MPI_Comm_rank(handle, &rank);
 }
 
-impi_stream::impi_stream(void) : message_communicator()  {}
+/// Default constructor of MPIInputStream
+MPIInputStream::MPIInputStream(void) : MPICommunicator()  {}
 
-impi_stream::impi_stream(MPI_Comm X) : message_communicator(X)  {}
+/// Constructor of MPIInputStream using an MPI_Comm
+MPIInputStream::MPIInputStream(MPI_Comm X) : MPICommunicator(X)  {}
 
-impi_stream &impi_stream::operator>>(int &Data) {
+/// Read an integer from the MPI channel
+MPIInputStream &MPIInputStream::operator>>(int &Data) {
   MPI_Recv(&Data,1,MPI_INT,messageRank,messageId,handle,&status);
   messageRank = status.MPI_SOURCE;
   messageId = status.MPI_TAG;
   return(*this);
 }
 
-impi_stream &impi_stream::operator>>(unsigned &Data) {
+/// Read an unsigned integer from the MPI channel
+MPIInputStream &MPIInputStream::operator>>(unsigned &Data) {
   MPI_Recv(&Data,1,MPI_UNSIGNED,messageRank,messageId,handle,&status);
   messageRank = status.MPI_SOURCE;
   messageId = status.MPI_TAG;
   return(*this);
 }
 
-impi_stream &impi_stream::operator>>(float &Data) {
+/// Read a float from the MPI channel
+MPIInputStream &MPIInputStream::operator>>(float &Data) {
   MPI_Recv(&Data,1,MPI_FLOAT,messageRank,messageId,handle,&status);
   messageRank = status.MPI_SOURCE;
   messageId = status.MPI_TAG;
   return(*this);
 }
 
-impi_stream &impi_stream::operator>>(double &Data) {
+/// Read a double from the MPI channel
+MPIInputStream &MPIInputStream::operator>>(double &Data) {
   MPI_Recv(&Data,1,MPI_DOUBLE,messageRank,messageId,handle,&status);
   messageRank = status.MPI_SOURCE;
   messageId = status.MPI_TAG;
   return(*this);
 }
 
-impi_stream &impi_stream::operator>>(string &Data) {
+/// Read a string from the MPI channel
+MPIInputStream &MPIInputStream::operator>>(string &Data) {
   char *value;
   int stringLength;
   MPI_Recv(&stringLength,1,MPI_INT,messageRank,messageId,handle,&status);
@@ -77,37 +89,42 @@ impi_stream &impi_stream::operator>>(string &Data) {
   return(*this);
 }
 
-ompi_stream::ompi_stream(void) : message_communicator() {}
+/// Default constructor of MPIOutputStream
+MPIOutputStream::MPIOutputStream(void) : MPICommunicator() {}
 
-ompi_stream::ompi_stream(MPI_Comm X): message_communicator(X) {}
+/// Constructor of MPIOutputStream that uses an MPI_Comm
+MPIOutputStream::MPIOutputStream(MPI_Comm X): MPICommunicator(X) {}
 
-ompi_stream &ompi_stream::operator<<(const int & Data) {
+/// Write an integer to the MPI channel
+MPIOutputStream &MPIOutputStream::operator<<(const int & Data) {
 	int dat = Data;
 	MPI_Send(&dat,1,MPI_INT,messageRank,messageId,handle);
 	return(*this);
 }
 
-ompi_stream &ompi_stream::operator<<(const unsigned & Data) {
+/// Write an unsigned integer to the MPI channel
+MPIOutputStream &MPIOutputStream::operator<<(const unsigned & Data) {
   unsigned dat = Data;
   MPI_Send(&dat,1,MPI_UNSIGNED,messageRank,messageId,handle);
   return(*this);
 }
 
-
-ompi_stream &ompi_stream::operator<<(const float & Data) {
+/// Write a float to the MPI channel
+MPIOutputStream &MPIOutputStream::operator<<(const float & Data) {
   float dat = Data;
   MPI_Send(&dat,1,MPI_FLOAT,messageRank,messageId,handle);
   return(*this);
 }
 
-ompi_stream &ompi_stream::operator<<(const double & Data) {
+/// Write a double to the MPI channel
+MPIOutputStream &MPIOutputStream::operator<<(const double & Data) {
 	double dat = Data;
   MPI_Send(&dat,1,MPI_DOUBLE,messageRank,messageId,handle);
   return(*this);
 }
 
-
-ompi_stream &ompi_stream::operator<<(const string & Data) {
+/// Write a string to the MPI channel
+MPIOutputStream &MPIOutputStream::operator<<(const string & Data) {
   int stringLength;
   stringLength = Data.length();
   MPI_Send(&stringLength,1,MPI_INT,messageRank,messageId,handle);
@@ -115,7 +132,9 @@ ompi_stream &ompi_stream::operator<<(const string & Data) {
   return(*this);
 }
 
-mpi_stream::mpi_stream(void) : ompi_stream(),impi_stream() {}
+/// Default constructor of an MPIStream
+MPIStream::MPIStream(void) : MPIOutputStream(),MPIInputStream() {}
 
-mpi_stream::mpi_stream(MPI_Comm X) : ompi_stream(X),impi_stream(X) {}
+/// Constructor of an MPIStream that uses an MPI_Comm
+MPIStream::MPIStream(MPI_Comm X) : MPIOutputStream(X),MPIInputStream(X) {}
 

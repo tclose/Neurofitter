@@ -1,5 +1,5 @@
-#ifndef XMLSTRING_H
-#define XMLSTRING_H
+#ifndef NEUROFITTER_XMLSTRING_H
+#define NEUROFITTER_XMLSTRING_H
 
 #include <vector>
 #include <string>
@@ -10,25 +10,26 @@
 
 using namespace std;
 
+/// Class that provides an interface with XML formatting
 class XMLString {
 
 	public:
-		XMLString() : sourceString("") {};
-		XMLString(const string);
-		~XMLString();
+		XMLString() : sourceString("") {}; ///< Default constructor
+		XMLString(const string); ///< Constructor that uses an initializing string
+		~XMLString(); ///< Destructor
 
-		string toString() const;
-		XMLString getSubXMLString(const string) const;
-		string getSubString(const string) const;
-		vector<string> getSubNames() const;
+		string toString() const; ///< Returns a string representation of the XML
+		XMLString getSubXMLString(const string) const; ///< Get a subset of the XML data with a certain tag
+		string getSubString(const string) const; ///< Get a subset of the XML with a certain tag as a string
+		vector<string> getSubNames() const; ///< Get all the names of the subset tags
 
-		string getContent() const;
-		string getName() const;
+		string getContent() const; ///< Return the string representing the XML
+		string getName() const; ///< Return the name of the root element
 
-		static string removeXMLComments(string);
+		static string removeXMLComments(string); ///< Remove the comments (can be nested) from an XML string
 
 	private:
-		string sourceString;
+		string sourceString; ///< String containing the XML
 };
 
 #endif

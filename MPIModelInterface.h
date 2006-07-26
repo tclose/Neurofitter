@@ -28,7 +28,7 @@ public:
 private:
 	MPIModelInterface();
 	int rank, ntasks;
-	mpi_stream mpiChannel;
+	MPIStream mpiChannel;
 	ModelInterface * localModel;
 	
 	void runModelOnSlave(int slaveNumber, int resultNumber, const ModelTuningParameters params);

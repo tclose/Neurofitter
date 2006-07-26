@@ -2,17 +2,21 @@
 
 ///todo check all xml objects for leaks
 
+/// Constructor that uses an initializing string
 XMLString::XMLString(const string source)
 	:sourceString(source) {
 }
 
+/// Destructor
 XMLString::~XMLString() {
 }
 
+/// Returns a string representation of the XML
 string XMLString::toString() const {
 	return sourceString;
 }
-        
+   
+/// Get a subset of the XML data with a certain tag     
 string XMLString::getSubString(const string subName) const {
 	xmlDocPtr xml = xmlParseMemory(sourceString.c_str(), sourceString.length()+1);
 	xmlNodePtr cur = (xmlDocGetRootElement(xml))->xmlChildrenNode;
@@ -39,10 +43,12 @@ string XMLString::getSubString(const string subName) const {
 	return returnString; 
 }        
 
+/// Get a subset of the XML with a certain tag as a string
 XMLString XMLString::getSubXMLString(const string subName) const {
 	return XMLString(getSubString(subName));
 }
 
+/// Return the string representing the XML
 string XMLString::getContent() const {
 	xmlDocPtr xml = xmlParseMemory(sourceString.c_str(), sourceString.length()+1);
 	char * content = (char*)xmlNodeListGetString(xml, (xmlDocGetRootElement(xml))->xmlChildrenNode, 1);
@@ -54,6 +60,7 @@ string XMLString::getContent() const {
 	return contentString;
 }
 
+/// Return the name of the root element
 string XMLString::getName() const {
 	xmlDocPtr xml = xmlParseMemory(sourceString.c_str(), sourceString.length()+1);
 	string returnString((char*)xmlDocGetRootElement(xml)->name);
@@ -63,6 +70,7 @@ string XMLString::getName() const {
 	return returnString;
 }
 
+/// Return the name of the root element
 vector<string> XMLString::getSubNames() const{
 	xmlDocPtr xml = xmlParseMemory(sourceString.c_str(), sourceString.length()+1);
 	vector<string> names;
@@ -84,7 +92,6 @@ vector<string> XMLString::getSubNames() const{
 }
 
 /// Removes comments from the XML file, not very efficient but fast enough
-
 string XMLString::removeXMLComments(string input) {
 
 	string output = input;
