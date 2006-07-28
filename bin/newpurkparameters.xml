@@ -1,10 +1,10 @@
 <TestProgram>
 	<Dimensions>24</Dimensions>	
-	<VerboseLevel>3</VerboseLevel>
+	<VerboseLevel>11</VerboseLevel>
 	<Seed>1550</Seed>
 	<SamplingFrequency>50000</SamplingFrequency>
 	<StartingPoints>
-		1.0 1.0
+		75000.0 15.0 10.0 10.0 10.0 50.0 50.0 50.0 50.0 250.0 30.0 5000.0 500.0 1.5 0.5 0.5 0.5 1000.0 1000.0 1000.0 5.0 5.0 5.0 5.0
 	</StartingPoints>
 	<Bounds>
 		50000.0 100000.0 
@@ -36,22 +36,12 @@
 
 	<PrintParameterFile>1</PrintParameterFile>
 
-	<FitterType>EO</FitterType>
-	<FitterParameters>
-		<popSize>2</popSize>
-		<nbOffspring>3</nbOffspring>
-		<replacement>Plus</replacement>
-		<maxGen>20</maxGen>
-		<minGen>0</minGen>
-		<maxEval>300</maxEval>
-		<targetFitness>0.0</targetFitness>
-		<steadyGen>100</steadyGen>
-		<crossType>global</crossType>
-		<crossObj>intermediate</crossObj> 
-		<TauLoc>1</TauLoc>
-		<TauGlob>1</TauGlob>
-		<Beta>0.0873</Beta>
-	</FitterParameters>
+
+
+    <FitterType>Random</FitterType>
+    <FitterParameters>
+        <NumberOfPoints>200</NumberOfPoints>
+    </FitterParameters>
 
 
 	<TracesReaderType>Normal</TracesReaderType>
@@ -113,7 +103,10 @@
 	</FitnessCalculatorParameters>
 	
 
-<Unused>
+</TestProgram>
+
+	
+	<!--
 
 	<FitterType>Swarm</FitterType>
 	<FitterParameters>
@@ -184,12 +177,24 @@
 		</NOMADFitterParameters>	
 	</FitterParameters>
 
+	<FitterType>EO</FitterType>
+	<FitterParameters>
+		<popSize>2</popSize>
+		<nbOffspring>3</nbOffspring>
+		<replacement>Plus</replacement>
+		<maxGen>20</maxGen>
+		<minGen>0</minGen>
+		<maxEval>300</maxEval>
+		<targetFitness>0.0</targetFitness>
+		<steadyGen>100</steadyGen>
+		<crossType>global</crossType>
+		<crossObj>intermediate</crossObj> 
+		<TauLoc>1</TauLoc>
+		<TauGlob>1</TauGlob>
+		<Beta>0.0873</Beta>
+	</FitterParameters>
 
 
-    <FitterType>Random</FitterType>
-    <FitterParameters>
-        <NumberOfPoints>200</NumberOfPoints>
-    </FitterParameters>
 
 <FitterType>NOMAD</FitterType>
         <FitterParameters>
@@ -292,12 +297,8 @@
     </FitterParameters>
 
 	
-</Unused>
 
-</TestProgram>
 
-	
-	<!--
 	
 		
 		

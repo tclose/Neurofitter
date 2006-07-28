@@ -131,9 +131,11 @@
 		<exportFile>parallelFitness.dat</exportFile>
 	</FitnessCalculatorParameters>
 
+</TestProgram>
+
 	
 
-<Unused>
+<!--
 	<FitterType>Swarm</FitterType>
 	<FitterParameters>
 		<NumberOfRuns>10</NumberOfRuns>
@@ -312,10 +314,7 @@
         <RESULTS_FILE>results.txt</RESULTS_FILE>
     </FitterParameters>
 
-	
-</Unused>
-
-</TestProgram>
+-->
 
 	
 	<!--
