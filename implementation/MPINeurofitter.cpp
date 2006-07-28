@@ -99,6 +99,9 @@ int main (int argc, char* argv[]) {
 			else if (fixedParams["FitterType"] == "Mesh") {
 				fitter = new MeshFitterInterface(fitness,fitterFixedParams);
 			}
+			else if (fixedParams["FitterType"] == "Random") {
+			    fitter = new RandomFitterInterface(fitness,fitterFixedParams);
+			}                    
 			else if (fixedParams["FitterType"] == "Swarm") {
 				fitter = new SwarmFitterInterface(fitness,fitterFixedParams);
 			}
