@@ -1,5 +1,5 @@
-#ifndef MPINEUROFITTER_H
-#define MPINEUROFITTER_H
+#ifndef NEUROFITTER_MPINEUROFITTER_H
+#define NEUROFITTER_MPINEUROFITTER_H
 
 #include <mpi.h>
 #include "MPIModelInterface.h"

@@ -1,5 +1,5 @@
-#ifndef SWARMFLY_H
-#define SWARMFLY_H
+#ifndef NEUROFITTER_SWARMFLY_H
+#define NEUROFITTER_SWARMFLY_H
 
 #include "MersenneTwister.h"
 

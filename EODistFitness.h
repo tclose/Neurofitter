@@ -1,5 +1,5 @@
-#ifndef EODISTFITNESS_h
-#define EODISTFITNESS_h
+#ifndef NEUROFITTER_EODISTFITNESS_h
+#define NEUROFITTER_EODISTFITNESS_h
 
 #include <queue>
 #include <algorithm>

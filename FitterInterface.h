@@ -1,8 +1,8 @@
 // This file is part of the source code of Neurofitter 
 // For Copyright(c) information see the file "AUTHORS"
 
-#ifndef FITTERINTERFACE_H
-#define FITTERINTERFACE_H
+#ifndef NEUROFITTER_FITTERINTERFACE_H
+#define NEUROFITTER_FITTERINTERFACE_H
 
 #include "FitnessCalculator.h"
 #include "FitterResults.h"

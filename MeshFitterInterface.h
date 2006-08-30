@@ -1,5 +1,5 @@
-#ifndef MESHFITTERINTERFACE_H
-#define MESHFITTERINTERFACE_H
+#ifndef NEUROFITTER_MESHFITTERINTERFACE_H
+#define NEUROFITTER_MESHFITTERINTERFACE_H
 
 #include "FitterResults.h"
 #include "FitterInterface.h"

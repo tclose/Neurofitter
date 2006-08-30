@@ -1,5 +1,5 @@
-#ifndef FIXEDPARAMETERS_H
-#define FIXEDPARAMETERS_H
+#ifndef NEUROFITTER_FIXEDPARAMETERS_H
+#define NEUROFITTER_FIXEDPARAMETERS_H
 
 #include <map>
 #include <string>

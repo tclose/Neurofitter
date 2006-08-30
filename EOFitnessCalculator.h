@@ -1,5 +1,5 @@
-#ifndef EOFITNESS_H
-#define EOFITNESS_H 
+#ifndef NEUROFITTER_EOFITNESS_H
+#define NEUROFITTER_EOFITNESS_H 
 
 //#include <eo>
 #include <eoEvalFunc.h>

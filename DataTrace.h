@@ -1,5 +1,5 @@
-#ifndef DATATRACE_H
-#define DATATRACE_H
+#ifndef NEUROFITTER_DATATRACE_H
+#define NEUROFITTER_DATATRACE_H
 
 #include <string>
 #include <vector>

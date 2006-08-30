@@ -1,5 +1,5 @@
-#ifndef FITTERRESULTS_H
-#define FITTERRESULTS_H
+#ifndef NEUROFITTER_FITTERRESULTS_H
+#define NEUROFITTER_FITTERRESULTS_H
 
 #include "ModelTuningParameters.h"
 

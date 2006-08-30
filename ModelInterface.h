@@ -1,5 +1,5 @@
-#ifndef MODELINTERFACE_H
-#define MODELINTERFACE_H
+#ifndef NEUROFITTER_MODELINTERFACE_H
+#define NEUROFITTER_MODELINTERFACE_H
 
 #include "TracesReader.h"
 #include "ModelResults.h"

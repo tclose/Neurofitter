@@ -1,5 +1,5 @@
-#ifndef MODELRESULTS_H
-#define MODELRESULTS_H
+#ifndef NEUROFITTER_MODELRESULTS_H
+#define NEUROFITTER_MODELRESULTS_H
 
 #include <iostream>
 #include <vector>

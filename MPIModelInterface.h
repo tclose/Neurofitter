@@ -1,5 +1,5 @@
-#ifndef MPIMODELINTERFACE_H
-#define MPIMODELINTERFACE_H
+#ifndef NEUROFITTER_MPIMODELINTERFACE_H
+#define NEUROFITTER_MPIMODELINTERFACE_H
 
 #include <vector> 
 #include <sstream> 
