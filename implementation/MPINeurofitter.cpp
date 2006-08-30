@@ -147,6 +147,7 @@ FixedParameters readParameters(int argc, char* argv[], int rank) {
 	string fileLoc = string(argv[1]) + "_" + str(rank);
 	ifstream paramFile(fileLoc.c_str());
 	string fileContent = string(istreambuf_iterator<char>(paramFile),istreambuf_iterator<char>());
+	fileContent = XMLString::removeXMLComments(fileContent);
 	FixedParameters fixedParameters = FixedParameters(XMLString("<root>"+fileContent+"</root>").getSubString("TestProgram"));
 
 	// Say which parameters should be passed to child objects

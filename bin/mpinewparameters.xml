@@ -36,22 +36,11 @@
 
 	<PrintParameterFile>1</PrintParameterFile>
 
-	<FitterType>EO</FitterType>
-	<FitterParameters>
-		<popSize>5</popSize>
-		<nbOffspring>10</nbOffspring>
-		<replacement>Plus</replacement>
-		<maxGen>20</maxGen>
-		<minGen>0</minGen>
-		<maxEval>300</maxEval>
-		<targetFitness>0.0</targetFitness>
-		<steadyGen>100</steadyGen>
-		<crossType>global</crossType>
-		<crossObj>intermediate</crossObj> 
-		<TauLoc>1</TauLoc>
-		<TauGlob>1</TauGlob>
-		<Beta>0.0873</Beta>
-	</FitterParameters>
+    <FitterType>Random</FitterType>
+    <FitterParameters>
+        <NumberOfPoints>20000</NumberOfPoints>
+    </FitterParameters>
+
 
 
 	<TracesReaderType>Normal</TracesReaderType>
@@ -143,6 +132,24 @@
 
 
 
+	<FitterType>EO</FitterType>
+	<FitterParameters>
+		<popSize>5</popSize>
+		<nbOffspring>10</nbOffspring>
+		<replacement>Plus</replacement>
+		<maxGen>20</maxGen>
+		<minGen>0</minGen>
+		<maxEval>300</maxEval>
+		<targetFitness>0.0</targetFitness>
+		<steadyGen>100</steadyGen>
+		<crossType>global</crossType>
+		<crossObj>intermediate</crossObj> 
+		<TauLoc>1</TauLoc>
+		<TauGlob>1</TauGlob>
+		<Beta>0.0873</Beta>
+	</FitterParameters>
+
+
 
 	<FitterType>EONOMAD</FitterType>
 	<FitterParameters>
@@ -208,11 +215,6 @@
 	</FitterParameters>
 
 
-
-    <FitterType>Random</FitterType>
-    <FitterParameters>
-        <NumberOfPoints>200</NumberOfPoints>
-    </FitterParameters>
 
 <FitterType>NOMAD</FitterType>
         <FitterParameters>
