@@ -44,11 +44,11 @@ void MPIFitnessCalculator::calculateFitness(ModelTuningParameters & params) {
 	vector< ModelTuningParameters > paramList(1);
 	paramList[0] = params;
 	
-	calculateParallelFitness(paramList))[0];
+	calculateParallelFitness(paramList);
 
 }
 
-vector< double > MPIFitnessCalculator::calculateParallelFitness(vector< ModelTuningParameters > & paramList) {
+void MPIFitnessCalculator::calculateParallelFitness(vector< ModelTuningParameters > & paramList) {
 
 	vector< double > fitnessValues(paramList.size());
 
@@ -145,15 +145,15 @@ void MPIFitnessCalculator::startSlave() {
 
         if (toInt(fixedParams["VerboseLevel"]) > 2) cout << "Slave " << rank << " running model with parameters: " << parameters.toString() << endl;
     
-        double result = localFitness->calculateFitness(parameters);
+        localFitness->calculateFitness(parameters);
     
-    	parameters.setFitnessValue(result);
+    	parameters.setFitnessValue(parameters.getFitnessValue());
     
         if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank << " sending fitness back to master ... ";
         
         mpiChannel.setMessageRank(0);
         mpiChannel << resultNumber;
-        mpiChannel << result;
+        mpiChannel << parameters.getFitnessValue();;
         parameters.printOn(mpiChannel);
         
         if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank << " has sent fitness back" << endl;
