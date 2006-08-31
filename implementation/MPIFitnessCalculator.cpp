@@ -39,13 +39,12 @@ MPIFitnessCalculator::~MPIFitnessCalculator() {
 	if (localFitness != NULL) delete localFitness;	                                                                        
 }
 
-/// todo don't return value, but use value inside ModelTuningParameters
-double MPIFitnessCalculator::calculateFitness(ModelTuningParameters & params) {
+void MPIFitnessCalculator::calculateFitness(ModelTuningParameters & params) {
 
 	vector< ModelTuningParameters > paramList(1);
 	paramList[0] = params;
 	
-	return (calculateParallelFitness(paramList))[0];
+	calculateParallelFitness(paramList))[0];
 
 }
 
@@ -80,8 +79,6 @@ vector< double > MPIFitnessCalculator::calculateParallelFitness(vector< ModelTun
     }
 
 	numberOfGenerations++;
-
-    return fitnessValues;
 
 }
 

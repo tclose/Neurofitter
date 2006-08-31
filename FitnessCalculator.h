@@ -13,8 +13,8 @@ class FitnessCalculator {
 	public:
 		FitnessCalculator(): model(NULL), exportFile(""), fitnessHistory(), numberOfEvaluations(0), numberOfGenerations(0) {};
 		FitnessCalculator(ModelInterface * interface): model(interface), exportFile(""), fitnessHistory(), numberOfEvaluations(0), numberOfGenerations(0) {};
-		virtual double calculateFitness(ModelTuningParameters & params) = 0;
-		virtual vector< double > calculateParallelFitness(vector< ModelTuningParameters > & params) = 0;
+		virtual void calculateFitness(ModelTuningParameters & params) = 0;
+		virtual void calculateParallelFitness(vector< ModelTuningParameters > & params) = 0;
 		virtual void enableFileExport(const string fileName) = 0;
 		virtual void disableFileExport() = 0;
 		string getExportFile() const {return exportFile;};

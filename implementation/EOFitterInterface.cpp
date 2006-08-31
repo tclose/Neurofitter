@@ -67,7 +67,9 @@ static double real_value(const std::vector<double>& paramVector, FitnessCalculat
 		params[i] = paramVector[i];
 	}
 
-	return fitness->calculateFitness(params);
+	fitness->calculateFitness(params);
+
+	return params.getFitnessValue();
 	
 }
 

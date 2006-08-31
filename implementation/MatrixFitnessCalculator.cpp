@@ -26,17 +26,16 @@ MatrixFitnessCalculator::~MatrixFitnessCalculator() {
 	exportFileStream.close();
 }
 
-/// todo don't return value, but use value inside ModelTuningParameters
-double MatrixFitnessCalculator::calculateFitness(ModelTuningParameters & params) {
+void MatrixFitnessCalculator::calculateFitness(ModelTuningParameters & params) {
 
 	vector< ModelTuningParameters > paramList(1);
 	paramList[0] = params;
 	
-	return (calculateParallelFitness(paramList))[0];
+	calculateParallelFitness(paramList);
 
 }
 
-vector< double > MatrixFitnessCalculator::calculateParallelFitness(vector< ModelTuningParameters > & paramList) {
+void MatrixFitnessCalculator::calculateParallelFitness(vector< ModelTuningParameters > & paramList) {
 
 	vector< double > fitnessValues(paramList.size());
 
@@ -74,8 +73,6 @@ vector< double > MatrixFitnessCalculator::calculateParallelFitness(vector< Model
 	}
 	
 	numberOfGenerations++;
-
-    return fitnessValues;
 
 }
 

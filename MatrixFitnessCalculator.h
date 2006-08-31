@@ -20,8 +20,8 @@ public:
 	MatrixFitnessCalculator(ModelInterface * interface, ExperimentInterface * experiment, FixedParameters); 
 	~MatrixFitnessCalculator();
 
-	virtual double calculateFitness(ModelTuningParameters & param);
-	virtual vector< double > calculateParallelFitness(vector< ModelTuningParameters > & params);
+	virtual void calculateFitness(ModelTuningParameters & param);
+	virtual void calculateParallelFitness(vector< ModelTuningParameters > & params);
 
 	virtual void enableFileExport(const string fileName);
     virtual void disableFileExport();
