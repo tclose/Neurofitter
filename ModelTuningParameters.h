@@ -6,7 +6,6 @@
 #include <sstream>
 #include <vector>
 
-///todo remove this
 #include "InputChannel.h"
 #include "OutputChannel.h"
 
@@ -61,7 +60,7 @@ class ModelTuningParameters {
 	private:
 
 		vector < double > tuningParameters; ///< Vector containing the parameters
-		vector < double > bounds; ///< Vector containing the bounds
+		vector < double > bounds; ///< Vector containing the bounds (closed interval)
 	
 		double fitnessValue; ///< The fitness value of the parameters
 

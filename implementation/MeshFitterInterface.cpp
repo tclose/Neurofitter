@@ -1,6 +1,5 @@
 #include "../MeshFitterInterface.h"
 
-///todo Make it possible to have less dimensions in the mesh than in the problem
 FitterResults MeshFitterInterface::runFitter(ModelTuningParameters * unusedStartPoint) {
 
 	ModelTuningParameters resolution(fixedParams["MeshSize"],toInt(fixedParams["Dimensions"]),fixedParams["Bounds"]);
@@ -8,13 +7,7 @@ FitterResults MeshFitterInterface::runFitter(ModelTuningParameters * unusedStart
 	if (toInt(fixedParams["VerboseLevel"]) > 4) {
 		cout << "Creating MeshInterface with " << toInt(fixedParams["Dimensions"]) << " dimensions" << endl;
 	}
-	//////////////////////////////////////
-	/// Calculate the size of the mesh ///
-	//////////////////////////////////////
-	//int meshSize = 0;
-	//for (int i = 0; i < toInt(fixedParams["Dimensions"]); i++) {
-	//	meshSize += (int)resolution[i];
-	//}
+
 	vector< ModelTuningParameters > mesh;
 
 

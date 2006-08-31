@@ -8,19 +8,22 @@ FitterResults RandomFitterInterface::runFitter(ModelTuningParameters * unusedSta
 
 	ModelTuningParameters initPoint("",toInt(fixedParams["Dimensions"]),fixedParams["Bounds"]);
 
+	///The vector to store the random points
 	vector< ModelTuningParameters > randomList(toInt(fixedParams["NumberOfPoints"]), initPoint);
 
+	///A random number generator
 	MTRand randGen( toInt(fixedParams["Seed"]) );
 
+	///Generate the random points
 	for (int i = 0; i < toInt(fixedParams["NumberOfPoints"]); i++) {
 		for (int j = 0; j < toInt(fixedParams["Dimensions"]); j++) {
-			///todo Check the bounds and maybe make more efficient
 			randomList[i][j] = randomList[i].getLowerBound(j)+randGen.rand(randomList[i].getUpperBound(j)-randomList[i].getLowerBound(j));
 		}
 	}
 
+	///Evaluate all the random in parallel
 	fitness->calculateParallelFitness(randomList);
 
-	return FitterResults();
+	return FitterResults(randomList);
 }
 

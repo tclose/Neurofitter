@@ -12,8 +12,9 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 	double w = 1.0/(2.0*log(2.0));
 	double c = 0.5 + log(2.0);
 	
-	///todo replace by MAXINT
-	double tempBestValue = 100000;
+	double tempBestValue = 0;
+	///True if tempBestValue is initialized
+	bool initBest = false; 
 
 	int numberOfRuns = toInt(fixedParams["NumberOfRuns"]);
 	if (numberOfRuns < 0) crash("SwarmFitterInterface","Negative number of runs !!");
@@ -32,7 +33,6 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 	/// Initialize the swarm flies ///
 	//////////////////////////////////
 	for (int i = 0; i < numberOfFlies; i++) {
-		///todo check random bounds
 		for (int j = 0; j < startP[i].getLength(); j++) {
 			startP[i][j] = startPoint->getLowerBound(j)+randGen.rand(startPoint->getUpperBound(j)-startPoint->getLowerBound(j));
 		}
@@ -69,12 +69,13 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 		}
 		if (toInt(fixedParams["VerboseLevel"]) > 1)
 			cout << "Best solution after run " << i << " : " << SwarmFly::bestGlobalSolution.toString() << " : " << SwarmFly::bestGlobalSolution.getFitnessValue() << endl;
-		if (!(SwarmFly::bestGlobalSolution.getFitnessValue() < tempBestValue)) {
-			if (toInt(fixedParams["VerboseLevel"]) > 2) cout << "No better solution found in the last : Randomizing swarm topology" << endl; 
-			randomizeTopology(swarm, maxInformed, randGen);
+		if (SwarmFly::bestGlobalSolution.getFitnessValue() < tempBestValue || !initBest) {
+			tempBestValue = SwarmFly::bestGlobalSolution.getFitnessValue();
+			initBest = true;
 		}
 		else {
-			tempBestValue = SwarmFly::bestGlobalSolution.getFitnessValue();
+			if (toInt(fixedParams["VerboseLevel"]) > 2) cout << "No better solution found in the last run: Randomizing swarm topology" << endl; 
+			randomizeTopology(swarm, maxInformed, randGen);
 		}
 
 	}

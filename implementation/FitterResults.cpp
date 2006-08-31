@@ -1,5 +1,15 @@
 #include "../FitterResults.h"
 
+FitterResults::FitterResults(vector< ModelTuningParameters > list) {
+	bestFitness = list[0].getFitnessValue();
+	for (int i = 0; i < (int)list.size(); i++) {
+		if (list[i].getFitnessValue() <= bestFitness) {
+			bestFit = list[i];
+			bestFitness = list[i].getFitnessValue();
+		}
+	}
+}
+
 ModelTuningParameters FitterResults::getBestFit() const {
 	return bestFit;
 }
@@ -12,6 +22,7 @@ void FitterResults::setBestFit(const ModelTuningParameters newBestFit, const dou
 	bestFit = newBestFit;
 	bestFitness = fitness;
 }
+
 /*
 string FitterResults::getExtraResults() const{
 	return extraResults;

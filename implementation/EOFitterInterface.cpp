@@ -156,7 +156,6 @@ void EOFitterInterface::writeEOParamsFile(string fileName, ModelTuningParameters
 	}
 
 
-	///todo check to see if floating point seed is possible
 	EOParam << endl << "	--seed=" << fixedParams["Seed"] << endl;
 
 	EOParam << endl << "	--vecSize=" << fixedParams["Dimensions"] << endl;

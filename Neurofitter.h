@@ -1,8 +1,6 @@
 #ifndef NEUROFITTER_H
 #define NEUROFITTER_H
 
-///todo add NEUROFITTER to header file constants
-
 #include <string>
 #include <iostream>
 #include <fstream>

@@ -9,7 +9,6 @@
 
 using namespace std;
 
-///todo make it possible to make a slice in a certain dimension
 class RandomFitterInterface : public FitterInterface, FixedParamObject {
 
     public:

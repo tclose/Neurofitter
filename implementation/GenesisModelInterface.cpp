@@ -170,7 +170,6 @@ void GenesisModelInterface::readDataFromFile(ModelResults & results, string inpu
 		/// Initialize the traces ///
 		/////////////////////////////
 		for (int nRecording = 0; nRecording < numberOfRecordSites; nRecording++) {
-			///todo check for rounding errors
 			results[periodIndex+nRecording].resetAndSetLength(
 				(int)(periodStops[nPeriod]*toDouble(fixedParams["SamplingFrequency"])) 
 				- (int)(periodStart[nPeriod]*toDouble(fixedParams["SamplingFrequency"])) + 1);
