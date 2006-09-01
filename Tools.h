@@ -39,6 +39,17 @@ inline double toDouble(string s) {
    return atof(s.c_str());
 }
 
+inline void showMessage(string text, int verboseLevel, FixedParameters fixedParams) {
+	if (toInt(fixedParams["VerboseLevel"]) >= verboseLevel) {
+		cout << text;
+	}
+}
+
+inline void showMessage(string text) {
+	cout << text;
+}
+
+
 /// Stop the program with an error message
 inline void crash(string object, string message) {
 	//throw runtime_error("Error in "+object+": "+message);

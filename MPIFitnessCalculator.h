@@ -40,7 +40,7 @@ private:
 	ofstream exportFileStream;
 
 	void runFitnessOnSlave(int slaveNumber, int resultNumber, const ModelTuningParameters params);
-	void receiveFitnessFromSlave(int & taskRank, vector< double > & results, vector< ModelTuningParameters > & paramList);
+	void receiveFitnessFromSlave(int & taskRank, vector< ModelTuningParameters > & paramList);
 	void startSlave();
 	        
 };

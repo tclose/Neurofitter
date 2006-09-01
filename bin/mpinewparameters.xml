@@ -38,7 +38,7 @@
 
     <FitterType>Random</FitterType>
     <FitterParameters>
-        <NumberOfPoints>20000</NumberOfPoints>
+        <NumberOfPoints>4</NumberOfPoints>
     </FitterParameters>
 
 

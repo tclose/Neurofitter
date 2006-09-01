@@ -32,6 +32,10 @@ void MatrixFitnessCalculator::calculateFitness(ModelTuningParameters & params) {
 	paramList[0] = params;
 	
 	calculateParallelFitness(paramList);
+	
+	/// This is necessary because otherwise the fitnessvalue is not transferred 
+	/// since no reference is passed to calculateParallelFitness
+	params.setFitnessValue(paramList[0].getFitnessValue());
 
 }
 

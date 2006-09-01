@@ -46,13 +46,15 @@ void MPIFitnessCalculator::calculateFitness(ModelTuningParameters & params) {
 	
 	calculateParallelFitness(paramList);
 
+	/// This is necessary because otherwise the fitnessvalue is not transferred
+	/// since no reference is passed to calculateParallelFitness
+	params.setFitnessValue(paramList[0].getFitnessValue());
+
 }
 
 void MPIFitnessCalculator::calculateParallelFitness(vector< ModelTuningParameters > & paramList) {
 
-	vector< double > fitnessValues(paramList.size());
-
-	if (toInt(fixedParams["VerboseLevel"]) > 2) cout << "Running "<< paramList.size() << " jobs in parallel" << endl;
+	if (toInt(fixedParams["VerboseLevel"]) > 2) cout << "Running a total of "<< paramList.size() << " jobs on " << ntasks-1 << " parallel processors" << endl;
 
 	int nSubmitted = 0;
 	int nReceived = 0;
@@ -66,7 +68,7 @@ void MPIFitnessCalculator::calculateParallelFitness(vector< ModelTuningParameter
 
 	//There are more jobs than slaves
 	while (nSubmitted < (int)paramList.size()) {
-		receiveFitnessFromSlave(taskRank, fitnessValues, paramList);
+		receiveFitnessFromSlave(taskRank, paramList);
 		nReceived++;
 		runFitnessOnSlave(taskRank, nSubmitted ,paramList[nSubmitted]);
 		nSubmitted++;
@@ -74,7 +76,7 @@ void MPIFitnessCalculator::calculateParallelFitness(vector< ModelTuningParameter
 
     //Receive the remainder of the results
     while (nReceived < nSubmitted) {
-       	receiveFitnessFromSlave(taskRank, fitnessValues, paramList);
+       	receiveFitnessFromSlave(taskRank, paramList);
         nReceived++;
     }
 
@@ -93,7 +95,7 @@ void MPIFitnessCalculator::runFitnessOnSlave(int slaveNumber, int resultNumber, 
 
 }
 
-void MPIFitnessCalculator::receiveFitnessFromSlave(int & taskRank, vector< double > & results, vector< ModelTuningParameters > & paramList) {
+void MPIFitnessCalculator::receiveFitnessFromSlave(int & taskRank, vector< ModelTuningParameters > & paramList) {
 
     int resultNumber;
 
@@ -104,12 +106,11 @@ void MPIFitnessCalculator::receiveFitnessFromSlave(int & taskRank, vector< doubl
 
     if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Receiving result " << resultNumber <<" from slave " << taskRank << "... ";
 
-    mpiChannel >> results[resultNumber];
     paramList[resultNumber].readFrom(mpiChannel);
 	numberOfEvaluations++;
 
 	if (exportFileStream.is_open()) {
-			exportFileStream << numberOfGenerations << " " << numberOfEvaluations << " " << results[resultNumber] << " ";
+			exportFileStream << numberOfGenerations << " " << numberOfEvaluations << " " << paramList[resultNumber].getFitnessValue() << " ";
 			for (int j = 0; j < paramList[resultNumber].getLength(); j++) {
 				exportFileStream << (paramList[resultNumber][j]) << " ";
 			}
@@ -146,14 +147,11 @@ void MPIFitnessCalculator::startSlave() {
         if (toInt(fixedParams["VerboseLevel"]) > 2) cout << "Slave " << rank << " running model with parameters: " << parameters.toString() << endl;
     
         localFitness->calculateFitness(parameters);
-    
-    	parameters.setFitnessValue(parameters.getFitnessValue());
-    
+        
         if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank << " sending fitness back to master ... ";
         
         mpiChannel.setMessageRank(0);
         mpiChannel << resultNumber;
-        mpiChannel << parameters.getFitnessValue();;
         parameters.printOn(mpiChannel);
         
         if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank << " has sent fitness back" << endl;
