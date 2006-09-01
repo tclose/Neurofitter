@@ -2,9 +2,7 @@
 
 FitterResults RandomFitterInterface::runFitter(ModelTuningParameters * unusedStartPoint) {
 
-	if (toInt(fixedParams["VerboseLevel"]) > 4) {
-		cout << "Creating RandomInterface with " << toInt(fixedParams["Dimensions"]) << " dimensions" << endl;
-	}
+	showMessage("Creating RandomInterface with " + fixedParams["Dimensions"] + " dimensions\n",5,fixedParams);
 
 	ModelTuningParameters initPoint("",toInt(fixedParams["Dimensions"]),fixedParams["Bounds"]);
 

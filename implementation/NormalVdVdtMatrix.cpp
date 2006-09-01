@@ -40,12 +40,10 @@ NormalVdVdtMatrix::NormalVdVdtMatrix(const DataTrace& trace, FixedParameters par
 		VNext = trace[nPoint+1];
 		dVdt = (VPrev-VNext) * trace.getSamplingFrequency();
 
-		if (toInt(fixedParams["VerboseLevel"]) > 4) {	
-			if (V < minimalV) {cout << "Warning: V smaller than minimal V in NormalVdVdtMatrix: "<<str(V)<<endl;}
-			if (V >= maximalV) {cout << "Warning: V larger than maximal V in NormalVdVdtMatrix: "<<str(V)<<endl;}
-			if (dVdt < minimaldVdt) {cout << "Warning: dVdt smaller than minimal dVdt in NormalVdVdtMatrix: "<<str(dVdt)<<endl;}
-			if (dVdt >= maximaldVdt) {cout << "Warning: dVdt larger than maximal dVdt in NormalVdVdtMatrix: "<<str(dVdt)<<endl;}
-		}
+		if (V < minimalV) showMessage("Warning: V smaller than minimal V in NormalVdVdtMatrix: " + str(V) + "\n",5,fixedParams);
+		if (V >= maximalV) showMessage("Warning: V larger than maximal V in NormalVdVdtMatrix: " + str(V) + "\n",5,fixedParams);
+		if (dVdt < minimaldVdt) showMessage("Warning: dVdt smaller than minimal dVdt in NormalVdVdtMatrix: " + str(dVdt) + "\n",5,fixedParams);
+		if (dVdt >= maximaldVdt) showMessage("Warning: dVdt larger than maximal dVdt in NormalVdVdtMatrix: " + str(dVdt) + "\n",5,fixedParams);
 
 		if (V < minimalV) V=minimalV;
 		if (V >= maximalV) V=maximalV-dxVdVdtmatrix; ///todo check if in extreme cases this cannot cause problems

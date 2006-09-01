@@ -65,7 +65,7 @@ ModelResults NormalTracesReader::readTraces(string dirName) {
 			string inputFileName = dirName + "/" + fixedParams["OutputFilePrefix"] + "_Run" + str(nRun) +".dat";
         	ifstream        inputFile;
         	inputFile.open(inputFileName.c_str(), ios::in);
-        	if (toInt(fixedParams["VerboseLevel"]) > 4) {cout << "Reading from file: " << inputFileName << endl;};
+        	showMessage("Reading from file: " + inputFileName + "\n",5,fixedParams);
 
         	///////////////////////////////////////////////
 			/// Read data until the start of the period ///

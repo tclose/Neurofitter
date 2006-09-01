@@ -43,8 +43,7 @@ void SwarmFly::setNewPositionFitness(ModelTuningParameters & newPosition) {
 	currentPosition = newPosition;
 	double fitnessValue = currentPosition.getFitnessValue();
 
-	if (toInt(fixedParams["VerboseLevel"]) > 3)
-		cout << "New position: " << currentPosition.toString() << " New Speed: " << currentSpeed.toString() << endl;
+	showMessage("New position: " + currentPosition.toString() + " New Speed: " + currentSpeed.toString() + "\n", 4, fixedParams);
 
 	if (!bestLocalInited || fitnessValue < bestLocalSolution.getFitnessValue()) {
 		bestLocalInited = true;

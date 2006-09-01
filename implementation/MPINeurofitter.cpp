@@ -15,13 +15,13 @@ using namespace std;
 FixedParameters readParameters(int argc, char* argv[],int rank);
 
 int main (int argc, char* argv[]) {
-	cout << "Starting Neurofitter..." << endl;
-	cout << "The date is: " << getDateAndTime() << endl;
+	showMessage("\nStarting Neurofitter...\n");
+	showMessage("The date is: " + getDateAndTime() + "\n");
 		MPI_Init(&argc,&argv);
 
 		int rank;
 		MPI_Comm_rank( MPI_COMM_WORLD, &rank );
-		cout << "Rank: " << rank << endl;
+		showMessage("Rank: " + rank + "\n");
 		
 		////////////////////////////
 		///	Read parameters file ///
@@ -129,7 +129,7 @@ int main (int argc, char* argv[]) {
 
 		MPI_Finalize();
 
-	cout << endl << "Neurofitter has finished" << endl;
+	showMessage("\nNeurofitter has finished\n");
 
 	return 0;
 }

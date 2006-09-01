@@ -6,7 +6,7 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 
 	int numberOfFlies = (int)(10.0+2.0*sqrt((double)toInt(fixedParams["Dimensions"])));
 
-	if (toInt(fixedParams["VerboseLevel"]) > 2) cout << "Running Swarm Optimization with " << numberOfFlies << " flies" << endl; 
+	showMessage("Running Swarm Optimization with " + str(numberOfFlies) + " flies\n",3,fixedParams); 
 
 	int maxInformed = 3;
 	double w = 1.0/(2.0*log(2.0));
@@ -67,14 +67,13 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 		for (int j = 0; j < numberOfFlies; j++) {
 			swarm[j].setNewPositionFitness(flyPositions[j]);
 		}
-		if (toInt(fixedParams["VerboseLevel"]) > 1)
-			cout << "Best solution after run " << i << " : " << SwarmFly::bestGlobalSolution.toString() << " : " << SwarmFly::bestGlobalSolution.getFitnessValue() << endl;
+		showMessage( "Best solution after run " + str(i) + " : " + SwarmFly::bestGlobalSolution.toString() + " : " + str(SwarmFly::bestGlobalSolution.getFitnessValue()) + "\n",2,fixedParams);
 		if (SwarmFly::bestGlobalSolution.getFitnessValue() < tempBestValue || !initBest) {
 			tempBestValue = SwarmFly::bestGlobalSolution.getFitnessValue();
 			initBest = true;
 		}
 		else {
-			if (toInt(fixedParams["VerboseLevel"]) > 2) cout << "No better solution found in the last run: Randomizing swarm topology" << endl; 
+			showMessage("No better solution found in the last run: Randomizing swarm topology\n",3,fixedParams); 
 			randomizeTopology(swarm, maxInformed, randGen);
 		}
 
@@ -87,13 +86,13 @@ void SwarmFitterInterface::randomizeTopology(vector< SwarmFly > & swarm, int max
 
 	for (int i = 0; i < (int)swarm.size(); i++) {
 		swarm[i].resetInformants();
-		if (toInt(fixedParams["VerboseLevel"]) > 3) cout << i << " informs: { "; 
+		showMessage(str(i) + " informs: { ",4,fixedParams); 
 		for (int j = 0; j < maxInformed; j++) {
 			int randI = randGen.randInt(swarm.size()-1);
 			swarm[randI].addInformant(&(swarm[j]));
-			if (toInt(fixedParams["VerboseLevel"]) > 3) cout << randI << " "; 
+			showMessage(randI + " ",4,fixedParams); 
 		}
-		if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "}" << endl; 
+		showMessage("}\n",4,fixedParams); 
 	}
 
 }

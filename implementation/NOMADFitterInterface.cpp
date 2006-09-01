@@ -29,7 +29,7 @@ FitterResults NOMADFitterInterface::runFitter(ModelTuningParameters * startPoint
 	/////////////////////////////////////////////
 	///	Creating and initiliaze NOMAD objects ///
 	/////////////////////////////////////////////
-	cout << parametersFile.c_str();
+	showMessage(parametersFile+"\n",1,fixedParams);
     Parameters parameters(parametersFile.c_str());
     Description description(descriptionFile.c_str());
 	//todo ask NOMAD developer to allow location preferences file
@@ -84,7 +84,7 @@ extern string NOMADDescContents;
 
 void NOMADFitterInterface::writeDescriptionFile(string fileName) {
 
-	if (toInt(fixedParams["VerboseLevel"])>3) cout << "Writing NOMAD description file: " << fileName << endl;
+	showMessage("Writing NOMAD description file: " + fileName + "\n",4,fixedParams);
 
 	ofstream file;
 	file.open(fileName.c_str(), ios::out);
@@ -111,7 +111,7 @@ void NOMADFitterInterface::writeDescriptionFile(string fileName) {
 
 void NOMADFitterInterface::writeParametersFile(string fileName) {
 
-	if (toInt(fixedParams["VerboseLevel"])>3) cout << "Writing NOMAD parameter file: " << fileName << endl;
+	showMessage("Writing NOMAD parameter file: " + fileName + "\n",4,fixedParams);
 
 	ofstream file;
 	file.open(fileName.c_str(), ios::out);
@@ -157,7 +157,7 @@ void NOMADFitterInterface::writeParametersFile(string fileName) {
 
 void NOMADFitterInterface::writePreferencesFile(string fileName) {
 
-	if (toInt(fixedParams["VerboseLevel"])>3) cout << "Writing NOMAD preferences file: " << fileName << endl;
+	showMessage("Writing NOMAD preferences file: " + fileName + "\n",4,fixedParams);
 
 	ofstream file;
 	file.open(fileName.c_str(), ios::out);
