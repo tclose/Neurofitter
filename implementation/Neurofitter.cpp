@@ -11,6 +11,10 @@ using namespace std;
 ///todo make it possible to fix some variables
 ///todo make separate executable for mpi
 ///todo report bug in EO
+///todo extend the members of FitterResults 
+//todo make it possible to give a list of startingpoints to a fitter
+///todo use a map to implement VdVdtMatrix
+///todo make it possible to make a slice in a certain dimension with MeshFitter
 
 FixedParameters readParameters(int argc, char* argv[]);
 

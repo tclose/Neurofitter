@@ -8,7 +8,6 @@
 
 using namespace std;
 
-///todo make it possible to make a slice in a certain dimension
 class MeshFitterInterface : public FitterInterface, FixedParamObject {
 
     public:

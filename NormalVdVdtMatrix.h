@@ -10,7 +10,6 @@ using namespace std;
 #include "FixedParamObject.h"
 #include "Tools.h"
 
-///todo use a map to implement this
 class NormalVdVdtMatrix : public FixedParamObject {
 
 public:

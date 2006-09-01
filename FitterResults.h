@@ -7,7 +7,6 @@
 
 using namespace std;
 
-///todo extend the members
 class FitterResults {
 
 	public:
