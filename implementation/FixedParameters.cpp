@@ -1,3 +1,5 @@
+#include "../Tools.h"
+
 #include "../FixedParameters.h"
     
 FixedParameters::FixedParameters(string parameters, bool isGlobal) {

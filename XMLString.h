@@ -6,8 +6,6 @@
 #include <iostream>
 #include <libxml/parser.h>
 
-#include "Tools.h"
-
 using namespace std;
 
 /// Class that provides an interface with XML formatting

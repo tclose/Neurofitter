@@ -7,7 +7,6 @@
 using namespace std;
 
 #include "XMLString.h"
-#include "Tools.h"
 
 using namespace std;
 

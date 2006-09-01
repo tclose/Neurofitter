@@ -6,6 +6,8 @@
 #include <stdexcept>
 #include <unistd.h>
 
+#include "FixedParameters.h"
+
 using namespace std;
 
 /// Convert a float to a string
@@ -47,6 +49,10 @@ inline void showMessage(string text, int verboseLevel, FixedParameters fixedPara
 
 inline void showMessage(string text) {
 	cout << text;
+}
+
+inline void flushMessage() {
+	cout.flush();
 }
 
 

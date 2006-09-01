@@ -1,3 +1,5 @@
+#include "../Tools.h"
+
 #include "../XMLString.h"
 
 ///todo check all xml objects for leaks
