@@ -16,13 +16,13 @@ using namespace std;
 ///todo use a map to implement VdVdtMatrix
 ///todo make it possible to make a slice in a certain dimension with MeshFitter
 ///todo put include Tools.h in implementation files, not header files except when necessary
-
+///todo remove all references to cout and replace by showMessage
 
 FixedParameters readParameters(int argc, char* argv[]);
 
 int main (int argc, char* argv[]) {
-	cout << "Starting Neurofitter..." << endl;
-	cout << "The date is: " << getDateAndTime() << endl;		
+	showMessage("\nStarting Neurofitter...\n");
+	showMessage("The date is: " + getDateAndTime() + "\n");		
 		////////////////////////////
 		///	Read parameters file ///
 		////////////////////////////
@@ -121,7 +121,7 @@ int main (int argc, char* argv[]) {
 		delete fitness;
 		delete model;
 
-	cout << endl << "Neurofitter has finished" << endl;
+	showMessage("\nNeurofitter has finished\n");
 
 	return 0;
 }
@@ -129,11 +129,11 @@ int main (int argc, char* argv[]) {
 
 FixedParameters readParameters(int argc, char* argv[]) {
 
-	cout << "Arguments: {";
+	showMessage("Arguments: {");
 	for (int i = 0; i < argc; i++) {
-		cout << string(argv[i]) << ",";
+		showMessage(string(argv[i]) + ",");
 	}
-	cout << "}" << endl;
+	showMessage("}\n");
 	if (argc < 2 || argv[1]==NULL) crash("Neurofitter","Not enough arguments: "+str(argc));
 	
 	ifstream paramFile(argv[1]);
@@ -150,18 +150,17 @@ FixedParameters readParameters(int argc, char* argv[]) {
 	fixedParameters.setGlobal("WorkingDirectory");
 
     if (toInt(fixedParameters["PrintParameterFile"]) >= 1) {
-		cout << "Parameter file: " << endl << fileContent << endl;
+		showMessage("Parameter file: \n" + fileContent + "\n", 1, fixedParameters);
 	}
 
-    if (toInt(fixedParameters["VerboseLevel"]) > 2) {
-    	cout << "VerboseLevel: " << fixedParameters["VerboseLevel"] << endl;
-        cout << "Dimensions: " << fixedParameters["Dimensions"] << endl;
-        cout << "Bounds: "<< fixedParameters["Bounds"] << endl;
-        cout << "StartingPoints: " << fixedParameters["StartingPoints"] << endl;
-        cout << "Sampling Frequency: " << fixedParameters["SamplingFrequency"] << endl;
-        cout << "Seed: " << fixedParameters["Seed"] << endl;
-        cout << "Working Directory: " << fixedParameters["WorkingDirectory"] << endl;
-    }
+	showMessage("VerboseLevel: " + fixedParameters["VerboseLevel"] + "\n" +
+        		"Dimensions: " + fixedParameters["Dimensions"] + "\n" +
+        		"Bounds: " + fixedParameters["Bounds"] + "\n" + 
+        		"StartingPoints: " + fixedParameters["StartingPoints"] + "\n" + 
+       			"Sampling Frequency: " + fixedParameters["SamplingFrequency"] + "\n" + 
+        		"Seed: " + fixedParameters["Seed"] + "\n" + 
+        		"Working Directory: " + fixedParameters["WorkingDirectory"] + "\n", 
+				3, fixedParameters);
 
 	return fixedParameters;
 	

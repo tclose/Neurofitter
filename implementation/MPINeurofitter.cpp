@@ -135,36 +135,44 @@ int main (int argc, char* argv[]) {
 }
 
 
+
 FixedParameters readParameters(int argc, char* argv[], int rank) {
 
-	cout << "Arguments: {";
-	for (int i = 0; i < argc; i++) {
-		cout << string(argv[i]) << ",";
-	}
-	cout << "}" << endl;
-	if (argc < 2 || argv[1]==NULL) crash("Neurofitter","Not enough arguments: "+str(argc));
-	
+    showMessage("Arguments: {");
+    for (int i = 0; i < argc; i++) {
+        showMessage(string(argv[i]) + ",");
+    }
+    showMessage("}\n");
+    if (argc < 2 || argv[1]==NULL) crash("MPINeurofitter","Not enough arguments: "+str(argc));
+
 	string fileLoc = string(argv[1]) + "_" + str(rank);
-	ifstream paramFile(fileLoc.c_str());
-	string fileContent = string(istreambuf_iterator<char>(paramFile),istreambuf_iterator<char>());
-	fileContent = XMLString::removeXMLComments(fileContent);
-	FixedParameters fixedParameters = FixedParameters(XMLString("<root>"+fileContent+"</root>").getSubString("TestProgram"));
+    ifstream paramFile(fileLoc.c_str());
+    string fileContent = string(istreambuf_iterator<char>(paramFile),istreambuf_iterator<char>());
+    fileContent = XMLString::removeXMLComments(fileContent);
+    FixedParameters fixedParameters = FixedParameters(XMLString("<root>"+fileContent+"</root>").getSubString("TestProgram"));
 
-	// Say which parameters should be passed to child objects
-	fixedParameters.setGlobal("Dimensions");
-	fixedParameters.setGlobal("VerboseLevel");
-	fixedParameters.setGlobal("SamplingFrequency");
-	fixedParameters.setGlobal("Seed");
-	fixedParameters.setGlobal("Bounds");
-	fixedParameters.setGlobal("WorkingDirectory");
+    // Say which parameters should be passed to child objects
+    fixedParameters.setGlobal("Dimensions");
+    fixedParameters.setGlobal("VerboseLevel");
+    fixedParameters.setGlobal("SamplingFrequency");
+    fixedParameters.setGlobal("Seed");
+    fixedParameters.setGlobal("Bounds");
+    fixedParameters.setGlobal("WorkingDirectory");
 
-    if (toInt(fixedParameters["VerboseLevel"]) > 2) {
-    	cout << "VerboseLevel: " << fixedParameters["VerboseLevel"] << endl;
-        cout << "Dimensions: " << fixedParameters["Dimensions"] << endl;
-        cout << "Bounds: "<< fixedParameters["Bounds"] << endl;
-        cout << "StartingPoints: " << fixedParameters["StartingPoints"] << endl;
+    if (toInt(fixedParameters["PrintParameterFile"]) >= 1) {
+        showMessage("Parameter file: \n" + fileContent + "\n", 1, fixedParameters);
     }
 
-	return fixedParameters;
-	
+    showMessage("VerboseLevel: " + fixedParameters["VerboseLevel"] + "\n" +
+                "Dimensions: " + fixedParameters["Dimensions"] + "\n" +
+                "Bounds: " + fixedParameters["Bounds"] + "\n" +
+                "StartingPoints: " + fixedParameters["StartingPoints"] + "\n" +
+                "Sampling Frequency: " + fixedParameters["SamplingFrequency"] + "\n" +
+                "Seed: " + fixedParameters["Seed"] + "\n" +
+                "Working Directory: " + fixedParameters["WorkingDirectory"] + "\n",
+                3, fixedParameters);
+
+    return fixedParameters;
+        
 }
+
