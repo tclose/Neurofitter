@@ -87,8 +87,8 @@ ModelResults NormalTracesReader::readTraces(string dirName) {
         	for (int nRecording = 0; nRecording < numberOfRecordSites; nRecording++) {
             	///todo check for rounding errors
             	results[periodIndex+nRecording].resetAndSetLength(
-                	floor(periodStops[nPeriod]*toDouble(fixedParams["SamplingFrequency"]))
-                	- floor(periodStart[nPeriod]*toDouble(fixedParams["SamplingFrequency"])) + 1);
+                	(int)floor(periodStops[nPeriod]*toDouble(fixedParams["SamplingFrequency"]))
+                	- (int)floor(periodStart[nPeriod]*toDouble(fixedParams["SamplingFrequency"])) + 1);
             	results[periodIndex+nRecording].setName("Run: " + str(nRun) + ", Period: " + str(nPeriod) + ", Recording: "+str(nRecording));
             	results[periodIndex+nRecording].setSamplingFrequency(toDouble(fixedParams["SamplingFrequency"]));
             	results[periodIndex+nRecording].setWeight(runWeights[nRun]*periodWeights[nPeriod]*recordWeights[nRecording]);

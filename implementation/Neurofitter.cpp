@@ -16,7 +16,6 @@ using namespace std;
 ///todo use a map to implement VdVdtMatrix
 ///todo make it possible to make a slice in a certain dimension with MeshFitter
 ///todo put include Tools.h in implementation files, not header files except when necessary
-///todo remove all references to cout and replace by showMessage
 
 FixedParameters readParameters(int argc, char* argv[]);
 

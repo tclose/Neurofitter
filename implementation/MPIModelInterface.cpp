@@ -22,7 +22,7 @@ MPIModelInterface::MPIModelInterface(TracesReader * t, FixedParameters params) :
 MPIModelInterface::~MPIModelInterface() {
 	if (rank == 0) {
 		for (int i = 1; i < ntasks; ++i) {
-			if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Sending kill signal to slave " << i << endl;
+			showMessage("Sending kill signal to slave " + str(i) + "\n",4,fixedParams);
 			mpiChannel.setMessageId(dietag);
 			mpiChannel.setMessageRank(i);
 			mpiChannel << 0;
@@ -45,7 +45,7 @@ vector< ModelResults > MPIModelInterface::runParallelModel(const vector< ModelTu
 
 	vector< ModelResults > results(paramList.size());
 
-	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Running "<< paramList.size() << " jobs in parallel" << endl;
+	showMessage("Running " + str((int)paramList.size()) + " jobs in parallel\n",4,fixedParams);
 	
 	int nSubmitted = 0;
 	int nReceived = 0;
@@ -82,30 +82,31 @@ void MPIModelInterface::runModelOnSlave(int slaveNumber, int resultNumber, const
 	//string paramString = paramStream.str();
 	//unsigned int paramLength = paramString.length()+1 ;
 
-	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Sending parameters to slave: " << slaveNumber << "... ";
+	showMessage("Sending parameters to slave: " + str(slaveNumber) + "... ",4,fixedParams);
+
 	mpiChannel.setMessageRank(slaveNumber);
 	mpiChannel << resultNumber;
 	params.printOn(mpiChannel);
-	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << " Parameters sent " << endl;
+
+	showMessage(" Parameters sent \n",4,fixedParams);
 	
 }
 
 void MPIModelInterface::receiveResultsFromSlave(int & taskRank, vector< ModelResults > & results) {
 
 	int resultNumber;
-	//int resultLength;
-	//MPI_Status status;
 
-	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Waiting for  results from slave ... ";	
+	showMessage("Waiting for  results from slave ... ",4,fixedParams);
+
 	mpiChannel.setMessageRank(MPI_ANY_SOURCE);
 	mpiChannel >> resultNumber;
 	taskRank = mpiChannel.getMessageRank();
 
-	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Receiving result " << resultNumber <<" from slave " << taskRank << "... ";	
+	showMessage("Receiving result " + str(resultNumber) + " from slave " + str(taskRank) + "... ",4,fixedParams);
 	
 	results[resultNumber].readFrom(mpiChannel);
 
-	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << " Results received results" << endl;
+	showMessage(" Results received results\n",4,fixedParams);
 	
 }
 
@@ -115,12 +116,12 @@ void MPIModelInterface::startSlave() {
 	MPI_Status status;
 	
 	while (true) {
-		if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank <<  " is waiting for parameters from master ..." << endl;
+		showMessage("Slave " + str(rank) +  " is waiting for parameters from master ...\n",4,fixedParams);
 		mpiChannel.setMessageRank(0);
 		mpiChannel.setMessageId(MPI_ANY_TAG);
 		mpiChannel >> resultNumber;
 		if (mpiChannel.getMessageId() == dietag) {
-			if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank <<  " received a kill signal from master" << endl;
+			showMessage("Slave " + str(rank) +  " received a kill signal from master\n",4,fixedParams);
 			return;
 		}
 		else if (mpiChannel.getMessageId() != tag) {
@@ -131,20 +132,19 @@ void MPIModelInterface::startSlave() {
 		ModelTuningParameters parameters;
 		parameters.readFrom(mpiChannel);
 
-		if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank << " running model with parameters: " << parameters.toString() << endl;
+		showMessage("Slave " + str(rank) + " running model with parameters: " + parameters.toString() + "\n",4,fixedParams);
 
 		ModelResults result = localModel->runModel(parameters);
 
-		if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank << " sending results back to master ... ";
+		showMessage("Slave " + str(rank) + " sending results back to master ... ",4,fixedParams);
 
 		mpiChannel.setMessageRank(0);
 		mpiChannel << resultNumber;
 		result.printOn(mpiChannel);
-		
-		if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank << " has sent results back" << endl;
 
+		showMessage("Slave " + str(rank) + " has sent results back\n",4,fixedParams);
 	}
-	if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank << " has stopped" << endl;
+	showMessage("Slave " + str(rank) + " has stopped\n",4,fixedParams);
 }
 
 

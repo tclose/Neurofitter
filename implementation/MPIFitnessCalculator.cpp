@@ -30,7 +30,7 @@ MPIFitnessCalculator::~MPIFitnessCalculator() {
 	exportFileStream.close();
 	if (rank == 0) {
 		for (int i = 1; i < ntasks; ++i) {
-			if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Sending kill signal to slave " << i << endl;
+			showMessage("Sending kill signal to slave " + str(i) + "\n",4,fixedParams);
 			mpiChannel.setMessageId(dietag);
 			mpiChannel.setMessageRank(i);
 			mpiChannel << 0;
@@ -54,7 +54,7 @@ void MPIFitnessCalculator::calculateFitness(ModelTuningParameters & params) {
 
 void MPIFitnessCalculator::calculateParallelFitness(vector< ModelTuningParameters > & paramList) {
 
-	if (toInt(fixedParams["VerboseLevel"]) > 2) cout << "Running a total of "<< paramList.size() << " jobs on " << ntasks-1 << " parallel processors" << endl;
+	showMessage("Running a total of "+ str((int)paramList.size()) + " jobs on " + str(ntasks-1) + " parallel processors\n",3,fixedParams);
 
 	int nSubmitted = 0;
 	int nReceived = 0;
@@ -87,11 +87,11 @@ void MPIFitnessCalculator::calculateParallelFitness(vector< ModelTuningParameter
 
 void MPIFitnessCalculator::runFitnessOnSlave(int slaveNumber, int resultNumber, const ModelTuningParameters params) {
     
-    if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Sending parameters to slave: " << slaveNumber << "... ";
+    showMessage("Sending parameters to slave: " + str(slaveNumber) + "... ",4,fixedParams);
     mpiChannel.setMessageRank(slaveNumber);
     mpiChannel << resultNumber;
     params.printOn(mpiChannel);
-    if (toInt(fixedParams["VerboseLevel"]) > 3) cout << " Parameters sent " << endl;
+    showMessage(" Parameters sent \n",4,fixedParams);
 
 }
 
@@ -99,12 +99,12 @@ void MPIFitnessCalculator::receiveFitnessFromSlave(int & taskRank, vector< Model
 
     int resultNumber;
 
-    if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Waiting for fitness value from slave ... ";
+    showMessage("Waiting for fitness value from slave ... \n",4,fixedParams);
     mpiChannel.setMessageRank(MPI_ANY_SOURCE);
     mpiChannel >> resultNumber;
     taskRank = mpiChannel.getMessageRank();
 
-    if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Receiving result " << resultNumber <<" from slave " << taskRank << "... ";
+    showMessage("Receiving result " + str(resultNumber) + " from slave " + str(taskRank) + "... ",4,fixedParams);
 
     paramList[resultNumber].readFrom(mpiChannel);
 	numberOfEvaluations++;
@@ -117,8 +117,7 @@ void MPIFitnessCalculator::receiveFitnessFromSlave(int & taskRank, vector< Model
 			exportFileStream << endl;
    	}
                                                                         
-
-    if (toInt(fixedParams["VerboseLevel"]) > 3) cout << " Fitness value received" << endl;
+    showMessage(" Fitness value received\n",4,fixedParams);
 
 }
 
@@ -128,12 +127,12 @@ void MPIFitnessCalculator::startSlave() {
     MPI_Status status;
 
     while (true) {
-        if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank <<  " is waiting for parameters from master ..." << endl;
+    	showMessage("Slave " + str(rank) +  " is waiting for parameters from master ...\n",4,fixedParams);
         mpiChannel.setMessageRank(0);
         mpiChannel.setMessageId(MPI_ANY_TAG);
         mpiChannel >> resultNumber;
         if (mpiChannel.getMessageId() == dietag) {
-            if (toInt(fixedParams["VerboseLevel"]) > 2) cout << "Slave " << rank <<  " received a kill signal from master" << endl;
+        	showMessage("Slave " + str(rank) +  " received a kill signal from master\n",3,fixedParams);
             return;
         }
         else if (mpiChannel.getMessageId() != tag) {
@@ -144,20 +143,20 @@ void MPIFitnessCalculator::startSlave() {
         ModelTuningParameters parameters;
         parameters.readFrom(mpiChannel);
 
-        if (toInt(fixedParams["VerboseLevel"]) > 2) cout << "Slave " << rank << " running model with parameters: " << parameters.toString() << endl;
+        showMessage("Slave " + str(rank) + " running model with parameters: " + parameters.toString() + "\n",3,fixedParams);
     
         localFitness->calculateFitness(parameters);
-        
-        if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank << " sending fitness back to master ... ";
-        
+
+        showMessage("Slave " + str(rank) + " sending fitness back to master ... ",4,fixedParams);
+                
         mpiChannel.setMessageRank(0);
         mpiChannel << resultNumber;
         parameters.printOn(mpiChannel);
         
-        if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank << " has sent fitness back" << endl;
-            
+        showMessage("Slave " + str(rank) + " has sent fitness back\n",4,fixedParams);            
     }
-    if (toInt(fixedParams["VerboseLevel"]) > 3) cout << "Slave " << rank << " has stopped" << endl;
+    
+    showMessage("Slave " + str(rank) + " has stopped\n",4,fixedParams);            
 }
 
 
@@ -170,9 +169,8 @@ vector< pair< ModelTuningParameters, double > > MPIFitnessCalculator::getFitness
 
 void MPIFitnessCalculator::enableFileExport(const string fileName) {
 	exportFileStream.open(fileName.c_str(), ios::out);
-	if (toInt(fixedParams["VerboseLevel"]) > 2) {
-		cout << "MPIFitnessCalculator: Enabled export to file: " << fileName << endl;
-	}
+	
+	showMessage("MPIFitnessCalculator: Enabled export to file: " + fileName + "\n",3,fixedParams);            
 }
 
 void MPIFitnessCalculator::disableFileExport() {

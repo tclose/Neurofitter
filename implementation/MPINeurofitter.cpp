@@ -21,7 +21,7 @@ int main (int argc, char* argv[]) {
 
 		int rank;
 		MPI_Comm_rank( MPI_COMM_WORLD, &rank );
-		showMessage("Rank: " + rank + "\n");
+		showMessage("Rank: " + str(rank) + "\n");
 		
 		////////////////////////////
 		///	Read parameters file ///
