@@ -10,14 +10,11 @@ MatrixFitnessCalculator::MatrixFitnessCalculator(ModelInterface * interface, Exp
 	ModelResults expData = experiment->getData();	
 
 	expVdVdtMatrices = vector< NormalVdVdtMatrix >(expData.getLength()); 
-	if (toInt(fixedParams["VerboseLevel"]) > 4) {
-		cout << "Experiment VdVdtMatrices: "<< endl;
-	}
+	
+	showMessage("Experiment VdVdtMatrices\n",5,fixedParams);
 	for (int nTrace = 0; nTrace < expData.getLength(); nTrace++) {
 		expVdVdtMatrices[nTrace] = NormalVdVdtMatrix(expData[nTrace], FixedParameters(fixedParams["NormalVdVdtMatrix"],fixedParams.getGlobals()));
-		if (toInt(fixedParams["VerboseLevel"]) > 4) {
-			cout << expVdVdtMatrices[nTrace].toString() << endl;
-        }
+		showMessage(expVdVdtMatrices[nTrace].toString()+"\n",5,fixedParams);
 	}
 
 }
@@ -46,23 +43,19 @@ void MatrixFitnessCalculator::calculateParallelFitness(vector< ModelTuningParame
     vector< ModelResults > results = model->runParallelModel(paramList);
 
 	for (unsigned int i = 0; i < paramList.size(); i++) {
-    	if (toInt(fixedParams["VerboseLevel"]) > 4) {
-        	cout << "Model VdVdtMatrices: " << endl;
-    	}
+		showMessage("Model VdVdtMatrices\n",5,fixedParams);
+
     	for (int nTrace = 0; nTrace < results[i].getLength(); nTrace++) {
         	NormalVdVdtMatrix modelNormalVdVdtMatrix(results[i][nTrace], FixedParameters(fixedParams["NormalVdVdtMatrix"], fixedParams.getGlobals()));
         	fitnessValues[i] += results[i][nTrace].getWeight() * expVdVdtMatrices[nTrace].compare(modelNormalVdVdtMatrix);
-        	if (toInt(fixedParams["VerboseLevel"]) > 4) {
-            	cout << modelNormalVdVdtMatrix.toString() << endl;
-        	}
+			showMessage(modelNormalVdVdtMatrix.toString() + "\n",5,fixedParams);        	
     	}
+
     	numberOfEvaluations++;
 
     	fitnessHistory.push_back(pair< ModelTuningParameters, double >(paramList[i],fitnessValues[i]));
 
-    	if (toInt(fixedParams["VerboseLevel"]) > 2) {
-        	cout << "Calculated fitness of: " << paramList[i].toString() << ": " << fitnessValues[i] << endl;
-    	}
+		showMessage("Calculated fitness of: " + paramList[i].toString() + ": " + str(fitnessValues[i]) + "\n",3,fixedParams);        	
 
     	if (exportFileStream.is_open()) {
         	exportFileStream << numberOfGenerations << " "<< numberOfEvaluations << " " << fitnessValues[i] << " ";
@@ -87,9 +80,8 @@ vector< pair< ModelTuningParameters, double > > MatrixFitnessCalculator::getFitn
 
 void MatrixFitnessCalculator::enableFileExport(const string fileName) {
 	exportFileStream.open(fileName.c_str(), ios::out);
-	if (toInt(fixedParams["VerboseLevel"]) > 2) {
-		cout << "MatrixFitnessCalculator: Enabled export to file: " << fileName << endl;
-	}
+	
+	showMessage("MatrixFitnessCalculator: Enabled export to file: " + fileName + "\n",3,fixedParams);        	
 }
 
 void MatrixFitnessCalculator::disableFileExport() {

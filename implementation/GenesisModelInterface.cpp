@@ -15,23 +15,23 @@ runModel(const ModelTuningParameters & params) {
 	vector<double> runWeights(numberOfRuns,0);
 
 
-	if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << "Running Genesis model with parameters: " << params.toString();}
+	showMessage("Running Genesis model with parameters: " + params.toString(),4,fixedParams);
 
 	/////////////////////////////////////////////////////
 	/// Read the parameters and weights for every run ///
 	/////////////////////////////////////////////////////
 	istringstream runStream(tracesReader->getRunParameters());
-	if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << " and run parameters: ";}
+	showMessage(" and run parameters: ",4,fixedParams);
 	for (int i = 0; i < numberOfRuns; i++) {
-		if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << "{";}
+		showMessage("{",4,fixedParams);
 		for (int j = 0; j < numberOfRunParameters; j++) {
 			runStream >> runParameters[i][j];
-			if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << " " << runParameters[i][j]  << " ";}
+			showMessage(" " + str(runParameters[i][j])  + " ",4,fixedParams);
 		}
 		runStream >> runWeights[i];
-		if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << "} ";}
+		showMessage("} ",4,fixedParams);
 	}
-	if (toInt(fixedParams["VerboseLevel"]) > 2) {cout << endl;}
+	showMessage("\n",3,fixedParams);
 
 
 	for (int nRun = 0; nRun < numberOfRuns; nRun++) {
@@ -42,7 +42,7 @@ runModel(const ModelTuningParameters & params) {
 
 		string paramFilename = fixedParams["ModelDirectory"] + "/" + fixedParams["ParamFilePrefix"] + ".dat";
     	paramFile.open(paramFilename.c_str(), ios::out);
-		if (toInt(fixedParams["VerboseLevel"]) > 4) {cout << endl << "Writing data to parameter file: " << paramFilename << endl;}
+		showMessage("\nWriting data to parameter file: " + paramFilename + "\n",5,fixedParams);
 
 		// put output filename in file //
 		string modelOutputname = fixedParams["OutputDirectory"] + "/" + tracesReader->getOutputFilePrefix() + "_Run" + str(nRun) +".dat";
@@ -73,8 +73,8 @@ runModel(const ModelTuningParameters & params) {
 
 		string genCommand = "cd "+fixedParams["ModelDirectory"]+"; "
 						+fixedParams["GenesisLocation"]+" -nox -notty -batch "+fixedParams["ModelSource"]+" > gen.out 2> " + errorFileName;
-		if (toInt(fixedParams["VerboseLevel"]) > 3) {cout << "calling " << genCommand << endl;}
-		
+		showMessage("calling " + genCommand + "\n",4,fixedParams);
+				
 		int exitCode = system(genCommand.c_str());
 
 		if (exitCode == -1) crash("GenesisModelInterface","Genesis returned with error code");
@@ -152,7 +152,7 @@ void GenesisModelInterface::readDataFromFile(ModelResults & results, string inpu
 		//////////////////////////
 		ifstream		inputFile;
     	inputFile.open(inputFileName.c_str(), ios::in);
-		if (toInt(fixedParams["VerboseLevel"]) > 4) {cout << "Reading from file: " << inputFileName << endl;};
+		showMessage("\nReading from file: " + inputFileName + "\n",5,fixedParams);
 
 		///////////////////////////////////////////////
 		/// Read data until the start of the period ///

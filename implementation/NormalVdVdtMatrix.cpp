@@ -46,7 +46,7 @@ NormalVdVdtMatrix::NormalVdVdtMatrix(const DataTrace& trace, FixedParameters par
 		if (dVdt >= maximaldVdt) showMessage("Warning: dVdt larger than maximal dVdt in NormalVdVdtMatrix: " + str(dVdt) + "\n",5,fixedParams);
 
 		if (V < minimalV) V=minimalV;
-		if (V >= maximalV) V=maximalV-dxVdVdtmatrix; ///todo check if in extreme cases this cannot cause problems
+		if (V >= maximalV) V=maximalV-dxVdVdtmatrix; 
 		if (dVdt < minimaldVdt) dVdt=minimaldVdt;
 		if (dVdt >= maximaldVdt) dVdt=maximaldVdt-dyVdVdtmatrix;
 

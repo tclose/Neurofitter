@@ -17,7 +17,7 @@ FitterResults EONOMADFitterInterface::runFitter(ModelTuningParameters * startPoi
 	EOFitterInterface eo(fitness, eoFixParam);
 	ModelTuningParameters eoBest = (eo.runFitter(startPoints)).getBestFit();
 
-	cout << endl << "Best solution found by EO: "<< eoBest.toString() << endl;
+	showMessage("\nBest solution found by EO: "+ eoBest.toString() + "\n", 1, fixedParams);
 
 	//////////////////////////////////////////
 	/// Run NOMAD with best solution of EO ///

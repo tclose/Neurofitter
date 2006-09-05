@@ -22,27 +22,27 @@ FitterResults EOFitterInterface::runFitter(ModelTuningParameters * startPoint) {
 
     // Run the appropriate algorithm
     if (simpleParam.value() == false) {
-      cout << "Using eoReal" << endl;
+      showMessage("Using eoReal\n",2,fixedParams);
       runAlgorithm(eoReal<eoMinimizingFitness>(), parser, state);
     }
     else if (stdevsParam.value() == false) {
-      cout << "Using eoEsSimple" << endl;
+      showMessage("Using eoEsSimple\n",2,fixedParams);
       runAlgorithm(eoEsSimple<eoMinimizingFitness>(), parser, state);
     }
     else if (corrParam.value() == false) {
-      cout << "Using eoEsStdev" << endl;
+      showMessage("Using eoEsStdev\n",2,fixedParams);
       runAlgorithm(eoEsStdev<eoMinimizingFitness>(), parser, state);
     }
     else {
-		cout << "Using eoEsFull" << endl;
+      	showMessage("Using eoEsFull\n",2,fixedParams);
       	eoEsFull<eoMinimizingFitness> eoResult = runAlgorithm(eoEsFull<eoMinimizingFitness>(), parser, state);
 		
 		stringbuf * buf = new stringbuf();		
 		iostream paramStream(buf);
 		eoResult.printOn(paramStream);
-		cout << "Start: "<< endl;
+      	showMessage("Start: \n",2,fixedParams);
 		eoResult.printOn(cout);
-		cout << "Stop "<< endl;
+      	showMessage("Stop \n",2,fixedParams);
 
 		ModelTuningParameters params(*startPoint);
 		double fitness;
@@ -111,9 +111,9 @@ EOT EOFitterInterface::runAlgorithm(EOT, eoParser& _parser, eoState& _state) {
 
 	run_ea(ga, pop); // run the ga
 
-	cout << "Final Population\n";
+    showMessage("Final Population\n",2,fixedParams);
 	pop.sortedPrintOn(cout);
-	cout << endl;
+    showMessage("\n",2,fixedParams);
 
 	return pop.best_element();
 

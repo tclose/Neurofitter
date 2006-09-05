@@ -26,6 +26,8 @@ class FixedParameters {
 
 		void addParameter(const string index, const string value, const bool isGlobal = false);
 
+		bool parameterExists(const string index) const; 
+
 		void setGlobal(string);
 		void notGlobal(string);
 		bool getGlobal(string);

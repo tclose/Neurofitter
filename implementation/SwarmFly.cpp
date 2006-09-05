@@ -21,13 +21,10 @@ ModelTuningParameters SwarmFly::calculateNewPosition() {
 				bestInformantsSolution = informantsSolution;
 		}
 		
-        ///todo is this necessary ???
         ModelTuningParameters newPosition(currentPosition);
-        ModelTuningParameters newSpeed(currentPosition.getLength());
 
         for (int i = 0; i < currentPosition.getLength(); i++) {
-            newSpeed[i] = w*currentSpeed[i] + randGen->rand(c)*(bestLocalSolution[i]-currentPosition[i]) + randGen->rand(c)*(bestInformantsSolution[i]-currentPosition[i]);
-            currentSpeed[i] = newSpeed[i];
+            currentSpeed[i] = w*currentSpeed[i] + randGen->rand(c)*(bestLocalSolution[i]-currentPosition[i]) + randGen->rand(c)*(bestInformantsSolution[i]-currentPosition[i]);
             newPosition[i] = currentPosition[i] + currentSpeed[i];
         }
 
