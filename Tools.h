@@ -41,7 +41,7 @@ inline double toDouble(string s) {
    return atof(s.c_str());
 }
 
-inline void showMessage(const string text, int verboseLevel, FixedParameters fixedParams) {
+inline void showMessage(const string text, const int verboseLevel, FixedParameters fixedParams) {
 	if (toInt(fixedParams["VerboseLevel"]) >= verboseLevel) {
 		cout << text;
 	}
