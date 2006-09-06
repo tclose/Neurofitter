@@ -40,8 +40,7 @@ string XMLString::getSubString(const string subName) const {
     }
 	if (returnString == "") crash("XMLString","Unable to find content of sub in XMLString: " + subName);
 	xmlFreeDoc(xml);
-	//xmlFree(cur);
-	//xmlCleanupParser();
+	xmlCleanupParser();
 	return returnString; 
 }        
 
@@ -53,11 +52,11 @@ XMLString XMLString::getSubXMLString(const string subName) const {
 /// Return the string representing the XML
 string XMLString::getContent() const {
 	xmlDocPtr xml = xmlParseMemory(sourceString.c_str(), sourceString.length()+1);
-	char * content = (char*)xmlNodeListGetString(xml, (xmlDocGetRootElement(xml))->xmlChildrenNode, 1);
-	string contentString(content);
-	//xmlFree(content);
+	xmlChar * content = xmlNodeListGetString(xml, (xmlDocGetRootElement(xml))->xmlChildrenNode, 1);
+	string contentString((char*)content);
+	xmlFree(content);
 	xmlFreeDoc(xml);
-	//xmlCleanupParser();
+	xmlCleanupParser();
 
 	return contentString;
 }
@@ -67,7 +66,7 @@ string XMLString::getName() const {
 	xmlDocPtr xml = xmlParseMemory(sourceString.c_str(), sourceString.length()+1);
 	string returnString((char*)xmlDocGetRootElement(xml)->name);
 	xmlFreeDoc(xml);
-	//xmlCleanupParser();
+	xmlCleanupParser();
 
 	return returnString;
 }
@@ -88,7 +87,7 @@ vector<string> XMLString::getSubNames() const{
     	}
 	}
 	xmlFreeDoc(xml);
-	//xmlCleanupParser();
+	xmlCleanupParser();
 
 	return names;
 }
