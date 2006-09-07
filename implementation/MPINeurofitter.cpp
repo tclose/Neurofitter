@@ -11,6 +11,8 @@ using namespace std;
 ///todo check in every class to see if virtual is OK
 ///todo make it possible to fix some variables
 ///todo make separate executable for mpi
+///todo run also a job on the master
+ ///todo change nomad to prevent LIBRARY directory
 
 FixedParameters readParameters(int argc, char* argv[],int rank);
 

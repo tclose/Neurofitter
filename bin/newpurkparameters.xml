@@ -40,7 +40,7 @@
 
     <FitterType>Random</FitterType>
     <FitterParameters>
-        <NumberOfPoints>200</NumberOfPoints>
+        <NumberOfPoints>1</NumberOfPoints>
     </FitterParameters>
 
 

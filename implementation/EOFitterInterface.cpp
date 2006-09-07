@@ -123,8 +123,7 @@ extern string EOParamsContent;
 
 void EOFitterInterface::writeEOParamsFile(string fileName, ModelTuningParameters & startPoint) {
 
-	ofstream EOParam;	
-	EOParam.open(fileName.c_str(), ios::out);
+	ofstream EOParam(fileName.c_str(), ios::out);
 
 	EOParam << EOParamsContent;
 

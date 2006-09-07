@@ -40,7 +40,6 @@ runModel(const ModelTuningParameters & params) {
 
 }
 
-///todo run also a job on the master
 vector< ModelResults > MPIModelInterface::runParallelModel(const vector< ModelTuningParameters > paramList) {
 
 	vector< ModelResults > results(paramList.size());

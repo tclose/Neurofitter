@@ -16,7 +16,6 @@ public:
 	GenesisModelInterface(TracesReader * t, FixedParameters params) : ModelInterface(t), FixedParamObject(params) {}; 
     virtual ModelResults runModel(const ModelTuningParameters &) ;
 	virtual vector< ModelResults > runParallelModel(const vector< ModelTuningParameters >);
-	void readDataFromFile(ModelResults&, string inputFileName, int startTrace, double injWeight) const;
 
 private:
 

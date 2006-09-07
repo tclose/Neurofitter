@@ -2,8 +2,6 @@
 
 #include "../XMLString.h"
 
-///todo check all xml objects for leaks
-
 /// Constructor that uses an initializing string
 XMLString::XMLString(const string source)
 	:sourceString(source) {

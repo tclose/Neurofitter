@@ -65,9 +65,8 @@ ModelResults NormalTracesReader::readTraces(string dirName) {
         	/// Open the data file ///
         	//////////////////////////
 			string inputFileName = dirName + "/" + fixedParams["OutputFilePrefix"] + "_Run" + str(nRun) +".dat";
-        	ifstream        inputFile;
-        	inputFile.open(inputFileName.c_str(), ios::in);
-        	showMessage("Reading from file: " + inputFileName + "\n",5,fixedParams);
+        	ifstream inputFile(inputFileName.c_str(), ios::in);
+        	showMessage("Reading from file: " + inputFileName + " from " + str(periodStart[nPeriod]) + " until " + str(periodStops[nPeriod]) + "\n",5,fixedParams);
 
         	///////////////////////////////////////////////
 			/// Read data until the start of the period ///
@@ -85,7 +84,6 @@ ModelResults NormalTracesReader::readTraces(string dirName) {
         	/// Initialize the traces ///
         	/////////////////////////////
         	for (int nRecording = 0; nRecording < numberOfRecordSites; nRecording++) {
-            	///todo check for rounding errors
             	results[periodIndex+nRecording].resetAndSetLength(
                 	(int)floor(periodStops[nPeriod]*toDouble(fixedParams["SamplingFrequency"]))
                 	- (int)floor(periodStart[nPeriod]*toDouble(fixedParams["SamplingFrequency"])) + 1);

@@ -75,12 +75,6 @@ void DataTrace::printOn(OutputChannel & output) const {
 	output << stopTime;
 	output << samplingFrequency;
 	output << name;
-	//output << name.length();
-	
-	//for (unsigned i = 0; i < name.length(); i++) {
-	//	output << name[i];
-	//}
-	//output;
 
 }
 
@@ -95,13 +89,7 @@ void DataTrace::readFrom(InputChannel & input) {
 	input >> startTime;
 	input >> stopTime;
 	input >> samplingFrequency;
-	//input >> length;
 	input >> name;
-	//name = string(length,' ');
-	//input.rdbuf()->snextc(); // Remove whitespace after length
-	//for (unsigned i = 0; i < name.length(); i++) {
-	//	name[i] = input.rdbuf()->sbumpc();
-	//}
 }
     
 

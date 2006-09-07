@@ -15,7 +15,6 @@ FitterResults NOMADFitterInterface::runFitter(ModelTuningParameters * startPoint
 	////////////////////////////////////
 	/// Writing the NOMAD input file ///
 	////////////////////////////////////
-	///todo change nomad to prevent LIBRARY directory
 	string parametersFile=fixedParams["WorkingDirectory"]+"/"+"LIBRARY/parameters.dat";
 	string descriptionFile=fixedParams["WorkingDirectory"]+"/"+"LIBRARY/description.dat";
 	string preferencesFile=fixedParams["WorkingDirectory"]+"/"+"LIBRARY/preferences.dat";
@@ -32,7 +31,6 @@ FitterResults NOMADFitterInterface::runFitter(ModelTuningParameters * startPoint
 	showMessage(parametersFile+"\n",1,fixedParams);
     Parameters parameters(parametersFile.c_str());
     Description description(descriptionFile.c_str());
-	//todo ask NOMAD developer to allow location preferences file
     Preferences preferences(preferencesFile.c_str());
     Solver solver;
 
@@ -52,8 +50,7 @@ FitterResults NOMADFitterInterface::runFitter(ModelTuningParameters * startPoint
 
 void NOMADFitterInterface::writeStartingPointsFile(string fileName, ModelTuningParameters & startPts) {
 
-	ofstream file;
-	file.open(fileName.c_str(), ios::out);
+	ofstream file(fileName.c_str(), ios::out);
 
 	for (int i = 0; i < startPts.getLength(); i++) {
 		file << startPts[i] << " ";
@@ -65,8 +62,7 @@ void NOMADFitterInterface::writeStartingPointsFile(string fileName, ModelTuningP
 
 void NOMADFitterInterface::writeBoundsFile(string fileName, ModelTuningParameters & startPts) {
 
-	ofstream file;
-	file.open(fileName.c_str(), ios::out);
+	ofstream file(fileName.c_str(), ios::out);
 
 	for (int i = 0; i < startPts.getLength(); i++) {
 		file << startPts.getLowerBound(i) << " " << endl;
@@ -86,8 +82,7 @@ void NOMADFitterInterface::writeDescriptionFile(string fileName) {
 
 	showMessage("Writing NOMAD description file: " + fileName + "\n",4,fixedParams);
 
-	ofstream file;
-	file.open(fileName.c_str(), ios::out);
+	ofstream file(fileName.c_str(), ios::out);
 
 	file << "DIMENSION\t"<< fixedParams["Dimensions"] << endl;
 
@@ -113,8 +108,7 @@ void NOMADFitterInterface::writeParametersFile(string fileName) {
 
 	showMessage("Writing NOMAD parameter file: " + fileName + "\n",4,fixedParams);
 
-	ofstream file;
-	file.open(fileName.c_str(), ios::out);
+	ofstream file(fileName.c_str(), ios::out);
 
 	file << "RANDOMSEED	\t"<< toInt(fixedParams["Seed"]) << endl;	
 
@@ -159,8 +153,7 @@ void NOMADFitterInterface::writePreferencesFile(string fileName) {
 
 	showMessage("Writing NOMAD preferences file: " + fileName + "\n",4,fixedParams);
 
-	ofstream file;
-	file.open(fileName.c_str(), ios::out);
+	ofstream file(fileName.c_str(), ios::out);
 
     file << "DISPLAY_FACTOR\t " << fixedParams["VerboseLevel"] << endl;
     file << "SEND_EMAIL      0" << endl;

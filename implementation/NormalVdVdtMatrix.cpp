@@ -1,7 +1,5 @@
 #include "../NormalVdVdtMatrix.h"
 
-///todo make this object use maps
-
 NormalVdVdtMatrix::NormalVdVdtMatrix() 
 	: FixedParamObject(), vLength(0), dVdtLength(0), VdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {}
 
