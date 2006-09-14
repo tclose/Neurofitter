@@ -1,8 +1,6 @@
-#include "../NeuronModelInterface.h"
+#include "../ExecutableModelInterface.h"
 
-/// Thx to Michiel Berends for his assistance while developing this class 
-
-ModelResults	NeuronModelInterface::
+ModelResults	ExecutableModelInterface::
 runModel(const ModelTuningParameters & params) {
 
 	const int       numberOfRuns = tracesReader->getNumberOfRuns();
@@ -14,6 +12,9 @@ runModel(const ModelTuningParameters & params) {
 	vector< vector< double > > runParameters(numberOfRuns, vector< double >(numberOfRunParameters,0));
 	vector<double> runWeights(numberOfRuns,0);
 
+	showMessage("Running model with parameters: " + params.toString(),4,fixedParams);
+
+	flushMessage();
 	/////////////////////////////////////////////////////
 	/// Read the parameters and weights for every run ///
 	/////////////////////////////////////////////////////
@@ -59,17 +60,17 @@ runModel(const ModelTuningParameters & params) {
 
     	paramFile.close ();
 
-		////////////////////
-		/// call Neuron ///
-		///////////////////
+		///////////////////////
+		/// Execute command ///
+		///////////////////////
 
-		string neuronCommand = "cd "+fixedParams["ModelDirectory"]+"; "
-						+fixedParams["SpecialLocation"]+" "+fixedParams["ModelSource"]+" > neuron.out 2> neuron.err";
-		showMessage("calling " + neuronCommand + "\n",4,fixedParams);
+		string execCommand = fixedParams["ExecuteCommand"];
+		if (toInt(fixedParams["ShowExecuteOutput"]) == 0) execCommand += " >exec.out 2>exec.err";
+		showMessage("calling " + execCommand + "\n",4,fixedParams);
 				
-		int exitCode = system(neuronCommand.c_str());
+		int exitCode = system(execCommand.c_str());
 
-		if (exitCode == -1) crash("NeuronModelInterface","Neuron returned with error code");
+		if (exitCode == -1) crash("ExecutableModelInterface","Model execute command returned with error code");
 		
 	}
 
@@ -82,7 +83,7 @@ runModel(const ModelTuningParameters & params) {
 }
 
 
-vector< ModelResults > NeuronModelInterface::runParallelModel(const vector< ModelTuningParameters > paramList) {
+vector< ModelResults > ExecutableModelInterface::runParallelModel(const vector< ModelTuningParameters > paramList) {
 
 	vector< ModelResults > resultList(paramList.size()); 
 

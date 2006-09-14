@@ -25,6 +25,7 @@ using namespace std;
 
 #include "GenesisModelInterface.h"
 #include "NeuronModelInterface.h"
+#include "ExecutableModelInterface.h"
 #include "FakeExperimentInterface.h"
 #include "FileExperimentInterface.h"
 #include "NormalVdVdtMatrix.h"

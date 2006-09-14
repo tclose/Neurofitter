@@ -63,6 +63,9 @@ int main (int argc, char* argv[]) {
 		if (fixedParams["ModelType"] == "Neuron") {
 			model = new NeuronModelInterface(tracesReader, modelFixedParams);
 		}
+		if (fixedParams["ModelType"] == "Executable") {
+			model = new NeuronModelInterface(tracesReader, modelFixedParams);
+		}
 		else if (fixedParams["ModelType"] == "MPI") {
 			model = new MPIModelInterface(tracesReader, modelFixedParams);
 		}

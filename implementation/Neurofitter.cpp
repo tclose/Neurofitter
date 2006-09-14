@@ -18,7 +18,7 @@ using namespace std;
 ///todo put include Tools.h in implementation files, not header files except when necessary
 ///todo change nomad to prevent LIBRARY directory
 ///todo numberOfParameters in truthfunction of nomad part is not well coded (static)
-
+///todo check the directory sign differences on unix/windows
 
 FixedParameters readParameters(int argc, char* argv[]);
 
@@ -65,6 +65,9 @@ int main (int argc, char* argv[]) {
 		}
 		else if (fixedParams["ModelType"] == "Neuron") {
 			model = new NeuronModelInterface(tracesReader,modelFixedParams);
+		}
+		else if (fixedParams["ModelType"] == "Executable") {
+			model = new ExecutableModelInterface(tracesReader,modelFixedParams);
 		}
 		else crash("Main program", "No matching model type");
 	

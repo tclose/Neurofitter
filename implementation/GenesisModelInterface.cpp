@@ -14,9 +14,6 @@ runModel(const ModelTuningParameters & params) {
 	vector< vector< double > > runParameters(numberOfRuns, vector< double >(numberOfRunParameters,0));
 	vector<double> runWeights(numberOfRuns,0);
 
-
-	showMessage("Running Genesis model with parameters: " + params.toString(),4,fixedParams);
-
 	/////////////////////////////////////////////////////
 	/// Read the parameters and weights for every run ///
 	/////////////////////////////////////////////////////
