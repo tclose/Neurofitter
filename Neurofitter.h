@@ -24,6 +24,7 @@ using namespace std;
 #include "FitterInterface.h"
 
 #include "GenesisModelInterface.h"
+#include "NeuronModelInterface.h"
 #include "FakeExperimentInterface.h"
 #include "FileExperimentInterface.h"
 #include "NormalVdVdtMatrix.h"

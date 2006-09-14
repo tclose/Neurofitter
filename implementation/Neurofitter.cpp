@@ -63,6 +63,9 @@ int main (int argc, char* argv[]) {
 		if (fixedParams["ModelType"] == "Genesis") {
 			model = new GenesisModelInterface(tracesReader,modelFixedParams);
 		}
+		else if (fixedParams["ModelType"] == "Neuron") {
+			model = new NeuronModelInterface(tracesReader,modelFixedParams);
+		}
 		else crash("Main program", "No matching model type");
 	
 		/////////////////////////////

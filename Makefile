@@ -39,6 +39,7 @@ NEUROFITTEROBJS=	$(CPPDIR)/DataTrace.o \
 # The object files related to model interfaces			
 MODOBJS=	$(CPPDIR)/ModelResults.o \
 			$(CPPDIR)/GenesisModelInterface.o \
+			$(CPPDIR)/NeuronModelInterface.o \
 			$(CPPDIR)/ModelTuningParameters.o
 
 # The object files related to fitness calculator interfaces			

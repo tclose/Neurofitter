@@ -61,7 +61,7 @@ inline void crash(string object, string message) {
 	//throw runtime_error("Error in "+object+": "+message);
 	cerr << "Error in " << object << ": " << message << endl;
 	cerr.flush();
-	//exit(1);
+	exit(1);
 }
 
 /// Get the date and time as a string
