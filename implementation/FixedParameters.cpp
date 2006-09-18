@@ -55,6 +55,10 @@ void FixedParameters::addParameter(const string index, const string value, const
 	params[index].second = isGlobal;
 }
 
+void FixedParameters::removeParameter(const string index) {
+	params.erase(index);
+}
+
 string FixedParameters::toString() const {
 	string returnString;
 	map<const string, pair< string, bool > >::const_iterator i;

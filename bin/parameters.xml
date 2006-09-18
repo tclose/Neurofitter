@@ -54,10 +54,9 @@
 		<OutputDirectory>/Users/werner/NeurofitterWork/wernermodel/outputs</OutputDirectory>
 		<ModelSource>wernermodel.g</ModelSource>
 		
-		<ParamFilePrefix>param</ParamFilePrefix>
-		
-		<ErrorFile>generr.out</ErrorFile>
-		
+		<ParameterFile>/Users/werner/NeurofitterWork/wernermodel/param.dat</ParameterFile>		
+
+		<ShowExecuteOutput>0</ShowExecuteOutput>
 	</ModelParameters>	
 
 	<ExperimentType>Fake</ExperimentType>

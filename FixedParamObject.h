@@ -6,6 +6,8 @@
 using namespace std;
 
 class FixedParamObject {
+	public:
+		void setFixedParameters(const FixedParameters newParams) {fixedParams = newParams;};
 	protected:
 		FixedParamObject() : fixedParams() {};
 		FixedParamObject(FixedParameters params) : fixedParams(params) {};

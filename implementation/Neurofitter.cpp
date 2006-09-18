@@ -19,6 +19,7 @@ using namespace std;
 ///todo change nomad to prevent LIBRARY directory
 ///todo numberOfParameters in truthfunction of nomad part is not well coded (static)
 ///todo check the directory sign differences on unix/windows
+///todo check 2>neuron.err on windows
 
 FixedParameters readParameters(int argc, char* argv[]);
 

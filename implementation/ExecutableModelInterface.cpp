@@ -38,13 +38,13 @@ runModel(const ModelTuningParameters & params) {
 		/// Write the parameter file ///
 		/////////////////////////////////
 
-		string paramFilename = fixedParams["ModelDirectory"] + "/" + fixedParams["ParamFilePrefix"] + ".dat";
+		string paramFilename = fixedParams["ParameterFile"];
     	paramFile.open(paramFilename.c_str(), ios::out);
 		showMessage("\nWriting data to parameter file: " + paramFilename + "\n",5,fixedParams);
 
 		// put output filename in file //
 		string modelOutputname = fixedParams["OutputDirectory"] + "/" + tracesReader->getOutputFilePrefix() + "_Run" + str(nRun) +".dat";
-		paramFile << modelOutputname << endl;		
+		paramFile << modelOutputname << endl;
 		
 		// put run parameters in file //
 		for (int i = 0; i < tracesReader->getNumberOfRunParameters(); i++) {
