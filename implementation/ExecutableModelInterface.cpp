@@ -65,7 +65,7 @@ runModel(const ModelTuningParameters & params) {
 		///////////////////////
 
 		string execCommand = fixedParams["ExecuteCommand"];
-		if (toInt(fixedParams["ShowExecuteOutput"]) == 0) execCommand += " >exec.out 2>exec.err";
+		if (toInt(fixedParams["ShowExecuteOutput"]) == 0) execCommand += " >modelexec.out 2>modelexec.err";
 		showMessage("calling " + execCommand + "\n",4,fixedParams);
 				
 		int exitCode = system(execCommand.c_str());

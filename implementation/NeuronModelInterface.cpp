@@ -6,8 +6,7 @@ NeuronModelInterface::NeuronModelInterface(TracesReader * t, FixedParameters par
 
 	FixedParameters newParams = fixedParams;
 
-	string neuronCommand = "cd "+fixedParams["ModelDirectory"]+"; "
-						+fixedParams["SpecialLocation"]+" "+fixedParams["ModelSource"]+" > neuron.out 2> neuron.err";
+	string neuronCommand = "cd "+fixedParams["ModelDirectory"]+"; "+fixedParams["SpecialLocation"]+" "+fixedParams["ModelSource"];
 	
 	newParams.addParameter("ExecuteCommand",neuronCommand,false);
 	newParams.removeParameter("SpecialLocation");	
