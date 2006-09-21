@@ -1,16 +1,19 @@
+#include <iostream>
+#include <cmath>
+
+#include "../Tools.h"
+
 #include "../NormalVdVdtMatrix.h"
 
 NormalVdVdtMatrix::NormalVdVdtMatrix() 
-	: FixedParamObject(), vLength(0), dVdtLength(0), VdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {}
+	: VdVdtMatrix(), matrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {}
 
 NormalVdVdtMatrix::NormalVdVdtMatrix(FixedParameters params) 
-	: FixedParamObject(params), vLength(0), dVdtLength(0), VdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {}
+	: VdVdtMatrix(params), matrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {}
 
 NormalVdVdtMatrix::NormalVdVdtMatrix(const DataTrace& trace, FixedParameters params) 
-	:	FixedParamObject(params), 
-		vLength(toInt(fixedParams["vLength"])), 
-		dVdtLength(toInt(fixedParams["dVdtLength"])), 
-		VdVdtMatrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {
+	:	VdVdtMatrix(params), 
+		matrix(vector< vector< double > >(vLength,vector< double >(dVdtLength))) {
 
 	//////////////////
 	/// Initialize ///
@@ -51,19 +54,11 @@ NormalVdVdtMatrix::NormalVdVdtMatrix(const DataTrace& trace, FixedParameters par
 		int vIndex = (int)( (V-minimalV) / dxVdVdtmatrix );
 		int dVdtIndex = (int)( (dVdt-minimaldVdt) / dyVdVdtmatrix );
 
-		(*this)[vIndex][dVdtIndex] += 1.0/(trace.getLength()-2);
+		set(vIndex, dVdtIndex, get(vIndex,dVdtIndex) + 1.0/(trace.getLength()-2));
 	}
 }
 
-int NormalVdVdtMatrix::getVLength() const {
-	return vLength;
-}
-
-int NormalVdVdtMatrix::getdVdtLength() const {
-	return dVdtLength;
-}
-
-double NormalVdVdtMatrix::compare(const NormalVdVdtMatrix & other) const {
+double NormalVdVdtMatrix::compare(const VdVdtMatrix & other) const {
 
 	double fitnessValue = 0;
 
@@ -80,7 +75,7 @@ double NormalVdVdtMatrix::compare(const NormalVdVdtMatrix & other) const {
 
 	for (int vIndex=0;vIndex<vLength;vIndex++) {
     	for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
-			diff=fabs((*this)[vIndex][dVdtIndex]-other[vIndex][dVdtIndex]);
+			diff=fabs(get(vIndex,dVdtIndex)-other.get(vIndex,dVdtIndex));
 			if (diff > precision) {
 				fitnessValue += pow(diff,2);
 			}
@@ -91,30 +86,22 @@ double NormalVdVdtMatrix::compare(const NormalVdVdtMatrix & other) const {
 }
 
 
-inline vector<double>& NormalVdVdtMatrix::operator[] (const int subscript) {
-    if (subscript < 0 || subscript >= vLength) {
-		crash("NormalVdVdtMatrix","Invalid subscript: "+str(subscript));
+void NormalVdVdtMatrix::set(const int v, const int dVdt, const double value) {
+    if (v < 0 || v >= vLength) {
+		crash("NormalVdVdtMatrix","Invalid v: "+str(v));
 	}
-	return VdVdtMatrix[subscript];
+    if (dVdt < 0 || dVdt >= dVdtLength) {
+		crash("NormalVdVdtMatrix","Invalid dVdt: "+str(dVdt));
+	}
+	matrix[v][dVdt] = value;
 }
 
-
-inline const vector<double>& NormalVdVdtMatrix::operator[] (const int subscript) const {
-    if (subscript < 0 || subscript >= vLength) {
-		crash("NormalVdVdtMatrix","Invalid subscript: "+str(subscript));
+const double NormalVdVdtMatrix::get(const int v, const int dVdt) const {
+    if (v < 0 || v >= vLength) {
+		crash("NormalVdVdtMatrix","Invalid v: "+str(v));
 	}
-	return VdVdtMatrix[subscript];
-}
-
-string NormalVdVdtMatrix::toString() const {
-	ostringstream result;
-
-	for (int vIndex=0;vIndex<vLength;vIndex++) {
-        for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
-            result << " " << (*this)[vIndex][dVdtIndex];
-        }
-		result << endl;
-    }
-
-	return result.str();
+    if (dVdt < 0 || dVdt >= dVdtLength) {
+		crash("NormalVdVdtMatrix","Invalid dV: "+str(dVdt));
+	}
+	return matrix[v][dVdt];
 }

@@ -1,16 +1,12 @@
 #ifndef NEUROFITTER_NORMALVDVDTMATRIX_H
 #define NEUROFITTER_NORMALVDVDTMATRIX_H
 
-#include <iostream>
-#include <cmath>
-
 using namespace std;
 
 #include "DataTrace.h"
-#include "FixedParamObject.h"
-#include "Tools.h"
+#include "VdVdtMatrix.h"
 
-class NormalVdVdtMatrix : public FixedParamObject {
+class NormalVdVdtMatrix : public VdVdtMatrix  {
 
 public:
 	NormalVdVdtMatrix();
@@ -20,17 +16,14 @@ public:
 	int getVLength() const;
 	int getdVdtLength() const;
 
-	inline vector<double>& operator[](const int);
-	inline const vector<double>& operator[](const int) const;
+	virtual void set(const int v, const int dVdt, const double value);
+	virtual const double get(const int v, const int dVdt) const;
 
-	double compare(const NormalVdVdtMatrix&) const;
-
-	string toString() const;
+	virtual double compare(const VdVdtMatrix&) const;
 	
 protected:
-	int vLength;
-	int dVdtLength;	
-	vector< vector< double > > VdVdtMatrix;
+	vector< vector< double > > matrix;
+
 };
 	
 #endif

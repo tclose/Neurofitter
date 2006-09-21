@@ -30,7 +30,7 @@ public:
 	virtual vector< pair< ModelTuningParameters, double > > getFitnessHistory();
 
 private:
-	vector< NormalVdVdtMatrix > expVdVdtMatrices;	
+	vector< VdVdtMatrix > expVdVdtMatrices;	
 	ofstream exportFileStream;
 };
 

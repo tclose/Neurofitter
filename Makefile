@@ -19,7 +19,9 @@ LIBS= $(LIBDIRS) -les -leoutils -leo -lnomad -lxml2
 CXXLIBS = $(LIBS) 
 
 #Added Wno-long-long added for MPI
-CXXFLAGS = -ansi -pedantic -O3 -Wall -Wno-deprecated -Wno-long-long -g -I$(DIR_LIBXML2)
+CXXFLAGS = -ansi -pedantic -O3 -Wall -g -I$(DIR_LIBXML2)
+EOCXXFLAGS = -Wno-deprecated -Wno-long-long
+MPICXXFLAGS = -Wno-long-long -Wnon-virtual-dtor
 
 MPICXX=mpicxx
 
@@ -45,6 +47,7 @@ MODOBJS=	$(CPPDIR)/ModelResults.o \
 
 # The object files related to fitness calculator interfaces			
 FITOBJS=	$(CPPDIR)/NormalVdVdtMatrix.o \
+			$(CPPDIR)/MapVdVdtMatrix.o \
 			$(CPPDIR)/MatrixFitnessCalculator.o
 
 # The object files related to experiment interfaces			
@@ -82,37 +85,37 @@ $(BINDIR)/Neurofitter : $(OBJS) $(NORMALOBJS) ;
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(NORMALOBJS) $(CXXLIBS)
 
 $(BINDIR)/MPINeurofitter : $(OBJS) $(MPIOBJS) ; 
-	$(MPICXX) $(CXXFLAGS) -o $@ $(OBJS) $(MPIOBJS) $(CXXLIBS)
+	$(MPICXX) $(CXXFLAGS) $(MPICXXFLAGS) -o $@ $(OBJS) $(MPIOBJS) $(CXXLIBS)
 
 $(CPPDIR)/EOFitterInterface.o : $(CPPDIR)/EOFitterInterface.cpp ;
-	$(CXX) $(CXXFLAGS) -c -I$(DIR_EO) -o $@ $<
+	$(CXX) $(CXXFLAGS) $(EOCXXFLAGS) -c -I$(DIR_EO) -o $@ $<
 
 $(CPPDIR)/EOFitness.o : $(CPPDIR)/EOFitness.cpp ;
-	$(CXX) $(CXXFLAGS) -c -I$(DIR_EO) -o $@ $<
+	$(CXX) $(CXXFLAGS) $(EOCXXFLAGS) -c -I$(DIR_EO) -o $@ $<
 
 $(CPPDIR)/NOMADFitterInterface.o : $(CPPDIR)/NOMADFitterInterface.cpp ;
 	$(CXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_NOMAD) -o $@ $<
 
 $(CPPDIR)/EONOMADFitterInterface.o : $(CPPDIR)/EONOMADFitterInterface.cpp ;
-	$(CXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
+	$(CXX) $(CXXFLAGS) $(EOCXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
 
 $(CPPDIR)/truthfunction.o : $(CPPDIR)/truthfunction.cpp ;
 	$(CXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_NOMAD) -o $@ $<
 
 $(CPPDIR)/Neurofitter.o : $(CPPDIR)/Neurofitter.cpp ;
-	$(CXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
+	$(CXX) $(CXXFLAGS) $(EOCXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
 
 $(CPPDIR)/MPIStream.o : $(CPPDIR)/MPIStream.cpp ;
-	$(MPICXX) $(CXXFLAGS) -c -o $@ $<
+	$(MPICXX) $(CXXFLAGS) $(MPICXXFLAGS) -c -o $@ $<
 
 $(CPPDIR)/MPIModelInterface.o : $(CPPDIR)/MPIModelInterface.cpp ;
-	$(MPICXX) $(CXXFLAGS) -c -o $@ $<
+	$(MPICXX) $(CXXFLAGS) $(MPICXXFLAGS) -c -o $@ $<
 
 $(CPPDIR)/MPIFitnessCalculator.o : $(CPPDIR)/MPIFitnessCalculator.cpp ;
-	$(MPICXX) $(CXXFLAGS) -c -o $@ $<
+	$(MPICXX) $(CXXFLAGS) $(MPICXXFLAGS) -c -o $@ $<
 
 $(CPPDIR)/MPINeurofitter.o : $(CPPDIR)/MPINeurofitter.cpp ;
-	$(MPICXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
+	$(MPICXX) $(CXXFLAGS) $(EOCXXFLAGS) $(MPICXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
 
 clean : 
 	$(RM) -f $(ALL) *.o implementation/*.o

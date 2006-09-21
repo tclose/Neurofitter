@@ -1,1 +1,1 @@
-make -j2 $1
+make -j2 $*

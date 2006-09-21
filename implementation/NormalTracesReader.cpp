@@ -40,6 +40,7 @@ ModelResults NormalTracesReader::readTraces(string dirName) {
 
     	istringstream periodStream(fixedParams["Periods"]);
     	for (int i = 0; i < numberOfPeriods; i++) {
+			if (!periodStream.good()) crash("NormalTracesReader","Error while reading " + str(numberOfPeriods) + " recording periods from parameter file");
         	periodStream >> periodStart[i];
         	periodStream >> periodStops[i];
         	periodStream >> periodWeights[i];
@@ -51,6 +52,7 @@ ModelResults NormalTracesReader::readTraces(string dirName) {
     	vector< double > recordWeights(numberOfRecordSites,0);
     	istringstream recordStream(fixedParams["RecordSites"]);
     	for (int i = 0; i < numberOfRecordSites; i++) {
+			if (!periodStream.good()) crash("NormalTracesReader","Error while reading " + str(numberOfRecordSites) + " recording site weights from parameter file");
         	recordStream >> recordWeights[i];
     	}
 
@@ -66,19 +68,22 @@ ModelResults NormalTracesReader::readTraces(string dirName) {
         	//////////////////////////
 			string inputFileName = dirName + "/" + fixedParams["OutputFilePrefix"] + "_Run" + str(nRun) +".dat";
         	ifstream inputFile(inputFileName.c_str(), ios::in);
+            if (!inputFile.good()) crash("NormalTracesReader","Error while opening file "+inputFileName);
         	showMessage("Reading from file: " + inputFileName + " from " + str(periodStart[nPeriod]) + " until " + str(periodStops[nPeriod]) + "\n",5,fixedParams);
 
         	///////////////////////////////////////////////
 			/// Read data until the start of the period ///
         	///////////////////////////////////////////////
         	double time = 0;
-        	char dummy[512];
-        	inputFile >> time;
-        	while (time < periodStart[nPeriod]) {
-            	if (!inputFile.good()) crash("GenesisModelInterface","Error while reading file: "+inputFileName);
-            	inputFile.getline(dummy,512);
-            	inputFile >> time;
-        	}
+        	double dummy;
+			inputFile >> time;
+			while (time < periodStart[nPeriod]) {
+            	if (!inputFile.good()) crash("NormalTracesReader","Error while reading from file "+inputFileName+ " at time "+str(time));
+                for (int nRecording = 0; nRecording < numberOfRecordSites; nRecording++) {
+                    inputFile >> dummy;
+                }
+                inputFile >> time;
+            }
 
         	/////////////////////////////
         	/// Initialize the traces ///
@@ -98,7 +103,8 @@ ModelResults NormalTracesReader::readTraces(string dirName) {
         	/// Read the data ///
         	/////////////////////
         	int i = 0;
-        	while (time <= periodStops[nPeriod]) {
+        	while (time <= periodStops[nPeriod] && !inputFile.eof()) {
+            	if (!inputFile.good()) crash("NormalTracesReader","Error while reading from file "+inputFileName+ " at time "+str(time));
             	for (int nRecording = 0; nRecording < numberOfRecordSites; nRecording++) {
                 	inputFile >> results[periodIndex+nRecording][i++];
             	}
