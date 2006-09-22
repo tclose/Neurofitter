@@ -29,8 +29,8 @@ using namespace std;
 #include "FakeExperimentInterface.h"
 #include "FileExperimentInterface.h"
 #include "VdVdtMatrix.h"
-#include "NormalVdVdtMatrix.h"
 #include "MapVdVdtMatrix.h"
+#include "DistVdVdtMatrix.h"
 #include "MatrixFitnessCalculator.h"
 
 #include "EOFitnessCalculator.h"

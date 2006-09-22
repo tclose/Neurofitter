@@ -28,7 +28,6 @@ public:
 protected:
 	map< int, double > matrix;
 
-private:
 	int mIndex(const int v, const int dVdt) const;
 	int vIndex(const int mIndex) const;
 	int dVdtIndex(const int mIndex) const;	

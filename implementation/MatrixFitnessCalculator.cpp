@@ -1,5 +1,5 @@
 #include "../MapVdVdtMatrix.h"
-#include "../NormalVdVdtMatrix.h"
+#include "../DistVdVdtMatrix.h"
 
 #include "../MatrixFitnessCalculator.h"
 
@@ -16,11 +16,11 @@ MatrixFitnessCalculator::MatrixFitnessCalculator(ModelInterface * interface, Exp
 	
 	showMessage("Experiment VdVdtMatrices\n",5,fixedParams);
 	for (int nTrace = 0; nTrace < expData.getLength(); nTrace++) {
-		if (fixedParams["VdVdtMatrixType"] == "Normal") {
-			expVdVdtMatrices[nTrace] = new NormalVdVdtMatrix(expData[nTrace], FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
-		}
-		else if (fixedParams["VdVdtMatrixType"] == "Map") {
+		if (fixedParams["VdVdtMatrixType"] == "Map") {
 			expVdVdtMatrices[nTrace] = new MapVdVdtMatrix(expData[nTrace], FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
+		}
+		else if (fixedParams["VdVdtMatrixType"] == "Dist") {
+			expVdVdtMatrices[nTrace] = new DistVdVdtMatrix(expData[nTrace], FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
 		}
 		else { 
 			crash("MatrixFitnessCalculator", "No matching VdVdtmatrix type: " + fixedParams["VdVdtMatrixType"]);
@@ -28,11 +28,11 @@ MatrixFitnessCalculator::MatrixFitnessCalculator(ModelInterface * interface, Exp
 		showMessage(expVdVdtMatrices[nTrace]->toString()+"\n",5,fixedParams);
 	}
 
-	if (fixedParams["VdVdtMatrixType"] == "Normal") {
-		modelVdVdtMatrix = new NormalVdVdtMatrix(FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
-    }
-    else if (fixedParams["VdVdtMatrixType"] == "Map") {
+    if (fixedParams["VdVdtMatrixType"] == "Map") {
 		modelVdVdtMatrix = new MapVdVdtMatrix(FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
+	}
+    else if (fixedParams["VdVdtMatrixType"] == "Dist") {
+		modelVdVdtMatrix = new DistVdVdtMatrix(FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
 	}
 	else {
 		crash("MatrixFitnessCalculator", "No matching VdVdtmatrix type: " + fixedParams["VdVdtMatrixType"]);

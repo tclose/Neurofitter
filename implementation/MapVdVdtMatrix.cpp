@@ -17,18 +17,30 @@ double MapVdVdtMatrix::compare(const VdVdtMatrix & o) const {
 
 	const MapVdVdtMatrix & other = dynamic_cast<const MapVdVdtMatrix &>(o);
 
-	double fitnessValue = 0;
-   
-	if (other.getVLength() != vLength) crash("MapVdVdtMatrix","V dimensions don't match");
-	if (other.getdVdtLength() != dVdtLength) crash("MapVdVdtMatrix","dVdt dimensions don't match");	
+    double fitnessValue = 0;
 
-	for (map< const int, double >::const_iterator i = matrix.begin(); i != matrix.end(); i++) {
-		for (map< const int, double >::const_iterator j = (other.matrix).begin(); j != (other.matrix).end(); j++) {
-			fitnessValue += pow(i->second-j->second,2)*(pow((double)(vIndex(i->first)-other.vIndex(j->first)),2)+pow((double)(dVdtIndex(i->first)-other.dVdtIndex(j->first)),2));		
-		}
-  	}	
+    double diff = 0;
 
-	return sqrt(fitnessValue);
+    const double precision = toDouble(fixedParams["comparePrecision"]);
+
+    if (other.getVLength() != vLength) crash("MapVdVdtMatrix","V dimensions don't match");
+    if (other.getdVdtLength() != dVdtLength) crash("MapVdVdtMatrix","dVdt dimensions don't match");
+
+    ///////////////////////////////////////////////////////////
+    /// Calculate the square root of the sum of the squares ///
+    ///////////////////////////////////////////////////////////
+
+    for (int vIndex=0;vIndex<vLength;vIndex++) {
+        for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
+            diff=fabs(get(vIndex,dVdtIndex)-other.get(vIndex,dVdtIndex));
+            if (diff > precision) {
+                fitnessValue += pow(diff,2);
+            }
+        }
+    }
+                                                                                                        
+    return sqrt(fitnessValue);
+
 }
 
 
