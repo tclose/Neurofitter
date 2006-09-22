@@ -4,6 +4,7 @@
 using namespace std;
 
 #include "FixedParamObject.h"
+#include "TracesReader.h"
 #include "Tools.h"
 
 class VdVdtMatrix : public FixedParamObject {
@@ -80,8 +81,8 @@ public:
 
     	bool numeric = toInt(fixedParams["numericOutputFormat"]);
 
-    	for (int vIndex=0;vIndex<vLength;vIndex++) {
-        	for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
+        for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
+    		for (int vIndex=0;vIndex<vLength;vIndex++) {
             	value = get(vIndex,dVdtIndex);
             	if (numeric) {
                 	 result << " " << value;

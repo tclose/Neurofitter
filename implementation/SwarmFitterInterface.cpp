@@ -90,7 +90,7 @@ void SwarmFitterInterface::randomizeTopology(vector< SwarmFly > & swarm, int max
 		for (int j = 0; j < maxInformed; j++) {
 			int randI = randGen.randInt(swarm.size()-1);
 			swarm[randI].addInformant(&(swarm[j]));
-			showMessage(randI + " ",4,fixedParams); 
+			showMessage(str(randI) + " ",4,fixedParams); 
 		}
 		showMessage("}\n",4,fixedParams); 
 	}

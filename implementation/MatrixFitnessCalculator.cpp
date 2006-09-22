@@ -1,5 +1,5 @@
-#include "../MapVdVdtMatrix.h"
-#include "../DistVdVdtMatrix.h"
+#include "../DirectVdVdtMatrix.h"
+#include "../DistanceVdVdtMatrix.h"
 
 #include "../MatrixFitnessCalculator.h"
 
@@ -16,11 +16,11 @@ MatrixFitnessCalculator::MatrixFitnessCalculator(ModelInterface * interface, Exp
 	
 	showMessage("Experiment VdVdtMatrices\n",5,fixedParams);
 	for (int nTrace = 0; nTrace < expData.getLength(); nTrace++) {
-		if (fixedParams["VdVdtMatrixType"] == "Map") {
-			expVdVdtMatrices[nTrace] = new MapVdVdtMatrix(expData[nTrace], FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
+		if (fixedParams["VdVdtMatrixType"] == "Direct") {
+			expVdVdtMatrices[nTrace] = new DirectVdVdtMatrix(expData[nTrace], FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
 		}
-		else if (fixedParams["VdVdtMatrixType"] == "Dist") {
-			expVdVdtMatrices[nTrace] = new DistVdVdtMatrix(expData[nTrace], FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
+		else if (fixedParams["VdVdtMatrixType"] == "Distance") {
+			expVdVdtMatrices[nTrace] = new DistanceVdVdtMatrix(expData[nTrace], FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
 		}
 		else { 
 			crash("MatrixFitnessCalculator", "No matching VdVdtmatrix type: " + fixedParams["VdVdtMatrixType"]);
@@ -28,11 +28,11 @@ MatrixFitnessCalculator::MatrixFitnessCalculator(ModelInterface * interface, Exp
 		showMessage(expVdVdtMatrices[nTrace]->toString()+"\n",5,fixedParams);
 	}
 
-    if (fixedParams["VdVdtMatrixType"] == "Map") {
-		modelVdVdtMatrix = new MapVdVdtMatrix(FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
+    if (fixedParams["VdVdtMatrixType"] == "Direct") {
+		modelVdVdtMatrix = new DirectVdVdtMatrix(FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
 	}
-    else if (fixedParams["VdVdtMatrixType"] == "Dist") {
-		modelVdVdtMatrix = new DistVdVdtMatrix(FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
+    else if (fixedParams["VdVdtMatrixType"] == "Distance") {
+		modelVdVdtMatrix = new DistanceVdVdtMatrix(FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
 	}
 	else {
 		crash("MatrixFitnessCalculator", "No matching VdVdtmatrix type: " + fixedParams["VdVdtMatrixType"]);

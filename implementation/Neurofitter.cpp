@@ -13,7 +13,6 @@ using namespace std;
 ///todo report bug in EO
 ///todo extend the members of FitterResults 
 ///todo make it possible to give a list of startingpoints to a fitter
-///todo use a map to implement VdVdtMatrix
 ///todo make it possible to make a slice in a certain dimension with MeshFitter
 ///todo put include Tools.h in implementation files, not header files except when necessary
 ///todo change nomad to prevent LIBRARY directory

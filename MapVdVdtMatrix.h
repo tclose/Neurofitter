@@ -6,10 +6,7 @@
 
 using namespace std;
 
-#include "DataTrace.h"
 #include "VdVdtMatrix.h"
-#include "FixedParamObject.h"
-#include "Tools.h"
 
 class MapVdVdtMatrix : public VdVdtMatrix {
 
@@ -23,7 +20,7 @@ public:
 
 	void makeEmpty();
 
-	double compare(const VdVdtMatrix&) const;
+	virtual double compare(const VdVdtMatrix&) const = 0;
 	
 protected:
 	map< int, double > matrix;

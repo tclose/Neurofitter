@@ -46,8 +46,9 @@ MODOBJS=	$(CPPDIR)/ModelResults.o \
 			$(CPPDIR)/ModelTuningParameters.o
 
 # The object files related to fitness calculator interfaces			
-FITOBJS=	$(CPPDIR)/MapVdVdtMatrix.o \
-			$(CPPDIR)/DistVdVdtMatrix.o \
+FITOBJS=	$(CPPDIR)/DirectVdVdtMatrix.o \
+			$(CPPDIR)/MapVdVdtMatrix.o \
+			$(CPPDIR)/DistanceVdVdtMatrix.o \
 			$(CPPDIR)/MatrixFitnessCalculator.o
 
 # The object files related to experiment interfaces			

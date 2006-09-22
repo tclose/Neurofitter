@@ -13,37 +13,6 @@ MapVdVdtMatrix::MapVdVdtMatrix(const DataTrace& trace, FixedParameters params)
 
 }
 
-double MapVdVdtMatrix::compare(const VdVdtMatrix & o) const {
-
-	const MapVdVdtMatrix & other = dynamic_cast<const MapVdVdtMatrix &>(o);
-
-    double fitnessValue = 0;
-
-    double diff = 0;
-
-    const double precision = toDouble(fixedParams["comparePrecision"]);
-
-    if (other.getVLength() != vLength) crash("MapVdVdtMatrix","V dimensions don't match");
-    if (other.getdVdtLength() != dVdtLength) crash("MapVdVdtMatrix","dVdt dimensions don't match");
-
-    ///////////////////////////////////////////////////////////
-    /// Calculate the square root of the sum of the squares ///
-    ///////////////////////////////////////////////////////////
-
-    for (int vIndex=0;vIndex<vLength;vIndex++) {
-        for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
-            diff=fabs(get(vIndex,dVdtIndex)-other.get(vIndex,dVdtIndex));
-            if (diff > precision) {
-                fitnessValue += pow(diff,2);
-            }
-        }
-    }
-                                                                                                        
-    return sqrt(fitnessValue);
-
-}
-
-
 inline const double MapVdVdtMatrix::get(const int v, const int dVdt) const {
     if (v < 0 || v >= vLength) {
         crash("MapVdVdtMatrix","Invalid v: "+str(v));

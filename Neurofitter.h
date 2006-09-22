@@ -30,7 +30,8 @@ using namespace std;
 #include "FileExperimentInterface.h"
 #include "VdVdtMatrix.h"
 #include "MapVdVdtMatrix.h"
-#include "DistVdVdtMatrix.h"
+#include "DirectVdVdtMatrix.h"
+#include "DistanceVdVdtMatrix.h"
 #include "MatrixFitnessCalculator.h"
 
 #include "EOFitnessCalculator.h"
