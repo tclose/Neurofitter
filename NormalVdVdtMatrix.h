@@ -19,10 +19,18 @@ public:
 	virtual void set(const int v, const int dVdt, const double value);
 	virtual const double get(const int v, const int dVdt) const;
 
+	void makeEmpty();
+
 	virtual double compare(const VdVdtMatrix&) const;
 	
 protected:
-	vector< vector< double > > matrix;
+	map< int, double > matrix;
+
+private:    
+	int mIndex(const int v, const int dVdt) const;
+   	int vIndex(const int mIndex) const;
+    int dVdtIndex(const int mIndex) const;
+
 
 };
 	

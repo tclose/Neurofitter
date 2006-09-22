@@ -1,7 +1,10 @@
+#include "../MapVdVdtMatrix.h"
+#include "../NormalVdVdtMatrix.h"
+
 #include "../MatrixFitnessCalculator.h"
 
 MatrixFitnessCalculator::MatrixFitnessCalculator(ModelInterface * interface, ExperimentInterface * experiment, FixedParameters params) 
-	: FitnessCalculator(interface), FixedParamObject(params) {
+	: FitnessCalculator(interface), FixedParamObject(params), modelVdVdtMatrix(NULL) {
 
 	if (toInt(fixedParams["enableFileExport"]) > 0) {
 		this->enableFileExport(fixedParams["exportFile"]);
@@ -9,17 +12,40 @@ MatrixFitnessCalculator::MatrixFitnessCalculator(ModelInterface * interface, Exp
 
 	ModelResults expData = experiment->getData();	
 
-	expVdVdtMatrices = vector< NormalVdVdtMatrix >(expData.getLength()); 
+	expVdVdtMatrices = vector< VdVdtMatrix * >(expData.getLength(), (VdVdtMatrix*)NULL); 
 	
 	showMessage("Experiment VdVdtMatrices\n",5,fixedParams);
 	for (int nTrace = 0; nTrace < expData.getLength(); nTrace++) {
-		expVdVdtMatrices[nTrace] = NormalVdVdtMatrix(expData[nTrace], FixedParameters(fixedParams["NormalVdVdtMatrix"],fixedParams.getGlobals()));
-		showMessage(expVdVdtMatrices[nTrace].toString()+"\n",5,fixedParams);
+		if (fixedParams["VdVdtMatrixType"] == "Normal") {
+			expVdVdtMatrices[nTrace] = new NormalVdVdtMatrix(expData[nTrace], FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
+		}
+		else if (fixedParams["VdVdtMatrixType"] == "Map") {
+			expVdVdtMatrices[nTrace] = new MapVdVdtMatrix(expData[nTrace], FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
+		}
+		else { 
+			crash("MatrixFitnessCalculator", "No matching VdVdtmatrix type: " + fixedParams["VdVdtMatrixType"]);
+		}
+		showMessage(expVdVdtMatrices[nTrace]->toString()+"\n",5,fixedParams);
 	}
+
+	if (fixedParams["VdVdtMatrixType"] == "Normal") {
+		modelVdVdtMatrix = new NormalVdVdtMatrix(FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
+    }
+    else if (fixedParams["VdVdtMatrixType"] == "Map") {
+		modelVdVdtMatrix = new MapVdVdtMatrix(FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
+	}
+	else {
+		crash("MatrixFitnessCalculator", "No matching VdVdtmatrix type: " + fixedParams["VdVdtMatrixType"]);
+    }
+
 
 }
 
 MatrixFitnessCalculator::~MatrixFitnessCalculator() {
+	if (modelVdVdtMatrix != NULL) delete modelVdVdtMatrix;
+	for (int i = 0; i < (int)expVdVdtMatrices.size(); i++) {
+		if (expVdVdtMatrices[i] != NULL) delete expVdVdtMatrices[i];
+	}
 	exportFileStream.close();
 }
 
@@ -46,9 +72,9 @@ void MatrixFitnessCalculator::calculateParallelFitness(vector< ModelTuningParame
 		showMessage("Model VdVdtMatrices\n",5,fixedParams);
 
     	for (int nTrace = 0; nTrace < results[i].getLength(); nTrace++) {
-        	NormalVdVdtMatrix modelNormalVdVdtMatrix(results[i][nTrace], FixedParameters(fixedParams["NormalVdVdtMatrix"], fixedParams.getGlobals()));
-        	fitnessValues[i] += results[i][nTrace].getWeight() * expVdVdtMatrices[nTrace].compare(modelNormalVdVdtMatrix);
-			showMessage(modelNormalVdVdtMatrix.toString() + "\n",5,fixedParams);        	
+        	modelVdVdtMatrix->readFrom(results[i][nTrace]);
+        	fitnessValues[i] += results[i][nTrace].getWeight() * expVdVdtMatrices[nTrace]->compare(*modelVdVdtMatrix);
+			showMessage(modelVdVdtMatrix->toString() + "\n",5,fixedParams);        	
     	}
 
     	numberOfEvaluations++;

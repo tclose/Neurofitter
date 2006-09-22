@@ -9,10 +9,10 @@ using namespace std;
 
 #include "ModelInterface.h"
 #include "ExperimentInterface.h"
-#include "NormalVdVdtMatrix.h"
 #include "ModelTuningParameters.h"
 #include "FitnessCalculator.h"
 #include "FixedParamObject.h"
+#include "VdVdtMatrix.h"
 
 class MatrixFitnessCalculator : public FitnessCalculator, public FixedParamObject {
 
@@ -30,7 +30,8 @@ public:
 	virtual vector< pair< ModelTuningParameters, double > > getFitnessHistory();
 
 private:
-	vector< VdVdtMatrix > expVdVdtMatrices;	
+	vector< VdVdtMatrix * > expVdVdtMatrices;	
+	VdVdtMatrix * modelVdVdtMatrix;
 	ofstream exportFileStream;
 };
 
