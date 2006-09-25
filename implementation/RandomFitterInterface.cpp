@@ -1,3 +1,5 @@
+#include "../MersenneTwister.h"
+
 #include "../RandomFitterInterface.h"
 
 FitterResults RandomFitterInterface::runFitter(ModelTuningParameters * unusedStartPoint) {

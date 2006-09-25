@@ -39,6 +39,7 @@ using namespace std;
 #include "EOFitterInterface.h"
 #include "NOMADFitterInterface.h"
 #include "EONOMADFitterInterface.h"
+#include "EasyFitterInterface.h"
 #include "MeshFitterInterface.h"
 #include "RandomFitterInterface.h"
 #include "SwarmFitterInterface.h"

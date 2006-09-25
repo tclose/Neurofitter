@@ -47,7 +47,7 @@ class ModelTuningParameters {
 		double &operator[](const int);	///< Get parameters at index
 		const double &operator[](const int) const;	///< Get parameters at index (const)
 
-
+		void resetFitnessValue();
 		void setFitnessValue(const double newValue);	///< Set the fitness value of the parameters
 		double getFitnessValue() const;	///< Get the fitness value of the parameters
 

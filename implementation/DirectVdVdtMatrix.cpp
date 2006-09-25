@@ -30,11 +30,11 @@ double DirectVdVdtMatrix::compare(const VdVdtMatrix & o) const {
         for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
             diff=fabs(get(vIndex,dVdtIndex)-other.get(vIndex,dVdtIndex));
             if (diff > precision) {
-                fitnessValue += pow(diff,2);
+                fitnessValue += pow(diff,0.5);
             }
         }
     }
                                                                                                         
-    return pow(fitnessValue,0.5);
+    return pow(fitnessValue,2);
 
 }

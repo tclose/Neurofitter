@@ -115,6 +115,10 @@ void ModelTuningParameters::setFitnessValue(const double newValue) {
 	fitnessIsValid = true;
 }
 
+void ModelTuningParameters::resetFitnessValue() {
+	fitnessIsValid = false;
+}
+
 double ModelTuningParameters::getFitnessValue() const {
 
 	if (!fitnessIsValid) {

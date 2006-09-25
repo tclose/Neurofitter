@@ -5,7 +5,6 @@
 #include "FitterInterface.h"
 #include "FitnessCalculator.h"
 #include "FixedParamObject.h"
-#include "MersenneTwister.h"
 
 using namespace std;
 
