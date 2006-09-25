@@ -32,6 +32,8 @@ public :
 			}
     	}
 
+		fitness->calculateParallelFitness(paramList);
+
     	for (int i = 0; i < (int)__offspring.size(); i++) {
 			__offspring[i].fitness(paramList[i].getFitnessValue());
 		}

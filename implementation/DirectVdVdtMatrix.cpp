@@ -35,6 +35,6 @@ double DirectVdVdtMatrix::compare(const VdVdtMatrix & o) const {
         }
     }
                                                                                                         
-    return sqrt(fitnessValue);
+    return pow(fitnessValue,0.5);
 
 }
