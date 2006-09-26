@@ -30,6 +30,7 @@ class SwarmFitterInterface : public FitterInterface, FixedParamObject {
 		int numberOfRuns;
 
 		void randomizeTopology(vector< SwarmFly > & swarm, int maxInformed, MTRand & randGen);
+		void randomizeWorst(vector< SwarmFly > & swarm);
 };
 
 #endif

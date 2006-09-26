@@ -8,6 +8,8 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 
 	showMessage("Running Swarm Optimization with " + str(numberOfFlies) + " flies\n",3,fixedParams); 
 
+	vector< ModelTuningParameters > results; 
+
 	int maxInformed = 3;
 	double w = 1.0/(2.0*log(2.0));
 	double c = 0.5 + log(2.0);
@@ -21,10 +23,9 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 
 	MTRand randGen( toInt(fixedParams["Seed"]) );
 
-	vector< SwarmFly > swarm(numberOfFlies, SwarmFly(&randGen, FixedParameters(fixedParams.getGlobals(),true)));
+	vector< SwarmFly > swarm(numberOfFlies, SwarmFly(w, c, &randGen, FixedParameters(fixedParams.getGlobals(),true)));
 
-	vector< ModelTuningParameters > startP(numberOfFlies,ModelTuningParameters(*startPoint));
-	vector< ModelTuningParameters > startSpeed(numberOfFlies,ModelTuningParameters(*startPoint));
+	vector< ModelTuningParameters > startPoints(numberOfFlies,ModelTuningParameters(*startPoint));
 
 	ModelTuningParameters startX;
 	ModelTuningParameters startY;
@@ -33,20 +34,15 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 	/// Initialize the swarm flies ///
 	//////////////////////////////////
 	for (int i = 0; i < numberOfFlies; i++) {
-		for (int j = 0; j < startP[i].getLength(); j++) {
-			startP[i][j] = startPoint->getLowerBound(j)+randGen.rand(startPoint->getUpperBound(j)-startPoint->getLowerBound(j));
-		}
-		for (int j = 0; j < startSpeed[i].getLength(); j++) {
-			double startX = startPoint->getLowerBound(j)+randGen.rand(startPoint->getUpperBound(j)-startPoint->getLowerBound(j));
-			double startY = startPoint->getLowerBound(j)+randGen.rand(startPoint->getUpperBound(j)-startPoint->getLowerBound(j));
-			startSpeed[i][j] = startX-startY;
-		}
+		startPoints[i] = swarm[i].calculateRandomPosition();				
 	}
 	
-	fitness->calculateParallelFitness(startP);
+	fitness->calculateParallelFitness(startPoints);
+	results.insert(results.end(),startPoints.begin(),startPoints.end()); 
+
 
 	for (int i = 0; i < numberOfFlies; i++) {
-		swarm[i].setMembers(w,c,startP[i],startSpeed[i]);
+		swarm[i].setNewPositionFitness(startPoints[i]);
 	}
 
 	///////////////////////////
@@ -63,7 +59,10 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 		for (int j = 0; j < numberOfFlies; j++) {
 			flyPositions[j] = swarm[j].calculateNewPosition();
 		}
+
 		fitness->calculateParallelFitness(flyPositions);
+		results.insert(results.end(),startPoints.begin(),startPoints.end()); 
+
 		for (int j = 0; j < numberOfFlies; j++) {
 			swarm[j].setNewPositionFitness(flyPositions[j]);
 		}
@@ -74,12 +73,29 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 		}
 		else {
 			showMessage("No better solution found in the last run: Randomizing swarm topology\n",3,fixedParams); 
+			randomizeWorst(swarm);
 			randomizeTopology(swarm, maxInformed, randGen);
 		}
 
 	}
 
-	return FitterResults();
+	return FitterResults(results);
+}
+
+void SwarmFitterInterface::randomizeWorst(vector< SwarmFly > & swarm) {
+	double worstValue = swarm[0].getFitnessValue();
+	int worstFly = 0;
+	for (int i = 0; i < (int)swarm.size(); i++) {
+		if (swarm[i].getFitnessValue() > worstValue) {
+			worstValue = swarm[i].getFitnessValue();
+			worstFly = i;
+		};
+	}
+
+	showMessage("Randomizing worst fly in the swarm: "+swarm[worstFly].getParameters().toString()+"\n",3,fixedParams);
+	
+	swarm[worstFly].makeNextPositionRandom();
+
 }
 
 void SwarmFitterInterface::randomizeTopology(vector< SwarmFly > & swarm, int maxInformed, MTRand & randGen) {

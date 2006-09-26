@@ -30,6 +30,9 @@ class ModelTuningParameters {
 			/// Read bounds from string like "lower1 upper1 lower2 upper2 lower3 upper3".
 		ModelTuningParameters(const string, const int length, const string bounds); 
 
+			/// Construct with bounds read from strings
+		ModelTuningParameters(const int length, const string bounds); 
+
 		int getLength() const;	///< Get the number of parameters
 	
 		void setTuningParameters(const vector< double >, const int); ///< Change the parameters in the object
@@ -55,7 +58,6 @@ class ModelTuningParameters {
 
 		void printOn(OutputChannel &) const; ///< Print the object on a stream
 		void readFrom(InputChannel &); ///< Read the object from a stream
-
 
 	private:
 

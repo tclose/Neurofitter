@@ -4,20 +4,26 @@ ModelTuningParameters::ModelTuningParameters() :
 	tuningParameters(), bounds(), fitnessIsValid(false) {}
 
 ModelTuningParameters::ModelTuningParameters(const int newTParamsLength) 
-	: tuningParameters(vector< double >(newTParamsLength)), bounds(), fitnessIsValid(false) {
+	: tuningParameters(newTParamsLength), bounds(), fitnessIsValid(false) {
 }
 
 ModelTuningParameters::ModelTuningParameters(const vector< double > newTParams, const int newTParamsLength, const vector < double > newBounds) : 
-	tuningParameters(), bounds(), fitnessIsValid(false) {
+	tuningParameters(newTParamsLength), bounds(), fitnessIsValid(false) {
 
 	ModelTuningParameters::setTuningParameters(newTParams, newTParamsLength);
 	ModelTuningParameters::setBounds(newBounds, 2*newTParamsLength);
 }
 
 ModelTuningParameters::ModelTuningParameters(const string paramString, const int newTParamsLength, const string newBounds) : 
-	tuningParameters(), bounds(), fitnessIsValid(false) {
+	tuningParameters(newTParamsLength), bounds(), fitnessIsValid(false) {
 
 	ModelTuningParameters::setTuningParameters(paramString, newTParamsLength);
+	ModelTuningParameters::setBounds(newBounds, 2*newTParamsLength); 
+}
+
+ModelTuningParameters::ModelTuningParameters(const int newTParamsLength, const string newBounds) : 
+	tuningParameters(newTParamsLength), bounds(), fitnessIsValid(false) {
+
 	ModelTuningParameters::setBounds(newBounds, 2*newTParamsLength); 
 }
 

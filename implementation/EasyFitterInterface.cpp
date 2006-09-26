@@ -50,7 +50,7 @@ FitterResults EasyFitterInterface::runFitter(ModelTuningParameters * unusedStart
 				if (newPoints[k].getFitnessValue() < bestPoints[j].getFitnessValue()) {
 					for (int s = 0; s < radii[j].getLength(); s++) { 
 						if (bestPoints[j][s] != newPoints[k][s]) {
-							radii[j][s] = fabs(bestPoints[j][s] - newPoints[k][s]);
+							radii[j][s] = fabs(bestPoints[j][s] - newPoints[k][s])/2.0;
 							showMessage("Changed radius in dimension " + str(s) + " of thread " + str(j) + " to " + str(radii[j][s]) + "\n",4,fixedParams);
 						}
 					}
@@ -61,7 +61,7 @@ FitterResults EasyFitterInterface::runFitter(ModelTuningParameters * unusedStart
 			if (!bestPointChanged) {
 				for (int s = 0; s < radii[j].getLength(); s++) { 
 					radii[j][s] = min(sigma*radii[j][s], radii[j].getUpperBound(s)-radii[j].getLowerBound(s));
-					showMessage("Changed radius in dimension " + str(s) + " of thread " + str(j) + " to " + str(radii[j][s]) + "\n",4,fixedParams);
+					showMessage("Increased radius in dimension " + str(s) + " of thread " + str(j) + " to " + str(radii[j][s]) + "\n",4,fixedParams);
 				}
 			} 
     	}		
@@ -82,13 +82,16 @@ void EasyFitterInterface::generateSurrounding(ModelTuningParameters center, Mode
 	for (int i = 0; i < toInt(fixedParams["NumberOfTriesPT"]); i++) {
 		for (int j = 0; j < center.getLength(); j++) {
 			if (randGen.rand(1) < 0.5) 
-				//newValue = center[j] + randGen.rand(sigma*radii[j]);
-				newValue = center[j] + randGen.randNorm(0,radii[j]);
+				newValue = center[j] + randGen.rand(sigma*radii[j]);
+				//newValue = center[j] + randGen.randNorm(0,radii[j]);
 			else
-				//newValue = center[j] - randGen.rand(sigma*radii[j]);
-				newValue = center[j] - randGen.randNorm(0,radii[j]);
-			if (newValue > center.getUpperBound(j)) newValue = center.getUpperBound(j);
-			if (newValue < center.getLowerBound(j)) newValue = center.getLowerBound(j);
+				newValue = center[j] - randGen.rand(sigma*radii[j]);
+				//newValue = center[j] - randGen.randNorm(0,radii[j]);
+			//if (newValue > center.getUpperBound(j)) newValue = center.getUpperBound(j);
+			//if (newValue < center.getLowerBound(j)) newValue = center.getLowerBound(j);
+			if (newValue > center.getUpperBound(j) || newValue < center.getLowerBound(j)) {
+				newValue = center.getLowerBound(j)+randGen.rand(center.getUpperBound(j)-center.getLowerBound(j));
+			}
         	newPoint[j] = newValue;
 		}
 		newPoints.push_back(newPoint);

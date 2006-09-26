@@ -194,7 +194,7 @@ string EOParamsContent = " \
 \n\
 	# auto filled in --vecSize=4                             # -n : The number of variables \n\
 	# auto filled in --initBounds=[1,100000];[1,100000];[1,100000];[1,100000]# -B : Bounds for initialization (MUST be bounded) \n\
- 	--sigmaInit=0.3                          # -s : Initial value for Sigma(s) \n\
+ 	--sigmaInit=10                          # -s : Initial value for Sigma(s) \n\
 \n\
 	--useEval=1                              # Use nb of eval. as counter (vs nb of gen.) \n\
  	--useTime=1                              # Display time (s) every generation \n\
@@ -223,8 +223,8 @@ string EOParamsContent = " \
 \n\
  	# auto filled in --objectBounds=[1,10000];[1,10000];[1,10000];[1,10000]                  # -B : Bounds for variables \n\
  	--operator=SGA                           # -o : Description of the operator (SGA only now) \n\
- 	--pCross=0.5                               # -C : Probability of Crossover \n\
- 	--pMut=0.1                                 # -M : Probability of Mutation \n\
+ 	--pCross=1                               # -C : Probability of Crossover \n\
+ 	--pMut=1                                 # -M : Probability of Mutation \n\
  	# read from main Neurofitter parameter file --crossType=global                       # -C : Type of ES recombination (global or standard) \n\
  	# read from main Neurofitter parameter file --crossObj=intermediate                      # -O : Recombination of object variables (discrete, intermediate or none) \n\
  	--crossStdev=intermediate                # -S : Recombination of mutation strategy parameters (intermediate, discrete or none) \n\

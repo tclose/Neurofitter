@@ -3,35 +3,44 @@
 ModelTuningParameters SwarmFly::bestGlobalSolution = ModelTuningParameters();
 bool SwarmFly::bestGlobalInited = false;
 
-void SwarmFly::setMembers(double newW, double newC, ModelTuningParameters startPoint, ModelTuningParameters startSpeed) {
-        c = newC;
-		w = newW;
-		currentSpeed = startSpeed;
-        setNewPositionFitness(startPoint);
-}
+
+SwarmFly::SwarmFly(double newW, double newC, MTRand * rand, FixedParameters params) :
+        FixedParamObject(params),
+        currentPosition(toInt(fixedParams["Dimensions"]), fixedParams["Bounds"]),
+        currentSpeed(toInt(fixedParams["Dimensions"])),
+        c(newC), w(newW),
+        randGen(rand),
+        bestLocalInited(false), nextPositionRandom(false) {}
+
 
 ModelTuningParameters SwarmFly::calculateNewPosition() {
 
-		bestInformantsSolution = bestLocalSolution;
-
-		ModelTuningParameters informantsSolution;
-		for (int i = 0; i < (int)informants.size(); i++) {
-			informantsSolution = informants[i]->getBestLocalSolution();
-			if (informantsSolution.getFitnessValue() < bestInformantsSolution.getFitnessValue()) 
-				bestInformantsSolution = informantsSolution;
+		if (nextPositionRandom) {
+			nextPositionRandom = false;
+			return calculateRandomPosition();
 		}
+		else {
+			bestInformantsSolution = bestLocalSolution;
+
+			ModelTuningParameters informantsSolution;
+			for (int i = 0; i < (int)informants.size(); i++) {
+				informantsSolution = informants[i]->getBestLocalSolution();
+				if (informantsSolution.getFitnessValue() < bestInformantsSolution.getFitnessValue()) 
+					bestInformantsSolution = informantsSolution;
+			}	
 		
-        ModelTuningParameters newPosition(currentPosition);
+        	ModelTuningParameters newPosition(currentPosition);
 
-        for (int i = 0; i < currentPosition.getLength(); i++) {
-            currentSpeed[i] = w*currentSpeed[i] + randGen->rand(c)*(bestLocalSolution[i]-currentPosition[i]) + randGen->rand(c)*(bestInformantsSolution[i]-currentPosition[i]);
-            newPosition[i] = currentPosition[i] + currentSpeed[i];
-        }
+       		for (int i = 0; i < currentPosition.getLength(); i++) {
+            	currentSpeed[i] = w*currentSpeed[i] + randGen->rand(c)*(bestLocalSolution[i]-currentPosition[i]) + randGen->rand(c)*(bestInformantsSolution[i]-currentPosition[i]);
+            	newPosition[i] = currentPosition[i] + currentSpeed[i];
+        	}
 
-		//Adapt speed and position to keep fly inside the bounds
-		keepInBox(newPosition);
+			//Adapt speed and position to keep fly inside the bounds
+			keepInBox(newPosition);
 
-        return newPosition;
+        	return newPosition;
+		}
 }
 
 
@@ -52,6 +61,34 @@ void SwarmFly::setNewPositionFitness(ModelTuningParameters & newPosition) {
 	}
 }
 
+ModelTuningParameters SwarmFly::calculateRandomPosition() {
+
+	ModelTuningParameters randomPosition(currentPosition);
+	randomPosition.resetFitnessValue();
+	
+	for (int i = 0; i < randomPosition.getLength(); i++) {
+		randomPosition[i] = randomPosition.getLowerBound(i)+randGen->rand(randomPosition.getUpperBound(i)-randomPosition.getLowerBound(i));
+    }
+	for (int i = 0; i < currentSpeed.getLength(); i++) {
+		double startX = randomPosition.getLowerBound(i)+randGen->rand(randomPosition.getUpperBound(i)-randomPosition.getLowerBound(i));
+		double startY = randomPosition.getLowerBound(i)+randGen->rand(randomPosition.getUpperBound(i)-randomPosition.getLowerBound(i));
+        currentSpeed[i] = startX-startY;
+    }
+
+	//Adapt speed and position to keep fly inside the bounds (at this point not really necessary, but just checking)
+	keepInBox(randomPosition);
+
+	return randomPosition;
+}
+
+ModelTuningParameters & SwarmFly::getParameters() {	
+	return currentPosition;
+}
+
+double SwarmFly::getFitnessValue() {
+	return currentPosition.getFitnessValue();
+}
+
 void SwarmFly::addInformant(SwarmFly * informant) {
 	informants.push_back(informant);
 }
@@ -61,7 +98,8 @@ void SwarmFly::resetInformants() {
 }
 
 ModelTuningParameters SwarmFly::getBestLocalSolution() {
-	return bestLocalSolution;
+	if (bestLocalInited) return bestLocalSolution;
+	else crash("SwarmFly","Getting uninitialized local solution");
 }
 
 vector< SwarmFly * > SwarmFly::getInformants() {
@@ -80,4 +118,8 @@ void SwarmFly::keepInBox(ModelTuningParameters & newPosition) {
 			currentSpeed[i] = 0;
 		}
 	}
+}
+
+void SwarmFly::makeNextPositionRandom() {
+	nextPositionRandom = true;
 }

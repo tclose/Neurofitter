@@ -13,22 +13,28 @@ class SwarmFitterInterface;
 class SwarmFly : public FixedParamObject {
 	
 public:
-	SwarmFly(MTRand * rand, FixedParameters params) : FixedParamObject(params),c(-1), w(-1), randGen(rand), bestLocalInited(false) {};
-
-	void setMembers(double w, double c, ModelTuningParameters startPoint, ModelTuningParameters startSpeed);
+	SwarmFly(double newW, double newC, MTRand * rand, FixedParameters params);
 
 	ModelTuningParameters calculateNewPosition();
+	ModelTuningParameters calculateRandomPosition();
 	void setNewPositionFitness(ModelTuningParameters & newPosition);
+
+	double getFitnessValue();
 
 	void addInformant(SwarmFly *);
 	vector< SwarmFly * > getInformants();
 	void resetInformants();
 
+	void makeNextPositionRandom();
+	
+	ModelTuningParameters & getParameters();
 
 	static ModelTuningParameters bestGlobalSolution;
 	static bool bestGlobalInited;
 
 private:
+	SwarmFly();
+
 	ModelTuningParameters currentPosition;
 	ModelTuningParameters currentSpeed;
 	ModelTuningParameters bestLocalSolution;
@@ -43,6 +49,7 @@ private:
 	ModelTuningParameters getBestLocalSolution();
 
 	bool bestLocalInited;
+	bool nextPositionRandom;
 
 	void keepInBox(ModelTuningParameters & newPosition);
 

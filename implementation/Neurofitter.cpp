@@ -123,7 +123,9 @@ int main (int argc, char* argv[]) {
 		///////////
 		/// Run ///
 		///////////
-		fitter->runFitter(&startPoint);
+		FitterResults results = fitter->runFitter(&startPoint);
+
+		showMessage("\nBest fit found: "+ results.getBestFit().toString() + " with fitness: " + str(results.getBestFitness()) +"\n",1,fixedParams);
 
 		///////////////
 		/// Cleanup ///
