@@ -13,7 +13,7 @@ MapVdVdtMatrix::MapVdVdtMatrix(const DataTrace& trace, FixedParameters params)
 
 }
 
-MapVdVdtMatrix::~MapVdVdtMatrix() {};
+MapVdVdtMatrix::~MapVdVdtMatrix() {}
 
 inline const double MapVdVdtMatrix::get(const int v, const int dVdt) const {
     if (v < 0 || v >= vLength) {
