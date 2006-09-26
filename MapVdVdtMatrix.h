@@ -12,6 +12,8 @@ class MapVdVdtMatrix : public VdVdtMatrix {
 
 public:
 	MapVdVdtMatrix();
+	virtual ~MapVdVdtMatrix();
+
 	MapVdVdtMatrix(const FixedParameters);
 	MapVdVdtMatrix(const DataTrace&, const FixedParameters);
 
@@ -23,6 +25,8 @@ public:
 	virtual double compare(const VdVdtMatrix&) const = 0;
 	
 protected:
+
+
 	map< int, double > matrix;
 
 	int mIndex(const int v, const int dVdt) const;
