@@ -15,7 +15,7 @@ FitterResults MeshFitterInterface::runFitter(ModelTuningParameters * unusedStart
 
 	fitness->calculateParallelFitness(mesh);
 
-	return FitterResults();
+	return FitterResults(mesh);
 }
 
 void MeshFitterInterface::calculateMesh(int startDimension, ModelTuningParameters & resolution, ModelTuningParameters & currentPoint, vector< ModelTuningParameters > & mesh ) {

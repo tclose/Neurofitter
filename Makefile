@@ -19,7 +19,6 @@ RM = /bin/rm
 DOXYGEN = /opt/local/bin/doxygen #Only necessary for make doc
 #############################################################
 
-#Added Wno-long-long added for MPI
 CXXFLAGS = -ansi -pedantic -O3 -Wall -g -I$(DIR_LIBXML2)
 MPICXXFLAGS = -Wno-long-long -Wnon-virtual-dtor
 
@@ -115,7 +114,6 @@ $(CPPDIR)/Neurofitter.o : $(CPPDIR)/Neurofitter.cpp ;
 #######
 # MPI #
 #######
-
 $(BINDIR)/MPINeurofitter : $(OBJS) $(MPIOBJS) ; 
 	$(MPICXX) $(CXXFLAGS) $(MPICXXFLAGS) -o $@ $(OBJS) $(MPIOBJS) $(CXXLIBS)
 
@@ -134,7 +132,6 @@ $(CPPDIR)/MPIFitnessCalculator.o : $(CPPDIR)/MPIFitnessCalculator.cpp ;
 ######
 # EO #
 ######
-
 $(CPPDIR)/EOFitterInterface.o : $(CPPDIR)/EOFitterInterface.cpp ;
 	$(CXX) $(CXXFLAGS) $(EOCXXFLAGS) $(EOINCL) -c -o $@ $<
 	
@@ -144,7 +141,6 @@ $(CPPDIR)/EOFitness.o : $(CPPDIR)/EOFitness.cpp ;
 #########
 # NOMAD #
 #########
-
 $(CPPDIR)/NOMADFitterInterface.o : $(CPPDIR)/NOMADFitterInterface.cpp ;
 	$(CXX) $(CXXFLAGS) $(NOMADCXXFLAGS) $(NOMADINCL) -c -o $@ $<
 
