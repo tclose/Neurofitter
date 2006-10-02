@@ -53,5 +53,10 @@ using namespace std;
 	#endif
 #endif
 
+#ifdef WITH_MPI
+	#include <mpi.h>
+	#include "MPIModelInterface.h"
+	#include "MPIFitnessCalculator.h"
+#endif
 
 #endif

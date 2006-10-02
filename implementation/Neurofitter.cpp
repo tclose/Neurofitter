@@ -20,19 +20,29 @@ using namespace std;
 ///todo check the directory sign differences on unix/windows
 ///todo check 2>neuron.err on windows
 
-FixedParameters readParameters(int argc, char* argv[]);
+FixedParameters readParameters(int argc, char* argv[], int rank);
 
 int main (int argc, char* argv[]) {
 
 	showMessage("\nStarting Neurofitter...\n");
 	showMessage("The date is: " + getDateAndTime() + "\n");		
+
+        int rank = 0;
+
+	#ifdef WITH_MPI		
+		MPI_Init(&argc,&argv);
+            
+        MPI_Comm_rank( MPI_COMM_WORLD, &rank );
+        showMessage("Rank: " + str(rank) + "\n");
+	#endif
+
 		////////////////////////////
 		///	Read parameters file ///
 		////////////////////////////
-		FixedParameters fixedParams = readParameters(argc,argv);
+		FixedParameters fixedParams = readParameters(argc,argv,rank);
 
-		//Set invalid rank, only used for parallel version
-		fixedParams.addParameter("Rank",str(-1),1);
+		//Sets invalid rank if not in MPI mode, only used for parallel version
+		fixedParams.addParameter("Rank",str(rank),1);
 		
 		/////////////////////////
     	/// Declare variables ///
@@ -69,6 +79,11 @@ int main (int argc, char* argv[]) {
 		else if (fixedParams["ModelType"] == "Executable") {
 			model = new ExecutableModelInterface(tracesReader,modelFixedParams);
 		}
+	#ifdef WITH_MPI
+		else if (fixedParams["ModelType"] == "MPI") {
+            model = new MPIModelInterface(tracesReader, modelFixedParams);
+        }
+	#endif
 		else crash("Main program", "No matching model type");
 	
 		/////////////////////////////
@@ -90,58 +105,70 @@ int main (int argc, char* argv[]) {
 		if (fixedParams["FitnessCalculatorType"] == "Matrix") {
 			fitness = new MatrixFitnessCalculator(model,experiment,fitFixedParams);
 		}
+		#ifdef WITH_MPI
+		else if (fixedParams["FitnessCalculatorType"] == "MPI") {
+            fitness = new MPIFitnessCalculator(model,experiment,fitFixedParams);
+        }
+		#endif
 		else crash("Main program", "No matching fitness calculator type");
 	
 
-		/////////////////////////
-		/// Initialize Fitter ///
-		/////////////////////////
-		FixedParameters fitterFixedParams(fixedParams["FitterParameters"],fixedParams.getGlobals());
-		if (fixedParams["FitterType"] == "Mesh") {
-			fitter = new MeshFitterInterface(fitness,fitterFixedParams);
-		}
-		else if (fixedParams["FitterType"] == "Easy") {
-			fitter = new EasyFitterInterface(fitness,fitterFixedParams);
-		}
-		else if (fixedParams["FitterType"] == "Random") {
-			fitter = new RandomFitterInterface(fitness,fitterFixedParams);
-		}
-		else if (fixedParams["FitterType"] == "Swarm") {
-			fitter = new SwarmFitterInterface(fitness,fitterFixedParams);
-		}
-	#ifdef WITH_NOMAD
-		else if (fixedParams["FitterType"] == "NOMAD") {
-			fitter = new NOMADFitterInterface(fitness,fitterFixedParams);
-		}
-	#endif
-	#ifdef WITH_EO
-		else if (fixedParams["FitterType"] == "EO") {
-			fitter = new EOFitterInterface(fitness,fitterFixedParams);
-		}
-	#endif
-	#ifdef WITH_EO
+		// In case of MPI only run the fitter on the master node
+		if (rank == 0) {
+			/////////////////////////
+			/// Initialize Fitter ///
+			/////////////////////////
+			FixedParameters fitterFixedParams(fixedParams["FitterParameters"],fixedParams.getGlobals());
+			if (fixedParams["FitterType"] == "Mesh") {
+				fitter = new MeshFitterInterface(fitness,fitterFixedParams);
+			}
+			else if (fixedParams["FitterType"] == "Easy") {
+				fitter = new EasyFitterInterface(fitness,fitterFixedParams);
+			}
+			else if (fixedParams["FitterType"] == "Random") {
+				fitter = new RandomFitterInterface(fitness,fitterFixedParams);
+			}
+			else if (fixedParams["FitterType"] == "Swarm") {
+				fitter = new SwarmFitterInterface(fitness,fitterFixedParams);
+			}
 		#ifdef WITH_NOMAD
-		else if (fixedParams["FitterType"] == "EONOMAD") {
-			fitter = new EONOMADFitterInterface(fitness,fitterFixedParams);
-		}
+			else if (fixedParams["FitterType"] == "NOMAD") {
+				fitter = new NOMADFitterInterface(fitness,fitterFixedParams);
+			}
 		#endif
-	#endif 
-		else crash("Main program", "No matching fitter type");
+		#ifdef WITH_EO
+			else if (fixedParams["FitterType"] == "EO") {
+				fitter = new EOFitterInterface(fitness,fitterFixedParams);
+			}
+		#endif
+		#ifdef WITH_EO
+			#ifdef WITH_NOMAD
+			else if (fixedParams["FitterType"] == "EONOMAD") {
+				fitter = new EONOMADFitterInterface(fitness,fitterFixedParams);
+			}
+			#endif
+		#endif 
+			else crash("Main program", "No matching fitter type");
 
-		///////////
-		/// Run ///
-		///////////
-		FitterResults results = fitter->runFitter(&startPoint);
+			///////////
+			/// Run ///
+			///////////
+			FitterResults results = fitter->runFitter(&startPoint);
 
-		showMessage("\nBest fit found: "+ results.getBestFit().toString() + " with fitness: " + str(results.getBestFitness()) +"\n",1,fixedParams);
+			showMessage("\nBest fit found: "+ results.getBestFit().toString() + " with fitness: " + str(results.getBestFitness()) +"\n",1,fixedParams);
 
-		///////////////
-		/// Cleanup ///
-		///////////////
-		delete fitter;
+			///////////////
+			/// Cleanup ///
+			///////////////
+			delete fitter;
+		}
 		delete experiment;
 		delete fitness;
 		delete model;
+
+		#ifdef WITH_MPI
+			MPI_Finalize();
+		#endif
 
 	showMessage("\nNeurofitter has finished\n");
 
@@ -150,7 +177,7 @@ int main (int argc, char* argv[]) {
 }
 
 
-FixedParameters readParameters(int argc, char* argv[]) {
+FixedParameters readParameters(int argc, char* argv[], int rank) {
 
 	showMessage("Arguments: {");
 	for (int i = 0; i < argc; i++) {
@@ -158,8 +185,15 @@ FixedParameters readParameters(int argc, char* argv[]) {
 	}
 	showMessage("}\n");
 	if (argc < 2 || argv[1]==NULL) crash("Neurofitter","Not enough arguments: "+str(argc));
-	
-	ifstream paramFile(argv[1]);
+
+	//When in MPI mode append the rank to the filename;
+	#ifdef WITH_MPI	
+		string fileLoc = string(argv[1]) + "_" + str(rank);
+	#else
+		string fileLoc = string(argv[1]);
+	#endif
+
+	ifstream paramFile(fileLoc.c_str());
 	string fileContent = string(istreambuf_iterator<char>(paramFile),istreambuf_iterator<char>());
 	fileContent = XMLString::removeXMLComments(fileContent);
 	FixedParameters fixedParameters = FixedParameters(XMLString("<root>"+fileContent+"</root>").getSubString("TestProgram"));

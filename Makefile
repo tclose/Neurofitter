@@ -10,18 +10,20 @@ DIR_LIBXML2 = /usr/include/libxml2
 SHELL = /bin/sh
 RM = /bin/rm
 
-DIR_EO = ../EO/src #Directory that contains the EO source, if you don't want EO support don't define this variable
-DIR_NOMAD = ../NOMAD #Directory that contains the NOMAD source, if you don't want NOMAD support don't define this variable
+#Directory that contains the EO source, if you don't want EO support don't define this variable
+#DIR_EO = "../EO/src"
+#Directory that contains the NOMAD source, if you don't want NOMAD support don't define this variable
+#DIR_NOMAD = "../NOMAD" 
+
+
+DOXYGEN = /opt/local/bin/doxygen #Only necessary for make doc
 #############################################################
 
 #Added Wno-long-long added for MPI
 CXXFLAGS = -ansi -pedantic -O3 -Wall -g -I$(DIR_LIBXML2)
-EOCXXFLAGS = -Wno-deprecated -Wno-long-long
 MPICXXFLAGS = -Wno-long-long -Wnon-virtual-dtor
 
 MPICXX=mpicxx
-
-DOXYGEN = /opt/local/bin/doxygen
 
 BINDIR = bin
 CPPDIR = implementation
@@ -68,26 +70,27 @@ MPIOBJS = 	$(CPPDIR)/MPIModelInterface.o \
 			$(CPPDIR)/MPINeurofitter.o \
 			$(CPPDIR)/MPIStream.o
 
-
 ifdef DIR_EO
-			CXXFLAGS = $(CXXFLAGS) -DWITH_EO
-			FITTEROBJS = $(FITTEROBJS) $(CPPDIR)/EOFitterInterface.o
-			LIBDIRS=$(LIBDIRS) -L$(DIR_EO) -L$(DIR_EO)/es -L$(DIR_EO)/utils -les -leoutils -leo
+			EOCXXFLAGS = -Wno-deprecated -Wno-long-long -DWITH_EO
+			EOINCL = -I$(DIR_EO)
+			FITTEROBJS += $(CPPDIR)/EOFitterInterface.o
+			LIBDIRS += -L$(DIR_EO) -L$(DIR_EO)/es -L$(DIR_EO)/utils -les -leoutils -leo
 endif
 
 ifdef DIR_NOMAD
-			CXXFLAGS = $(CXXFLAGS) -DWITH_NOMAD
-			FITTEROBJS = $(FITTEROBJS) $(CPPDIR)/NOMADFitterInterface.o $(CPPDIR)/truthfunction.o
-			LIBDIRS=$(LIBDIRS) -L$(DIR_NOMAD) -lnomad
+			NOMADCXXFLAGS += -DWITH_NOMAD -DPARANOMAD
+			NOMADINCL = -I$(DIR_NOMAD)
+			FITTEROBJS += $(CPPDIR)/NOMADFitterInterface.o $(CPPDIR)/truthfunction.o
+			LIBDIRS += -L$(DIR_NOMAD) -lnomad
 endif
 
 ifdef DIR_EO
 	ifdef DIR_NOMAD
-			FITTEROBJS = $(FITTEROBJS) $(CPPDIR)/EONOMADFitterInterface.o
+			FITTEROBJS += $(CPPDIR)/EONOMADFitterInterface.o
 	endif
 endif
 
-LIBS= $(LIBDIRS) -lxml2 
+LIBS = $(LIBDIRS) -lxml2 
 CXXLIBS = $(LIBS) 
 
 
@@ -98,15 +101,26 @@ all : $(BINDIR)/Neurofitter
 
 mpi : $(BINDIR)/MPINeurofitter
 
+########
+# Main #
+########
+
 $(BINDIR)/Neurofitter : $(OBJS) $(NORMALOBJS) ; 
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(NORMALOBJS) $(CXXLIBS)
+
+$(CPPDIR)/Neurofitter.o : $(CPPDIR)/Neurofitter.cpp ;
+	$(CXX) $(CXXFLAGS) $(EOCXXFLAGS) $(NOMADCXXFLAGS) $(EOINCL) $(NOMADINCL) -c -o $@ $<
+
+
+#######
+# MPI #
+#######
 
 $(BINDIR)/MPINeurofitter : $(OBJS) $(MPIOBJS) ; 
 	$(MPICXX) $(CXXFLAGS) $(MPICXXFLAGS) -o $@ $(OBJS) $(MPIOBJS) $(CXXLIBS)
 
-
-$(CPPDIR)/Neurofitter.o : $(CPPDIR)/Neurofitter.cpp ;
-	$(CXX) $(CXXFLAGS) $(EOCXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
+$(CPPDIR)/MPINeurofitter.o : $(CPPDIR)/Neurofitter.cpp ;
+	$(MPICXX) $(CXXFLAGS) $(EOCXXFLAGS) $(NOMADCXXFLAGS) $(MPICXXFLAGS) $(EOINCL) $(NOMADINCL) -DWITH_MPI -c -o $@ $<
 
 $(CPPDIR)/MPIStream.o : $(CPPDIR)/MPIStream.cpp ;
 	$(MPICXX) $(CXXFLAGS) $(MPICXXFLAGS) -c -o $@ $<
@@ -117,51 +131,52 @@ $(CPPDIR)/MPIModelInterface.o : $(CPPDIR)/MPIModelInterface.cpp ;
 $(CPPDIR)/MPIFitnessCalculator.o : $(CPPDIR)/MPIFitnessCalculator.cpp ;
 	$(MPICXX) $(CXXFLAGS) $(MPICXXFLAGS) -c -o $@ $<
 
-$(CPPDIR)/MPINeurofitter.o : $(CPPDIR)/MPINeurofitter.cpp ;
-	$(MPICXX) $(CXXFLAGS) $(EOCXXFLAGS) $(MPICXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<
+######
+# EO #
+######
 
-
-#ifdef DIR_EO
-	$(CPPDIR)/EOFitterInterface.o : $(CPPDIR)/EOFitterInterface.cpp ;
-		$(CXX) $(CXXFLAGS) $(EOCXXFLAGS) -c -I$(DIR_EO) -o $@ $<
+$(CPPDIR)/EOFitterInterface.o : $(CPPDIR)/EOFitterInterface.cpp ;
+	$(CXX) $(CXXFLAGS) $(EOCXXFLAGS) $(EOINCL) -c -o $@ $<
 	
-	$(CPPDIR)/EOFitness.o : $(CPPDIR)/EOFitness.cpp ;
-		$(CXX) $(CXXFLAGS) $(EOCXXFLAGS) -c -I$(DIR_EO) -o $@ $<
-#else
-#	$(CPPDIR)/EOFitterInterface.o :
-#	$(CPPDIR)/EOFitness.o :
-#endif
+$(CPPDIR)/EOFitness.o : $(CPPDIR)/EOFitness.cpp ;
+	$(CXX) $(CXXFLAGS) $(EOCXXFLAGS) $(EOINCL) -c -o $@ $<
 
-#ifdef DIR_NOMAD
-	$(CPPDIR)/NOMADFitterInterface.o : $(CPPDIR)/NOMADFitterInterface.cpp ;
-		$(CXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_NOMAD) -o $@ $<
-	$(CPPDIR)/truthfunction.o : $(CPPDIR)/truthfunction.cpp ;
-		$(CXX) $(CXXFLAGS) -c -DPARANOMAD -I$(DIR_NOMAD) -o $@ $<
-#else
-#	$(CPPDIR)/NOMADFitterInterface.o :
-#	$(CPPDIR)/truthfunction.o :
-#endif
+#########
+# NOMAD #
+#########
 
-#ifdef DIR_EO
-#	ifdef DIR_NOMAD
-		$(CPPDIR)/EONOMADFitterInterface.o : $(CPPDIR)/EONOMADFitterInterface.cpp ;
-			$(CXX) $(CXXFLAGS) $(EOCXXFLAGS) -c -DPARANOMAD -I$(DIR_EO) -I$(DIR_NOMAD) -o $@ $<		
-#	else 
-#		$(CPPDIR)/EONOMADFitterInterface.o ;
-#	endif
-#else
-#	$(CPPDIR)/EONOMADFitterInterface.o ;
-#endif
+$(CPPDIR)/NOMADFitterInterface.o : $(CPPDIR)/NOMADFitterInterface.cpp ;
+	$(CXX) $(CXXFLAGS) $(NOMADCXXFLAGS) $(NOMADINCL) -c -o $@ $<
 
+$(CPPDIR)/truthfunction.o : $(CPPDIR)/truthfunction.cpp ;
+	$(CXX) $(CXXFLAGS) $(NOMADCXXFLAGS) $(NOMADINCL) -c -o $@ $<
 
+###########
+# EONOMAD #
+###########
+$(CPPDIR)/EONOMADFitterInterface.o : $(CPPDIR)/EONOMADFitterInterface.cpp ;
+		$(CXX) $(CXXFLAGS) $(EOCXXFLAGS) $(NOMADCXXFLAGS) $(EOINCL) $(NOMADINCL) -c -o $@ $<		
+
+#########
+# CLEAN #
+#########
 clean : 
 	$(RM) -f $(ALL) *.o implementation/*.o
 
+#######
+# DOC #
+#######
 doc : *.h implementation/*.cpp doxygen.config ; 
 	$(DOXYGEN) doxygen.config
 
+############
+# DOCCLEAN #
+############
 docclean :
 	$(RM) -rf doc
 
+#######
+# RUN #
+#######
 test :
 	@run
