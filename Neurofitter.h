@@ -33,15 +33,25 @@ using namespace std;
 #include "DirectVdVdtMatrix.h"
 #include "DistanceVdVdtMatrix.h"
 #include "MatrixFitnessCalculator.h"
-
-#include "EOFitnessCalculator.h"
-
-#include "EOFitterInterface.h"
-#include "NOMADFitterInterface.h"
-#include "EONOMADFitterInterface.h"
 #include "EasyFitterInterface.h"
 #include "MeshFitterInterface.h"
 #include "RandomFitterInterface.h"
 #include "SwarmFitterInterface.h"
+
+#ifdef WITH_EO
+	#include "EOFitnessCalculator.h"
+	#include "EOFitterInterface.h"
+#endif
+
+#ifdef WITH_NOMAD
+	#include "NOMADFitterInterface.h"
+#endif
+
+#ifdef WITH_EO
+	#ifdef WITH_NOMAD
+		#include "EONOMADFitterInterface.h"
+	#endif
+#endif
+
 
 #endif

@@ -22,19 +22,41 @@ double DirectVdVdtMatrix::compare(const VdVdtMatrix & o) const {
     if (other.getVLength() != vLength) crash("DirectVdVdtMatrix","V dimensions don't match");
     if (other.getdVdtLength() != dVdtLength) crash("DirectVdVdtMatrix","dVdt dimensions don't match");
 
-    ///////////////////////////////////////////////////////////
-    /// Calculate the square root of the sum of the squares ///
-    ///////////////////////////////////////////////////////////
 
-    for (int vIndex=0;vIndex<vLength;vIndex++) {
-        for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
-            diff=fabs(get(vIndex,dVdtIndex)-other.get(vIndex,dVdtIndex));
-            if (diff > precision) {
-                fitnessValue += pow(diff,0.5);
-            }
-        }
+	if (toInt(fixedParams["SumOfSquareRoots"]) == 1) {
+    	////////////////////////////////////////////////////////////
+    	/// Calculate the square of the sum of the squares roots ///
+    	////////////////////////////////////////////////////////////
+
+    	for (int vIndex=0;vIndex<vLength;vIndex++) {
+        	for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
+            	diff=fabs(get(vIndex,dVdtIndex)-other.get(vIndex,dVdtIndex));
+            	if (diff > precision) {
+                	fitnessValue += pow(diff,0.5);
+            	}
+        	}
+    	}
+
+		fitnessValue = pow(fitnessValue,2);
+	}
+	else {
+    	///////////////////////////////////////////////////////////
+    	/// Calculate the square root of the sum of the squares ///
+    	///////////////////////////////////////////////////////////
+
+    	for (int vIndex=0;vIndex<vLength;vIndex++) {
+        	for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
+            	diff=fabs(get(vIndex,dVdtIndex)-other.get(vIndex,dVdtIndex));
+            	if (diff > precision) {
+                	fitnessValue += pow(diff,2);
+            	}
+        	}
+    	}
+
+		fitnessValue = pow(fitnessValue,0.5);
     }
-                                                                                                        
-    return pow(fitnessValue,2);
+
+	                                                                                                    
+    return fitnessValue;
 
 }

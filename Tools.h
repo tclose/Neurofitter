@@ -58,7 +58,7 @@ inline void flushMessage() {
 
 /// Stop the program with an error message
 inline void crash(string object, string message) {
-	throw runtime_error("Error in "+object+": "+message);
+	//throw runtime_error("Error in "+object+": "+message);
 	cerr << "Error in " << object << ": " << message << endl;
 	cerr.flush();
 	exit(1);

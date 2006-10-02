@@ -97,10 +97,7 @@ int main (int argc, char* argv[]) {
 		/// Initialize Fitter ///
 		/////////////////////////
 		FixedParameters fitterFixedParams(fixedParams["FitterParameters"],fixedParams.getGlobals());
-		if (fixedParams["FitterType"] == "EONOMAD") {
-			fitter = new EONOMADFitterInterface(fitness,fitterFixedParams);
-		}
-		else if (fixedParams["FitterType"] == "Mesh") {
+		if (fixedParams["FitterType"] == "Mesh") {
 			fitter = new MeshFitterInterface(fitness,fitterFixedParams);
 		}
 		else if (fixedParams["FitterType"] == "Easy") {
@@ -112,12 +109,23 @@ int main (int argc, char* argv[]) {
 		else if (fixedParams["FitterType"] == "Swarm") {
 			fitter = new SwarmFitterInterface(fitness,fitterFixedParams);
 		}
+	#ifdef WITH_NOMAD
 		else if (fixedParams["FitterType"] == "NOMAD") {
 			fitter = new NOMADFitterInterface(fitness,fitterFixedParams);
 		}
+	#endif
+	#ifdef WITH_EO
 		else if (fixedParams["FitterType"] == "EO") {
 			fitter = new EOFitterInterface(fitness,fitterFixedParams);
 		}
+	#endif
+	#ifdef WITH_EO
+		#ifdef WITH_NOMAD
+		else if (fixedParams["FitterType"] == "EONOMAD") {
+			fitter = new EONOMADFitterInterface(fitness,fitterFixedParams);
+		}
+		#endif
+	#endif 
 		else crash("Main program", "No matching fitter type");
 
 		///////////
