@@ -11,7 +11,7 @@ SHELL = /bin/sh
 RM = /bin/rm
 
 #Directory that contains the EO source, if you don't want EO support don't define this variable
-#DIR_EO = "../EO/src"
+#DIR_EO = "../EO/srct"
 #Directory that contains the NOMAD source, if you don't want NOMAD support don't define this variable
 #DIR_NOMAD = "../NOMAD" 
 
@@ -157,7 +157,7 @@ $(CPPDIR)/EONOMADFitterInterface.o : $(CPPDIR)/EONOMADFitterInterface.cpp ;
 # CLEAN #
 #########
 clean : 
-	$(RM) -f $(ALL) *.o implementation/*.o
+	$(RM) -f $(BINDIR)/Neurofitter $(BINDIR)/MPINeurofitter *.o implementation/*.o
 
 #######
 # DOC #

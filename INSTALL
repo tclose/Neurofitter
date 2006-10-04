@@ -1,0 +1,102 @@
+This file contains contains information about the compilation and installation process
+of Neurofitter. If you want info about the "use" of Neurofitter, please look into the
+README file
+
+System Requirements
+===================
+
+UNIX / Linux / Mac OS X / Cygwin
+GCC compiler installed
+GNU Make installed
+Libxml installed
+
+
+Compilation
+===========
+
+Change directory to the directory where you installed Neurofitter/
+Before starting the compilation, first check the top of the Makefile and specify
+parameters that are maybe specific for your system. If you want to use the interface
+with EO or NOMAD, you should install these software packages (together with the
+patch provided on the website of Neurofitter) and specify their location on your
+system in the Neurofitter Makefile.
+The start the compilation just type "make". When your system's default Make system 
+is not GNU Make, you should use "gmake". (When GNU make is not installed, you should 
+probably install it).
+
+In the "bin" directory the executable file Neurofitter is created by the compiler
+
+
+MPI
+===
+
+When you want Neurofitter to be able to use the MPI interface, type "make mpi" instead
+of "make" during the compilation process. The executable in the "bin" directory will 
+then be called MPINeurofitter.
+
+
+Documentation
+=============
+
+To create source code documentation one needs Doxygen. Specify in the Makefile 
+where you installed Doxygen on your computer and then run "make doc". The 
+documentation can then be found in the "doc" directory.
+
+
+Troubleshooting
+===============
+
+******** Problem: 
+You get an error message "Makefile, line xx: Need an operator" while compiling
+
+Analysis: 
+This probably means you use a non-GNU make system, try to compile with "gmake"
+instead of "make" or otherwise install GNU make.
+
+
+******** Problem:
+You get an error message like "XMLString.h: libxml/parser.h: 
+No such file or directory"
+
+Analysis:
+You maybe don't have the Libxml library installed on your system. Try to install
+it, or check the Makefile to see if the location of Libxml is maybe different 
+from the one specified in the Makefile
+
+
+******** Problem:
+You get an error message like "EOFitterInterface.h: error: es/make_es.h: No 
+such file or directory".
+
+Analysis:
+It looks like EO cannot be found on your system. Is it installed ? Or have
+you specified the right location in the Makefile of Neurofitter ? If you
+don't want to use it, don't define DIR_EO in the Makefile
+
+
+******** Problem:
+You get an error message like "NOMADFitterInterface.h: error: nomad: No such 
+file or directory".
+
+Analysis:
+It looks like NOMAD cannot be found on your system. Is it installed ? Or have
+you specified the right location in the Makefile of Neurofitter ? If you
+don't want to use it, don't define DIR_NOMAD in the Makefile
+
+
+******** Problem
+You are compiling Neurofitter in Cygwin, and you get a huge amount of warning 
+message from the compiler (especially about C++ vectors)
+
+Analysis:
+This is not something to worry about, it seams this is an already known problem
+with Cygwin, and shouldn't affect Neurofitter.
+
+
+******** Problem
+You get an error message while compiling or running Neurofitter, and you don't 
+understand what's wrong
+
+Analysis:
+Sorry, it looks like you might have found a bug, please contact us at 
+www.tnb.ua.ac.be or neurofitter.sourceforge.net

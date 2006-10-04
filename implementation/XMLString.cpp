@@ -94,7 +94,7 @@ vector<string> XMLString::getSubNames() const{
 string XMLString::removeXMLComments(string input) {
 
 	string output = input;
-	unsigned int start, stop;
+	string::size_type start, stop;
 	
 	if ((start = output.find("<!--",0)) != string::npos) {
 		output = output.substr(0,start)+removeXMLComments(output.substr(start+4));
