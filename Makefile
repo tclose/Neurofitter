@@ -169,7 +169,7 @@ doc : *.h implementation/*.cpp doxygen.config ;
 # DOCCLEAN #
 ############
 docclean :
-	$(RM) -rf doc
+	$(RM) -rf doc/html doc/latex
 
 #######
 # RUN #

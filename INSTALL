@@ -6,10 +6,19 @@ System Requirements
 ===================
 
 UNIX / Linux / Mac OS X / Cygwin
-GCC compiler installed
+GCC compiler 3.3+ installed
 GNU Make installed
 Libxml installed
 
+Neurofitter has been succesfully compiled on:
+
+Macintosh PPC G4/G5 Mac OS X Tiger/Panther with XCode 2.1+
+Macintosh Intel Mac Os X Tiger with XCode 2.3
+Intel Pentium III Windows 2000 / Cygwin 1.5.21
+Intel Xeon 64-bit Linux Slackware
+AMD 64-bit and Intel x86 Linux Fedora Core release 3
+OpenPower SUSE Enterprise Linux 9
+Intel x86 Sun Solaris 9
 
 Compilation
 ===========
@@ -90,7 +99,9 @@ message from the compiler (especially about C++ vectors)
 
 Analysis:
 This is not something to worry about, it seams this is an already known problem
-with Cygwin, and shouldn't affect Neurofitter.
+with Cygwin, and shouldn't affect Neurofitter. If you really are getting annoyed
+by these message you could try to remove the -pedantic and -Wall flags from
+CXXFLAGS in the Neurofitter Makefile
 
 
 ******** Problem
