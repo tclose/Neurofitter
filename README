@@ -40,7 +40,7 @@ A: Maybe your problem will be solved after you read the Troubleshooting section
 
 Q: I have found an extremely good optimization algorithm, can it be used with 
 Neurofitter ?
-A: Great ! Neurofitter has been developed so that it can be extended as easy as 
+A: Great ! Neurofitter has been developed so that it can be extended as easily as 
 possible. The only thing you need to do is to create your own derived class of
 FitterInterface which implements the algorithm. For further information please
 contact us at neurofitter.sourceforge.net or www.tnb.ua.ac.be 
