@@ -14,4 +14,4 @@
 ///todo numberOfParameters in truthfunction of nomad part is not well coded (static)
 ///todo check the directory sign differences on unix/windows
 ///todo check 2>neuron.err on windows
-
+///todo rename the "parameters" xml file to "settings" file to prevent confusion with model parameters

@@ -11,6 +11,14 @@ Next run Neurofitter with the command "Neurofitter parameters.xml" in the
 directory containing the executable.
 
 
+References
+==========
+
+This work is based on the paper:
+
+Achard P, De Schutter E. (2006) Complex parameter landscape for a complex neuron model. PLoS Comput Biol 2:e94
+
+
 Simulator interface
 ===================
 

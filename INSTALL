@@ -47,9 +47,11 @@ then be called MPINeurofitter.
 Documentation
 =============
 
+Specific documentation file can be found in the "doc" directory
+
 To create source code documentation one needs Doxygen. Specify in the Makefile 
-where you installed Doxygen on your computer and then run "make doc". The 
-documentation can then be found in the "doc" directory.
+where you installed Doxygen on your computer and then run "make doc". This 
+documentation will be placed in the "doc/html" directory.
 
 
 Troubleshooting
