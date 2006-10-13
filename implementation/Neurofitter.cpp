@@ -161,7 +161,7 @@ int main (int argc, char* argv[]) {
 
 FixedParameters readParameters(int argc, char* argv[], int rank) {
 
-	showMessage("Arguments: {");
+	showMessage("Commandline arguments: {");
 	for (int i = 0; i < argc; i++) {
 		showMessage(string(argv[i]) + ",");
 	}

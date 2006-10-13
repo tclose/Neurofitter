@@ -75,10 +75,10 @@ inline string getDateAndTime() {
   	o << '[' ;
 
 
-	unsigned day = tt -> tm_mday ;
-  	o << day << '/' ;
   	unsigned month = 1+tt -> tm_mon ;
   	o << month << '/' ;
+	unsigned day = tt -> tm_mday ;
+  	o << day << '/' ;
   	unsigned year = 1900+tt -> tm_year ;
   	o << year << ' ' ;
 
