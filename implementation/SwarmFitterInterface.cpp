@@ -73,7 +73,7 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 		}
 		else {
 			showMessage("No better solution found in the last run: Randomizing swarm topology\n",3,fixedParams); 
-			randomizeWorst(swarm);
+			//randomizeWorst(swarm);
 			randomizeTopology(swarm, maxInformed, randGen);
 		}
 

@@ -176,6 +176,9 @@ FixedParameters readParameters(int argc, char* argv[], int rank) {
 	#endif
 
 	ifstream paramFile(fileLoc.c_str());
+	
+	if (!paramFile.good()) crash("Neurofitter","Unable to open parameter file: "+fileLoc);
+	
 	string fileContent = string(istreambuf_iterator<char>(paramFile),istreambuf_iterator<char>());
 	fileContent = XMLString::removeXMLComments(fileContent);
 	FixedParameters fixedParameters = FixedParameters(XMLString("<root>"+fileContent+"</root>").getSubString("TestProgram"));
