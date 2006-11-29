@@ -163,13 +163,13 @@ clean :
 # DOC #
 #######
 doc : *.h implementation/*.cpp doxygen.config ; 
-	$(DOXYGEN) doxygen.config
+	$(DOXYGEN) doc/doxygen.config
 
 ############
 # DOCCLEAN #
 ############
 docclean :
-	$(RM) -rf doc/html doc/latex
+	$(RM) -rf doc/html doc/latex doc/xml
 
 #######
 # RUN #
