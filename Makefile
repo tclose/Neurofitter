@@ -17,6 +17,7 @@ RM = /bin/rm
 
 
 DOXYGEN = /opt/local/bin/doxygen #Only necessary for make doc
+DOX = /usr/local/bin/dox #Only necessary for make dox
 #############################################################
 
 CXXFLAGS = -ansi -pedantic -O3 -Wall -g -I$(DIR_LIBXML2)
@@ -156,20 +157,30 @@ $(CPPDIR)/EONOMADFitterInterface.o : $(CPPDIR)/EONOMADFitterInterface.cpp ;
 #########
 # CLEAN #
 #########
-clean : 
+clean : docclean
 	$(RM) -f $(BINDIR)/Neurofitter $(BINDIR)/MPINeurofitter *.o implementation/*.o
+
+#######
+# DOX #
+#######
+dox : *.h implementation/*.cpp doc/DoxConfig.xml doc ; 
+	$(DOX) doc
+
 
 #######
 # DOC #
 #######
-doc : *.h implementation/*.cpp doxygen.config ; 
+doc : *.h implementation/*.cpp doc/doxygen.config doc/uptodate ; 
 	$(DOXYGEN) doc/doxygen.config
+	touch doc/uptodate
+
+doc/uptodate:
 
 ############
 # DOCCLEAN #
 ############
 docclean :
-	$(RM) -rf doc/html doc/latex doc/xml
+	$(RM) -rf doc/html doc/latex doc/xml doc/uptodate
 
 #######
 # RUN #
