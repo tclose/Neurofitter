@@ -1,7 +1,7 @@
 /*
-$Rev$:     Revision of last commit
-$Author$:  Author of last commit
-$Date$:    Date of last commit
+Revision of last commit: $Rev$     
+Author of last commit: $Author$  
+Date of last commit: $Date$    
 */
 
 #ifndef NEUROFITTER_H
