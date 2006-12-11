@@ -1,3 +1,9 @@
+/*
+Revision of last commit: $Rev$
+Author of last commit: $Author$
+Date of last commit: $Date$
+*/
+
 // MersenneTwister.h
 // Mersenne Twister random number generator -- a C++ class MTRand
 // Based on code by Makoto Matsumoto, Takuji Nishimura, and Shawn Cokus

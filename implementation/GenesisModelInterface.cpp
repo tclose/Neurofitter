@@ -1,3 +1,9 @@
+/*
+Revision of last commit: $Rev$
+Author of last commit: $Author$
+Date of last commit: $Date$
+*/
+
 #include "../GenesisModelInterface.h"
 
 GenesisModelInterface::GenesisModelInterface(TracesReader * t, FixedParameters params) : ModelInterface(t), FixedParamObject(params), execModel(t, params) {

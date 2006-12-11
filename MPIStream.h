@@ -1,3 +1,9 @@
+/*
+Revision of last commit: $Rev$
+Author of last commit: $Author$
+Date of last commit: $Date$
+*/
+
 //From : Simplifying Cluster (PVM and MPI) Application Programming Using Interface Classes: Part 2 
 
 #ifndef NEUROFITTER_MPISTREAM_H

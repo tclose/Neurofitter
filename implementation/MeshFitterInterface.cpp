@@ -1,3 +1,9 @@
+/*
+Revision of last commit: $Rev$
+Author of last commit: $Author$
+Date of last commit: $Date$
+*/
+
 #include "../MeshFitterInterface.h"
 
 FitterResults MeshFitterInterface::runFitter(ModelTuningParameters * unusedStartPoint) {

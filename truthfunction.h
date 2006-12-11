@@ -1,3 +1,9 @@
+/*
+Revision of last commit: $Rev$
+Author of last commit: $Author$
+Date of last commit: $Date$
+*/
+
 /******************************************************************************
 * NOMAD -  Nonlinear Optimization for Mixed vAriables and Derivatives.        *
 * Copyright (C) 2001-2004  Gilles Couture - Ecole Polytechnique,              *

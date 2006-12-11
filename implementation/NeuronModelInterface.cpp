@@ -1,3 +1,9 @@
+/*
+Revision of last commit: $Rev$
+Author of last commit: $Author$
+Date of last commit: $Date$
+*/
+
 #include "../NeuronModelInterface.h"
 
 /// Thx to Michiel Berends for his assistance while developing this class 

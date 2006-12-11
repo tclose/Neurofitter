@@ -1,3 +1,9 @@
+/*
+Revision of last commit: $Rev$
+Author of last commit: $Author$
+Date of last commit: $Date$
+*/
+
 #include "../SwarmFitterInterface.h"
 
 // Standard PSO version 2006, for algorithm see end of file

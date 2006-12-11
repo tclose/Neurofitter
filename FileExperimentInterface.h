@@ -1,3 +1,9 @@
+/*
+Revision of last commit: $Rev$
+Author of last commit: $Author$
+Date of last commit: $Date$
+*/
+
 #ifndef NEUROFITTER_FILEEXPERIMENTINTERFACE_H
 #define NEUROFITTER_FILEEXPERIMENTINTERFACE_H
 
