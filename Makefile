@@ -2,6 +2,12 @@
 # Neurofitter Makefile #
 ########################
 
+#################################
+# Revision of last commit: $Rev$ 
+# Author of last commit: $Author$
+# Date of last commit: $Date$
+#################################
+
 #############################################################
 # Changed these values if they are different on your system #
 #############################################################
