@@ -29,6 +29,7 @@ ModelResults NormalTracesReader::readTraces(string dirName) {
         for (int j = 0; j < getNumberOfRunParameters(); j++) {
             runStream >> dummy;
         }
+		if (!runStream.good()) crash("NormalTracesReader","Error while reading " + str(numberOfRuns) + " run weights  from parameter file");
         runStream >> runWeights[i];
     }
 
