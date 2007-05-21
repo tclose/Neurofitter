@@ -17,7 +17,7 @@ SHELL = /bin/sh
 RM = /bin/rm
 
 #Directory that contains the EO source, if you don't want EO support don't define this variable
-#DIR_EO = "../EO/srct"
+#DIR_EO = "../EO/src"
 #Directory that contains the NOMAD source, if you don't want NOMAD support don't define this variable
 #DIR_NOMAD = "../NOMAD" 
 

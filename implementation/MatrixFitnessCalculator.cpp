@@ -87,7 +87,7 @@ void MatrixFitnessCalculator::calculateParallelFitness(vector< ModelTuningParame
 
     	fitnessHistory.push_back(pair< ModelTuningParameters, double >(paramList[i],fitnessValues[i]));
 
-		showMessage("Calculated fitness of: " + paramList[i].toString() + ": " + str(fitnessValues[i]) + "\n",3,fixedParams);        	
+		showMessage("Eval: " + str(numberOfEvaluations) + " Generation: " + str(numberOfGenerations) + " Calculated fitness of: " + paramList[i].toString() + ": " + str(fitnessValues[i]) + "\n",3,fixedParams);
 
     	if (exportFileStream.is_open()) {
         	exportFileStream << numberOfGenerations << " "<< numberOfEvaluations << " " << fitnessValues[i] << " ";
