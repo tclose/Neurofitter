@@ -147,6 +147,7 @@ void EOFitterInterface::writeEOParamsFile(string fileName, ModelTuningParameters
 	EOParam << endl << "	--crossObj=" << fixedParams["crossObj"] << endl;
 	EOParam << endl << "	--TauLoc=" << fixedParams["TauLoc"] << endl;
 	EOParam << endl << "	--TauGlob=" << fixedParams["TauGlob"] << endl;
+	EOParam << endl << "	--Beta=" << fixedParams["Beta"] << endl;
 
 	if (toInt(fixedParams["VerboseLevel"]) > 2) {
 		EOParam << endl << "	--printBestStat=1" << endl;

@@ -17,9 +17,9 @@ SHELL = /bin/sh
 RM = /bin/rm
 
 #Directory that contains the EO source, if you don't want EO support don't define this variable
-#DIR_EO = "../EO/src"
+DIR_EO = "../EO/src"
 #Directory that contains the NOMAD source, if you don't want NOMAD support don't define this variable
-#DIR_NOMAD = "../NOMAD" 
+DIR_NOMAD = "../NOMAD" 
 
 
 DOXYGEN = /opt/local/bin/doxygen #Only necessary for make doc

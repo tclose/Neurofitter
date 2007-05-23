@@ -40,7 +40,7 @@ FitterResults NOMADFitterInterface::runFitter(ModelTuningParameters * startPoint
     Preferences preferences(preferencesFile.c_str());
     Solver solver;
 
-    if (!description.readyToSolve()) {cerr << endl << "Error while processing NOMAD description file" << endl;exit(1);}
+	if (!description.readyToSolve()) crash("NOMADFitterInterface","Error while processing NOMAD description file");
 	description.capture(solver);
 
 
