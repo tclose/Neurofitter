@@ -7,10 +7,11 @@ Date of last commit: $Date$
 #ifndef NEUROFITTER_MPIFITNESSCALCULATOR_H
 #define NEUROFITTER_MPIFITNESSCALCULATOR_H
 
+#include <mpi.h>
+
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <mpi.h>
 
 using namespace std;
 

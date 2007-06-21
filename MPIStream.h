@@ -9,10 +9,11 @@ Date of last commit: $Date$
 #ifndef NEUROFITTER_MPISTREAM_H
 #define NEUROFITTER_MPISTREAM_H
 
+#include <mpi.h>
+
 #include <string>
 #include <vector>
 #include <iostream>
-#include <mpi.h>
 
 #include "InputChannel.h"
 #include "OutputChannel.h"

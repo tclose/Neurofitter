@@ -7,6 +7,12 @@ Date of last commit: $Date$
 #ifndef NEUROFITTER_H
 #define NEUROFITTER_H
 
+#ifdef WITH_MPI
+	#include <mpi.h>
+	#include "MPIModelInterface.h"
+	#include "MPIFitnessCalculator.h"
+#endif
+
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -59,10 +65,6 @@ using namespace std;
 	#endif
 #endif
 
-#ifdef WITH_MPI
-	#include <mpi.h>
-	#include "MPIModelInterface.h"
-	#include "MPIFitnessCalculator.h"
-#endif
+
 
 #endif

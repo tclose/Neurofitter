@@ -7,10 +7,11 @@ Date of last commit: $Date$
 #ifndef NEUROFITTER_MPIMODELINTERFACE_H
 #define NEUROFITTER_MPIMODELINTERFACE_H
 
+#include <mpi.h> 
+
 #include <vector> 
 #include <sstream> 
 #include <fstream> 
-#include <mpi.h> 
 
 using namespace std;
 
