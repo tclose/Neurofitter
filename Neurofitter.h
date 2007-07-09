@@ -48,6 +48,7 @@ using namespace std;
 #include "EasyFitterInterface.h"
 #include "MeshFitterInterface.h"
 #include "RandomFitterInterface.h"
+#include "FileFitterInterface.h"
 #include "SwarmFitterInterface.h"
 
 #ifdef WITH_EO
