@@ -1,0 +1,47 @@
+The TracesReader is the object that reads the output files of the model and the experimental data. 
+At the moment there only exists a "Normal" type:
+
+<TracesReaderType>Normal</TracesReaderType>
+<TracesReaderParameters>
+...
+<TracesReaderParameters>
+
+Settings:
+		The number of times the model has to be run for every fitness evaluation. E.g. for different injection
+		strengths you want to run the model a multiple of times.
+        	<NumberOfRuns>...</NumberOfRuns>
+		
+		The number of parameters for every run, e.g. if you inject at two location in a cell, you would want to put
+		"2" here
+        	<NumberOfRunParameters>...</NumberOfRunParameters>
+        
+		The actual run parameters, so e.g. the different injection strength, 1 line per run, the last value of every line
+		should be the weight you want to give to that run, compared to the others:
+			<RunParameters>
+            	0.0 0.1 0.33 <!-- Inject strength site 1 = 0.0 nA, Inject strength site 2 = 0.1 nA, weight = 0.33-->
+            	0.2 0.3 0.33
+            	0.6 0.5 0.33
+        	</RunParameters>
+
+		The number of time periods you want to use in your traces
+        	<NumberOfPeriods>...</NumberOfPeriods>
+
+		The start and stop times of the periods, 1 line for every period, the third number is the weight
+        	<Periods>
+            	2.0 3.9 0.33 <!-- PeriodStart PeriodStop Weight -->
+            	1.0 1.5 0.33 <!-- From 1.0 seconds to 1.5 seconds, weight = 0.33 -->
+            	0.5 0.75 0.33
+        	</Periods>
+
+		Number of recording sites in the cell, every recording site should be 1 column in the model output files and experimental files
+        	<NumberOfRecordSites>...</NumberOfRecordSites>
+		
+		The weight of every recording site
+        	<RecordSites>
+            	1 <!-- Weights -->
+        	</RecordSites>
+
+		The prefix that will be used by Neurofitter to read the experimental and model output data.
+		E.g. the file for run 2 would be "output_Run2.dat"
+        	<OutputFilePrefix>output</OutputFilePrefix>
+

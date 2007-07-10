@@ -1,0 +1,111 @@
+This file describes how to create a settings.xml file for the Neurofitter software.
+
+The file should have the following format (... should be filled in):
+
+<TestProgram>
+	<Dimensions>...</Dimensions>
+    <VerboseLevel>...</VerboseLevel>
+    <Seed>...</Seed>
+
+    <SamplingFrequency>...</SamplingFrequency>
+    <StartingPoints>
+        ...
+    </StartingPoints>
+    <Bounds>
+		...
+    </Bounds>
+    <WorkingDirectory>...</WorkingDirectory>
+
+    <PrintParameterFile>...</PrintParameterFile>
+
+	<FitterType>...</FitterType>
+    <FitterParameters>
+		...
+    </FitterParameters>
+
+    <TracesReaderType>...</TracesReaderType>
+    <TracesReaderParameters>
+		...
+    </TracesReaderParameters>
+
+	<ModelType>...</ModelType>
+    <ModelParameters>
+		...
+    </ModelParameters>
+
+	<ExperimentType>...</ExperimentType>
+    <ExperimentParameters>
+		...
+    </ExperimentParameters>
+
+	<FitnessCalculatorType>...</FitnessCalculatorType>
+    <FitnessCalculatorParameters>
+		...
+    </FitnessCalculatorParameters>
+</TestProgram>
+
+
+Dimensions
+==========
+This is an integer describing the number of model parameters you want to fit, so it is the number of dimensions 
+of the hyperspace the optimization algorithm will search in.
+
+VerboseLevel
+============
+This integer tells how much output Neurofitter will write to stdout while it is running. The higher the integer,
+the more output. At verboselevel 0 Neurofitter will show no output.
+
+Seed
+====
+The random seed used in the stochastic optimization algorithms.
+
+SamplingFrequency
+=================
+The sampling frequency of your experimental data and the model output. The units of this value should match these
+of the timestamps used in your data files.
+
+StartingPoints
+==============
+The parameter sets that should be used initialize the optimization algorithm, this will not work for every optimization
+algorithm
+
+Bounds
+======
+The bounds of your model parameters. One line per parameter. 
+E.g.
+	<Bounds>
+        1.0 10000.0 <!-- LowerBound UpperBound -->
+        1.0 50000.0
+    </Bounds>
+Put's the bounds of parameter 1 at [1.0 10000.0] and parameter 2 at [1.0 50000.0].
+
+WorkingDirectory
+================
+Location where you want to let Neurofitter write it's output
+
+PrintParameterFile
+==================
+If this is set to 1 it means Neurofitter will write the settings file to stdout before starting. This is handy if you will save
+the Neurofitter stdout output for later, and you still want to know the settings file you used.
+If set to 0, Neurofitter won't print the settings.xml file
+
+FitterType
+==========
+Determines the optimization algorithm used, please refer to the FitterType.doc documentation file
+
+TracesReaderType
+================
+Determines the output data reader used, please refer to the TracesReaderType.doc documentation file
+
+ModelType
+=========
+Determines the model type (software) used, please refer to the ModelType.doc documentation file
+
+ExperimentType
+==============
+Determines the way experimental data is read by Neurofitter, please refer to the ExperimentType.doc documentation file
+
+FitnessCalculatorType
+=====================
+Determines the algorithm by Neurofitter to convert output data into a fitness value, please refer to the FitnessCalculatorType.doc documentation file
+

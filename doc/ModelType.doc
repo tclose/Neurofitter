@@ -1,0 +1,36 @@
+ModelType determines which simulator is being used to simulate the model
+
+	<ModelType>...</ModelType>
+    <ModelParameters>
+		...
+	</ModelParameters>
+
+Possible types are:
+
+- Neuron
+	
+
+- Genesis
+	Interface to the Genesis neuron simulator.
+	Settings:
+		The location of the genesis binary
+			<GenesisLocation>...</GenesisLocation>
+
+		The directory that contains the genesis model files
+        	<ModelDirectory>...</ModelDirectory>
+
+		The directory that will contain the output files of the model
+        	<OutputDirectory>...</OutputDirectory>
+
+		The root source file (.g) of the model
+        	<ModelSource>...</ModelSource>
+
+		The filename that Neurofitter has to use to write the file that contains the information for genesis
+        	<ParameterFile>...</ParameterFile>
+
+		Set to 1 if you want to see genesis stdout output (handy for debugging), 0 if not. 
+        	<ShowExecuteOutput>0</ShowExecuteOutput>
+
+
+- Executable
+

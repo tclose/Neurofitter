@@ -1,0 +1,33 @@
+The FitnessCalculator convert the output traces of the model and the experimental data into a fitness value
+for the parameter sets. The only type used at the moment is "Matrix"
+
+	<FitnessCalculatorType>Matrix</FitnessCalculatorType>
+    <FitnessCalculatorParameters>
+		...
+    </FitnessCalculatorParameters>
+    
+Settings:    
+	The type of the matrix is set by
+
+		<VdVdtMatrixType>Direct</VdVdtMatrixType>
+    <VdVdtMatrixParameters>
+			...
+    </VdVdtMatrixParameters>
+
+		T
+
+
+        <enableFileExport>1</enableFileExport>
+        <exportFile>parallelFitness.dat</exportFile>
+
+
+
+            <vLength>100</vLength>
+            <dVdtLength>100</dVdtLength>
+            <minimalV>-0.1</minimalV>
+            <maximalV>0.05</maximalV>
+            <comparePrecision>1e-15</comparePrecision>
+            <numericOutputFormat>0</numericOutputFormat>
+            <SumOfSquareRoots>0</SumOfSquareRoots>
+
+
