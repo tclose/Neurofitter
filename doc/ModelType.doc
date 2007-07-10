@@ -8,6 +8,25 @@ ModelType determines which simulator is being used to simulate the model
 Possible types are:
 
 - Neuron
+	Interface to the Neuron neuron simulator.
+	Settings:
+		The location of the Neuron special file 
+        	<SpecialLocation>...</SpecialLocation>
+		
+		The directory that contains the Neuron model files
+        	<ModelDirectory>...</ModelDirectory>
+
+		The directory that will contain the output files of the model
+        	<OutputDirectory>...</OutputDirectory>
+
+		The root source file (.hoc) of the model
+        	<ModelSource>...</ModelSource>
+
+		The filename that Neurofitter has to use to write the file that contains the information for Neuron
+        	<ParameterFile>...</ParameterFile>
+
+		Set to 1 if you want to see Neuron stdout output (handy for debugging), 0 if not. 
+        	<ShowExecuteOutput>0</ShowExecuteOutput>
 	
 
 - Genesis
@@ -33,4 +52,17 @@ Possible types are:
 
 
 - Executable
+	Interface to a generic neuron simulator.
+	Settings:
+		The location of the genesis binary
+			<ExecuteCommand>...</ExecuteCommand>
+
+		The directory that will contain the output files of the model
+        	<OutputDirectory>...</OutputDirectory>
+
+		The filename that Neurofitter has to use to write the file that contains the information for the executable
+        	<ParameterFile>...</ParameterFile>
+
+		Set to 1 if you want to see genesis stdout output (handy for debugging), 0 if not. 
+        	<ShowExecuteOutput>0</ShowExecuteOutput>
 

@@ -1,1 +1,24 @@
 ExperimentType contains the settings for the object that reads the experimental data
+
+	<ExperimentType>...</ExperimentType>
+	<ExperimentParameters>
+		...
+	</ExperimentParameters>
+
+There are two types:
+
+- File
+	This reads the experimental traces from files. The filename should be of the form
+	output_Run0.dat, output_Run1.dat, output_Run2.dat, ...  where "output" is the prefix 
+	as specified in the NormalTracesReader. There should be 1 file for every run (1 run is
+	e.g. 1 current injection strength).
+	Settings: 
+	 	<FilesDirectory>...<FilesDirectory>
+		Specifies where the directory with the experimental data is
+
+- Fake
+	This type will not read the experimental data from files but will generate "fake" experimental 
+	data based on running the model with a set of parameters you provide
+	Settings:
+		<Parameters>...</Parameters>
+			1 list containing the parameter set you want to generate the data with

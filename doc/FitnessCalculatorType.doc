@@ -7,27 +7,32 @@ for the parameter sets. The only type used at the moment is "Matrix"
     </FitnessCalculatorParameters>
     
 Settings:    
-	The type of the matrix is set by
+	To enable export of all the evaluated parameter sets, set to 0 if you don't want output to a file 
+		<enableFileExport>1</enableFileExport>
+        
+	The name of the export file you can set by:
+		<exportFile>parallelFitness.dat</exportFile>
 
+	The type of the matrix (only 1 type = direct) is set by
 		<VdVdtMatrixType>Direct</VdVdtMatrixType>
-    <VdVdtMatrixParameters>
+    	<VdVdtMatrixParameters>
 			...
-    </VdVdtMatrixParameters>
+    	</VdVdtMatrixParameters>
 
-		T
-
-
-        <enableFileExport>1</enableFileExport>
-        <exportFile>parallelFitness.dat</exportFile>
-
-
-
-            <vLength>100</vLength>
-            <dVdtLength>100</dVdtLength>
-            <minimalV>-0.1</minimalV>
-            <maximalV>0.05</maximalV>
-            <comparePrecision>1e-15</comparePrecision>
-            <numericOutputFormat>0</numericOutputFormat>
-            <SumOfSquareRoots>0</SumOfSquareRoots>
-
+	The VdVdtMatrixParameters are:
+			The number of bins in the V direction of the VdVdtMatrix
+		    	<vLength>...</vLength>
+			The number of bins in the dVdt direction of the VdVdtMatrix
+            	<dVdtLength>...</dVdtLength>
+			The minimal V in the VdVdtMatrix (units should be same as output data traces)
+            	<minimalV>...</minimalV>
+			The maximal V in the VdVdtMatrix (units should be same as output data traces)
+            	<maximalV>...</maximalV>
+			Value used to compare if two values are identical (should be set very low)
+            	<comparePrecision>1e-15</comparePrecision>
+			You can let Neurofitter show numerical output of the matrices if the verboselevel is very high
+            	<numericOutputFormat>0</numericOutputFormat>
+			Let Neurofitter calculate the sum of the square roots instead of sum squares when calculating 
+			the fitness value. Setting this value to 1 is supposed to be better.
+            	<SumOfSquareRoots>1</SumOfSquareRoots>
 
