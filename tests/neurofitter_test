@@ -1,0 +1,8 @@
+#!/bin/bash
+
+rm -rf outputs
+mkdir outputs
+
+../neurofitter parameters.xml
+
+
