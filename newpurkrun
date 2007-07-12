@@ -1,3 +1,0 @@
-make -j2
-cd bin
-Neurofitter newpurkparameters.xml
