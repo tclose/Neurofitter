@@ -23,7 +23,7 @@ public:
 	MapVdVdtMatrix(const FixedParameters);
 	MapVdVdtMatrix(const DataTrace&, const FixedParameters);
 
-	const double get(const int v, const int dVdt) const;	
+	double get(const int v, const int dVdt) const;	
 	void set(const int v, const int dVdt, double value);	
 
 	void makeEmpty();

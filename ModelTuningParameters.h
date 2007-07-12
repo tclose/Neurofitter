@@ -41,10 +41,10 @@ class ModelTuningParameters {
 
 		int getLength() const;	///< Get the number of parameters
 	
-		void setTuningParameters(const vector< double >, const int); ///< Change the parameters in the object
+		void setTuningParameters(const vector< double >); ///< Change the parameters in the object
 		void setTuningParameters(const string, const int); ///< Change the parameters in the object (read from a string)
 
-		void setBounds(const vector< double >, const int boundsLength);	///< Change the bounds in the object	
+		void setBounds(const vector< double >);	///< Change the bounds in the object	
 		void setBounds(const string, const int boundsLength); ///< Change the bounds in the object (read from a string)
 
 		double getLowerBound(const int) const; ///< Get the lower bound of the parameters at index

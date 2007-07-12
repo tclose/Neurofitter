@@ -27,7 +27,7 @@ public:
 	int getVLength() const { return vLength; };
 	int getdVdtLength() const { return dVdtLength; };
 
-	virtual const double get(const int v, const int dVdt) const = 0;
+	virtual double get(const int v, const int dVdt) const = 0;
 	virtual void set(const int v, const int dVdt, double value) = 0;
 
 	virtual double compare(const VdVdtMatrix&) const = 0;
@@ -94,7 +94,7 @@ public:
                 	 result << " " << value;
             	}
             	else {
-                	if (value == 0) result << " .";
+                	if (value < toDouble(fixedParams["comparePrecision"])) result << " .";
                 	else result << " #";
             	}
         }

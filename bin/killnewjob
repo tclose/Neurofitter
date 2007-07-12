@@ -1,2 +1,0 @@
-#qdel $1
-cat ~/joboutputs/mpinewscript.po$1 | grep -v catch_rsh | xargs -tn 1 -J % rsh % killall MPINeurofitter 

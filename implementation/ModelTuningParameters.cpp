@@ -16,8 +16,8 @@ ModelTuningParameters::ModelTuningParameters(const int newTParamsLength)
 ModelTuningParameters::ModelTuningParameters(const vector< double > newTParams, const int newTParamsLength, const vector < double > newBounds) : 
 	tuningParameters(newTParamsLength), bounds(), fitnessIsValid(false) {
 
-	ModelTuningParameters::setTuningParameters(newTParams, newTParamsLength);
-	ModelTuningParameters::setBounds(newBounds, 2*newTParamsLength);
+	ModelTuningParameters::setTuningParameters(newTParams);
+	ModelTuningParameters::setBounds(newBounds);
 }
 
 ModelTuningParameters::ModelTuningParameters(const string paramString, const int newTParamsLength, const string newBounds) : 
@@ -66,7 +66,7 @@ int ModelTuningParameters::getLength() const {
 }
 
 
-void ModelTuningParameters::setTuningParameters(const vector< double > newTParams, const int newTParamsLength) {
+void ModelTuningParameters::setTuningParameters(const vector< double > newTParams) {
 
 	tuningParameters = newTParams;	
 
@@ -84,11 +84,11 @@ void ModelTuningParameters::setTuningParameters(const string paramString, const 
 		}
 	}
 
-	ModelTuningParameters::setTuningParameters(newTParams, newTParamsLength);
+	ModelTuningParameters::setTuningParameters(newTParams);
 
 }
 
-void ModelTuningParameters::setBounds(const vector< double > newBounds, const int newBoundsLength) {
+void ModelTuningParameters::setBounds(const vector< double > newBounds) {
 
 	bounds = newBounds;
 
@@ -105,10 +105,10 @@ void ModelTuningParameters::setBounds(const string boundString, const int newBou
         	stream >> newBounds[i];
     	}   
     
-    	ModelTuningParameters::setBounds(newBounds, newBoundsLength);
+    	ModelTuningParameters::setBounds(newBounds);
 	}
 	else {
-		ModelTuningParameters::setBounds(vector< double >(0), 0);	
+		ModelTuningParameters::setBounds(vector< double >(0));	
 	}
 }
 

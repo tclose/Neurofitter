@@ -18,6 +18,7 @@ class FixedParamObject {
 		FixedParamObject() : fixedParams() {};
 		FixedParamObject(FixedParameters params) : fixedParams(params) {};
 		FixedParameters fixedParams;
+		virtual ~FixedParamObject() {};
 };
 
 #endif
