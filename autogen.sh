@@ -6,7 +6,7 @@
 # are not installed.
 
 aclocal -I m4
-libtoolize -f -c || glibtoolize -f -c 
+glibtoolize -f -c  ||  libtoolize -f -c 
 autoheader 
 autoconf 
 automake  -a -c
