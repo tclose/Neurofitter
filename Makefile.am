@@ -26,10 +26,10 @@ AM_LDFLAGS  =
 AM_CFLAGS   = -ansi -pedantic 
 
 if NEUROFITTER_DEBUG
-  AM_CXXFLAGS += -W -g
+  AM_CXXFLAGS += -Wall -g -O3
   AM_CPPFLAGS += -DDEBUG
 else
-  AM_CXXFLAGS += -O2
+  AM_CXXFLAGS += -O3
 endif
 
 SRCDIR=$(top_srcdir)/implementation
