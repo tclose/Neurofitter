@@ -21,9 +21,9 @@ LIBS = -rdynamic
 ACLOCAL_AMFLAGS ?= -I $(top_srcdir)/m4
 
 AM_CPPFLAGS = 
-AM_CXXFLAGS = 
+AM_CXXFLAGS = -ansi -pedantic 
 AM_LDFLAGS  = 
-AM_CFLAGS   =
+AM_CFLAGS   = -ansi -pedantic 
 
 if NEUROFITTER_DEBUG
   AM_CXXFLAGS += -W -g
@@ -161,6 +161,6 @@ ACLOCAL_DIST = m4/ac_caolan_search_package.m4 \
 	       m4/ax_prog_doxygen.m4 \
                m4/libxml2.m4
 
-SCRIPTS_DIST = m plotfit purkrun newpurkrun qs qsnew 
+SCRIPTS_DIST =  
 
 EXTRA_DIST  = autogen.sh TODO $(ACLOCAL_DIST) $(SCRIPTS_DIST)
