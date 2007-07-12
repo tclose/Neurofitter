@@ -187,7 +187,7 @@ AM_CONDITIONAL(NEUROFITTER_DEBUG, test x$debug = xtrue)
 
 
 dnl Create makefiles and other configuration files
-AC_CONFIG_FILES([Makefile tests/Makefile])
+AC_CONFIG_FILES([Makefile bin/Makefile tests/Makefile])
 
 dnl Generate `config.status' and launch it
 AC_OUTPUT
