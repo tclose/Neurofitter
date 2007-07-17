@@ -1,3 +1,4 @@
+MAINTAINERCLEANFILES = Makefile.in
 
 SRCDIR=$(top_srcdir)/implementation
 INCLUDEDIR=$(top_srcdir)

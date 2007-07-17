@@ -1,3 +1,5 @@
+MAINTAINERCLEANFILES = Makefile.in
+
 ## Process this file with automake to produce Makefile.in
 
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/include 

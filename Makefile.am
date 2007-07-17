@@ -12,7 +12,7 @@ if BUILD_NOMAD_SRC
    NOMAD_DIR = NOMAD
 endif
 SUBDIRS = $(EO_DIR) $(NOMAD_DIR) bin tests
-DIST_SUBDIRS = tests
+DIST_SUBDIRS = tests bin
 
 
 INCLUDES = -I$(top_srcdir) 
