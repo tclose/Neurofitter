@@ -222,6 +222,15 @@ and Neurofitter gives this kind of error, please contact us, maybe we can come u
 solution to more efficiently save data in memory.
 
 ******** Problem:
+While running Neurofitter using MPI you get an error like:
+p4_error: semget failed for setnum: 0
+
+Analysis:
+The maximum number of allowed semaphores on the master node has been created. If this is caused by
+you can solve this by running "cleanipcs", a script which should have been provided together with
+MPICH
+
+******** Problem:
 Help ! I get an error message and I don't understand what it means :-(
 
 Analysis:
