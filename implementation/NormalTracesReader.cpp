@@ -109,12 +109,13 @@ ModelResults NormalTracesReader::readTraces(string dirName) {
         	/////////////////////
         	/// Read the data ///
         	/////////////////////
-        	int i = 0;
+			int i = 0;
         	while (time <= periodStops[nPeriod] && !inputFile.eof()) {
             	if (!inputFile.good()) crash("NormalTracesReader","Error while reading from file "+inputFileName+ " at time "+str(time));
             	for (int nRecording = 0; nRecording < numberOfRecordSites; nRecording++) {
-                	inputFile >> results[periodIndex+nRecording][i++];
+                	inputFile >> results[periodIndex+nRecording][i];
             	}
+				i = i + 1;
             	inputFile >> time;
         	}
 
