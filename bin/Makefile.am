@@ -69,8 +69,8 @@ mpineurofitter_SOURCES = $(neurofitter_SOURCES) \
 
 ## Compile flags for the mpineurofitter program
 mpineurofitter_LDFLAGS=$(neurofitter_LDFLAGS) $(MPILIBS)
-mpineurofitter_CFLAGS=$(neurofitter_CFLAGS)
-mpineurofitter_CXXFLAGS=$(neurofitter_CXXFLAGS)
+mpineurofitter_CFLAGS=$(neurofitter_CFLAGS)  -DWITH_MPI
+mpineurofitter_CXXFLAGS=$(neurofitter_CXXFLAGS)  -DWITH_MPI
 
 ## Include files that are going to be a part of the distribution.  The
 ## `pkginclude_' prefix means that these files will be installed in

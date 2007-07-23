@@ -124,6 +124,7 @@ AC_ARG_ENABLE([mpi],
              fi])
 AM_CONDITIONAL(USE_MPI, test "$neurofitter_use_mpi" = "yes")
 
+
 dnl Check for programs
 AC_PROG_INSTALL
 AM_PROG_LIBTOOL
