@@ -1,5 +1,10 @@
 dnl Process this file with autoconf to produce a configure script.
 
+dnl TODO:
+dnl - enable debug mode by default
+dnl - figure out how to use EO and NOMAD in-place (i.e. without having to install them) 
+dnl
+
 dnl AC_INIT (package, version, [bug-report-email], [tarname])
 AC_INIT([neurofitter],[0.9.3])
 
@@ -212,15 +217,18 @@ AC_CHECK_FUNCS(sysconf gettimeofday select)
 
 dnl debug flag 
 AC_ARG_ENABLE(debug,
-  [  --enable-debug          turn on debugging],
+  [  --enable-debug          turn on debugging (on by default)],
   [case "${enableval}" in
     "" | y | ye | yes) debug=true; 
 		       CFLAGS=$(echo $CFLAGS -g | sed -e 's/-O\|-O2\|-O3//g') ; 
 		       CXXFLAGS=$(echo $CXXFLAGS -g | sed -e 's/-O\|-O2\|-O3//g') ;;
-    n | no) debug=false ;;
+    n | no) debug=false ;
+            CFLAGS=$(echo $CFLAGS | sed -e 's/-g//g') ; 
+            CXXFLAGS=$(echo $CXXFLAGS | sed -e 's/-g//g') ;;
+
     *) AC_MSG_ERROR(bad value ${enableval} for --enable-debug) ;;
   esac],
-  [debug=false])
+  [debug=true])
 AM_CONDITIONAL(NEUROFITTER_DEBUG, test x$debug = xtrue)
 
 
