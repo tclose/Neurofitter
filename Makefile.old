@@ -104,15 +104,15 @@ CXXLIBS = $(LIBS)
 # All object files except NORMALOBJS and MPIOBJS
 OBJS = $(MODOBJS) $(FITOBJS) $(EXPOBJS) $(FITTEROBJS) $(NEUROFITTEROBJS) 
 
-all : $(BINDIR)/Neurofitter
+all : $(BINDIR)/neurofitter
 
-mpi : $(BINDIR)/MPINeurofitter
+mpi : $(BINDIR)/mpineurofitter
 
 ########
 # Main #
 ########
 
-$(BINDIR)/Neurofitter : $(OBJS) $(NORMALOBJS) ; 
+$(BINDIR)/neurofitter : $(OBJS) $(NORMALOBJS) ; 
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(NORMALOBJS) $(CXXLIBS)
 
 $(CPPDIR)/Neurofitter.o : $(CPPDIR)/Neurofitter.cpp ;
@@ -122,7 +122,7 @@ $(CPPDIR)/Neurofitter.o : $(CPPDIR)/Neurofitter.cpp ;
 #######
 # MPI #
 #######
-$(BINDIR)/MPINeurofitter : $(OBJS) $(MPIOBJS) ; 
+$(BINDIR)/mpineurofitter : $(OBJS) $(MPIOBJS) ; 
 	$(MPICXX) $(CXXFLAGS) $(MPICXXFLAGS) -o $@ $(OBJS) $(MPIOBJS) $(CXXLIBS)
 
 $(CPPDIR)/MPINeurofitter.o : $(CPPDIR)/Neurofitter.cpp ;
@@ -165,7 +165,7 @@ $(CPPDIR)/EONOMADFitterInterface.o : $(CPPDIR)/EONOMADFitterInterface.cpp ;
 # CLEAN #
 #########
 clean : docclean
-	$(RM) -f $(BINDIR)/Neurofitter $(BINDIR)/MPINeurofitter *.o implementation/*.o
+	$(RM) -f $(BINDIR)/neurofitter $(BINDIR)/mpineurofitter *.o implementation/*.o
 
 #######
 # DOX #
