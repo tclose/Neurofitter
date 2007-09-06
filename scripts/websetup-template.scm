@@ -24,7 +24,7 @@
 		     ((s . _)  (if (eq? s k) (cdr elm)  (loop (cdr lst))))
 		     (else  (loop (cdr lst))))))))))
 
-(define (make-webvar def . rest)
+(define (make-formvar def . rest)
  (let-optionals rest ((parent #f))
    (let ((name  (if parent (string-concatenate (list (symbol->string parent) "_" (symbol->string (car def)))) 
 		    (car def)))
@@ -36,7 +36,7 @@
 	    (let ((elems  (filter (lambda (x) (not (eq? (car x) 'label))) (cdr def))))
 	      `(fieldset (@ (class repeat))
 		(legend ,(or label (car def)))
-		,(map (lambda (x) (list (make-webvar x (car def)) nl)) elems)))
+		,(map (lambda (x) (list (make-formvar x (car def)) nl)) elems)))
 	    `(span (@ (class oneField))
 		   ,(if label `(label (@ (for ,name) (class preField)) ,label) (list))
 		   ,(match type
@@ -293,9 +293,9 @@
 			       ,(if (pair? contents)
 				    contents
 				    href))))
-	 (webvar *macro* . 
-		 ,(lambda (tag . elems)
-		(list (make-webvar elems) nl)))
+	 (formvar *macro* . 
+		  ,(lambda (tag . elems)
+		    (list (make-formvar elems) nl)))
 	 
 	 
 	 (sexp		;; S-expression constructor
