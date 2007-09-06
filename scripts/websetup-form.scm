@@ -4,9 +4,14 @@ exec csi -I "$1" -s "$0" "$@"
 |#
 ;; Evaluation of this file yields an HTML document
 
-
-;; If the type is not specified, default is text
-(define webvars
+;;
+;; A list of variables to be included in the main HTML form. 
+;; The format is (name  default-value [...] [(label ...) (type ...)] [children ...])
+;;
+;; The default label is the name of the variable.
+;; If the type is not specified, default is text.
+;; 
+(define form-variables
   `((Dimensions          2     (label "Number of model parameters to be fit: "))
     (VerboseLevel        4     (label "Verbosity level: "))
     (Seed                1550  (label "Random seed for stochastic optimization: "))
@@ -99,7 +104,7 @@ exec csi -I "$1" -s "$0" "$@"
     (Section 2 "NeuroFitter Parameters")
     
     (form (@ ((action "websetup.sh") (method "post")))
-	  ,(map (lambda (x) `(webvar . ,x)) webvars)
+	  ,(map (lambda (x) `(formvar . ,x)) form-variables)
 	  
 	  (div (@ (class actions))
 	       (input (@ (type submit) (class primaryAction) 
