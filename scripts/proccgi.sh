@@ -137,8 +137,11 @@ while [ "$_F_QUERY_STRING" != "" -a "$_F_QUERY_STRING" != "&" ] ; do
 			_F_HEX=`echo $_F_TMP | cut -c 1-2 | tr "abcdef" "ABCDEF"`
 			_F_TMP=`echo $_F_TMP | cut -c 3-`
 
-			#_F_OCTAL=`echo "16i8o"$_F_HEX"p" | dc\`
-			_F_VAL="$_F_VAL"`echo $\'\\x${_F_HEX}\'`
+			_F_ASCII="\\x${_F_HEX}"
+			if [ ${DEBUG:-0} -eq 1 ] ; then
+				echo "  " F_ASCII="$_F_ASCII" 1>&2
+			fi
+			_F_VAL="${_F_VAL}"`echo -e ${_F_ASCII}`
 		fi
 	done
 
