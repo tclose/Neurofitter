@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Process input to a CGI script. Written and Copyright 1995 Frank Pilhofer
 # You may freely use and distribute this code free of charge provided that
@@ -120,7 +120,7 @@ while [ "$_F_QUERY_STRING" != "" -a "$_F_QUERY_STRING" != "&" ] ; do
 	fi
 
 #
-# replace '%XX' by ascii character. the hex sequence MUST BE uppercase
+# replace '%XX' by ascii character. 
 #
 
 	_F_TMP="$_F_TMP""%%"
@@ -136,14 +136,9 @@ while [ "$_F_QUERY_STRING" != "" -a "$_F_QUERY_STRING" != "&" ] ; do
 			fi
 			_F_HEX=`echo $_F_TMP | cut -c 1-2 | tr "abcdef" "ABCDEF"`
 			_F_TMP=`echo $_F_TMP | cut -c 3-`
-#
-# can't handle newlines anyway. replace by space
-#
-#			if [ "$_F_HEX" = "0A" ] ; then
-#				_F_HEX="20"
-#			fi
 
-			_F_VAL="$_F_VAL""`/bin/echo '\0'\`echo "16i8o"$_F_HEX"p" | dc\``"
+			#_F_OCTAL=`echo "16i8o"$_F_HEX"p" | dc\`
+			_F_VAL="$_F_VAL"`echo $\'\\x${_F_HEX}\'`
 		fi
 	done
 
@@ -164,7 +159,7 @@ while [ "$_F_QUERY_STRING" != "" -a "$_F_QUERY_STRING" != "&" ] ; do
 	fi
 
 #	/bin/echo "FORM_$_F_VAR"=\'$_F_VAL\'
-	/bin/echo "FORM_$_F_VAR"="'"$_F_VAL"'"
+	echo "FORM_$_F_VAR"="'"$_F_VAL"'"
 done
 #
 if [ ${DEBUG:-0} -eq 1 ] ; then
