@@ -268,7 +268,10 @@
 					 . ,(lambda (tag . elems) elems))
 					(*text* . ,(lambda (trigger str) '()))))))
 					;(write sections ##stderr)
-		 (list "<div id=\"navigation\"><ul>" sections "</ul></div>" nl))))
+		 (list "<div id=\"navigation\"><ul>" 
+		       "<h3>In this page:</h3>"
+		       sections 
+		       "</ul></div>" nl))))
 	 
 	 
 	 (verbatim	;; set off pieces of code: one or several lines
