@@ -40,7 +40,7 @@ exec csi -I "$1" -s "$0" "$@"
       1.0 1.5 0.33 
       0.5 0.75 0.33 
       (label "Start and stop times of the periods (one line per period, third number is the weight): ") 
-      (type textarea))
+      (type textarea 10 20 3 3))
      (NumberOfRecordSites      1 (label "Number of recording sites in the cell: "))
      (RecordSites              1 (label "The weight of every recording site: "))
      (OutputFilePrefix         "output" (label "Prefix for files with the experimental and model output data: ")))
