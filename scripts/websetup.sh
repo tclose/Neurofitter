@@ -3,78 +3,80 @@
 echo Content-type: text/xml
 echo ""
 
-/bin/cat <<EOF
-	<TestProgram>
-		<Dimensions>${Dimensions}</Dimensions>
-		<VerboseLevel>${VerboseLevel}</VerboseLevel>
-		<Seed>${Seed}</Seed>
-	 
-		<SamplingFrequency>${SamplingFrequency}</SamplingFrequency> 
-		<StartingPoints>${StartingPoints}</StartingPoints> 
-	        <Bounds> <!-- LowerBound UpperBound --> 
-                         ${Bounds}
-	        </Bounds> 
-	        <WorkingDirectory>${WorkingDirectory}</WorkingDirectory> 
-	        <PrintParameterFile>${PrintParameterFile}</PrintParameterFile> 
-	        <FitterType>${FitterType}</FitterType> 
-	        <FitterParameters> 
-	          <NumberOfPoints>${FitterParameters_NumberOfPoints}</NumberOfPoints> 
-	        </FitterParameters> 
-	 
-	        <TracesReaderType>${TracesReaderType}</TracesReaderType> 
-	        
-                <TracesReaderParameters> 
-		  <NumberOfRuns>${TracesReaderParameters_NumberOfRuns}</NumberOfRuns> 
-		  <NumberOfRunParameters>${TracesReaderParameters_NumberOfRunParameters}</NumberOfRunParameters> 
-		  <RunParameters> 
-			${TracesReaderParameters_RunParameters}
-		  </RunParameters> 
-		  <NumberOfPeriods>${TracesReaderParameters_NumberOfPeriods}</NumberOfPeriods> 
-		  <Periods> 
-		    <!-- PeriodStart PeriodSabs Weight --> 
-		    ${TracesReaderParameters_Periods}
-		  </Periods> 
-	 
-	          <NumberOfRecordSites>${TracesReaderParameters_NumberOfRecordSites}</NumberOfRecordSites> 
-		  <RecordSites> 
-		        <!-- Weights --> 
-			${TracesReaderParameters_RecordSites} 
-		  </RecordSites> 
-		  <OutputFilePrefix>${TracesReaderParameters_OutputFilePrefix}</OutputFilePrefix> 
-	        </TracesReaderParameters> 
+echo "<?xml version=\"1.0\"?>"
 
-	        <ModelType>${ModelType}</ModelType> 
-	        <ModelParameters> 
-		   <GenesisLocation>${ModelParameters_GenesisLocation}</GenesisLocation> 
+/bin/cat <<EOF
+<TestProgram>
+	<Dimensions>${Dimensions}</Dimensions>
+	<VerboseLevel>${VerboseLevel}</VerboseLevel>
+	<Seed>${Seed}</Seed>
 	 
-		   <ModelDirectory>${ModelParameters_ModelDirectory}</ModelDirectory> 
-		   <OutputDirectory>${ModelParameters_OutputDirectory}</OutputDirectory> 
-		   <ModelSource>${ModelParameters_ModelSource}</ModelSource> 
-		   <ParameterFile>${ModelParameters_ParameterFile}</ParameterFile> 
+	<SamplingFrequency>${SamplingFrequency}</SamplingFrequency> 
+	<StartingPoints>${StartingPoints}</StartingPoints> 
+        <Bounds> <!-- LowerBound UpperBound --> 
+                        ${Bounds}
+        </Bounds> 
+        <WorkingDirectory>${WorkingDirectory}</WorkingDirectory> 
+        <PrintParameterFile>${PrintParameterFile}</PrintParameterFile> 
+        <FitterType>${FitterType}</FitterType> 
+        <FitterParameters> 
+          <NumberOfPoints>${FitterParameters_NumberOfPoints}</NumberOfPoints> 
+        </FitterParameters> 
+ 
+        <TracesReaderType>${TracesReaderType}</TracesReaderType> 
+        
+        <TracesReaderParameters> 
+	  <NumberOfRuns>${TracesReaderParameters_NumberOfRuns}</NumberOfRuns> 
+	  <NumberOfRunParameters>${TracesReaderParameters_NumberOfRunParameters}</NumberOfRunParameters> 
+	  <RunParameters> 
+		${TracesReaderParameters_RunParameters}
+	  </RunParameters> 
+	  <NumberOfPeriods>${TracesReaderParameters_NumberOfPeriods}</NumberOfPeriods> 
+	  <Periods> 
+	    <!-- PeriodStart PeriodSabs Weight --> 
+		    ${TracesReaderParameters_Periods}
+	  </Periods> 
 	 
-		   <ShowExecuteOutput>${ModelParameters_ShowExecuteOutput}</ShowExecuteOutput>  
-	        </ModelParameters>  	
+          <NumberOfRecordSites>${TracesReaderParameters_NumberOfRecordSites}</NumberOfRecordSites> 
+	  <RecordSites> 
+	        <!-- Weights --> 
+		${TracesReaderParameters_RecordSites} 
+	  </RecordSites> 
+	  <OutputFilePrefix>${TracesReaderParameters_OutputFilePrefix}</OutputFilePrefix> 
+        </TracesReaderParameters> 
+
+        <ModelType>${ModelType}</ModelType> 
+        <ModelParameters> 
+	   <GenesisLocation>${ModelParameters_GenesisLocation}</GenesisLocation> 
+ 
+	   <ModelDirectory>${ModelParameters_ModelDirectory}</ModelDirectory> 
+	   <OutputDirectory>${ModelParameters_OutputDirectory}</OutputDirectory> 
+	   <ModelSource>${ModelParameters_ModelSource}</ModelSource> 
+	   <ParameterFile>${ModelParameters_ParameterFile}</ParameterFile> 
 	 
-	        <ExperimentType>${ExperimentType}</ExperimentType> 
-	        <ExperimentParameters> 
-		   <Parameters>${ExperimentParameters}</Parameters>	 
-	        </ExperimentParameters> 
+	   <ShowExecuteOutput>${ModelParameters_ShowExecuteOutput}</ShowExecuteOutput>  
+        </ModelParameters>  	
 	 
-	        <FitnessCalculatorType>Matrix</FitnessCalculatorType> 
-	        <FitnessCalculatorParameters> 
-	  	  <VdVdtMatrixType>Direct</VdVdtMatrixType> 
-		  <VdVdtMatrixParameters> 
-		    <vLength>${VdVdtMatrixParameters_vLength}</vLength> 
-		    <dVdtLength>${VdVdtMatrixParameters_dVdtLength}</dVdtLength> 
-		    <minimalV>${VdVdtMatrixParameters_minimalV}</minimalV> 
-		    <maximalV>0.05</maximalV> 
-		    <comparePrecision>1e-15</comparePrecision> 
-		    <numericOutputFormat>0</numericOutputFormat> 
-		    <SumOfSquareRoots>1</SumOfSquareRoots> 
-		</VdVdtMatrixParameters> 
-		<enableFileExport>${FitnessCalculatorParameters_enableFileExport}</enableFileExport> 
-		<exportFile>${FitnessCalculatorParameters_exportFile}</exportFile> 
-	      </FitnessCalculatorParameters> 
+        <ExperimentType>${ExperimentType}</ExperimentType> 
+        <ExperimentParameters> 
+	   <Parameters>${ExperimentParameters}</Parameters>	 
+        </ExperimentParameters> 
+	 
+        <FitnessCalculatorType>Matrix</FitnessCalculatorType> 
+        <FitnessCalculatorParameters> 
+  	  <VdVdtMatrixType>Direct</VdVdtMatrixType> 
+	  <VdVdtMatrixParameters> 
+	    <vLength>${VdVdtMatrixParameters_vLength}</vLength> 
+	    <dVdtLength>${VdVdtMatrixParameters_dVdtLength}</dVdtLength> 
+	    <minimalV>${VdVdtMatrixParameters_minimalV}</minimalV> 
+	    <maximalV>0.05</maximalV> 
+                   <comparePrecision>1e-15</comparePrecision> 
+	    <numericOutputFormat>0</numericOutputFormat> 
+	    <SumOfSquareRoots>1</SumOfSquareRoots> 
+	</VdVdtMatrixParameters> 
+	<enableFileExport>${FitnessCalculatorParameters_enableFileExport}</enableFileExport> 
+	<exportFile>${FitnessCalculatorParameters_exportFile}</exportFile> 
+      </FitnessCalculatorParameters> 
 EOF
 
 case "${FitterType}" in
@@ -84,7 +86,7 @@ case "${FitterType}" in
 	        <NumberOfPoints>${Random_NumberOfPoints}</NumberOfPoints> 
 	    </FitterParameters>
 EOF
-            ; break ;;
+	break ;;
 
 	Swarm) /bin/cat <<EOF
 	    <FitterType>Swarm</FitterType> 
@@ -92,7 +94,7 @@ EOF
 	        <NumberOfPoints>${Swarm_NumberOfRuns}</NumberOfPoints> 
 	    </FitterParameters>
 EOF
-	    ; break ;;
+	break ;;
 
 	NOMAD) /bin/cat <<EOF
 	    <FitterType>NOMAD</FitterType> 
@@ -117,7 +119,7 @@ EOF
 	      <ITERATIVE_COMPLETE>    ${NOMAD_ITERATIVE_COMPLETE}</ITERATIVE_COMPLETE> <!-- Opportunistic 0/1 --> 
 	      <ITERATIVE_POINTS>      ${NOMAD_ITERATIVE_POINTS}</ITERATIVE_POINTS> <!-- Number of points generated by iteration --> 
 	      
-	      <SPECULATIVE_SEARCH>    ${NOMAD_SPECULATIVE_SEARCH}</SPECULATIVE_SEARCH> <!-- Do a search in poll direction (only MADS) 0/1 --> 
+              <SPECULATIVE_SEARCH>    ${NOMAD_SPECULATIVE_SEARCH}</SPECULATIVE_SEARCH> <!-- Do a search in poll direction (only MADS) 0/1 --> 
 	      
 	      <POLL_SIZE_TERM>        ${NOMAD_POLL_SIZE_TERM}</POLL_SIZE_TERM> <!-- Terminate when poll size is smaller than this value --> 
 	      <ITERATIONS>            ${NOMAD_ITERATIONS}</ITERATIONS> <!-- Max number of iterations --> 
@@ -141,7 +143,7 @@ EOF
 	      <RESULTS_FILE>          ${NOMAD_RESULTS_FILE}</RESULTS_FILE> 
 	    </FitterParameters>
 EOF
-	    ; break ;;
+	break ;;
 
 	EO) /bin/cat <<EOF
 	    <FitterType>EO</FitterType> 
@@ -161,9 +163,9 @@ EOF
 	      <Beta>         ${EO_Beta}</Beta> 
 	    </FitterParameters> 
 EOF
-	    ; break ;;
+	break ;;
 
 	*) break ;;
-    esac
-	    
-echo "     </TestProgram> "
+esac
+
+echo "</TestProgram>"
