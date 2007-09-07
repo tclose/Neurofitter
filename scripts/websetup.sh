@@ -1,7 +1,9 @@
 #!/bin/sh
 
+DEBUG=0
+export DEBUG
+#eval `./proccgi.sh $* 2> /tmp/logfile`
 eval `./proccgi.sh $* `
-
 
 echo Content-type: text/xml
 echo ""
