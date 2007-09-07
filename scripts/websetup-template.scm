@@ -71,6 +71,7 @@
 	  (if style `(link (@ (rel "stylesheet") (type "text/css") (href ,style))) '()))
     ,nl (title ,(lookup-def 'title head-parms))
     ,nl (meta (@ (http-equiv "Content-Type") (content "text/html; charset=UTF-8")))
+    ,nl (meta (@ (http-equiv "Content-Style-Type") (content "text/css")))
     ,nl ,(zip
 	  (map
 	   (lambda (key)
