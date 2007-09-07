@@ -67,11 +67,11 @@
 
 (define (make-header head-parms)
   `(head
-    ,nl,(let ((style  (lookup-def 'style head-parms)))
-	  (if style `(link (@ (rel "stylesheet") (type "text/css") (href ,style))) '()))
     ,nl (title ,(lookup-def 'title head-parms))
     ,nl (meta (@ (http-equiv "Content-Type") (content "text/html; charset=UTF-8")))
     ,nl (meta (@ (http-equiv "Content-Style-Type") (content "text/css")))
+    ,nl,(let ((style  (lookup-def 'style head-parms)))
+	  (if style `(link (@ (rel "stylesheet") (type "text/css") (href ,style))) '()))
     ,nl ,(zip
 	  (map
 	   (lambda (key)
