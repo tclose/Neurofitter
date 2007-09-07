@@ -103,7 +103,7 @@ exec csi -I "$1" -s "$0" "$@"
 
     (Section 2 "NeuroFitter Parameters")
     
-    (form (@ ((action "websetup.sh") (method "post")))
+    (form (@ ((action "cgi-bin/websetup.sh") (method "post")))
 	  ,(map (lambda (x) `(formvar . ,x)) form-variables)
 	  
 	  (div (@ (class actions))
