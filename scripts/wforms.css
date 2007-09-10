@@ -40,27 +40,6 @@ fieldset fieldset legend {
 	overflow: auto;
 	width: 100%;	
 }
-/* Grid Section */
-form table {
-	border-collapse: collapse;
-}
-form td {
-	padding: 0 4px;
-	border-left: 1px solid #E4E3D3;
-	border-right: 1px solid #E4E3D3;	
-}
-form th {
-	padding: 0 4px;
-}
-form .alternate-1 {
-	background-color:#E4E3D3;
-}
-form .alternate-1 td {
-	border-left: 1px solid #F4F3E3;
-	border-right: 1px solid #F4F3E3;	
-}
-form .alternate-0 {
-}
 
 /* Combo Label + Input Field =========================================================== */
 form .oneField {
@@ -131,9 +110,7 @@ select {
 .inlineSection .oneField select {
 	margin: 0 2px 1px 0 !important;
 }
-.gridSection select  {
-	margin: 0 !important;
-}
+
 
 /* Buttons ======================================================================= */
 
@@ -169,41 +146,6 @@ form .reqMark {
 
 /* wForms Related Rules ========================================================== */
 
-/* Field w/ a validation error */
-form .errFld {
-	padding: 1px;
-	border: 1px solid #F00;
-}
-/* Styling for message associated with a validation error. */
-form .errMsg {	
-	color: #CC3333 !important;
-	display: block;
-}
-/* Field-Hint with focus */
-form .field-hint {
-	float: right;
-	clear: right;
-	color: #000;
-	background-color: #FFFFFF;
-	border: 1px solid #bbb;
-	margin: 2px 0 7px 0;
-	padding: 2px;
-	font-size: 85%;
-	min-height: 2em;	
-
-}
-/* Field-Hint without focus */
-form .field-hint-inactive {
-	float: right;
-	clear: right;
-	color: #666;
-	border: 1px solid #E4E3D3;
-	background-color: #FFFFFF;
-	margin: 2px 0 7px 0;
-	padding: 2px;
-	font-size: 85%;
-	min-height: 2em;	
-
 }
 /* Repeat Behavior divs (when not set on a fieldset) */
 div.repeat {
@@ -231,24 +173,6 @@ form td .duplicateLink, form td .removeLink  {
 	margin: 0;
 	line-height: 100%;
 }
-/* Switch Behavior Classes */
-.onstate-a,  .onstate-b,  .onstate-c,  .onstate-d,
-.onstate-e,  .onstate-f,  .onstate-g,  .onstate-h, 
-.onstate-i,  .onstate-j,  .onstate-k,  .onstate-l, 
-.onstate-m,  .onstate-n,  .onstate-o,  .onstate-p, 
-.onstate-q,  .onstate-r,  .onstate-s,  .onstate-t,
-.onstate-u,  .onstate-v,  .onstate-w,  .onstate-x,  
-.onstate-y,  .onstate-z,  .onstate-aa, .onstate-ab,
-.onstate-ac, .onstate-ad, .onstate-ae, .onstate-af,
-.onstate-ag, .onstate-ah, .onstate-ai, .onstate-aj,
-.onstate-ak, .onstate-al, .onstate-am, .onstate-an,
-.onstate-ao, .onstate-ap, .onstate-aq, .onstate-ar,
-.onstate-as, .onstate-at, .onstate-au, .onstate-av,
-.onstate-aw, .onstate-ax, .onstate-ay, .onstate-az {
-	display: block;
-}
-/* offstate classes for the Switch Behavior are in wforms-jsonly.css */
-
 
  
 /* IE6 BUG FIXES ==================================================================== */
