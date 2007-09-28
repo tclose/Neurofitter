@@ -24,26 +24,39 @@
 		     ((s . _)  (if (eq? s k) (cdr elm)  (loop (cdr lst))))
 		     (else  (loop (cdr lst))))))))))
 
+(define (pid parent id)
+  (let ((parent (and parent (if (string? parent) parent (symbol->string parent))))
+	(id     (if (string? id) id (symbol->string id))))
+    (if parent (string-concatenate (list parent "_" id)) id)))
+
 (define (make-formvar def . rest)
  (let-optionals rest ((parent #f))
-   (let ((name  (if parent (string-concatenate (list (symbol->string parent) "_" (symbol->string (car def)))) 
-		    (car def)))
-	 (dflt  (filter  (lambda (x) (not (list? x))) (cdr def)))
-	 (label (lookup-field 'label def))
-	 (type  (lookup-field 'type def)))
-     `(div 
-       ,(if (null? dflt)
-	    (let ((elems  (filter (lambda (x) (not (eq? (car x) 'label))) (cdr def))))
-	      `(fieldset (@ (class repeat))
+   (let ((special   `(label type rel optional))
+	 (name      (pid parent (car def)))
+	 (dflt      (filter  (lambda (x) (not (list? x))) (cdr def)))
+	 (label     (lookup-field 'label def))
+	 (type      (lookup-field 'type def))
+	 (optional  (lookup-field 'optional def))
+	 (rel       (lookup-field 'rel def)))
+     (let ((group?     (null? dflt)))
+     `(div (@ ,(if optional  `(rel ,optional)  `())
+	      ,(if group?    `(id ,name)  `()))
+       ,(if group?
+	    (let ((elems  (filter (lambda (x) (not (member (car x) special))) (cdr def))))
+	      `(fieldset (@ (class repeat) )
 		(legend ,(or label (car def)))
 		,(map (lambda (x) (list (make-formvar x (car def)) nl)) elems)))
 	    `(span (@ (class oneField))
-		   ,(if label `(label (@ (for ,name) (class preField)) ,label) (list))
+		   ,(if label
+			`(label (@ (for ,name) (class preField)) ,label) 
+			`(label (@ (for ,name) (class preField)) ,(car def)))
 		   ,(match type
 			   (('checkbox . _)   
-			    `(input (@ (type checkbox) (name ,name) (id ,name) (title ,label) (value ,(car dflt)))))
+			    `(input (@ (type checkbox) (name ,name) (id ,name) (title ,label) (value ,(car dflt))
+				       ,(if rel `(rel ,rel) `()))))
 			   (('textarea rows cols . rest)   
-			    `(textarea (@ (name ,name) (id ,name) (rows ,rows) (cols ,cols) (title ,label)) ,nl
+			    `(textarea (@ (name ,name) (id ,name) (rows ,rows) (cols ,cols) (title ,label)
+					  ,(if rel `(rel ,rel) `())) ,nl
 				       ,(if (null? rest)
 					    (let loop ((lst dflt) (ax (list)))
 					      (if (null? lst) (reverse ax)
@@ -58,10 +71,31 @@
 							(if (> i 1) (rloop (- i 1) lst (cons nl ax))  
 							    (reverse (cons nl ax)))))))))))
 			   (('select . values)  
-			    `(select (@ (name ,name) (id ,name) (title ,label))
+			    `(select (@ (name ,name) (id ,name) (title ,label) ,(if rel `(rel ,rel) `()))
 				     ,(map (lambda (x) `(option (@ (value ,x) (label ,x)) ,x)) values)))
+			   (('button . rest)
+			    (let ((onclick  (lookup-field 'onclick rest)))
+			      `(input (@ (type button) (name ,name) (id ,name) (value ,(car dflt)) (title ,label) 
+					 ,(if rel `(rel ,rel) `()) 
+					 ,(if onclick `(script (onclick  ,onclick)) `())))))
+			   (('radio . rest)
+			    (map (lambda (x)  
+				   (let-values (((rname ropts)  
+						 (match x ((name . opts)  
+							   (if (string? name)
+							       (values name opts)
+							       (values (symbol->string name) opts)))
+							  (else  (if (symbol? x) (values (symbol->string x) (list))
+								     (values x (list)))))))
+					(let ((rel (lookup-field 'rel ropts)))
+					  `( ,rname ": "
+					     (input (@ (type radio) (name ,name) (id ,(pid name rname))
+						       (value ,rname) (title ,rname) 
+						       ,(if rel `(rel ,rel) `())))))))
+				 rest))
 			   (else  
-			    `(input (@ (name ,name) (id ,name) (title ,label) (value ,(car dflt))))))))))))
+			    `(input (@ (name ,name) (id ,name) (title ,label) (value ,(car dflt)) 
+				       ,(if rel `(rel ,rel) `()))))))))))))
 
     
 
@@ -132,7 +166,13 @@
       ;; present and future
    ((universal-conversion-rules
      `((@
-	((*default*       ;; local override for attributes
+	((script  ;; scripts are enclosed by single quotes and are not escaped
+ 	  ((*text* . ,(lambda (trigger str)  str))
+	   (*default* . ,(lambda (attr-key . value) 
+ 			   (list #\space attr-key "='" value #\'))))
+	  . ,(lambda (tag . elems) elems))
+
+	 (*default*       ;; local override for attributes
 	  . ,(lambda (attr-key . value) (enattr attr-key value))))
 	. ,(lambda (trigger . value) (cons '@ value)))
        (*default* . 
@@ -192,6 +232,7 @@
 		      "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\""
 		      nl 
 		      "\"http://www.w3.org/TR/html4/loose.dtd\">" nl
+		      "<script type=\"text/javascript\" src=\"usableforms.js\"></script>"
 		      "<html>" nl
 		      elems
 		      "</html>" nl)))))

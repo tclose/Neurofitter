@@ -146,7 +146,18 @@ form .reqMark {
 
 /* wForms Related Rules ========================================================== */
 
-}
+form div.invisible { 
+                     
+  visibility:hidden;
+
+ }
+
+form div.visible { 
+                     
+  visibility:visible;
+
+ }
+
 /* Repeat Behavior divs (when not set on a fieldset) */
 div.repeat {
 	margin: 3px 0;
@@ -173,6 +184,8 @@ form td .duplicateLink, form td .removeLink  {
 	margin: 0;
 	line-height: 100%;
 }
+
+
 
  
 /* IE6 BUG FIXES ==================================================================== */
