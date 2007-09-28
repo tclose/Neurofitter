@@ -5,7 +5,8 @@ export DEBUG
 #eval `./proccgi.sh $* 2> /tmp/logfile`
 eval `./proccgi.sh $* `
 
-echo Content-type: text/xml
+echo Content-type: text/xml-external-parsed-entity
+echo Content-Disposition: attachment; filename="parameters.xml"
 echo ""
 
 echo "<?xml version=\"1.0\"?>"
