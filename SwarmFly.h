@@ -23,9 +23,9 @@ public:
 
 	ModelTuningParameters calculateNewPosition();
 	ModelTuningParameters calculateRandomPosition();
-	void setNewPositionFitness(ModelTuningParameters & newPosition);
+	void setNewPositionErrorValue(ModelTuningParameters & newPosition);
 
-	double getFitnessValue();
+	double getErrorValue();
 
 	void addInformant(SwarmFly *);
 	vector< SwarmFly * > getInformants();

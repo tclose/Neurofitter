@@ -11,7 +11,7 @@ Date of last commit: $Date: 2006-12-11 18:44:13 +0900 (Mon, 11 Dec 2006) $
 
 #include "FitterResults.h"
 #include "FitterInterface.h"
-#include "FitnessCalculator.h"
+#include "ErrorValueCalculator.h"
 #include "FixedParamObject.h"
 
 using namespace std;
@@ -19,7 +19,7 @@ using namespace std;
 class FileFitterInterface : public FitterInterface, FixedParamObject {
 
     public:
-        FileFitterInterface(FitnessCalculator * fit, FixedParameters params):FitterInterface(fit), FixedParamObject(params) {};
+        FileFitterInterface(ErrorValueCalculator * fit, FixedParameters params):FitterInterface(fit), FixedParamObject(params) {};
         /////
         //Inherited from FitterInterface
         /////

@@ -4,8 +4,8 @@ Author of last commit: $Author$
 Date of last commit: $Date$
 */
 
-#ifndef NEUROFITTER_MATRIXFITNESSCALCULATOR_H
-#define NEUROFITTER_MATRIXFITNESSCALCULATOR_H
+#ifndef NEUROFITTER_MATRIXERRORVALUECALCULATOR_H
+#define NEUROFITTER_MATRIXERRORVALUECALCULATOR_H
 
 #include <iostream>
 #include <fstream>
@@ -16,24 +16,24 @@ using namespace std;
 #include "ModelInterface.h"
 #include "ExperimentInterface.h"
 #include "ModelTuningParameters.h"
-#include "FitnessCalculator.h"
+#include "ErrorValueCalculator.h"
 #include "FixedParamObject.h"
 #include "VdVdtMatrix.h"
 
-class MatrixFitnessCalculator : public FitnessCalculator, public FixedParamObject {
+class MatrixErrorValueCalculator : public ErrorValueCalculator, public FixedParamObject {
 
 public:
-	MatrixFitnessCalculator(ModelInterface * interface, ExperimentInterface * experiment, FixedParameters); 
-	~MatrixFitnessCalculator();
+	MatrixErrorValueCalculator(ModelInterface * interface, ExperimentInterface * experiment, FixedParameters); 
+	~MatrixErrorValueCalculator();
 
-	virtual void calculateFitness(ModelTuningParameters & param);
-	virtual void calculateParallelFitness(vector< ModelTuningParameters > & params);
+	virtual void calculateErrorValue(ModelTuningParameters & param);
+	virtual void calculateParallelErrorValue(vector< ModelTuningParameters > & params);
 
 	virtual void enableFileExport(const string fileName);
     virtual void disableFileExport();
     virtual string getExportFile() const;
 
-	virtual vector< pair< ModelTuningParameters, double > > getFitnessHistory();
+	virtual vector< pair< ModelTuningParameters, double > > getErrorValueHistory();
 
 private:
 	vector< VdVdtMatrix * > expVdVdtMatrices;	

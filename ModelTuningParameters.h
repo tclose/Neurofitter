@@ -56,9 +56,9 @@ class ModelTuningParameters {
 		double &operator[](const int);	///< Get parameters at index
 		const double &operator[](const int) const;	///< Get parameters at index (const)
 
-		void resetFitnessValue();
-		void setFitnessValue(const double newValue);	///< Set the fitness value of the parameters
-		double getFitnessValue() const;	///< Get the fitness value of the parameters
+		void resetErrorValue();
+		void setErrorValue(const double newValue);	///< Set the error value of the parameters
+		double getErrorValue() const;	///< Get the error value of the parameters
 
 		string toString() const; ///< Returns a string containing the parameters
 
@@ -70,9 +70,9 @@ class ModelTuningParameters {
 		vector < double > tuningParameters; ///< Vector containing the parameters
 		vector < double > bounds; ///< Vector containing the bounds (closed interval)
 	
-		double fitnessValue; ///< The fitness value of the parameters
+		double errorValue; ///< The error value of the parameters
 
-		bool fitnessIsValid; ///< Set only when fitness value is initialized
+		bool errorValueIsValid; ///< Set only when error value is initialized
 };
 
 

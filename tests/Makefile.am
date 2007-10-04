@@ -90,8 +90,8 @@ parameters.xml:
 	@echo "	<Parameters>2800.0 11200.0</Parameters>	" >> $@
 	@echo "</ExperimentParameters>" >> $@
 	@echo "" >> $@
-	@echo "<FitnessCalculatorType>Matrix</FitnessCalculatorType>" >> $@
-	@echo "<FitnessCalculatorParameters>" >> $@
+	@echo "<ErrorValueCalculatorType>Matrix</ErrorValueCalculatorType>" >> $@
+	@echo "<ErrorValueCalculatorParameters>" >> $@
 	@echo "	<VdVdtMatrixType>Direct</VdVdtMatrixType>" >> $@
 	@echo "	<VdVdtMatrixParameters>" >> $@
 	@echo "	    <vLength>100</vLength>" >> $@
@@ -103,8 +103,8 @@ parameters.xml:
 	@echo "	    <SumOfSquareRoots>0</SumOfSquareRoots>" >> $@
 	@echo "	</VdVdtMatrixParameters>" >> $@
 	@echo "	<enableFileExport>1</enableFileExport>" >> $@
-	@echo "	<exportFile>parallelFitness.dat</exportFile>" >> $@
-	@echo "</FitnessCalculatorParameters>" >> $@
+	@echo "	<exportFile>ErrorValues.dat</exportFile>" >> $@
+	@echo "</ErrorValueCalculatorParameters>" >> $@
 	@echo "</TestProgram>" >> $@
 	@echo "	<FitterParameters>" >> $@	
 	@echo "	<NOMADFitterParameters>" >> $@	

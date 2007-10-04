@@ -28,7 +28,7 @@ FitterResults RandomFitterInterface::runFitter(ModelTuningParameters * unusedSta
 	}
 
 	///Evaluate all the random in parallel
-	fitness->calculateParallelFitness(randomList);
+	errorValue->calculateParallelErrorValue(randomList);
 
 	return FitterResults(randomList);
 }

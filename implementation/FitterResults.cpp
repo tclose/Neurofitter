@@ -7,11 +7,11 @@ Date of last commit: $Date$
 #include "../FitterResults.h"
 
 FitterResults::FitterResults(vector< ModelTuningParameters > list) {
-	bestFitness = list[0].getFitnessValue();
+	bestErrorValue = list[0].getErrorValue();
 	for (int i = 0; i < (int)list.size(); i++) {
-		if (list[i].getFitnessValue() <= bestFitness) {
+		if (list[i].getErrorValue() <= bestErrorValue) {
 			bestFit = list[i];
-			bestFitness = list[i].getFitnessValue();
+			bestErrorValue = list[i].getErrorValue();
 		}
 	}
 }
@@ -20,13 +20,13 @@ ModelTuningParameters FitterResults::getBestFit() const {
 	return bestFit;
 }
 
-double FitterResults::getBestFitness() const {
-	return bestFitness;
+double FitterResults::getBestErrorValue() const {
+	return bestErrorValue;
 }
 		
-void FitterResults::setBestFit(const ModelTuningParameters newBestFit, const double fitness) {
+void FitterResults::setBestFit(const ModelTuningParameters newBestFit, const double errorValue) {
 	bestFit = newBestFit;
-	bestFitness = fitness;
+	bestErrorValue = errorValue;
 }
 
 /*

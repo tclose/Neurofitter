@@ -26,7 +26,7 @@ FitterResults EasyFitterInterface::runFitter(ModelTuningParameters * unusedStart
 		}
 	}
     
-	fitness->calculateParallelFitness(bestPoints);
+	errorValue->calculateParallelErrorValue(bestPoints);
 	
 	results.insert(results.end(),bestPoints.begin(),bestPoints.end());
 
@@ -47,13 +47,13 @@ FitterResults EasyFitterInterface::runFitter(ModelTuningParameters * unusedStart
     	for (int j = 0; j < toInt(fixedParams["NumberOfThreads"]); j++) {
 			generateSurrounding(bestPoints[j], radii[j], randGen, newPoints);		
     	}
-		fitness->calculateParallelFitness(newPoints);
+		errorValue->calculateParallelErrorValue(newPoints);
 		results.insert(results.end(),newPoints.begin(),newPoints.end());
 
     	for (int j = 0; j < toInt(fixedParams["NumberOfThreads"]); j++) {
 			bool bestPointChanged = false;
 			for (int k = j*toInt(fixedParams["NumberOfTriesPT"]); k < (j+1)*toInt(fixedParams["NumberOfTriesPT"]); k++) {
-				if (newPoints[k].getFitnessValue() < bestPoints[j].getFitnessValue()) {
+				if (newPoints[k].getErrorValue() < bestPoints[j].getErrorValue()) {
 					for (int s = 0; s < radii[j].getLength(); s++) { 
 						if (bestPoints[j][s] != newPoints[k][s]) {
 							radii[j][s] = fabs(bestPoints[j][s] - newPoints[k][s])/2.0;
@@ -82,7 +82,7 @@ void EasyFitterInterface::generateSurrounding(ModelTuningParameters center, Mode
 	double sigma = toDouble(fixedParams["Sigma"]);
 
 	ModelTuningParameters newPoint(center);
-	newPoint.resetFitnessValue();
+	newPoint.resetErrorValue();
 
 	double newValue;
 	for (int i = 0; i < toInt(fixedParams["NumberOfTriesPT"]); i++) {

@@ -31,7 +31,7 @@ ModelTuningParameters SwarmFly::calculateNewPosition() {
 			ModelTuningParameters informantsSolution;
 			for (int i = 0; i < (int)informants.size(); i++) {
 				informantsSolution = informants[i]->getBestLocalSolution();
-				if (informantsSolution.getFitnessValue() < bestInformantsSolution.getFitnessValue()) 
+				if (informantsSolution.getErrorValue() < bestInformantsSolution.getErrorValue()) 
 					bestInformantsSolution = informantsSolution;
 			}	
 		
@@ -50,18 +50,18 @@ ModelTuningParameters SwarmFly::calculateNewPosition() {
 }
 
 
-void SwarmFly::setNewPositionFitness(ModelTuningParameters & newPosition) {
+void SwarmFly::setNewPositionErrorValue(ModelTuningParameters & newPosition) {
        
 	currentPosition = newPosition;
-	double fitnessValue = currentPosition.getFitnessValue();
+	double errorValue = currentPosition.getErrorValue();
 
 	showMessage("New position: " + currentPosition.toString() + " New Speed: " + currentSpeed.toString() + "\n", 4, fixedParams);
 
-	if (!bestLocalInited || fitnessValue < bestLocalSolution.getFitnessValue()) {
+	if (!bestLocalInited || errorValue < bestLocalSolution.getErrorValue()) {
 		bestLocalInited = true;
 		bestLocalSolution = currentPosition;
 	}
-	if (!bestGlobalInited || fitnessValue < bestGlobalSolution.getFitnessValue()) {
+	if (!bestGlobalInited || errorValue < bestGlobalSolution.getErrorValue()) {
 		bestGlobalInited = true;
 		bestGlobalSolution = currentPosition;
 	}
@@ -70,7 +70,7 @@ void SwarmFly::setNewPositionFitness(ModelTuningParameters & newPosition) {
 ModelTuningParameters SwarmFly::calculateRandomPosition() {
 
 	ModelTuningParameters randomPosition(currentPosition);
-	randomPosition.resetFitnessValue();
+	randomPosition.resetErrorValue();
 	
 	for (int i = 0; i < randomPosition.getLength(); i++) {
 		randomPosition[i] = randomPosition.getLowerBound(i)+randGen->rand(randomPosition.getUpperBound(i)-randomPosition.getLowerBound(i));
@@ -91,8 +91,8 @@ ModelTuningParameters & SwarmFly::getParameters() {
 	return currentPosition;
 }
 
-double SwarmFly::getFitnessValue() {
-	return currentPosition.getFitnessValue();
+double SwarmFly::getErrorValue() {
+	return currentPosition.getErrorValue();
 }
 
 void SwarmFly::addInformant(SwarmFly * informant) {

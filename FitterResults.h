@@ -19,14 +19,14 @@ class FitterResults {
 		FitterResults() {};
 		FitterResults(vector< ModelTuningParameters >);
 		ModelTuningParameters getBestFit() const;
-		double getBestFitness() const;
-		void setBestFit(const ModelTuningParameters, const double fitness);
+		double getBestErrorValue() const;
+		void setBestFit(const ModelTuningParameters, const double errorValue);
 		//string getExtraResults() const;
 		//void setExtraResults(const string);
 
 	protected:
 		ModelTuningParameters bestFit;
-		double bestFitness;
+		double bestErrorValue;
 		//string extraResults;
 
 };

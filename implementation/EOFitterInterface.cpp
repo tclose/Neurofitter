@@ -51,13 +51,13 @@ FitterResults EOFitterInterface::runFitter(ModelTuningParameters * startPoint) {
       	showMessage("Stop \n",2,fixedParams);
 
 		ModelTuningParameters params(*startPoint);
-		double fitness;
+		double errorValue;
 		double tmp;
-		paramStream >> fitness; paramStream >> tmp;		
+		paramStream >> errorValue; paramStream >> tmp;		
 		for (int i = 0; i < startPoint->getLength(); i++) {
 			paramStream >> params[i];
 		}
-		results.setBestFit(params,fitness);
+		results.setBestFit(params,errorValue);
 		delete buf;
     }
  
@@ -65,7 +65,7 @@ FitterResults EOFitterInterface::runFitter(ModelTuningParameters * startPoint) {
 
 }
 
-static double real_value(const std::vector<double>& paramVector, FitnessCalculator * fitness) {
+static double real_value(const std::vector<double>& paramVector, ErrorValueCalculator * errorValue) {
 
 	ModelTuningParameters params(paramVector.size());
 
@@ -73,9 +73,9 @@ static double real_value(const std::vector<double>& paramVector, FitnessCalculat
 		params[i] = paramVector[i];
 	}
 
-	fitness->calculateFitness(params);
+	errorValue->calculateErrorValue(params);
 
-	return params.getFitnessValue();
+	return params.getErrorValue();
 	
 }
 
@@ -89,7 +89,7 @@ template <class EOT>
 EOT EOFitterInterface::runAlgorithm(EOT, eoParser& _parser, eoState& _state) {
 
 	// The evaluation fn - encapsulated into an eval counter for output
-	EOFitness<EOT, double, const std::vector<double>&> mainEval( &real_value, fitness );
+	EOFitness<EOT, double, const std::vector<double>&> mainEval( &real_value, errorValue );
 	eoEvalFuncCounter<EOT> eval(mainEval);
 
 	// the genotype - through a genotype initializer
@@ -111,7 +111,7 @@ EOT EOFitterInterface::runAlgorithm(EOT, eoParser& _parser, eoState& _state) {
     // algorithm (need the operator!)
 
     // Enabling the distributed evaluation of the population 
-    EODistFitness<EOT> pop_eval(fitness);
+    EODistFitness<EOT> pop_eval(errorValue);
 
     eoAlgo<EOT>& ga = make_algo_scalar(_parser, _state, pop_eval, checkpoint, op);
 

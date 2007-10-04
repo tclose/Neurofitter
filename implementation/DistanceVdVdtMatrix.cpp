@@ -19,7 +19,7 @@ double DistanceVdVdtMatrix::compare(const VdVdtMatrix & o) const {
 
 	const DistanceVdVdtMatrix & other = dynamic_cast<const DistanceVdVdtMatrix &>(o);
 
-	double fitnessValue = 0;
+	double errorValue = 0;
    
 	if (other.getVLength() != vLength) crash("DistanceVdVdtMatrix","V dimensions don't match");
 	if (other.getdVdtLength() != dVdtLength) crash("DistanceVdVdtMatrix","dVdt dimensions don't match");	
@@ -35,10 +35,10 @@ double DistanceVdVdtMatrix::compare(const VdVdtMatrix & o) const {
 			dVdt1 = dVdtIndex(i->first);
 			dVdt2 = other.dVdtIndex(j->first);
 			distance = pow(v1-v2,2)+pow(dVdt1-dVdt2,2);
-			fitnessValue += pow(diff,2)*pow(maxDistance-distance,2);
+			errorValue += pow(diff,2)*pow(maxDistance-distance,2);
 		}
   	}	
 
-	return sqrt(fitnessValue);
+	return sqrt(errorValue);
 }
 

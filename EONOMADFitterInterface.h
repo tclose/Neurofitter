@@ -10,8 +10,8 @@ Date of last commit: $Date$
 #include "FitterInterface.h"
 #include "ModelInterface.h"
 #include "ExperimentInterface.h"
-#include "FitnessCalculator.h"
-#include "MatrixFitnessCalculator.h"
+#include "ErrorValueCalculator.h"
+#include "MatrixErrorValueCalculator.h"
 #include "EOFitterInterface.h"
 #include "NOMADFitterInterface.h"
 #include "FixedParamObject.h"
@@ -21,7 +21,7 @@ using namespace std;
 class EONOMADFitterInterface : public FitterInterface, public FixedParamObject {
 
 public:
-	EONOMADFitterInterface(FitnessCalculator*, FixedParameters);
+	EONOMADFitterInterface(ErrorValueCalculator*, FixedParameters);
 	////
 	//Inherited from FitterInterface
 	////

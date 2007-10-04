@@ -49,11 +49,11 @@ MODOBJS=	$(CPPDIR)/ModelResults.o \
 			$(CPPDIR)/ExecutableModelInterface.o \
 			$(CPPDIR)/ModelTuningParameters.o
 
-# The object files related to fitness calculator interfaces			
+# The object files related to error value calculator interfaces			
 FITOBJS=	$(CPPDIR)/DirectVdVdtMatrix.o \
 			$(CPPDIR)/MapVdVdtMatrix.o \
 			$(CPPDIR)/DistanceVdVdtMatrix.o \
-			$(CPPDIR)/MatrixFitnessCalculator.o
+			$(CPPDIR)/MatrixErrorValueCalculator.o
 
 # The object files related to experiment interfaces			
 EXPOBJS=	$(CPPDIR)/FakeExperimentInterface.o \
@@ -73,7 +73,7 @@ NORMALOBJS = $(CPPDIR)/Neurofitter.o
 
 # The object files related Neurofitter with MPI
 MPIOBJS = 	$(CPPDIR)/MPIModelInterface.o \
-			$(CPPDIR)/MPIFitnessCalculator.o \
+			$(CPPDIR)/MPIErrorValueCalculator.o \
 			$(CPPDIR)/MPINeurofitter.o \
 			$(CPPDIR)/MPIStream.o
 
@@ -134,7 +134,7 @@ $(CPPDIR)/MPIStream.o : $(CPPDIR)/MPIStream.cpp ;
 $(CPPDIR)/MPIModelInterface.o : $(CPPDIR)/MPIModelInterface.cpp ;
 	$(MPICXX) $(CXXFLAGS) $(MPICXXFLAGS) -c -o $@ $<
 
-$(CPPDIR)/MPIFitnessCalculator.o : $(CPPDIR)/MPIFitnessCalculator.cpp ;
+$(CPPDIR)/MPIErrorValueCalculator.o : $(CPPDIR)/MPIErrorValueCalculator.cpp ;
 	$(MPICXX) $(CXXFLAGS) $(MPICXXFLAGS) -c -o $@ $<
 
 ######
@@ -143,7 +143,7 @@ $(CPPDIR)/MPIFitnessCalculator.o : $(CPPDIR)/MPIFitnessCalculator.cpp ;
 $(CPPDIR)/EOFitterInterface.o : $(CPPDIR)/EOFitterInterface.cpp ;
 	$(CXX) $(CXXFLAGS) $(EOCXXFLAGS) $(EOINCL) -c -o $@ $<
 	
-$(CPPDIR)/EOFitness.o : $(CPPDIR)/EOFitness.cpp ;
+$(CPPDIR)/EOErrorValue.o : $(CPPDIR)/EOErrorValue.cpp ;
 	$(CXX) $(CXXFLAGS) $(EOCXXFLAGS) $(EOINCL) -c -o $@ $<
 
 #########

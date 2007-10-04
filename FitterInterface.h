@@ -10,7 +10,7 @@ Date of last commit: $Date$
 #ifndef NEUROFITTER_FITTERINTERFACE_H
 #define NEUROFITTER_FITTERINTERFACE_H
 
-#include "FitnessCalculator.h"
+#include "ErrorValueCalculator.h"
 #include "FitterResults.h"
 
 using namespace std;
@@ -22,8 +22,8 @@ public:
 	virtual ~FitterInterface() {};
 
 protected:
-	FitterInterface(FitnessCalculator* fit):fitness(fit) {};
-	FitnessCalculator * fitness;
+	FitterInterface(ErrorValueCalculator* fit):errorValue(fit) {};
+	ErrorValueCalculator * errorValue;
 	ModelTuningParameters * modelParams;
 
 private:

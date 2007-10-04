@@ -4,19 +4,19 @@ Author of last commit: $Author$
 Date of last commit: $Date$
 */
 
-#include "../MPIFitnessCalculator.h"
+#include "../MPIErrorValueCalculator.h"
 
 const int tag = 42;
 const int dietag = 666; //Qui habet intellectum, computet numerum bestiae
 
-MPIFitnessCalculator::MPIFitnessCalculator(ModelInterface * model, ExperimentInterface * experiment, FixedParameters params) 
-	: FitnessCalculator(NULL), FixedParamObject(params) {
+MPIErrorValueCalculator::MPIErrorValueCalculator(ModelInterface * model, ExperimentInterface * experiment, FixedParameters params) 
+	: ErrorValueCalculator(NULL), FixedParamObject(params) {
 
-	FixedParameters fitFixedParams(fixedParams["FitnessCalculatorParameters"],fixedParams.getGlobals());
-	if (fixedParams["FitnessCalculatorType"] == "Matrix") {
-		localFitness = new MatrixFitnessCalculator(model,experiment,fitFixedParams);
+	FixedParameters fitFixedParams(fixedParams["ErrorValueCalculatorParameters"],fixedParams.getGlobals());
+	if (fixedParams["ErrorValueCalculatorType"] == "Matrix") {
+		localErrorValue = new MatrixErrorValueCalculator(model,experiment,fitFixedParams);
 	}
-	else crash("MPIFitnessCalculator", "No matching fitness calculator type");
+	else crash("MPIErrorValueCalculator", "No matching error value calculator type");
     
 	mpiChannel.setMessageId(tag);
 	rank = mpiChannel.getRank();
@@ -32,7 +32,7 @@ MPIFitnessCalculator::MPIFitnessCalculator(ModelInterface * model, ExperimentInt
         
 }
 
-MPIFitnessCalculator::~MPIFitnessCalculator() {
+MPIErrorValueCalculator::~MPIErrorValueCalculator() {
 	exportFileStream.close();
 	if (rank == 0) {
 		for (int i = 1; i < ntasks; ++i) {
@@ -42,23 +42,23 @@ MPIFitnessCalculator::~MPIFitnessCalculator() {
 			mpiChannel << 0;
 		}
 	}
-	if (localFitness != NULL) delete localFitness;	                                                                        
+	if (localErrorValue != NULL) delete localErrorValue;	                                                                        
 }
 
-void MPIFitnessCalculator::calculateFitness(ModelTuningParameters & params) {
+void MPIErrorValueCalculator::calculateErrorValue(ModelTuningParameters & params) {
 
 	vector< ModelTuningParameters > paramList(1);
 	paramList[0] = params;
 	
-	calculateParallelFitness(paramList);
+	calculateParallelErrorValue(paramList);
 
-	/// This is necessary because otherwise the fitnessvalue is not transferred
-	/// since no reference is passed to calculateParallelFitness
-	params.setFitnessValue(paramList[0].getFitnessValue());
+	/// This is necessary because otherwise the error value is not transferred
+	/// since no reference is passed to calculateParallelErrorValue
+	params.setErrorValue(paramList[0].getErrorValue());
 
 }
 
-void MPIFitnessCalculator::calculateParallelFitness(vector< ModelTuningParameters > & paramList) {
+void MPIErrorValueCalculator::calculateParallelErrorValue(vector< ModelTuningParameters > & paramList) {
 
 	showMessage("Running a total of "+ str((int)paramList.size()) + " jobs on " + str(ntasks-1) + " parallel processors\n",3,fixedParams);
 
@@ -68,21 +68,21 @@ void MPIFitnessCalculator::calculateParallelFitness(vector< ModelTuningParameter
 
     //Run models on all available slaves
     while (nSubmitted < (int)ntasks-1 && nSubmitted < (int)paramList.size()) {
-    	runFitnessOnSlave(taskRank++, nSubmitted, paramList[nSubmitted]);
+    	runErrorValueOnSlave(taskRank++, nSubmitted, paramList[nSubmitted]);
         nSubmitted++;
     }
 
 	//There are more jobs than slaves
 	while (nSubmitted < (int)paramList.size()) {
-		receiveFitnessFromSlave(taskRank, paramList);
+		receiveErrorValueFromSlave(taskRank, paramList);
 		nReceived++;
-		runFitnessOnSlave(taskRank, nSubmitted ,paramList[nSubmitted]);
+		runErrorValueOnSlave(taskRank, nSubmitted ,paramList[nSubmitted]);
 		nSubmitted++;
     }
 
     //Receive the remainder of the results
     while (nReceived < nSubmitted) {
-       	receiveFitnessFromSlave(taskRank, paramList);
+       	receiveErrorValueFromSlave(taskRank, paramList);
         nReceived++;
     }
 
@@ -91,7 +91,7 @@ void MPIFitnessCalculator::calculateParallelFitness(vector< ModelTuningParameter
 }
 
 
-void MPIFitnessCalculator::runFitnessOnSlave(int slaveNumber, int resultNumber, const ModelTuningParameters params) {
+void MPIErrorValueCalculator::runErrorValueOnSlave(int slaveNumber, int resultNumber, const ModelTuningParameters params) {
     
     showMessage("Sending parameters to slave: " + str(slaveNumber) + "... ",4,fixedParams);
     mpiChannel.setMessageRank(slaveNumber);
@@ -101,11 +101,11 @@ void MPIFitnessCalculator::runFitnessOnSlave(int slaveNumber, int resultNumber, 
 
 }
 
-void MPIFitnessCalculator::receiveFitnessFromSlave(int & taskRank, vector< ModelTuningParameters > & paramList) {
+void MPIErrorValueCalculator::receiveErrorValueFromSlave(int & taskRank, vector< ModelTuningParameters > & paramList) {
 
     int resultNumber;
 
-    showMessage("Waiting for fitness value from slave ... \n",4,fixedParams);
+    showMessage("Waiting for error value from slave ... \n",4,fixedParams);
     mpiChannel.setMessageRank(MPI_ANY_SOURCE);
     mpiChannel >> resultNumber;
     taskRank = mpiChannel.getMessageRank();
@@ -116,18 +116,18 @@ void MPIFitnessCalculator::receiveFitnessFromSlave(int & taskRank, vector< Model
 	numberOfEvaluations++;
 
 	if (exportFileStream.is_open()) {
-			exportFileStream << numberOfGenerations << " " << numberOfEvaluations << " " << paramList[resultNumber].getFitnessValue() << " ";
+			exportFileStream << numberOfGenerations << " " << numberOfEvaluations << " " << paramList[resultNumber].getErrorValue() << " ";
 			for (int j = 0; j < paramList[resultNumber].getLength(); j++) {
 				exportFileStream << (paramList[resultNumber][j]) << " ";
 			}
 			exportFileStream << endl;
    	}
                                                                         
-    showMessage(" Fitness value received\n",4,fixedParams);
+    showMessage(" Error value received\n",4,fixedParams);
 
 }
 
-void MPIFitnessCalculator::startSlave() {
+void MPIErrorValueCalculator::startSlave() {
 
     int resultNumber;
     MPI_Status status;
@@ -142,7 +142,7 @@ void MPIFitnessCalculator::startSlave() {
             return;
         }
         else if (mpiChannel.getMessageId() != tag) {
-            crash("MPIFitnessCalculator", "Slave "+str(rank)+" received message with wrong tag: "+str(status.MPI_TAG));
+            crash("MPIErrorValueCalculator", "Slave "+str(rank)+" received message with wrong tag: "+str(status.MPI_TAG));
         }
         mpiChannel.setMessageId(tag);
             
@@ -151,15 +151,15 @@ void MPIFitnessCalculator::startSlave() {
 
         showMessage("Slave " + str(rank) + " running model with parameters: " + parameters.toString() + "\n",3,fixedParams);
     
-        localFitness->calculateFitness(parameters);
+        localErrorValue->calculateErrorValue(parameters);
 
-        showMessage("Slave " + str(rank) + " sending fitness back to master ... ",4,fixedParams);
+        showMessage("Slave " + str(rank) + " sending error value back to master ... ",4,fixedParams);
                 
         mpiChannel.setMessageRank(0);
         mpiChannel << resultNumber;
         parameters.printOn(mpiChannel);
         
-        showMessage("Slave " + str(rank) + " has sent fitness back\n",4,fixedParams);            
+        showMessage("Slave " + str(rank) + " has sent error value back\n",4,fixedParams);            
     }
     
     showMessage("Slave " + str(rank) + " has stopped\n",4,fixedParams);            
@@ -168,21 +168,21 @@ void MPIFitnessCalculator::startSlave() {
 
 
 
-vector< pair< ModelTuningParameters, double > > MPIFitnessCalculator::getFitnessHistory() {
-	return fitnessHistory;
+vector< pair< ModelTuningParameters, double > > MPIErrorValueCalculator::getErrorValueHistory() {
+	return errorValueHistory;
 }
 
 
-void MPIFitnessCalculator::enableFileExport(const string fileName) {
+void MPIErrorValueCalculator::enableFileExport(const string fileName) {
 	exportFileStream.open(fileName.c_str(), ios::out);
 	
-	showMessage("MPIFitnessCalculator: Enabled export to file: " + fileName + "\n",3,fixedParams);            
+	showMessage("MPIErrorValueCalculator: Enabled export to file: " + fileName + "\n",3,fixedParams);            
 }
 
-void MPIFitnessCalculator::disableFileExport() {
+void MPIErrorValueCalculator::disableFileExport() {
 	exportFileStream.close();
 }
    
-string MPIFitnessCalculator::getExportFile() const {
+string MPIErrorValueCalculator::getExportFile() const {
 	return exportFile;
 }

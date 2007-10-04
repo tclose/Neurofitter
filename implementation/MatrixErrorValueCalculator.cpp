@@ -7,10 +7,10 @@ Date of last commit: $Date$
 #include "../DirectVdVdtMatrix.h"
 #include "../DistanceVdVdtMatrix.h"
 
-#include "../MatrixFitnessCalculator.h"
+#include "../MatrixErrorValueCalculator.h"
 
-MatrixFitnessCalculator::MatrixFitnessCalculator(ModelInterface * interface, ExperimentInterface * experiment, FixedParameters params) 
-	: FitnessCalculator(interface), FixedParamObject(params), modelVdVdtMatrix(NULL) {
+MatrixErrorValueCalculator::MatrixErrorValueCalculator(ModelInterface * interface, ExperimentInterface * experiment, FixedParameters params) 
+	: ErrorValueCalculator(interface), FixedParamObject(params), modelVdVdtMatrix(NULL) {
 
 	if (toInt(fixedParams["enableFileExport"]) > 0) {
 		this->enableFileExport(fixedParams["exportFile"]);
@@ -29,7 +29,7 @@ MatrixFitnessCalculator::MatrixFitnessCalculator(ModelInterface * interface, Exp
 			expVdVdtMatrices[nTrace] = new DistanceVdVdtMatrix(expData[nTrace], FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
 		}
 		else { 
-			crash("MatrixFitnessCalculator", "No matching VdVdtmatrix type: " + fixedParams["VdVdtMatrixType"]);
+			crash("MatrixErrorValueCalculator", "No matching VdVdtmatrix type: " + fixedParams["VdVdtMatrixType"]);
 		}
 		showMessage(expVdVdtMatrices[nTrace]->toString()+"\n",5,fixedParams);
 	}
@@ -41,13 +41,13 @@ MatrixFitnessCalculator::MatrixFitnessCalculator(ModelInterface * interface, Exp
 		modelVdVdtMatrix = new DistanceVdVdtMatrix(FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
 	}
 	else {
-		crash("MatrixFitnessCalculator", "No matching VdVdtmatrix type: " + fixedParams["VdVdtMatrixType"]);
+		crash("MatrixErrorValueCalculator", "No matching VdVdtmatrix type: " + fixedParams["VdVdtMatrixType"]);
     }
 
 
 }
 
-MatrixFitnessCalculator::~MatrixFitnessCalculator() {
+MatrixErrorValueCalculator::~MatrixErrorValueCalculator() {
 	if (modelVdVdtMatrix != NULL) delete modelVdVdtMatrix;
 	for (int i = 0; i < (int)expVdVdtMatrices.size(); i++) {
 		if (expVdVdtMatrices[i] != NULL) delete expVdVdtMatrices[i];
@@ -55,22 +55,22 @@ MatrixFitnessCalculator::~MatrixFitnessCalculator() {
 	exportFileStream.close();
 }
 
-void MatrixFitnessCalculator::calculateFitness(ModelTuningParameters & params) {
+void MatrixErrorValueCalculator::calculateErrorValue(ModelTuningParameters & params) {
 
 	vector< ModelTuningParameters > paramList(1);
 	paramList[0] = params;
 	
-	calculateParallelFitness(paramList);
+	calculateParallelErrorValue(paramList);
 	
-	/// This is necessary because otherwise the fitnessvalue is not transferred 
-	/// since no reference is passed to calculateParallelFitness
-	params.setFitnessValue(paramList[0].getFitnessValue());
+	/// This is necessary because otherwise the error value is not transferred 
+	/// since no reference is passed to calculateParallelErrorValue
+	params.setErrorValue(paramList[0].getErrorValue());
 
 }
 
-void MatrixFitnessCalculator::calculateParallelFitness(vector< ModelTuningParameters > & paramList) {
+void MatrixErrorValueCalculator::calculateParallelErrorValue(vector< ModelTuningParameters > & paramList) {
 
-	vector< double > fitnessValues(paramList.size());
+	vector< double > errorValues(paramList.size());
 
     vector< ModelResults > results = model->runParallelModel(paramList);
 
@@ -79,25 +79,25 @@ void MatrixFitnessCalculator::calculateParallelFitness(vector< ModelTuningParame
 
     	for (int nTrace = 0; nTrace < results[i].getLength(); nTrace++) {
         	modelVdVdtMatrix->readFrom(results[i][nTrace]);
-        	fitnessValues[i] += results[i][nTrace].getWeight() * expVdVdtMatrices[nTrace]->compare(*modelVdVdtMatrix);
+        	errorValues[i] += results[i][nTrace].getWeight() * expVdVdtMatrices[nTrace]->compare(*modelVdVdtMatrix);
 			showMessage(modelVdVdtMatrix->toString() + "\n",5,fixedParams);        	
     	}
 
     	numberOfEvaluations++;
 
-    	fitnessHistory.push_back(pair< ModelTuningParameters, double >(paramList[i],fitnessValues[i]));
+    	errorValueHistory.push_back(pair< ModelTuningParameters, double >(paramList[i],errorValues[i]));
 
-		showMessage("Eval: " + str(numberOfEvaluations) + " Generation: " + str(numberOfGenerations) + " Calculated fitness of: " + paramList[i].toString() + ": " + str(fitnessValues[i]) + "\n",3,fixedParams);
+		showMessage("Eval: " + str(numberOfEvaluations) + " Generation: " + str(numberOfGenerations) + " Calculated error value of: " + paramList[i].toString() + ": " + str(errorValues[i]) + "\n",3,fixedParams);
 
     	if (exportFileStream.is_open()) {
-        	exportFileStream << numberOfGenerations << " "<< numberOfEvaluations << " " << fitnessValues[i] << " ";
+        	exportFileStream << numberOfGenerations << " "<< numberOfEvaluations << " " << errorValues[i] << " ";
         	for (int j = 0; j < paramList[i].getLength(); j++) {
             	exportFileStream << (paramList[i][j]) << " ";
         	}
         	exportFileStream << endl;
     	}
 
-    	paramList[i].setFitnessValue(fitnessValues[i]);
+    	paramList[i].setErrorValue(errorValues[i]);
 
 	}
 	
@@ -105,21 +105,21 @@ void MatrixFitnessCalculator::calculateParallelFitness(vector< ModelTuningParame
 
 }
 
-vector< pair< ModelTuningParameters, double > > MatrixFitnessCalculator::getFitnessHistory() {
-	return fitnessHistory;
+vector< pair< ModelTuningParameters, double > > MatrixErrorValueCalculator::getErrorValueHistory() {
+	return errorValueHistory;
 }
 
 
-void MatrixFitnessCalculator::enableFileExport(const string fileName) {
+void MatrixErrorValueCalculator::enableFileExport(const string fileName) {
 	exportFileStream.open(fileName.c_str(), ios::out);
 	
-	showMessage("MatrixFitnessCalculator: Enabled export to file: " + fileName + "\n",3,fixedParams);        	
+	showMessage("MatrixErrorValueCalculator: Enabled export to file: " + fileName + "\n",3,fixedParams);        	
 }
 
-void MatrixFitnessCalculator::disableFileExport() {
+void MatrixErrorValueCalculator::disableFileExport() {
 	exportFileStream.close();
 }
    
-string MatrixFitnessCalculator::getExportFile() const {
+string MatrixErrorValueCalculator::getExportFile() const {
 	return exportFile;
 }

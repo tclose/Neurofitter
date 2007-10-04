@@ -38,7 +38,7 @@ int main (int argc, char* argv[]) {
     	TracesReader * tracesReader = NULL;
     	ModelInterface * model = NULL;
     	ExperimentInterface * experiment = NULL;
-    	FitnessCalculator * fitness = NULL;
+    	ErrorValueCalculator * errorValue = NULL;
     	FitterInterface * fitter = NULL;
 
     	ModelTuningParameters startPoint(fixedParams["StartingPoints"],toInt(fixedParams["Dimensions"]),fixedParams["Bounds"]);
@@ -87,18 +87,18 @@ int main (int argc, char* argv[]) {
 		else crash("Main program", "No matching experiment type");
 
 		/////////////////////////////////////
-		/// Initialize Fitness Calculator ///
+		/// Initialize Error Value Calculator ///
 		/////////////////////////////////////
-		FixedParameters fitFixedParams(fixedParams["FitnessCalculatorParameters"],fixedParams.getGlobals());
-		if (fixedParams["FitnessCalculatorType"] == "Matrix") {
-			fitness = new MatrixFitnessCalculator(model,experiment,fitFixedParams);
+		FixedParameters fitFixedParams(fixedParams["ErrorValueCalculatorParameters"],fixedParams.getGlobals());
+		if (fixedParams["ErrorValueCalculatorType"] == "Matrix") {
+			errorValue = new MatrixErrorValueCalculator(model,experiment,fitFixedParams);
 		}
 		#ifdef WITH_MPI
-		else if (fixedParams["FitnessCalculatorType"] == "MPI") {
-            fitness = new MPIFitnessCalculator(model,experiment,fitFixedParams);
+		else if (fixedParams["ErrorValueCalculatorType"] == "MPI") {
+            errorValue = new MPIErrorValueCalculator(model,experiment,fitFixedParams);
         }
 		#endif
-		else crash("Main program", "No matching fitness calculator type");
+		else crash("Main program", "No matching error value calculator type");
 	
 
 		// In case of MPI only run the fitter on the master node
@@ -108,34 +108,34 @@ int main (int argc, char* argv[]) {
 			/////////////////////////
 			FixedParameters fitterFixedParams(fixedParams["FitterParameters"],fixedParams.getGlobals());
 			if (fixedParams["FitterType"] == "Mesh") {
-				fitter = new MeshFitterInterface(fitness,fitterFixedParams);
+				fitter = new MeshFitterInterface(errorValue,fitterFixedParams);
 			}
 			else if (fixedParams["FitterType"] == "Easy") {
-				fitter = new EasyFitterInterface(fitness,fitterFixedParams);
+				fitter = new EasyFitterInterface(errorValue,fitterFixedParams);
 			}
 			else if (fixedParams["FitterType"] == "Random") {
-				fitter = new RandomFitterInterface(fitness,fitterFixedParams);
+				fitter = new RandomFitterInterface(errorValue,fitterFixedParams);
 			}
 			else if (fixedParams["FitterType"] == "File") {
-				fitter = new FileFitterInterface(fitness,fitterFixedParams);
+				fitter = new FileFitterInterface(errorValue,fitterFixedParams);
 			}
 			else if (fixedParams["FitterType"] == "Swarm") {
-				fitter = new SwarmFitterInterface(fitness,fitterFixedParams);
+				fitter = new SwarmFitterInterface(errorValue,fitterFixedParams);
 			}
 		#ifdef WITH_NOMAD
 			else if (fixedParams["FitterType"] == "NOMAD") {
-				fitter = new NOMADFitterInterface(fitness,fitterFixedParams);
+				fitter = new NOMADFitterInterface(errorValue,fitterFixedParams);
 			}
 		#endif
 		#ifdef WITH_EO
 			else if (fixedParams["FitterType"] == "EO") {
-				fitter = new EOFitterInterface(fitness,fitterFixedParams);
+				fitter = new EOFitterInterface(errorValue,fitterFixedParams);
 			}
 		#endif
 		#ifdef WITH_EO
 			#ifdef WITH_NOMAD
 			else if (fixedParams["FitterType"] == "EONOMAD") {
-				fitter = new EONOMADFitterInterface(fitness,fitterFixedParams);
+				fitter = new EONOMADFitterInterface(errorValue,fitterFixedParams);
 			}
 			#endif
 		#endif 
@@ -146,7 +146,7 @@ int main (int argc, char* argv[]) {
 			///////////
 			FitterResults results = fitter->runFitter(&startPoint);
 
-			showMessage("\nBest fit found: "+ results.getBestFit().toString() + " with fitness: " + str(results.getBestFitness()) +"\n",1,fixedParams);
+			showMessage("\nBest fit found: "+ results.getBestFit().toString() + " with error value: " + str(results.getBestErrorValue()) +"\n",1,fixedParams);
 
 			///////////////
 			/// Cleanup ///
@@ -154,7 +154,7 @@ int main (int argc, char* argv[]) {
 			delete fitter;
 		}
 		delete experiment;
-		delete fitness;
+		delete errorValue;
 		delete model;
 
 		#ifdef WITH_MPI

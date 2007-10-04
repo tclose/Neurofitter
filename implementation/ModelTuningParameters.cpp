@@ -7,28 +7,28 @@ Date of last commit: $Date$
 #include "../ModelTuningParameters.h"
 
 ModelTuningParameters::ModelTuningParameters() : 
-	tuningParameters(), bounds(), fitnessIsValid(false) {}
+	tuningParameters(), bounds(), errorValueIsValid(false) {}
 
 ModelTuningParameters::ModelTuningParameters(const int newTParamsLength) 
-	: tuningParameters(newTParamsLength), bounds(), fitnessIsValid(false) {
+	: tuningParameters(newTParamsLength), bounds(), errorValueIsValid(false) {
 }
 
 ModelTuningParameters::ModelTuningParameters(const vector< double > newTParams, const int newTParamsLength, const vector < double > newBounds) : 
-	tuningParameters(newTParamsLength), bounds(), fitnessIsValid(false) {
+	tuningParameters(newTParamsLength), bounds(), errorValueIsValid(false) {
 
 	ModelTuningParameters::setTuningParameters(newTParams);
 	ModelTuningParameters::setBounds(newBounds);
 }
 
 ModelTuningParameters::ModelTuningParameters(const string paramString, const int newTParamsLength, const string newBounds) : 
-	tuningParameters(newTParamsLength), bounds(), fitnessIsValid(false) {
+	tuningParameters(newTParamsLength), bounds(), errorValueIsValid(false) {
 
 	ModelTuningParameters::setTuningParameters(paramString, newTParamsLength);
 	ModelTuningParameters::setBounds(newBounds, 2*newTParamsLength); 
 }
 
 ModelTuningParameters::ModelTuningParameters(const int newTParamsLength, const string newBounds) : 
-	tuningParameters(newTParamsLength), bounds(), fitnessIsValid(false) {
+	tuningParameters(newTParamsLength), bounds(), errorValueIsValid(false) {
 
 	ModelTuningParameters::setBounds(newBounds, 2*newTParamsLength); 
 }
@@ -122,21 +122,21 @@ const double &ModelTuningParameters::operator[]( int subscript ) const {
 	return tuningParameters[subscript];
 }
 
-void ModelTuningParameters::setFitnessValue(const double newValue) {
-	fitnessValue = newValue;
-	fitnessIsValid = true;
+void ModelTuningParameters::setErrorValue(const double newValue) {
+	errorValue = newValue;
+	errorValueIsValid = true;
 }
 
-void ModelTuningParameters::resetFitnessValue() {
-	fitnessIsValid = false;
+void ModelTuningParameters::resetErrorValue() {
+	errorValueIsValid = false;
 }
 
-double ModelTuningParameters::getFitnessValue() const {
+double ModelTuningParameters::getErrorValue() const {
 
-	if (!fitnessIsValid) {
-		crash("ModelTuningParameters","Getting fitness value which is uninitialized");
+	if (!errorValueIsValid) {
+		crash("ModelTuningParameters","Getting error value which is uninitialized");
 	}
-	return fitnessValue;
+	return errorValue;
 
 }
 
@@ -162,8 +162,8 @@ void ModelTuningParameters::printOn(OutputChannel & output) const {
 	for (int i = 0; i < boundsLength; i++) {	
 		output << bounds[i];
 	}
-	output << (int)fitnessIsValid;
-	output << fitnessValue;
+	output << (int)errorValueIsValid;
+	output << errorValue;
 
 }
 
@@ -184,7 +184,7 @@ void ModelTuningParameters::readFrom(InputChannel & input) {
 	}
 	
 	int fValid;
-	input >> fValid; fitnessIsValid = (bool)fValid;
-	input >> fitnessValue;
+	input >> fValid; errorValueIsValid = (bool)fValid;
+	input >> errorValue;
 	
 }

@@ -7,10 +7,10 @@ Date of last commit: $Date$
 #include "../NOMADFitterInterface.h"
 #include <nomad>
 
-NOMADFitterInterface::NOMADFitterInterface(FitnessCalculator * fit, FixedParameters params)
+NOMADFitterInterface::NOMADFitterInterface(ErrorValueCalculator * fit, FixedParameters params)
 	: FitterInterface(fit), FixedParamObject(params) {
 
-	setNOMADFitnessCalculator(fit, toInt(fixedParams["Dimensions"]));
+	setNOMADErrorValueCalculator(fit, toInt(fixedParams["Dimensions"]));
 
 }
 

@@ -13,7 +13,7 @@ Date of last commit: $Date$
 
 #include "FitterResults.h"
 #include "FitterInterface.h"
-#include "FitnessCalculator.h"
+#include "ErrorValueCalculator.h"
 #include "SwarmFly.h"
 #include "FixedParamObject.h"
 
@@ -24,7 +24,7 @@ class SwarmFly;
 class SwarmFitterInterface : public FitterInterface, FixedParamObject {
 
     public:
-        SwarmFitterInterface(FitnessCalculator * fit, FixedParameters params)
+        SwarmFitterInterface(ErrorValueCalculator * fit, FixedParameters params)
 			: FitterInterface(fit), FixedParamObject(params) {};
         /////
         //Inherited from FitterInterface

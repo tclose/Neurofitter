@@ -13,14 +13,14 @@ Date of last commit: $Date$
 #include <eoPop.h>
 #include <eoPopEvalFunc.h>
 
-#include "FitnessCalculator.h"
+#include "ErrorValueCalculator.h"
 
 template <class EOT> class EODistFitness : public eoPopEvalFunc <EOT> {
   
 public :
   
   /** Constructor */
-  EODistFitness(FitnessCalculator * f) : fitness(f) {};
+  EODistFitness(ErrorValueCalculator * f) : errorValue(f) {};
   
   /** For a population of parents
       and children */
@@ -38,17 +38,17 @@ public :
 			}
     	}
 
-		fitness->calculateParallelFitness(paramList);
+		errorValue->calculateParallelErrorValue(paramList);
 
     	for (int i = 0; i < (int)__offspring.size(); i++) {
-			__offspring[i].fitness(paramList[i].getFitnessValue());
+			__offspring[i].fitness(paramList[i].getErrorValue());
 		}
 
 	}
   
 private :
 	
-	FitnessCalculator * fitness; 
+	ErrorValueCalculator * errorValue; 
 
 } ;
 

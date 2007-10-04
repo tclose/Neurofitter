@@ -9,7 +9,7 @@ Date of last commit: $Date$
 
 #include "FitterResults.h"
 #include "FitterInterface.h"
-#include "FitnessCalculator.h"
+#include "ErrorValueCalculator.h"
 #include "FixedParamObject.h"
 #include "MersenneTwister.h"
 
@@ -18,7 +18,7 @@ using namespace std;
 class EasyFitterInterface : public FitterInterface, FixedParamObject {
 
     public:
-        EasyFitterInterface(FitnessCalculator * fit, FixedParameters params):FitterInterface(fit), FixedParamObject(params) {};
+        EasyFitterInterface(ErrorValueCalculator * fit, FixedParameters params):FitterInterface(fit), FixedParamObject(params) {};
         /////
         //Inherited from FitterInterface
         /////

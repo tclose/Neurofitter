@@ -29,7 +29,7 @@ FitterResults FileFitterInterface::runFitter(ModelTuningParameters * unusedStart
 	}
 
 	///Evaluate all the parameters from the file in parallel
-	fitness->calculateParallelFitness(paramList);
+	errorValue->calculateParallelErrorValue(paramList);
 
 	return FitterResults(paramList);
 }

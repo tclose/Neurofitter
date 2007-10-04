@@ -50,12 +50,12 @@ For every "run" parameter (e.g. injection strength)
 
 	Neurofitter reads the recorded data 
 	Neurofitter cuts out the relevant time periods in the data and generates a V dVdt matrix
-	Neurofitter calculates the fitness function for this run
+	Neurofitter calculates the error function for this run
 End For
 
 Neurofitter calculates the weighted sum of all the different runs and periods
-Neurofitter writes out the fitness value of the parameters in the Neurofitter output file
-Neurofitter gives back the fitness value of the model parameter set to the optimization algorithm
+Neurofitter writes out the error value of the parameters in the Neurofitter output file
+Neurofitter gives back the error value of the model parameter set to the optimization algorithm
 
 The optimization algorithm searches for a new parameter set to evaluate 
 ^
@@ -184,7 +184,7 @@ in Neurofitter or Libxml.
 
 
 ******* Problem:
-While running Neurofitter you see that the fitness values you get for the model are not
+While running Neurofitter you see that the error values you get for the model are not
 correct, uninitialized or just all zero.
 
 Analysis:

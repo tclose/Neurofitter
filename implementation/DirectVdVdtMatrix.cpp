@@ -19,7 +19,7 @@ double DirectVdVdtMatrix::compare(const VdVdtMatrix & o) const {
 
 	const DirectVdVdtMatrix & other = dynamic_cast<const DirectVdVdtMatrix &>(o);
 
-    double fitnessValue = 0;
+    double errorValue = 0;
 
     double diff = 0;
 
@@ -38,12 +38,12 @@ double DirectVdVdtMatrix::compare(const VdVdtMatrix & o) const {
         	for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
             	diff=fabs(get(vIndex,dVdtIndex)-other.get(vIndex,dVdtIndex));
             	if (diff > precision) {
-                	fitnessValue += pow(diff,0.5);
+                	errorValue += pow(diff,0.5);
             	}
         	}
     	}
 
-		fitnessValue = pow(fitnessValue,2);
+		errorValue = pow(errorValue,2);
 	}
 	else {
     	///////////////////////////////////////////////////////////
@@ -54,15 +54,15 @@ double DirectVdVdtMatrix::compare(const VdVdtMatrix & o) const {
         	for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
             	diff=fabs(get(vIndex,dVdtIndex)-other.get(vIndex,dVdtIndex));
             	if (diff > precision) {
-                	fitnessValue += pow(diff,2);
+                	errorValue += pow(diff,2);
             	}
         	}
     	}
 
-		fitnessValue = pow(fitnessValue,0.5);
+		errorValue = pow(errorValue,0.5);
     }
 
 	                                                                                                    
-    return fitnessValue;
+    return errorValue;
 
 }

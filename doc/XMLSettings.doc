@@ -38,10 +38,10 @@ The file should have the following format (... should be filled in):
 		...
     </ExperimentParameters>
 
-	<FitnessCalculatorType>...</FitnessCalculatorType>
-    <FitnessCalculatorParameters>
+	<ErrorValueCalculatorType>...</ErrorValueCalculatorType>
+    <ErrorValueCalculatorParameters>
 		...
-    </FitnessCalculatorParameters>
+    </ErrorValueCalculatorParameters>
 </TestProgram>
 
 
@@ -105,9 +105,9 @@ ExperimentType
 ==============
 Determines the way experimental data is read by Neurofitter, please refer to the ExperimentType.doc documentation file
 
-FitnessCalculatorType
+ErrorValueCalculatorType
 =====================
-Determines the algorithm by Neurofitter to convert output data into a fitness value, please refer to the FitnessCalculatorType.doc documentation file
+Determines the algorithm by Neurofitter to convert output data into a error value, please refer to the ErrorValueCalculatorType.doc documentation file
 
 Root tag
 ========

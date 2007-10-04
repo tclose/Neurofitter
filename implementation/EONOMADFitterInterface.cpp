@@ -6,7 +6,7 @@ Date of last commit: $Date$
 
 #include "../EONOMADFitterInterface.h"
 
-EONOMADFitterInterface::EONOMADFitterInterface(FitnessCalculator * fit, FixedParameters param) 
+EONOMADFitterInterface::EONOMADFitterInterface(ErrorValueCalculator * fit, FixedParameters param) 
 	: FitterInterface(fit), FixedParamObject(param) {}
 
 FitterResults EONOMADFitterInterface::runFitter(ModelTuningParameters * startPoints) {
@@ -20,7 +20,7 @@ FitterResults EONOMADFitterInterface::runFitter(ModelTuningParameters * startPoi
 	//////////////
 	/// Run EO ///
 	//////////////
-	EOFitterInterface eo(fitness, eoFixParam);
+	EOFitterInterface eo(errorValue, eoFixParam);
 	ModelTuningParameters eoBest = (eo.runFitter(startPoints)).getBestFit();
 
 	showMessage("\nBest solution found by EO: "+ eoBest.toString() + "\n", 1, fixedParams);
@@ -28,7 +28,7 @@ FitterResults EONOMADFitterInterface::runFitter(ModelTuningParameters * startPoi
 	//////////////////////////////////////////
 	/// Run NOMAD with best solution of EO ///
 	//////////////////////////////////////////
-	NOMADFitterInterface nomad(fitness, nomadFixParam);
+	NOMADFitterInterface nomad(errorValue, nomadFixParam);
     nomad.runFitter(&eoBest);
 
 	return FitterResults();

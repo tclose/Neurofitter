@@ -10,7 +10,7 @@ Date of last commit: $Date$
 #ifdef WITH_MPI
 	#include <mpi.h>
 	#include "MPIModelInterface.h"
-	#include "MPIFitnessCalculator.h"
+	#include "MPIErrorValueCalculator.h"
 #endif
 
 #include <string>
@@ -32,7 +32,7 @@ using namespace std;
 #include "ModelResults.h"
 #include "ExperimentInterface.h"
 #include "ModelInterface.h"
-#include "FitnessCalculator.h"
+#include "ErrorValueCalculator.h"
 #include "FitterInterface.h"
 
 #include "GenesisModelInterface.h"
@@ -44,7 +44,7 @@ using namespace std;
 #include "MapVdVdtMatrix.h"
 #include "DirectVdVdtMatrix.h"
 #include "DistanceVdVdtMatrix.h"
-#include "MatrixFitnessCalculator.h"
+#include "MatrixErrorValueCalculator.h"
 #include "EasyFitterInterface.h"
 #include "MeshFitterInterface.h"
 #include "RandomFitterInterface.h"
@@ -52,7 +52,7 @@ using namespace std;
 #include "SwarmFitterInterface.h"
 
 #ifdef WITH_EO
-	#include "EOFitnessCalculator.h"
+	#include "EOErrorValueCalculator.h"
 	#include "EOFitterInterface.h"
 #endif
 

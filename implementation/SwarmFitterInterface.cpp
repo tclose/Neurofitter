@@ -43,12 +43,12 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 		startPoints[i] = swarm[i].calculateRandomPosition();				
 	}
 	
-	fitness->calculateParallelFitness(startPoints);
+	errorValue->calculateParallelErrorValue(startPoints);
 	results.insert(results.end(),startPoints.begin(),startPoints.end()); 
 
 
 	for (int i = 0; i < numberOfFlies; i++) {
-		swarm[i].setNewPositionFitness(startPoints[i]);
+		swarm[i].setNewPositionErrorValue(startPoints[i]);
 	}
 
 	///////////////////////////
@@ -66,15 +66,15 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 			flyPositions[j] = swarm[j].calculateNewPosition();
 		}
 
-		fitness->calculateParallelFitness(flyPositions);
+		errorValue->calculateParallelErrorValue(flyPositions);
 		results.insert(results.end(),startPoints.begin(),startPoints.end()); 
 
 		for (int j = 0; j < numberOfFlies; j++) {
-			swarm[j].setNewPositionFitness(flyPositions[j]);
+			swarm[j].setNewPositionErrorValue(flyPositions[j]);
 		}
-		showMessage( "Best solution after run " + str(i) + " : " + SwarmFly::bestGlobalSolution.toString() + " : " + str(SwarmFly::bestGlobalSolution.getFitnessValue()) + "\n",2,fixedParams);
-		if (SwarmFly::bestGlobalSolution.getFitnessValue() < tempBestValue || !initBest) {
-			tempBestValue = SwarmFly::bestGlobalSolution.getFitnessValue();
+		showMessage( "Best solution after run " + str(i) + " : " + SwarmFly::bestGlobalSolution.toString() + " : " + str(SwarmFly::bestGlobalSolution.getErrorValue()) + "\n",2,fixedParams);
+		if (SwarmFly::bestGlobalSolution.getErrorValue() < tempBestValue || !initBest) {
+			tempBestValue = SwarmFly::bestGlobalSolution.getErrorValue();
 			initBest = true;
 		}
 		else {
@@ -89,11 +89,11 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 }
 
 void SwarmFitterInterface::randomizeWorst(vector< SwarmFly > & swarm) {
-	double worstValue = swarm[0].getFitnessValue();
+	double worstValue = swarm[0].getErrorValue();
 	int worstFly = 0;
 	for (int i = 0; i < (int)swarm.size(); i++) {
-		if (swarm[i].getFitnessValue() > worstValue) {
-			worstValue = swarm[i].getFitnessValue();
+		if (swarm[i].getErrorValue() > worstValue) {
+			worstValue = swarm[i].getErrorValue();
 			worstFly = i;
 		};
 	}

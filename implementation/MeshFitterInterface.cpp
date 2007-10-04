@@ -19,7 +19,7 @@ FitterResults MeshFitterInterface::runFitter(ModelTuningParameters * unusedStart
 
 	calculateMesh(0,resolution,currentPoint, mesh);
 
-	fitness->calculateParallelFitness(mesh);
+	errorValue->calculateParallelErrorValue(mesh);
 
 	return FitterResults(mesh);
 }

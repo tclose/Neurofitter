@@ -4,8 +4,8 @@ Author of last commit: $Author$
 Date of last commit: $Date$
 */
 
-#ifndef NEUROFITTER_EOFITNESS_H
-#define NEUROFITTER_EOFITNESS_H 
+#ifndef NEUROFITTER_EOERRORVALUECALCULATOR_H
+#define NEUROFITTER_EOERRORVALUECALCULATOR_H 
 
 //#include <eo>
 #include <eoEvalFunc.h>
@@ -21,19 +21,19 @@ using namespace std;
 ///A structure used by EO to represent the fitness function
 struct EOFitness: public eoEvalFunc<EOT> {
 
-	///Constructor reading the fitness evaluation function and the fitnesscalculator object
-	EOFitness( FitT (* _eval)( FunctionArg, FitnessCalculator * ), FitnessCalculator * f)
-		: eoEvalFunc<EOT>(), evalFunc( _eval ), fitness(f) {};
+	///Constructor reading the ErrorValue evaluation function and the ErrorValuecalculator object
+	EOFitness( FitT (* _eval)( FunctionArg, ErrorValueCalculator * ), ErrorValueCalculator * f)
+		: eoEvalFunc<EOT>(), evalFunc( _eval ), errorValue(f) {};
 
 	///Operator used to evaluate fitness function
 	virtual void operator() ( EOT & _eo ) {
 		if (_eo.invalid())
-			_eo.fitness((*evalFunc)( _eo, fitness ));
+			_eo.fitness((*evalFunc)( _eo, errorValue ));
 		};
   
 	private:
-		FitT (* evalFunc )( FunctionArg, FitnessCalculator* ); ///< Evaluation function used by operator()
-		FitnessCalculator * fitness; ///< Fitness calculator object
+		FitT (* evalFunc )( FunctionArg, ErrorValueCalculator* ); ///< Evaluation function used by operator()
+		ErrorValueCalculator * errorValue; ///< Error Value calculator object
 	}; 
 
 #endif

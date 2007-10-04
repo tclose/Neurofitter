@@ -7,7 +7,7 @@ At the moment there only exists a "Normal" type:
 <TracesReaderParameters>
 
 Settings:
-		The number of times the model has to be run for every fitness evaluation. E.g. for different injection
+		The number of times the model has to be run for every error value evaluation. E.g. for different injection
 		strengths you want to run the model a multiple of times.
         	<NumberOfRuns>...</NumberOfRuns>
 		

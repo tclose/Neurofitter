@@ -9,24 +9,24 @@ Date of last commit: $Date$
 
 #include <nomad>
 #include "FitterInterface.h"
-#include "FitnessCalculator.h"
+#include "ErrorValueCalculator.h"
 #include "FixedParamObject.h"
 
 using namespace std;
 
-extern void setNOMADFitnessCalculator(FitnessCalculator*, int);
+extern void setNOMADErrorValueCalculator(ErrorValueCalculator*, int);
 
 class NOMADFitterInterface : public FitterInterface, FixedParamObject {
 
 	public:
-		NOMADFitterInterface(FitnessCalculator * fit, FixedParameters params);
+		NOMADFitterInterface(ErrorValueCalculator * fit, FixedParameters params);
 		////
 		//Inherited from FitterInterface
     	////
 		virtual FitterResults runFitter(ModelTuningParameters * startPt);
 
 	private:
-    	FitnessCalculator * fitness;
+    	ErrorValueCalculator * errorValue;
 
 		void solveProblem(const Description & description,
       					const Parameters & parameters, Preferences & preferences,

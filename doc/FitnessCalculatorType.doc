@@ -1,17 +1,17 @@
-The FitnessCalculator convert the output traces of the model and the experimental data into a fitness value
+The ErrorValueCalculator convert the output traces of the model and the experimental data into an error value
 for the parameter sets. The only type used at the moment is "Matrix"
 
-	<FitnessCalculatorType>Matrix</FitnessCalculatorType>
-    <FitnessCalculatorParameters>
+	<ErrorValueCalculatorType>Matrix</ErrorValueCalculatorType>
+    <ErrorValueCalculatorParameters>
 		...
-    </FitnessCalculatorParameters>
+    </ErrorValueCalculatorParameters>
     
 Settings:    
 	To enable export of all the evaluated parameter sets, set to 0 if you don't want output to a file 
 		<enableFileExport>1</enableFileExport>
         
 	The name of the export file you can set by:
-		<exportFile>parallelFitness.dat</exportFile>
+		<exportFile>ErrorValues.dat</exportFile>
 
 	The type of the matrix (only 1 type = direct) is set by
 		<VdVdtMatrixType>Direct</VdVdtMatrixType>
@@ -33,6 +33,6 @@ Settings:
 			You can let Neurofitter show numerical output of the matrices if the verboselevel is very high
             	<numericOutputFormat>0</numericOutputFormat>
 			Let Neurofitter calculate the sum of the square roots instead of sum squares when calculating 
-			the fitness value. Setting this value to 1 is supposed to be better.
+			the error value. Setting this value to 1 is supposed to be better.
             	<SumOfSquareRoots>1</SumOfSquareRoots>
 

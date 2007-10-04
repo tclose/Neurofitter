@@ -41,7 +41,7 @@ neurofitter_SOURCES =  $(SRCDIR)/Neurofitter.cpp \
  $(SRCDIR)/DirectVdVdtMatrix.cpp \
  $(SRCDIR)/MapVdVdtMatrix.cpp \
  $(SRCDIR)/DistanceVdVdtMatrix.cpp \
- $(SRCDIR)/MatrixFitnessCalculator.cpp \
+ $(SRCDIR)/MatrixErrorValueCalculator.cpp \
  $(SRCDIR)/FakeExperimentInterface.cpp \
  $(SRCDIR)/FileExperimentInterface.cpp \
  $(SRCDIR)/FileFitterInterface.cpp \
@@ -64,7 +64,7 @@ neurofitter_CXXFLAGS = $(neurofitter_CFLAGS) $(AM_CXXFLAGS)
 ## flags below
 mpineurofitter_SOURCES = $(neurofitter_SOURCES) \
  $(SRCDIR)/MPIModelInterface.cpp \
- $(SRCDIR)/MPIFitnessCalculator.cpp \
+ $(SRCDIR)/MPIErrorValueCalculator.cpp \
  $(SRCDIR)/MPIStream.cpp
 
 ## Compile flags for the mpineurofitter program
@@ -86,7 +86,7 @@ pkginclude_HEADERS = $(INCLUDEDIR)/Neurofitter.h \
   $(INCLUDEDIR)/MeshFitterInterface.h \
   $(INCLUDEDIR)/NormalTracesReader.h \
   $(INCLUDEDIR)/DistanceVdVdtMatrix.h \
-  $(INCLUDEDIR)/FitnessCalculator.h \
+  $(INCLUDEDIR)/ErrorValueCalculator.h \
   $(INCLUDEDIR)/ModelInterface.h \
   $(INCLUDEDIR)/OutputChannel.h \
   $(INCLUDEDIR)/EasyFitterInterface.h \
@@ -97,9 +97,9 @@ pkginclude_HEADERS = $(INCLUDEDIR)/Neurofitter.h \
   $(INCLUDEDIR)/FitterResults.h	\
   $(INCLUDEDIR)/ModelTuningParameters.h	\
   $(INCLUDEDIR)/SwarmFitterInterface.h \
-  $(INCLUDEDIR)/EOFitnessCalculator.h \
+  $(INCLUDEDIR)/EOErrorValueCalculator.h \
   $(INCLUDEDIR)/FixedParameters.h \
-  $(INCLUDEDIR)/MPIFitnessCalculator.h \
+  $(INCLUDEDIR)/MPIErrorValueCalculator.h \
   $(INCLUDEDIR)/SwarmFly.h \
   $(INCLUDEDIR)/EOFitterInterface.h \
   $(INCLUDEDIR)/FixedParamObject.h \
@@ -115,7 +115,7 @@ pkginclude_HEADERS = $(INCLUDEDIR)/Neurofitter.h \
   $(INCLUDEDIR)/MapVdVdtMatrix.h \
   $(INCLUDEDIR)/VdVdtMatrix.h \
   $(INCLUDEDIR)/FakeExperimentInterface.h \
-  $(INCLUDEDIR)/MatrixFitnessCalculator.h \
+  $(INCLUDEDIR)/MatrixErrorValueCalculator.h \
   $(INCLUDEDIR)/NeuronModelInterface.h	\
   $(INCLUDEDIR)/XMLString.h \
   $(INCLUDEDIR)/truthfunction.h

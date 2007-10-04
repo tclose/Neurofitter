@@ -44,7 +44,7 @@ Date of last commit: $Date$
 
 #include <nomad>
 
-#include "FitnessCalculator.h"
+#include "ErrorValueCalculator.h"
 
 class TruthFunction
 {

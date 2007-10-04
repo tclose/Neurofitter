@@ -18,8 +18,8 @@ Date of last commit: $Date$
 
 
 #include "FitterInterface.h"
-#include "FitnessCalculator.h"
-#include "EOFitnessCalculator.h"
+#include "ErrorValueCalculator.h"
+#include "EOErrorValueCalculator.h"
 #include "EODistFitness.h"
 #include "FixedParamObject.h"
 
@@ -29,7 +29,7 @@ class eoState;
 class EOFitterInterface : public FitterInterface, public FixedParamObject {
 
 	public:
-		EOFitterInterface(FitnessCalculator * fit, FixedParameters params):FitterInterface(fit),FixedParamObject(params){};
+		EOFitterInterface(ErrorValueCalculator * fit, FixedParameters params):FitterInterface(fit),FixedParamObject(params){};
 		/////
 		//Inherited from FitterInterface
 		/////

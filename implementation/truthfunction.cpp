@@ -11,11 +11,11 @@ Date of last commit: $Date$
 
 using namespace std;
 
-FitnessCalculator * fitness;
+ErrorValueCalculator * errorValue;
 int numberOfParameters;
 
-void setNOMADFitnessCalculator (FitnessCalculator * f, int newNumberOfParam){
-	fitness = f;
+void setNOMADErrorValueCalculator (ErrorValueCalculator * f, int newNumberOfParam){
+	errorValue = f;
 	numberOfParameters = newNumberOfParam;
 }
 
@@ -37,9 +37,9 @@ double TruthFunction::evaluate(const double * coord) {
 	}
 	params.setTuningParameters(paramValues);
 	
-	fitness->calculateFitness(params);
+	errorValue->calculateErrorValue(params);
 	
-	return params.getFitnessValue();
+	return params.getErrorValue();
 }
 
 vector< double > TruthFunction::parallelEvaluate(const vector< double* > params) {
@@ -54,14 +54,14 @@ vector< double > TruthFunction::parallelEvaluate(const vector< double* > params)
 		paramList[nParams].setTuningParameters(paramValues);
 	}
 	
-	fitness->calculateParallelFitness(paramList);
+	errorValue->calculateParallelErrorValue(paramList);
 
-	vector< double > fitnessValues(params.size());
+	vector< double > errorValues(params.size());
 	for (int i = 0; i < (int)params.size(); i++) {
-		fitnessValues[i] = paramList[i].getFitnessValue();
+		errorValues[i] = paramList[i].getErrorValue();
 	}
 
-	return fitnessValues;
+	return errorValues;
 
 }
 

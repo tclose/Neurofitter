@@ -7,15 +7,15 @@ The FitterType tag in the settings.xml file determines the optimization algorith
 Possible types are:
 - Mesh
 
-	Calculates the fitness values on a mesh in the parameter hyperspace
+	Calculates the error values on a mesh in the parameter hyperspace
 
 - Random
 
-	Calculates the fitness values at uniformly distributed points in the parameter hyperspace	
+	Calculates the error values at uniformly distributed points in the parameter hyperspace	
 
 - File
 
-	Reads parameter sets from a file, and calculates the fitness in these points.
+	Reads parameter sets from a file, and calculates the error value in these points.
 	
 	The file should contain 1 line for every parameter set, with parameter values seperated by spaces
 	Settings:
@@ -47,9 +47,9 @@ Possible types are:
         	<maxGen>...</maxGen>
 		Minimum number of generations
         	<minGen>...</minGen>
-		Maximum number of fitness evaluations
+		Maximum number of error evaluations
         	<maxEval>...</maxEval>
-		Fitness of the perfect solution
+		Error value of the perfect solution
         	<targetFitness>...</targetFitness>
         Termination criterium: maximum number of generations without improvement
 			<steadyGen>...</steadyGen>
