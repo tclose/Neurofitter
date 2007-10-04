@@ -109,3 +109,8 @@ FitnessCalculatorType
 =====================
 Determines the algorithm by Neurofitter to convert output data into a fitness value, please refer to the FitnessCalculatorType.doc documentation file
 
+Root tag
+========
+The root tag in this case is <TestProgram>, but the exact string that is used for this has no meaning for Neurofitter,
+so you can change it to whatever name you like, like <PCModelFitting>. You shouldn't use any of the tags already in
+use by Neurofitter
