@@ -106,6 +106,8 @@ void SwarmFly::resetInformants() {
 ModelTuningParameters SwarmFly::getBestLocalSolution() {
 	if (bestLocalInited) return bestLocalSolution;
 	else crash("SwarmFly","Getting uninitialized local solution");
+	//Should not be reached
+	return -1;
 }
 
 vector< SwarmFly * > SwarmFly::getInformants() {
