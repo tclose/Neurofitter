@@ -57,10 +57,11 @@ public:
     	/// Fill the matrix (and normalize) ///
     	///////////////////////////////////////
 
-    	for (int nPoint = 1; nPoint < trace.getLength()-1; nPoint++) {
+    	for (int nPoint = trace.getLag(); nPoint < trace.getLength()-trace.getLag(); nPoint++) {
         	V = trace[nPoint];
-        	VPrev = trace[nPoint-1];
-        	VNext = trace[nPoint+1];
+			// Multiplied by 2 to normalize to 1 of weight = 1/2
+        	VPrev = 2*(1-trace.getLagWeight())*trace[nPoint-trace.getLag()];
+        	VNext = 2*(trace.getLagWeight())*trace[nPoint+trace.getLag()];
         	dVdt = (VPrev-VNext) * trace.getSamplingFrequency();
 
         	if (V < minimalV) showMessage("Warning: V smaller than minimal V in MapVdVdtMatrix: " + str(V) + "\n",5,fixedParams);

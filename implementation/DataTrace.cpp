@@ -7,10 +7,10 @@ Date of last commit: $Date$
 #include "../DataTrace.h"
 
 DataTrace::DataTrace() 
-	:  points(vector< double >(0)), weight(-1), startTime(-1), stopTime(-1) {}
+	:  points(vector< double >(0)), weight(-1), startTime(-1), stopTime(-1), lag(-1), lagWeight(-1) {}
 
 DataTrace::DataTrace(int size)
-	: points(vector< double >(size)), weight(-1), startTime(-1), stopTime(-1) {}
+	: points(vector< double >(size)), weight(-1), startTime(-1), stopTime(-1), lag(-1), lagWeight(-1) {}
 
 int DataTrace::getLength() const {
 	return points.size();
@@ -49,6 +49,16 @@ string DataTrace::getName() const {
 	return name;
 }
 
+int DataTrace::getLag() const {
+	if (lag == -1) crash("DataTrace","Lag not set");
+	return lag;
+}
+
+double DataTrace::getLagWeight() const {
+	if (lagWeight == -1) crash("DataTrace", "Lag weight not set");
+	return lagWeight;
+}
+
 void DataTrace::setStartTime(const double newStartTime) {
 	startTime = newStartTime;
 }
@@ -70,6 +80,11 @@ void DataTrace::setName(const string newName) {
 	name = newName;
 }
 
+void DataTrace::setLag(int newLag, double newLagWeight) {
+	lag = newLag;
+	lagWeight = newLagWeight;
+}
+
 void DataTrace::printOn(OutputChannel & output) const {
 	int length = points.size();
 	output << length;
@@ -81,7 +96,8 @@ void DataTrace::printOn(OutputChannel & output) const {
 	output << stopTime;
 	output << samplingFrequency;
 	output << name;
-
+	output << lag;
+	output << lagWeight;
 }
 
 void DataTrace::readFrom(InputChannel & input) {
@@ -96,6 +112,8 @@ void DataTrace::readFrom(InputChannel & input) {
 	input >> stopTime;
 	input >> samplingFrequency;
 	input >> name;
+	input >> lag;
+	input >> lagWeight;
 }
     
 

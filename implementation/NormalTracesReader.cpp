@@ -45,13 +45,31 @@ ModelResults NormalTracesReader::readTraces(string dirName) {
     	vector< double > periodStops(numberOfPeriods,0);
     	vector< double > periodWeights(numberOfPeriods,0);
 
-    	istringstream periodStream(fixedParams["Periods"]);
+		istringstream periodStream(fixedParams["Periods"]);
     	for (int i = 0; i < numberOfPeriods; i++) {
 			if (!periodStream.good()) crash("NormalTracesReader","Error while reading " + str(numberOfPeriods) + " recording periods from parameter file");
         	periodStream >> periodStart[i];
         	periodStream >> periodStops[i];
         	periodStream >> periodWeights[i];
     	}
+	
+		vector< int > differenceLags(numberOfPeriods, 0);
+		vector< double > differenceWeights(numberOfPeriods, 0);
+
+		if (fixedParams.parameterExists("DifferenceLags")) {
+			istringstream lagStream(fixedParams["DifferenceLags"]);
+    		for (int i = 0; i < numberOfPeriods; i++) {
+				if (!lagStream.good()) crash("NormalTracesReader","Error while reading " + str(numberOfPeriods) + " difference lags from parameter file");
+				lagStream >> differenceLags[i];		
+				lagStream >> differenceWeights[i];		
+			}
+		}
+		else {
+    		for (int i = 0; i < numberOfPeriods; i++) {
+				differenceLags[i] = 1;
+				differenceWeights[i] = 0.5;
+			}
+		}
 
     	///////////////////////////////////////
     	/// Read the recording site weights ///
@@ -103,7 +121,8 @@ ModelResults NormalTracesReader::readTraces(string dirName) {
             	results[periodIndex+nRecording].setSamplingFrequency(toDouble(fixedParams["SamplingFrequency"]));
             	results[periodIndex+nRecording].setWeight(runWeights[nRun]*periodWeights[nPeriod]*recordWeights[nRecording]);
             	results[periodIndex+nRecording].setStartTime(time);
-            	results[periodIndex+nRecording].setStopTime(periodStops[nPeriod]);
+            	results[periodIndex+nRecording].setStopTime(periodStops[nPeriod]);			
+            	results[periodIndex+nRecording].setLag(differenceLags[nPeriod], differenceWeights[nPeriod]);			
         	}
 
         	/////////////////////

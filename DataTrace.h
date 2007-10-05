@@ -30,6 +30,8 @@ public:
 	double getStartTime() const;
 	double getStopTime() const;
 	double getSamplingFrequency() const;
+	int getLag() const;
+	double getLagWeight() const;
 
 	string getName() const;
 
@@ -38,6 +40,7 @@ public:
 	void setStopTime(const double);
 	void setSamplingFrequency(const double);
 	void setName(const string);
+	void setLag(const int lag, const double weight);
 
 	void resetAndSetLength(const int);
 
@@ -54,6 +57,9 @@ protected:
 	double startTime;
 	double stopTime;
 	double samplingFrequency;
+
+	int lag;
+	double lagWeight;
 
 	string name;
 };
