@@ -47,20 +47,6 @@ double ModelTuningParameters::getUpperBound(const int subscript) const {
 	return bounds[2*subscript+1];	
 }
 
-void ModelTuningParameters::setLowerBound(const int subscript, const double newBound) {
-	if (0 <= subscript && subscript < (int)tuningParameters.size()) {
-		bounds[2*subscript] = newBound;
-	}	
-	else crash("ModelTuningParameters","Lower bound subscript out of range: "+subscript);
-}
-
-void ModelTuningParameters::setUpperBound(const int subscript, const double newBound) {
-	if (0 <= subscript && subscript < (int)tuningParameters.size()) {
-		bounds[2*subscript+1] = newBound;
-	}	
-	else crash("ModelTuningParameters","Upper bound subscript out of range: "+subscript);
-}
-
 int ModelTuningParameters::getLength() const {
 	return tuningParameters.size();	
 }
@@ -90,6 +76,10 @@ void ModelTuningParameters::setTuningParameters(const string paramString, const 
 
 void ModelTuningParameters::setBounds(const vector< double > newBounds) {
 
+	//Check sanity of bounds
+	for (unsigned int i = 0; i < newBounds.size(); i++) {
+		if (newBounds[2*i] - newBounds[2*i+1] > __DBL_EPSILON__) crash("ModelTuningParameters","Lower bound " + str(newBounds[2*i]) + " is larger than upper bound " + str(newBounds[2*i+1]));
+	}
 	bounds = newBounds;
 
 }

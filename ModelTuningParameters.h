@@ -50,9 +50,6 @@ class ModelTuningParameters {
 		double getLowerBound(const int) const; ///< Get the lower bound of the parameters at index
 		double getUpperBound(const int) const; ///< Get the upper bound of the parameters at index
 
-		void setLowerBound(const int, const double); ///< Set the lower bound of the parameter at index
-		void setUpperBound(const int, const double); ///< Set the upper bound of the parameter at index
-
 		double &operator[](const int);	///< Get parameters at index
 		const double &operator[](const int) const;	///< Get parameters at index (const)
 
