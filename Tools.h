@@ -30,6 +30,13 @@ inline string str(int x) {
    return o.str(); 
 }
 
+/// Convert an integer to a string
+inline string str(unsigned int x) {
+   std::ostringstream o;
+   o << x;
+   return o.str(); 
+}
+
 /// Convert a double to a string
 inline string str(double x) {
    std::ostringstream o;
@@ -65,7 +72,7 @@ inline void flushMessage() {
 /// Stop the program with an error message
 inline void crash(string object, string message) {
 	//throw runtime_error("Error in "+object+": "+message);
-	cerr << "Error in " << object << ": " << message << endl;
+	cerr << "Exception in " << object << ": " << message << endl;
 	cerr.flush();
 	exit(1);
 }

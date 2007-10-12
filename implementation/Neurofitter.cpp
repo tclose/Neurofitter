@@ -200,7 +200,7 @@ FixedParameters readParameters(int argc, char* argv[], int rank) {
 	fixedParameters.setGlobal("Bounds");
 	fixedParameters.setGlobal("WorkingDirectory");
 
-    if (toInt(fixedParameters["PrintParameterFile"]) >= 1) {
+    if (toInt(fixedParameters["PrintParameterFile"]) >= 1 && rank == 0) {
 		showMessage("Parameter file: \n" + fileContent + "\n", 1, fixedParameters);
 	}
 

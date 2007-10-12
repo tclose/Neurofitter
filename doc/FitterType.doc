@@ -12,6 +12,9 @@ Possible types are:
 - Random
 
 	Calculates the error values at uniformly distributed points in the parameter hyperspace	
+	Settings:
+		Number of parameter space points evaluated
+			<NumberOfPoints>...</NumberOfPoints
 
 - File
 
@@ -27,9 +30,10 @@ Possible types are:
 - Swarm
 
 	Uses the Particle Swarm Optimization 2006 algorithm
+	The number of parameter sets evaluated is given by NumberOfRuns*floor(10.0+2.0*sqrt(NumberOfDimensions))
 
 	Settings:
-		Number "evolutions" you want the swarm optimization to run:
+		Number of "evolutions" you want the swarm optimization to run:
 			<NumberOfRuns>...</NumberOfRuns>
 
 - EO
