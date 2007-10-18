@@ -67,7 +67,7 @@ FitterResults SwarmFitterInterface::runFitter(ModelTuningParameters * startPoint
 		}
 
 		errorValue->calculateParallelErrorValue(flyPositions);
-		results.insert(results.end(),startPoints.begin(),startPoints.end()); 
+		results.insert(results.end(),flyPositions.begin(),flyPositions.end()); 
 
 		for (int j = 0; j < numberOfFlies; j++) {
 			swarm[j].setNewPositionErrorValue(flyPositions[j]);
