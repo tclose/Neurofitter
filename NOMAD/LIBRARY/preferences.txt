@@ -1,0 +1,4 @@
+#PREFERENCES
+#-----------
+DISPLAY_FACTOR		0
+SEND_EMAIL		0

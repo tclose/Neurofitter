@@ -1,0 +1,21 @@
+To apply the patch:
+
+Download NOMAD from http://www.gerad.ca/NOMAD (Cycle 6)
+
+Unpack NOMAD
+
+Change directory to the NOMAD directory 
+
+Run the command "patch -p1 <NOMADPATCHLOCATION/NOMAD.Neurofitter-0.9.1.patch
+(where NOMADPATCHLOCATION is the directory containing the patch)
+
+
+To compile NOMAD:
+
+Run the following commands in the NOMAD directory:
+make -f Lib_Makefile_parallel
+
+
+Now you can adapt the Makefile of Neurofitter so that it points to the directory containing NOMAD
+
+

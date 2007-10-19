@@ -1,0 +1,3250 @@
+diff -Naur NOMADOriginal/Batch_Makefile_withcache NOMADNeurofitter/Batch_Makefile_withcache
+--- NOMADOriginal/Batch_Makefile_withcache	1970-01-01 01:00:00.000000000 +0100
++++ NOMADNeurofitter/Batch_Makefile_withcache	2006-10-03 13:55:22.000000000 +0200
+@@ -0,0 +1,112 @@
++# Makefile to build the batch version of NOMAD (with the caches).
++#****************************************************************
++
++COMPILER 	= g++
++OPTIONS		= -O2 -Wall -W
++MATHLIB		  = -lm
++
++BERKELEY_DIR	  = /opt/local
++BERKELEY_INCLUDE  = -I$(BERKELEY_DIR)/include/db4
++BERKELEY_LIB	  = -L$(BERKELEY_DIR)/lib -ldb_cxx-4.3 -ldb-4.3 -lpthread
++
++PROJECT 	= batch_nomad
++OBJS1 		= $(PROJECT).cpp augmentedpoint.cpp berkeleydb.cpp cachecontrol.cpp constraints.cpp continuouspollster.cpp description.cpp direction.cpp directionset.cpp evaluator.cpp filter.cpp functioncontrol.cpp generalconstraints.cpp latinhypercubesearcher.cpp mesh.cpp parameters.cpp point.cpp pollcontrol.cpp preferences.cpp randomsearcher.cpp searchcontrol.cpp solver.cpp speculativesearcher.cpp statistics.cpp subject.cpp surrfunction.cpp surrogate.cpp surrogatecontrol.cpp terminator.cpp truthfunction.cpp
++
++OBJS 		= $(PROJECT).o augmentedpoint.o berkeleydb.o cachecontrol.o constraints.o continuouspollster.o description.o direction.o directionset.o evaluator.o filter.o functioncontrol.o generalconstraints.o latinhypercubesearcher.o mesh.o parameters.o point.o pollcontrol.o preferences.o randomsearcher.o searchcontrol.o solver.o speculativesearcher.o statistics.o subject.o surrfunction.o surrogate.o surrogatecontrol.o terminator.o truthfunction.o
++
++$(PROJECT): $(OBJS)
++	$(COMPILER) $(OPTIONS) $(OBJS) -o $(PROJECT) $(BERKELEY_LIB) $(MATHLIB)
++
++$(PROJECT).o: $(PROJECT).cpp
++	$(COMPILER) $(OPTIONS) -c $(PROJECT).cpp
++
++augmentedpoint.o: augmentedpoint.cpp
++	$(COMPILER) $(OPTIONS) -c augmentedpoint.cpp
++
++berkeleydb.o: berkeleydb.cpp
++	$(COMPILER) $(OPTIONS) $(BERKELEY_INCLUDE) -c berkeleydb.cpp
++
++cachecontrol.o: cachecontrol.cpp
++	$(COMPILER) $(OPTIONS) $(BERKELEY_INCLUDE) -c cachecontrol.cpp
++
++constraints.o: constraints.cpp
++	$(COMPILER) $(OPTIONS) -c constraints.cpp
++
++continuouspollster.o: continuouspollster.cpp
++	$(COMPILER) $(OPTIONS) -c continuouspollster.cpp
++
++description.o: description.cpp
++	$(COMPILER) $(OPTIONS) -c description.cpp
++
++direction.o: direction.cpp
++	$(COMPILER) $(OPTIONS) -c direction.cpp
++
++directionset.o: directionset.cpp
++	$(COMPILER) $(OPTIONS) -c directionset.cpp
++
++evaluator.o: evaluator.cpp
++	$(COMPILER) $(OPTIONS) -c evaluator.cpp
++
++filter.o: filter.cpp
++	$(COMPILER) $(OPTIONS) -c filter.cpp
++
++functioncontrol.o: functioncontrol.cpp
++	$(COMPILER) $(OPTIONS) -c functioncontrol.cpp
++
++generalconstraints.o: generalconstraints.cpp
++	$(COMPILER) $(OPTIONS) -c generalconstraints.cpp
++
++latinhypercubesearcher.o: latinhypercubesearcher.cpp
++	$(COMPILER) $(OPTIONS) -c latinhypercubesearcher.cpp
++
++mesh.o: mesh.cpp
++	$(COMPILER) $(OPTIONS) -c mesh.cpp
++
++parameters.o: parameters.cpp
++	$(COMPILER) $(OPTIONS) -c parameters.cpp
++
++point.o: point.cpp
++	$(COMPILER) $(OPTIONS) -c point.cpp
++
++pollcontrol.o: pollcontrol.cpp
++	$(COMPILER) $(OPTIONS) -c pollcontrol.cpp
++
++preferences.o: preferences.cpp
++	$(COMPILER) $(OPTIONS) -c preferences.cpp
++
++randomsearcher.o: randomsearcher.cpp
++	$(COMPILER) $(OPTIONS) -c randomsearcher.cpp
++
++searchcontrol.o: searchcontrol.cpp
++	$(COMPILER) $(OPTIONS) -c searchcontrol.cpp
++
++solver.o: solver.cpp
++	$(COMPILER) $(OPTIONS) -c solver.cpp
++
++speculativesearcher.o: speculativesearcher.cpp
++	$(COMPILER) $(OPTIONS) -c speculativesearcher.cpp
++
++statistics.o: statistics.cpp
++	$(COMPILER) $(OPTIONS) -c statistics.cpp
++
++subject.o: subject.cpp
++	$(COMPILER) $(OPTIONS) -c subject.cpp
++
++surrfunction.o: surrfunction.cpp
++	$(COMPILER) $(OPTIONS) -c surrfunction.cpp
++
++surrogate.o: surrogate.cpp
++	$(COMPILER) $(OPTIONS) -c surrogate.cpp
++
++surrogatecontrol.o: surrogatecontrol.cpp
++	$(COMPILER) $(OPTIONS) -c surrogatecontrol.cpp
++
++terminator.o: terminator.cpp
++	$(COMPILER) $(OPTIONS) -c terminator.cpp
++
++truthfunction.o: truthfunction.cpp
++	$(COMPILER) $(OPTIONS) -c truthfunction.cpp
++
++clean: 
++	-rm -f *.o
++	-rm -f *~ core
+diff -Naur NOMADOriginal/Batch_Makefile_withoutcache NOMADNeurofitter/Batch_Makefile_withoutcache
+--- NOMADOriginal/Batch_Makefile_withoutcache	1970-01-01 01:00:00.000000000 +0100
++++ NOMADNeurofitter/Batch_Makefile_withoutcache	2006-10-03 13:55:22.000000000 +0200
+@@ -0,0 +1,105 @@
++# Makefile to build the batch version of NOMAD (without the caches).
++#*******************************************************************
++
++COMPILER 	= g++
++OPTIONS		= -O2 -Wall -W
++MATHLIB		  = -lm
++
++PROJECT 	= batch_nomad
++OBJS1 		= $(PROJECT).cpp augmentedpoint.cpp cachecontrol.cpp constraints.cpp continuouspollster.cpp description.cpp direction.cpp directionset.cpp evaluator.cpp filter.cpp functioncontrol.cpp generalconstraints.cpp latinhypercubesearcher.cpp mesh.cpp parameters.cpp point.cpp pollcontrol.cpp preferences.cpp randomsearcher.cpp searchcontrol.cpp solver.cpp speculativesearcher.cpp statistics.cpp subject.cpp surrfunction.cpp surrogate.cpp surrogatecontrol.cpp terminator.cpp truthfunction.cpp
++
++OBJS 		= $(PROJECT).o augmentedpoint.o cachecontrol.o constraints.o continuouspollster.o description.o direction.o directionset.o evaluator.o filter.o functioncontrol.o generalconstraints.o latinhypercubesearcher.o mesh.o parameters.o point.o pollcontrol.o preferences.o randomsearcher.o searchcontrol.o solver.o speculativesearcher.o statistics.o subject.o surrfunction.o surrogate.o surrogatecontrol.o terminator.o truthfunction.o
++
++$(PROJECT): $(OBJS)
++	$(COMPILER) $(OPTIONS) $(OBJS) -o $(PROJECT) $(MATHLIB)
++
++$(PROJECT).o: $(PROJECT).cpp
++	$(COMPILER) $(OPTIONS) -c $(PROJECT).cpp
++
++augmentedpoint.o: augmentedpoint.cpp
++	$(COMPILER) $(OPTIONS) -c augmentedpoint.cpp
++
++cachecontrol.o: cachecontrol.cpp
++	$(COMPILER) $(OPTIONS) -c cachecontrol.cpp
++
++constraints.o: constraints.cpp
++	$(COMPILER) $(OPTIONS) -c constraints.cpp
++
++continuouspollster.o: continuouspollster.cpp
++	$(COMPILER) $(OPTIONS) -c continuouspollster.cpp
++
++description.o: description.cpp
++	$(COMPILER) $(OPTIONS) -c description.cpp
++
++direction.o: direction.cpp
++	$(COMPILER) $(OPTIONS) -c direction.cpp
++
++directionset.o: directionset.cpp
++	$(COMPILER) $(OPTIONS) -c directionset.cpp
++
++evaluator.o: evaluator.cpp
++	$(COMPILER) $(OPTIONS) -c evaluator.cpp
++
++filter.o: filter.cpp
++	$(COMPILER) $(OPTIONS) -c filter.cpp
++
++functioncontrol.o: functioncontrol.cpp
++	$(COMPILER) $(OPTIONS) -c functioncontrol.cpp
++
++generalconstraints.o: generalconstraints.cpp
++	$(COMPILER) $(OPTIONS) -c generalconstraints.cpp
++
++latinhypercubesearcher.o: latinhypercubesearcher.cpp
++	$(COMPILER) $(OPTIONS) -c latinhypercubesearcher.cpp
++
++mesh.o: mesh.cpp
++	$(COMPILER) $(OPTIONS) -c mesh.cpp
++
++parameters.o: parameters.cpp
++	$(COMPILER) $(OPTIONS) -c parameters.cpp
++
++point.o: point.cpp
++	$(COMPILER) $(OPTIONS) -c point.cpp
++
++pollcontrol.o: pollcontrol.cpp
++	$(COMPILER) $(OPTIONS) -c pollcontrol.cpp
++
++preferences.o: preferences.cpp
++	$(COMPILER) $(OPTIONS) -c preferences.cpp
++
++randomsearcher.o: randomsearcher.cpp
++	$(COMPILER) $(OPTIONS) -c randomsearcher.cpp
++
++searchcontrol.o: searchcontrol.cpp
++	$(COMPILER) $(OPTIONS) -c searchcontrol.cpp
++
++solver.o: solver.cpp
++	$(COMPILER) $(OPTIONS) -c solver.cpp
++
++speculativesearcher.o: speculativesearcher.cpp
++	$(COMPILER) $(OPTIONS) -c speculativesearcher.cpp
++
++statistics.o: statistics.cpp
++	$(COMPILER) $(OPTIONS) -c statistics.cpp
++
++subject.o: subject.cpp
++	$(COMPILER) $(OPTIONS) -c subject.cpp
++
++surrfunction.o: surrfunction.cpp
++	$(COMPILER) $(OPTIONS) -c surrfunction.cpp
++
++surrogate.o: surrogate.cpp
++	$(COMPILER) $(OPTIONS) -c surrogate.cpp
++
++surrogatecontrol.o: surrogatecontrol.cpp
++	$(COMPILER) $(OPTIONS) -c surrogatecontrol.cpp
++
++terminator.o: terminator.cpp
++	$(COMPILER) $(OPTIONS) -c terminator.cpp
++
++truthfunction.o: truthfunction.cpp
++	$(COMPILER) $(OPTIONS) -c truthfunction.cpp
++
++clean: 
++	-rm -f *.o
++	-rm -f *~ core
+diff -Naur NOMADOriginal/HS23/cache.txt NOMADNeurofitter/HS23/cache.txt
+--- NOMADOriginal/HS23/cache.txt	1970-01-01 01:00:00.000000000 +0100
++++ NOMADNeurofitter/HS23/cache.txt	2006-10-03 13:55:22.000000000 +0200
+@@ -0,0 +1,40 @@
++            1b   	    	                          ä∏  ﬁk9»  oﬂ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             dºòlHúx
++¯	\	8§Äd@lH4‹∏‹∏4
++‰
++¿	$	 Ñ`L(	î	pT0§ÄÏ»|XÙ–Ñ`,ºòËÙ–úx	Ã	®‘∞åh¥ê
++<
++|Xd@ƒ†
++	‡D D ¥ê
++t
++P¸ÿ‘∞Ï»
++¨
++à,ËL(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @&$tSéÛMø…ôôôôôö¿#·öA_E·?±¬è\(ı√  @      ø˙ÃÃÃÃÃÃ   @(Ô™ÕûÉ‰?∆ffffff¿$°ñRΩ<6øı=p£◊
++=  @      ¿ ffffff   @$Bﬁ —∑?∆ffffff¿!aöA_E·ø„Æz·GÆ  @      ø¸ÃÃÃÃÃÃ   @%V4ÍKø‘ÃÃÃÃÃÕ¿#°öA_E·?ﬁ=p£◊
++=  @      ø¯ÃÃÃÃÃÃ   @'ﬁ —∑ø≥333333¿$!ñRΩ<6ø◊\(ı¬è\  @      ø¸ÃÃÃÃÃÃ   @'úwökP±ø‘ÃÃÃÃÃÕ¿%Yôôôôö?»·GÆz·  @      ø˙ÃÃÃÃÃÃ   @*ﬁ —∑ø‘ÃÃÃÃÃÕ¿'!ñRΩ<6øΩp£◊
++=q  @	      ø¸ÃÃÃÃÃÃ   @-áÆz·Hø…ôôôôôö¿)9ôôôôöøÓz·GÆ{  @
++      ¿ ffffff   @)Óz·GÆøÊffffff¿(9ôôôôö?Î∏QÎÖ  @
++      ø¯ÃÃÃÃÃÃ   @/¥z·GÆ?©ôôôôôö¿)πôôôôö¿ QÎÖ∏R  @
++      ¿ffffff   @%ö·GÆ{?©ôôôôôö¿"πôôôôöøﬂ\(ı¬è\  @      ø¸ÃÃÃÃÃÃ   @(ÅGÆz·øÓffffff¿'πôôôôö?¯ı¬è\(ˆ  @
++      øÙÃÃÃÃÃÃ   @1Mp£◊
++=øÓffffff¿/πôôôôö?‡QÎÖ∏R  @      ø¸ÃÃÃÃÃÃ   @+ö·GÆ{ø‹ÃÃÃÃÃÕ¿(πôôôôö?Ñz·GÆ{  @
++      ø¸ÃÃÃÃÃÃ   @;„◊
++=p§¿ÃÃÃÃÃÕ¿7LÃÃÃÃÕ@ ·GÆz·  @      ?˚333334   @9
++=p£◊¿ÃÃÃÃÃÕ¿2ÃÃÃÃÕø’¬è\(ı√  @      @ôôôôôö   @@%∏QÎÖ¿ÃÃÃÃÃÕ¿6LÃÃÃÃÕ¿QÎÖ∏R  @      @ôôôôôö   @AãÖ∏QÏ¿ÃÃÃÃÃÕ¿<ÃÃÃÃÕ?Â∏QÎÖ  @      @ôôôôôö   @,îz·GÆ?”333333¿&ôôôôôö¿QÎÖ∏R  @      ¿ffffff   @"˙·GÆ{?”333333¿ ôôôôöøÁÆz·GÆ  @      ø¸ÃÃÃÃÃÃ   @%aGÆz·øÊffffff¿$ôôôôôö?Ùı¬è\(ˆ  @      øÙÃÃÃÃÃÃ   @.˙·GÆ{øÊffffff¿,ôôôôö?–£◊
++=p§  @      ø¸ÃÃÃÃÃÃ   @:p£◊
++=q¿ÃÃÃÃÃÕ¿7ÃÃÃÃÃÕ@z·GÆ{  @      ?Û333334   @4◊
++=p£◊¿ÃÃÃÃÃÕ¿+ôôôôôöøÍ·GÆz·  @      @ôôôôôö   @Aû∏QÎÖ¿ÃÃÃÃÃÕ¿5ÃÃÃÃÃÕ¿ı¬è\(ˆ  @      @	ôôôôôö   @DkÖ∏QÏ¿ÃÃÃÃÃÕ¿@Êfffff?Úè\(ı¬è  @      @ôôôôôö   @0◊
++=p£◊?Èôôôôôö¿'ôôôôôö¿\(ı¬è\  @      ¿ffffff   @ı¬è\(ˆ?Èôôôôôö¿333333øÛ◊
++=p£◊  @       ø¸ÃÃÃÃÃÃ   @#GÆz·HøÛ333333¿#ôôôôôö@·GÆz·  @      øÈôôôôôò   @3=p£◊
++=øÛ333333¿1ÃÃÃÃÃÕ?ËQÎÖ∏R  @      ø¸ÃÃÃÃÃÃ   @9
++=p£◊
++¿ÃÃÃÃÃÕ¿8ÃÃÃÃÃÕ@◊
++=p£◊  @      ?…ôôôôô†   @EQÎÖ∏R¿ ffffff¿4ÃÃÃÃÃÕ¿)GÆz·H  @      @ÃÃÃÃÃÕ   @7p£◊
++=q?¸ÃÃÃÃÃÕ¿)ôôôôôö¿&·GÆz·  @      ¿ffffff   @ı¬è\(ˆ?¸ÃÃÃÃÃÕ¿ffffff¿ÎÖ∏QÏ  ?      ø¸ÃÃÃÃÃÃ   @"z·GÆ¿ôôôôôö¿!ôôôôôö@Æz·GÆ  @      ?…ôôôôô†   @ZBè\(ı√@333333¿2ÃÃÃÃÃÕ¿WBè\(ı√  @      ¿#ôôôôôö   @<=p£◊
++=@333333¿:ÃÃÃÃÃÕ¿ z·GÆ{  ¿      ø¸ÃÃÃÃÃÃ   @_\(ı¬è¿ ffffff¿^≥33333@
++=p£◊
++  @&      ø¸ÃÃÃÃÃÃ   @(z·GÆ{ø…ôôôôôö¿%ôôôôôöøŒ∏QÎÖ∏  @      ø¸ÃÃÃÃÃÃ   @\(ı¬è\ø…ôôôôôö?Û333333¿\(ı¬è\  ø      @ôôôôôö   @G∏QÎÖ∏¿ ffffff¿ffffff¿A∏QÎÖ∏  @      @ÃÃÃÃÃÕ   @JÎÖ∏QÏ¿ ffffff¿Gffffff@GÆz·H  @      @ôôôôôö   @<=p£◊
++=¿ôôôôôö¿:ÃÃÃÃÃÕ?¸(ı¬è\)  @      ø¸ÃÃÃÃÃÃ   @\(ı¬è\¿ôôôôôö?Û333333¿∏QÎÖ∏  ?      @ôôôôôö   @O∏QÎÖ∏¿$ffffff¿2ÃÃÃÃÃÕ¿@∏QÎÖ∏  @      @ÃÃÃÃÃÕ   @Uu¬è\(ˆ¿$ffffff¿S≥33333@£◊
++=p§  @"      @ôôôôôö   @=◊
++=p£◊¿ÃÃÃÃÃÕ¿6ÃÃÃÃÃÕ?ƒz·GÆ{  @      @ôôôôôö   @+Æz·GÆ¿ÃÃÃÃÃÕ¿333333ø˝p£◊
++=q  @      @ôôôôôö   @1p£◊
++=q¿ÃÃÃÃÃÕ¿-ôôôôôö@z·GÆ{  @      ?Û333333   @$·GÆz·¿	ôôôôôö¿333333?¯ı¬è\(ˆ  @      ?Û333333 
+\ No newline at end of file
+diff -Naur NOMADOriginal/HS23/description.dat NOMADNeurofitter/HS23/description.dat
+--- NOMADOriginal/HS23/description.dat	2005-05-09 00:38:06.000000000 +0200
++++ NOMADNeurofitter/HS23/description.dat	2006-10-03 13:55:22.000000000 +0200
+@@ -5,7 +5,8 @@
+ USE_SURROGATE	0
+ USE_BLACK_BOXES	1
+ USE_BOUNDS	1
+-USE_CACHES	0
++USE_CACHES	1
++CACHE_FILE HS23/cache.txt
+ DIRECTORY	HS23/
+ START_PT_FILE	HS23/start_pt.txt
+ INPUT_FILE	HS23/input.txt
+diff -Naur NOMADOriginal/HS23/input.txt NOMADNeurofitter/HS23/input.txt
+--- NOMADOriginal/HS23/input.txt	1970-01-01 01:00:00.000000000 +0100
++++ NOMADNeurofitter/HS23/input.txt	2006-10-03 13:55:22.000000000 +0200
+@@ -0,0 +1,2 @@
++2.875
++-1.67499999999999982236431605997495353221893310546875
+diff -Naur NOMADOriginal/HS23/output.txt NOMADNeurofitter/HS23/output.txt
+--- NOMADOriginal/HS23/output.txt	1970-01-01 01:00:00.000000000 +0100
++++ NOMADNeurofitter/HS23/output.txt	2006-10-03 13:55:22.000000000 +0200
+@@ -0,0 +1 @@
++11.0712
+\ No newline at end of file
+diff -Naur NOMADOriginal/HS23/results.txt NOMADNeurofitter/HS23/results.txt
+--- NOMADOriginal/HS23/results.txt	1970-01-01 01:00:00.000000000 +0100
++++ NOMADNeurofitter/HS23/results.txt	2006-10-03 13:55:22.000000000 +0200
+@@ -0,0 +1,83 @@
++Problem specifications:
++-----------------------
++Problem dimension: 2, number of outputs: 4
++Random seed: 65
++Use the caches? Yes
++Starting point (infeasible):  10.44   (3, 1.2)
++
++Constraints:
++------------
++Lower bounds: (-50, -50)
++Upper bounds: (50, 50)
++
++Scaling:
++--------
++No scaling
++
++Number of general constraints: 3
++Constraint violation norm: L2 squared
++hmax relative to starting point's h(x): 12.168
++hmin: 0.0001
++
++No search.
++----------
++
++Mesh variables:
++---------------
++Initial poll size: 1
++Initial mesh size: 1
++Maximum poll size: 100000
++Maximum mesh size: 100000
++Poll size basis: 2
++Coarsening exponent: 1
++Refining exponent: -1
++
++Poll strategy variables:
++------------------------
++Fixed order? Fixed
++Continuous poll, opportunistic.
++Standard, 2 * n directions.
++
++Termination criteria:
++---------------------
++Poll size: NA
++Mesh size: NA
++Number of iterations: NA
++Number of truth evaluations: 50
++Number of new truth evaluations: NA
++Number of consecutive failures: NA
++
++
++Run-time information...
++
++feval #   f(x)   Point
++-------   ----   -----
++   3    13.84   (3, 2.2)
++   12    12.24   (3, -1.8)
++   46    11.5056   (2.875, -1.8)
++   50    11.5056   (2.875, -1.8)
++
++Problem solution:
++-----------------
++Best point found: 11.5056   (2.875, -1.8)
++Final mesh size: 0.125
++Number of iterations: 20
++Truth evaluations: 50
++New truth evaluations: 50
++Number of temporary cache hits: 20
++Number of permanent cache hits: 0
++Number of consecutive failures: 4
++
++
++Run statistics
++--------------
++
++		NUMBER OF	f(x) DECREASE AT
++		SUCCESSES	FEASIBLE POINTS (%)
++		---------	-------------------
++POLL		    5		     100.00
++SEARCH   	    0		     0.00
++   (Initial   	    0		     0.00)
++   (Iterative	    0		     0.00)
++   (Dense	    0		     0.00)
++
+diff -Naur NOMADOriginal/LIBRARY/filter_graph.txt NOMADNeurofitter/LIBRARY/filter_graph.txt
+--- NOMADOriginal/LIBRARY/filter_graph.txt	1970-01-01 01:00:00.000000000 +0100
++++ NOMADNeurofitter/LIBRARY/filter_graph.txt	2006-10-03 13:55:22.000000000 +0200
+@@ -0,0 +1,7 @@
++0.0001  13.8025
++0.0025  10.8025
++0.030625  10.1306
++0.09  9.49
++0.64  7.24
++1.44  5.84
++3.24  4.24
+diff -Naur NOMADOriginal/LIBRARY/graph.txt NOMADNeurofitter/LIBRARY/graph.txt
+--- NOMADOriginal/LIBRARY/graph.txt	1970-01-01 01:00:00.000000000 +0100
++++ NOMADNeurofitter/LIBRARY/graph.txt	2006-10-03 13:55:22.000000000 +0200
+@@ -0,0 +1,4 @@
++3  13.84
++12  12.24
++46  11.5056
++50  11.5056
+diff -Naur NOMADOriginal/LIBRARY/history.txt NOMADNeurofitter/LIBRARY/history.txt
+--- NOMADOriginal/LIBRARY/history.txt	1970-01-01 01:00:00.000000000 +0100
++++ NOMADNeurofitter/LIBRARY/history.txt	2006-10-03 13:55:22.000000000 +0200
+@@ -0,0 +1,52 @@
++x1	x2	f(x)	g1(x)	g2(x)	g3(x)	h(x)
++
++3	1.2	10.44	-3.2	-7.8	1.56	2.4336
++4	1.2	17.44	-4.2	-14.8	2.56	6.5536
++3	2.2	13.84	-4.2	-6.8	-1.84	0
++5	2.2	29.84	-6.2	-22.8	0.16	0.0256
++9	2.2	85.84	-10.2	-78.8	4.16	INFINITY
++5	6.2	63.44	-10.2	-18.8	-33.44	0
++1	2.2	5.84	-2.2	1.2	-3.84	1.44
++5	-1.8	28.24	-2.2	-26.8	1.76	3.0976
++7	2.2	53.84	-8.2	-46.8	2.16	4.6656
++3	6.2	47.44	-8.2	-2.8	-35.44	0
++-1	2.2	5.84	-0.2	1.2	-5.84	1.44
++3	-1.8	12.24	-0.2	-10.8	-0.24	0
++11	-1.8	124.24	-8.2	-122.8	7.76	INFINITY
++-5	-1.8	28.24	7.8	-26.8	-8.24	INFINITY
++3	-9.8	105.04	7.8	-18.8	-93.04	INFINITY
++3	0.2	9.04	-2.2	-8.8	2.96	8.7616
++1	-1.8	4.24	1.8	-2.8	-2.24	3.24
++3	-3.8	23.44	1.8	-12.8	-11.44	3.24
++5	4.2	42.64	-8.2	-20.8	-12.64	0
++5	0.2	25.04	-4.2	-24.8	4.96	INFINITY
++4	-1.8	19.24	-1.2	-17.8	0.76	0.5776
++3	-0.8	9.64	-1.2	-9.8	2.36	5.5696
++2	-1.8	7.24	0.8	-5.8	-1.24	0.64
++3	-2.8	16.84	0.8	-11.8	-4.84	0.64
++6	2.2	40.84	-7.2	-33.8	1.16	1.3456
++5	3.2	35.24	-7.2	-21.8	-5.24	0
++4	2.2	20.84	-5.2	-13.8	-0.84	0
++5	1.2	26.44	-5.2	-23.8	3.56	INFINITY
++3.5	-1.8	15.49	-0.7	-14.05	0.26	0.0676
++3	-1.3	10.69	-0.7	-10.3	1.31	1.7161
++2.5	-1.8	9.49	0.3	-8.05	-0.74	0.09
++3	-2.3	14.29	0.3	-11.3	-2.29	0.09
++5.5	2.2	35.09	-6.7	-28.05	0.66	0.4356
++5	2.7	32.29	-6.7	-22.3	-2.29	0
++4.5	2.2	25.09	-5.7	-18.05	-0.34	0
++5	1.7	27.89	-5.7	-23.3	2.11	4.4521
++3.25	-1.8	13.8025	-0.45	-12.3625	0.01	0.0001
++3.75	-1.8	17.3025	-0.95	-15.8625	0.51	0.2601
++3.25	-1.3	12.2525	-0.95	-11.8625	1.56	2.4336
++2.75	-1.8	10.8025	0.05	-9.3625	-0.49	0.0025
++3.25	-2.3	15.8525	0.05	-12.8625	-2.04	0.0025
++3.25	-1.55	12.965	-0.7	-12.1125	0.8475	0.718256
++3.25	-2.05	14.765	-0.2	-12.6125	-0.9525	0
++3.125	-1.8	13.0056	-0.325	-11.5656	-0.115	0
++3	-1.675	11.8056	-0.325	-10.675	0.194375	0.0377816
++2.875	-1.8	11.5056	-0.075	-10.0656	-0.365	0
++2.875	-1.55	10.6681	-0.325	-9.81563	0.4725	0.223256
++2.625	-1.8	10.1306	0.175	-8.69063	-0.615	0.030625
++2.875	-2.05	12.4681	0.175	-10.3156	-1.3275	0.030625
++2.875	-1.675	11.0712	-0.2	-9.94063	0.069375	0.00481289
+diff -Naur NOMADOriginal/LIBRARY/parameters.dat NOMADNeurofitter/LIBRARY/parameters.dat
+--- NOMADOriginal/LIBRARY/parameters.dat	1970-01-01 01:00:00.000000000 +0100
++++ NOMADNeurofitter/LIBRARY/parameters.dat	2006-10-03 13:55:22.000000000 +0200
+@@ -0,0 +1,46 @@
++#MESH PARAMETERS
++#---------------
++INITIAL_POLL_SIZE	1
++MAX_POLL_SIZE		100000
++POLL_BASIS		2
++COARSENING_EXPONENT	1
++REFINING_EXPONENT	-1
++#
++#RANDOM SEED PARAMETER
++#---------------------
++RANDOM_SEED		1
++#
++#POLL PARAMETERS
++#---------------
++POLL_ORDER		1
++POLL_COMPLETE		0
++POLL_DIRECTIONS		0
++#
++#SEARCH PARAMETERS
++#-----------------
++INITIAL_SEARCH		0
++INITIAL_COMPLETE	0
++INITIAL_POINTS		0
++ITERATIVE_SEARCH	0
++ITERATIVE_COMPLETE	0
++ITERATIVE_POINTS	0
++SPECULATIVE_SEARCH	0
++#
++#TERMINATION PARAMETERS
++#----------------------
++POLL_SIZE_TERM		0
++CONSECUTIVE_FAILS	-1
++TRUTH_EVALS		50
++ITERATIONS		-1
++NEW_TRUTH_EVALS		-1
++#
++#FILTER PARAMETERS
++#-----------------
++FILTER_RELATIVE		1
++HMAX			100
++HMIN			0.0001
++FILTER_NORM		2
++#
++#SURROGATE PARAMETERS
++#--------------------
++SURROGATE_TOLERANCE	10
+diff -Naur NOMADOriginal/Lib_Makefile_parallel NOMADNeurofitter/Lib_Makefile_parallel
+--- NOMADOriginal/Lib_Makefile_parallel	1970-01-01 01:00:00.000000000 +0100
++++ NOMADNeurofitter/Lib_Makefile_parallel	2006-10-03 13:55:22.000000000 +0200
+@@ -0,0 +1,109 @@
++# Makefile to build the library version of NOMAD (without the caches).
++#****************************************************************
++
++COMPILER 	= g++
++OPTIONS		= -O2 -Wall -W -DPARANOMAD
++MATHLIB		  = -lm
++
++AR = ar
++
++LIBNOMAD	= libnomad.a
++PROJECT 	= nomad
++OBJS1 		= $(PROJECT).cpp augmentedpoint.cpp cachecontrol.cpp constraints.cpp continuouspollster.cpp description.cpp direction.cpp directionset.cpp evaluator.cpp filter.cpp functioncontrol.cpp generalconstraints.cpp latinhypercubesearcher.cpp mesh.cpp parameters.cpp point.cpp pollcontrol.cpp preferences.cpp randomsearcher.cpp searchcontrol.cpp solver.cpp speculativesearcher.cpp statistics.cpp subject.cpp surrfunction.cpp surrogate.cpp surrogatecontrol.cpp terminator.cpp
++
++OBJS 		= augmentedpoint.o cachecontrol.o constraints.o continuouspollster.o description.o direction.o directionset.o evaluator.o filter.o functioncontrol.o generalconstraints.o latinhypercubesearcher.o mesh.o parameters.o point.o pollcontrol.o preferences.o randomsearcher.o searchcontrol.o solver.o speculativesearcher.o statistics.o subject.o surrfunction.o surrogate.o surrogatecontrol.o terminator.o
++
++$(LIBNOMAD): $(OBJS)
++	$(AR) rcs $(LIBNOMAD) $(OBJS)	
++
++$(PROJECT): $(OBJS)
++	$(COMPILER) $(OPTIONS) $(OBJS) -o $(PROJECT) $(MATHLIB)
++
++$(PROJECT).o: $(PROJECT).cpp
++	$(COMPILER) $(OPTIONS) -c $(PROJECT).cpp
++
++augmentedpoint.o: augmentedpoint.cpp
++	$(COMPILER) $(OPTIONS) -c augmentedpoint.cpp
++
++cachecontrol.o: cachecontrol.cpp
++	$(COMPILER) $(OPTIONS) -c cachecontrol.cpp
++
++constraints.o: constraints.cpp
++	$(COMPILER) $(OPTIONS) -c constraints.cpp
++
++continuouspollster.o: continuouspollster.cpp
++	$(COMPILER) $(OPTIONS) -c continuouspollster.cpp
++
++description.o: description.cpp
++	$(COMPILER) $(OPTIONS) -c description.cpp
++
++direction.o: direction.cpp
++	$(COMPILER) $(OPTIONS) -c direction.cpp
++
++directionset.o: directionset.cpp
++	$(COMPILER) $(OPTIONS) -c directionset.cpp
++
++evaluator.o: evaluator.cpp
++	$(COMPILER) $(OPTIONS) -c evaluator.cpp
++
++filter.o: filter.cpp
++	$(COMPILER) $(OPTIONS) -c filter.cpp
++
++functioncontrol.o: functioncontrol.cpp
++	$(COMPILER) $(OPTIONS) -c functioncontrol.cpp
++
++generalconstraints.o: generalconstraints.cpp
++	$(COMPILER) $(OPTIONS) -c generalconstraints.cpp
++
++latinhypercubesearcher.o: latinhypercubesearcher.cpp
++	$(COMPILER) $(OPTIONS) -c latinhypercubesearcher.cpp
++
++mesh.o: mesh.cpp
++	$(COMPILER) $(OPTIONS) -c mesh.cpp
++
++parameters.o: parameters.cpp
++	$(COMPILER) $(OPTIONS) -c parameters.cpp
++
++point.o: point.cpp
++	$(COMPILER) $(OPTIONS) -c point.cpp
++
++pollcontrol.o: pollcontrol.cpp
++	$(COMPILER) $(OPTIONS) -c pollcontrol.cpp
++
++preferences.o: preferences.cpp
++	$(COMPILER) $(OPTIONS) -c preferences.cpp
++
++randomsearcher.o: randomsearcher.cpp
++	$(COMPILER) $(OPTIONS) -c randomsearcher.cpp
++
++searchcontrol.o: searchcontrol.cpp
++	$(COMPILER) $(OPTIONS) -c searchcontrol.cpp
++
++solver.o: solver.cpp
++	$(COMPILER) $(OPTIONS) -c solver.cpp
++
++speculativesearcher.o: speculativesearcher.cpp
++	$(COMPILER) $(OPTIONS) -c speculativesearcher.cpp
++
++statistics.o: statistics.cpp
++	$(COMPILER) $(OPTIONS) -c statistics.cpp
++
++subject.o: subject.cpp
++	$(COMPILER) $(OPTIONS) -c subject.cpp
++
++surrfunction.o: surrfunction.cpp
++	$(COMPILER) $(OPTIONS) -c surrfunction.cpp
++
++surrogate.o: surrogate.cpp
++	$(COMPILER) $(OPTIONS) -c surrogate.cpp
++
++surrogatecontrol.o: surrogatecontrol.cpp
++	$(COMPILER) $(OPTIONS) -c surrogatecontrol.cpp
++
++terminator.o: terminator.cpp
++	$(COMPILER) $(OPTIONS) -c terminator.cpp
++
++clean: 
++	-rm -f *.o
++	-rm -f *.a
++	-rm -f *~ core
+diff -Naur NOMADOriginal/Lib_Makefile_withcache NOMADNeurofitter/Lib_Makefile_withcache
+--- NOMADOriginal/Lib_Makefile_withcache	1970-01-01 01:00:00.000000000 +0100
++++ NOMADNeurofitter/Lib_Makefile_withcache	2006-10-03 13:55:22.000000000 +0200
+@@ -0,0 +1,116 @@
++# Makefile to build the batch version of NOMAD (with the caches).
++#****************************************************************
++
++COMPILER 	= g++
++OPTIONS		= -O2 -Wall -W
++MATHLIB		  = -lm
++
++BERKELEY_DIR      = /opt/local
++BERKELEY_INCLUDE  = -I$(BERKELEY_DIR)/include/db4
++BERKELEY_LIB      = -L$(BERKELEY_DIR)/lib -ldb_cxx-4.3 -ldb-4.3 -lpthread
++
++AR = ar
++
++LIBNOMAD	= libnomad.a
++PROJECT 	= nomad
++OBJS1 		= $(PROJECT).cpp augmentedpoint.cpp berkeleydb.cpp cachecontrol.cpp constraints.cpp continuouspollster.cpp description.cpp direction.cpp directionset.cpp evaluator.cpp filter.cpp functioncontrol.cpp generalconstraints.cpp latinhypercubesearcher.cpp mesh.cpp parameters.cpp point.cpp pollcontrol.cpp preferences.cpp randomsearcher.cpp searchcontrol.cpp solver.cpp speculativesearcher.cpp statistics.cpp subject.cpp surrfunction.cpp surrogate.cpp surrogatecontrol.cpp terminator.cpp
++
++OBJS 		= augmentedpoint.o berkeleydb.o cachecontrol.o constraints.o continuouspollster.o description.o direction.o directionset.o evaluator.o filter.o functioncontrol.o generalconstraints.o latinhypercubesearcher.o mesh.o parameters.o point.o pollcontrol.o preferences.o randomsearcher.o searchcontrol.o solver.o speculativesearcher.o statistics.o subject.o surrfunction.o surrogate.o surrogatecontrol.o terminator.o
++
++$(LIBNOMAD): $(OBJS)
++	$(AR) rcs $(LIBNOMAD) $(OBJS)	
++
++$(PROJECT): $(OBJS)
++	$(COMPILER) $(OPTIONS) $(OBJS) -o $(PROJECT) $(BERKELEY_LIB) $(MATHLIB)
++
++$(PROJECT).o: $(PROJECT).cpp
++	$(COMPILER) $(OPTIONS) -c $(PROJECT).cpp
++
++augmentedpoint.o: augmentedpoint.cpp
++	$(COMPILER) $(OPTIONS) -c augmentedpoint.cpp
++
++berkeleydb.o: berkeleydb.cpp
++	$(COMPILER) $(OPTIONS) $(BERKELEY_INCLUDE) -c berkeleydb.cpp
++
++cachecontrol.o: cachecontrol.cpp
++	$(COMPILER) $(OPTIONS) $(BERKELEY_INCLUDE) -c cachecontrol.cpp
++
++constraints.o: constraints.cpp
++	$(COMPILER) $(OPTIONS) -c constraints.cpp
++
++continuouspollster.o: continuouspollster.cpp
++	$(COMPILER) $(OPTIONS) -c continuouspollster.cpp
++
++description.o: description.cpp
++	$(COMPILER) $(OPTIONS) -c description.cpp
++
++direction.o: direction.cpp
++	$(COMPILER) $(OPTIONS) -c direction.cpp
++
++directionset.o: directionset.cpp
++	$(COMPILER) $(OPTIONS) -c directionset.cpp
++
++evaluator.o: evaluator.cpp
++	$(COMPILER) $(OPTIONS) -c evaluator.cpp
++
++filter.o: filter.cpp
++	$(COMPILER) $(OPTIONS) -c filter.cpp
++
++functioncontrol.o: functioncontrol.cpp
++	$(COMPILER) $(OPTIONS) -c functioncontrol.cpp
++
++generalconstraints.o: generalconstraints.cpp
++	$(COMPILER) $(OPTIONS) -c generalconstraints.cpp
++
++latinhypercubesearcher.o: latinhypercubesearcher.cpp
++	$(COMPILER) $(OPTIONS) -c latinhypercubesearcher.cpp
++
++mesh.o: mesh.cpp
++	$(COMPILER) $(OPTIONS) -c mesh.cpp
++
++parameters.o: parameters.cpp
++	$(COMPILER) $(OPTIONS) -c parameters.cpp
++
++point.o: point.cpp
++	$(COMPILER) $(OPTIONS) -c point.cpp
++
++pollcontrol.o: pollcontrol.cpp
++	$(COMPILER) $(OPTIONS) -c pollcontrol.cpp
++
++preferences.o: preferences.cpp
++	$(COMPILER) $(OPTIONS) -c preferences.cpp
++
++randomsearcher.o: randomsearcher.cpp
++	$(COMPILER) $(OPTIONS) -c randomsearcher.cpp
++
++searchcontrol.o: searchcontrol.cpp
++	$(COMPILER) $(OPTIONS) -c searchcontrol.cpp
++
++solver.o: solver.cpp
++	$(COMPILER) $(OPTIONS) -c solver.cpp
++
++speculativesearcher.o: speculativesearcher.cpp
++	$(COMPILER) $(OPTIONS) -c speculativesearcher.cpp
++
++statistics.o: statistics.cpp
++	$(COMPILER) $(OPTIONS) -c statistics.cpp
++
++subject.o: subject.cpp
++	$(COMPILER) $(OPTIONS) -c subject.cpp
++
++surrfunction.o: surrfunction.cpp
++	$(COMPILER) $(OPTIONS) -c surrfunction.cpp
++
++surrogate.o: surrogate.cpp
++	$(COMPILER) $(OPTIONS) -c surrogate.cpp
++
++surrogatecontrol.o: surrogatecontrol.cpp
++	$(COMPILER) $(OPTIONS) -c surrogatecontrol.cpp
++
++terminator.o: terminator.cpp
++	$(COMPILER) $(OPTIONS) -c terminator.cpp
++
++clean: 
++	-rm -f *.o
++	-rm -f *.a
++	-rm -f *~ core
+diff -Naur NOMADOriginal/Lib_Makefile_withoutcache NOMADNeurofitter/Lib_Makefile_withoutcache
+--- NOMADOriginal/Lib_Makefile_withoutcache	1970-01-01 01:00:00.000000000 +0100
++++ NOMADNeurofitter/Lib_Makefile_withoutcache	2006-10-03 13:55:22.000000000 +0200
+@@ -0,0 +1,109 @@
++# Makefile to build the library version of NOMAD (without the caches).
++#****************************************************************
++
++COMPILER 	= g++
++OPTIONS		= -O2 -Wall -W
++MATHLIB		  = -lm
++
++AR = ar
++
++LIBNOMAD	= libnomad.a
++PROJECT 	= nomad
++OBJS1 		= $(PROJECT).cpp augmentedpoint.cpp cachecontrol.cpp constraints.cpp continuouspollster.cpp description.cpp direction.cpp directionset.cpp evaluator.cpp filter.cpp functioncontrol.cpp generalconstraints.cpp latinhypercubesearcher.cpp mesh.cpp parameters.cpp point.cpp pollcontrol.cpp preferences.cpp randomsearcher.cpp searchcontrol.cpp solver.cpp speculativesearcher.cpp statistics.cpp subject.cpp surrfunction.cpp surrogate.cpp surrogatecontrol.cpp terminator.cpp
++
++OBJS 		= augmentedpoint.o cachecontrol.o constraints.o continuouspollster.o description.o direction.o directionset.o evaluator.o filter.o functioncontrol.o generalconstraints.o latinhypercubesearcher.o mesh.o parameters.o point.o pollcontrol.o preferences.o randomsearcher.o searchcontrol.o solver.o speculativesearcher.o statistics.o subject.o surrfunction.o surrogate.o surrogatecontrol.o terminator.o
++
++$(LIBNOMAD): $(OBJS)
++	$(AR) rcs $(LIBNOMAD) $(OBJS)	
++
++$(PROJECT): $(OBJS)
++	$(COMPILER) $(OPTIONS) $(OBJS) -o $(PROJECT) $(MATHLIB)
++
++$(PROJECT).o: $(PROJECT).cpp
++	$(COMPILER) $(OPTIONS) -c $(PROJECT).cpp
++
++augmentedpoint.o: augmentedpoint.cpp
++	$(COMPILER) $(OPTIONS) -c augmentedpoint.cpp
++
++cachecontrol.o: cachecontrol.cpp
++	$(COMPILER) $(OPTIONS) -c cachecontrol.cpp
++
++constraints.o: constraints.cpp
++	$(COMPILER) $(OPTIONS) -c constraints.cpp
++
++continuouspollster.o: continuouspollster.cpp
++	$(COMPILER) $(OPTIONS) -c continuouspollster.cpp
++
++description.o: description.cpp
++	$(COMPILER) $(OPTIONS) -c description.cpp
++
++direction.o: direction.cpp
++	$(COMPILER) $(OPTIONS) -c direction.cpp
++
++directionset.o: directionset.cpp
++	$(COMPILER) $(OPTIONS) -c directionset.cpp
++
++evaluator.o: evaluator.cpp
++	$(COMPILER) $(OPTIONS) -c evaluator.cpp
++
++filter.o: filter.cpp
++	$(COMPILER) $(OPTIONS) -c filter.cpp
++
++functioncontrol.o: functioncontrol.cpp
++	$(COMPILER) $(OPTIONS) -c functioncontrol.cpp
++
++generalconstraints.o: generalconstraints.cpp
++	$(COMPILER) $(OPTIONS) -c generalconstraints.cpp
++
++latinhypercubesearcher.o: latinhypercubesearcher.cpp
++	$(COMPILER) $(OPTIONS) -c latinhypercubesearcher.cpp
++
++mesh.o: mesh.cpp
++	$(COMPILER) $(OPTIONS) -c mesh.cpp
++
++parameters.o: parameters.cpp
++	$(COMPILER) $(OPTIONS) -c parameters.cpp
++
++point.o: point.cpp
++	$(COMPILER) $(OPTIONS) -c point.cpp
++
++pollcontrol.o: pollcontrol.cpp
++	$(COMPILER) $(OPTIONS) -c pollcontrol.cpp
++
++preferences.o: preferences.cpp
++	$(COMPILER) $(OPTIONS) -c preferences.cpp
++
++randomsearcher.o: randomsearcher.cpp
++	$(COMPILER) $(OPTIONS) -c randomsearcher.cpp
++
++searchcontrol.o: searchcontrol.cpp
++	$(COMPILER) $(OPTIONS) -c searchcontrol.cpp
++
++solver.o: solver.cpp
++	$(COMPILER) $(OPTIONS) -c solver.cpp
++
++speculativesearcher.o: speculativesearcher.cpp
++	$(COMPILER) $(OPTIONS) -c speculativesearcher.cpp
++
++statistics.o: statistics.cpp
++	$(COMPILER) $(OPTIONS) -c statistics.cpp
++
++subject.o: subject.cpp
++	$(COMPILER) $(OPTIONS) -c subject.cpp
++
++surrfunction.o: surrfunction.cpp
++	$(COMPILER) $(OPTIONS) -c surrfunction.cpp
++
++surrogate.o: surrogate.cpp
++	$(COMPILER) $(OPTIONS) -c surrogate.cpp
++
++surrogatecontrol.o: surrogatecontrol.cpp
++	$(COMPILER) $(OPTIONS) -c surrogatecontrol.cpp
++
++terminator.o: terminator.cpp
++	$(COMPILER) $(OPTIONS) -c terminator.cpp
++
++clean: 
++	-rm -f *.o
++	-rm -f *.a
++	-rm -f *~ core
+diff -Naur NOMADOriginal/README NOMADNeurofitter/README
+--- NOMADOriginal/README	2005-04-13 23:23:43.000000000 +0200
++++ NOMADNeurofitter/README	2006-10-03 13:55:22.000000000 +0200
+@@ -1,3 +1,14 @@
++Adapted by Werner Van Geit in 2006
++This version of NOMAD has been adapted by Werner Van Geit to allow communication with the software package Neurofitter
++Information about Neurofitter can be found on neurofitter.sourceforge.net or www.tnb.ua.ac.be.
++
++The code has been adapted so that it asks for the computation of a LIST of fitness values in parallel
++It is also now possible to compile NOMAD in a library format so that it can be used to be linked to external software.
++
++Compilation for Neurofitter should be done with make -f Lib_Makefile_parallel
++
++Parts in the source code that have been adapted are marked with a comment containing "WVG"
++
+ NOMAD cycle 6, for Unix/Linux/Mac
+ ---------------------------------
+ 
+@@ -29,4 +40,4 @@
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation. You can find the
+ GNU General Public License at:
+-	http://www.gnu.org/copyleft/gpl.html
+\ No newline at end of file
++	http://www.gnu.org/copyleft/gpl.html
+diff -Naur NOMADOriginal/evaluator.cpp NOMADNeurofitter/evaluator.cpp
+--- NOMADOriginal/evaluator.cpp	2005-03-09 23:46:16.000000000 +0100
++++ NOMADNeurofitter/evaluator.cpp	2006-10-03 13:55:22.000000000 +0200
+@@ -237,6 +237,43 @@
+   return f_control->evaluateTruth(* ap, startingPoint);
+ }
+ 
++
++#ifdef PARANOMAD
++
++//WVG Added this function for parallelization
++/* This method first asks the Constraints object if the trial point 'ap'
++   satisfies the bound constraints. If it does, 'truth' is evaluated. */
++vector< int > Evaluator::parallelEvaluateTruth(const unsigned int dim, vector< AugmentedPoint * > points, bool startingPoint) {
++    vector<AugmentedPoint *> toEvalPoints;
++    // If there are bound constraints, and the point is outside the bounds...
++    for (unsigned int i = 0; i < points.size(); i++) {
++		if (display_factor >= 10) {cout << "Checking constraints of point: "; points[i]->show(); cout << endl;} 
++        if ((constraints != NULL) && (!constraints->check(dim, points[i]->getPoint()))) {
++            // ... truth is set to a very large number.
++            points[i]->setOutput(0, INFINIT);
++            /* Returning '-1' tells 'Solver' that the starting point is outside the
++            bounds. */
++            continue;
++        }
++
++        // If there's a surrogate and 'ap' is the starting point...
++        if ((startingPoint) && (points[i]->getPosition(1) != -1)) {
++            // ... the starting point's surrogate value is evaluated.
++            f_control->evaluateFlow(*(points[i]));
++        }
++
++        /* In all other cases (there are no bound constraints, or the point is
++        inside the bounds), we evaluate truth. */
++
++		if (display_factor >= 10) {cout << "Evaluating: "; points[i]->show(); cout << endl;} 
++        toEvalPoints.push_back(points[i]);
++    }
++
++    return f_control->parallelEvaluateTruth(toEvalPoints);
++}
++
++#endif
++
+ // This method returns Constraints' proximity array.
+ int * Evaluator::getProximityArray()
+ {
+@@ -267,182 +304,6 @@
+   return f_control->getTruthEvaluations();
+ }
+ 
+-/* This method evaluates truth for a list of points received as parameters. It
+-   returns true if a new best iterate was found, false otherwise. */
+-unsigned int Evaluator::processThisList(const unsigned int dimension,
+-		                std::vector<AugmentedPoint *> & list_of_points,
+-					bool entire_list, ofstream & fout,
+-					ofstream & fgraph, ofstream & history,
+-					const int sent_from)
+-{
+-  if (display_factor >= 3)
+-    cout << "Evaluating the list of points...\n";
+-  // Local variables we'll need.
+-  bool feasible_trial = true;
+-  // This variable will hold the decrease of f(x) when a better iterate is
+-  // found.
+-  double fx_decrease = 0.0;
+-  double inc_truth, trial_truth;
+-  double * scales_add = f_control->getScalesAdd();
+-  double * scales_mult = f_control->getScalesMult();
+-  int output_ok = 1;
+-  // 'count' is incremented by one every pass in the loop.
+-  unsigned int count = 0, iteration_success = 0, trial_success = 0;
+-  std::vector<AugmentedPoint *>::iterator trial;
+-  // Main loop.
+-  for (trial = list_of_points.begin(); trial != list_of_points.end(); trial++)
+-    {
+-      // The variable is reset for each point.
+-      fx_decrease = 0.0;
+-      /* If we reached a termination criterion, like the number of truth
+-	 evaluations, 'terminate' equals true and we stop evaluating points. */
+-      if (terminate)
+-	{
+-	  if (display_factor >= 3)
+-	    cout << "\nA termination criterion was reached.\n";
+-	  break;
+-	}
+-      /* If the trial point's surrogate function value is greater than the
+-	 incumbent's surrogate function value by a certain factor, we stop
+-	 evaluating Truth for this list of points. (This is safe because the
+-	 points are ordered by surrogate function value). */
+-      if ((sent_from > 0) && ((* trial)->getPosition(1) != -1) &&
+-	  (incumbent != NULL) && (abs((* trial)->getLow()) >
+-			       abs(surrogate_tolerance * incumbent->getLow())))
+-	{
+-	  if (display_factor >= 5)
+-	    {
+-	      cout << "|Trial's s(x) value| is greater than\n";
+-	      cout << "|surrogate_tolerance * incumbent's s(x) value|\n";
+-	      cout << "We stop evaluating the list of points.\n";
+-	      cout << abs((* trial)->getLow()) << " > ";
+-	      cout << abs(surrogate_tolerance * incumbent->getLow()) << endl;
+-	    }
+-	  break;
+-	}
+-      else   // The trial point's truth value is evaluated.
+-	output_ok = evaluateTruth(dimension, * trial);
+-      if (display_factor >= 3)
+-	{
+-	  cout << count + 1 << ": ";
+-	  (* trial)->show();
+-	}
+-
+-      /* 'output_ok' is equal to '1' if the point was within the bounds, and
+-	 not in the temporary cache. */
+-      if (output_ok == 1)
+-	{
+-	  // Every trial point si unsuccessful at first.
+-	  trial_success = 0;
+-	  // The newly evaluated point is written in the history file.
+-	  (* trial)->showHistory(history, scales_add, scales_mult);
+-	  /* 'feasible_trial' will tell us if the trial point is feasible or
+-	     not. */
+-	  if (filter != NULL)
+-	    feasible_trial = ((* trial)->getHx() == 0.0) ? true : false;
+-	  // If the trial point is infeasible...
+-	  if (feasible_trial == false)
+-	    // ... it's sent to populate the filter.
+-	    trial_success = filter->populate(** trial);
+-	  else   // The trial point is feasible.
+-	    {
+-	      /* We get incumbent's and trial's truth values to compare them.
+-		 Note that if the entire list of points is to be evaluated
+-		 (we're doing a complete poll or search), the best iterate can
+-		 change many times. That's why the line
+-		 'double inc_truth = incumbent->getOutput(0);' is inside the
+-		 loop. */
+-	      trial_truth = (* trial)->getOutput(0);
+-	      /* If 'incumbent' doesn't exist (no feasible point was found up
+-		 to this point), 'inc_truth' is set to a very large number. */
+-	      if (incumbent == NULL)
+-		inc_truth = INFINIT;
+-	      else   // If 'incumbent' exists, we get its truth value.
+-		inc_truth = incumbent->getOutput(0);
+-
+-	      // if (trial's truth value < incumbent's truth value)...
+-	      if (trial_truth < inc_truth)
+-		{
+-		  // ...Success! We have a new best iterate!
+-		  trial_success = 3;
+-		  /* If 'incumbent' is NULL, it means that no feasible point
+-		     was found up to now. */
+-		  if (incumbent == NULL)
+-		    // It's created by copying the trial point.
+-		    incumbent = new AugmentedPoint(** trial);
+-		  else
+-		    {
+-		      // The decrease in f(x) is calculated.
+-		      fx_decrease = inc_truth - trial_truth;
+-		      // We copy the trial point in 'incumbent'.
+-		      incumbent->update(* trial);
+-		    }
+-		  // The new best iterate is written in the output files.
+-		  teval = f_control->getTruthEvaluations();
+-		  fout << "   " << teval << "    ";
+-		  incumbent->showResults(fout, scales_add, scales_mult);
+-		  fgraph << teval << "  " << trial_truth << "\n";
+-		}
+-	    }
+-
+-	  // The iteration success variable is updated.
+-	  if (trial_success > iteration_success)
+-	    iteration_success = trial_success;
+-	  // If a new incumbent was found, these tasks are done:
+-	  if (trial_success >= 2)
+-	    {
+-	      if ((display_factor >= 5) && (entire_list) &&
+-		  (trial_success == 3))
+-		cout << "New best feasible incumbent found!\n";
+-	      /* The counter value is put into 'polldir_index'. It's used
+-		 by PollControl when the poll directions are ordered by
+-		 success.*/
+-	      polldir_index = count;
+-	      // The consecutive failures counter is put to zero.
+-	      consecutive_fails = 0;
+-	      /* We tell the 'Constraints' object to update the proximity
+-		 vector. */
+-	      if (constraints != NULL)
+-		constraints->updateProximityArray(dimension,
+-						  (* trial)->getPoint());
+-	      // The run statistics are updated.
+-	      updateStatistics(sent_from, count, fx_decrease);
+-	      /* If 'entire_list' is false, it means we stop evaluating
+-		 points as soon as a better one is found. */
+-	      if (entire_list == false)
+-		break;
+-	    }
+-	  else   // Failure! We don't have a new best iterate.
+-	    /* The consecutive failures counter is incremented, and compared to
+-	       the termination criterion. */
+-	    f_control->compare(++consecutive_fails);
+-	}
+-      // The counter of loop passes is incremented.
+-      count++;
+-    }
+-
+-  if (display_factor >= 5)
+-    {
+-      (sent_from > 0) ? cout << "\nSearch " : cout << "\nPoll ";
+-      switch (iteration_success)
+-	{
+-          case 0  : cout << "failure.\n";
+-	            break;
+-          case 1  : cout << "partly successful:";
+-	            cout << " New point(s) added to the filter.\n";
+-		    break;
+-          case 2  : cout << "success:";
+-	            cout << " A new least infeasible incumbent was found.\n";
+-		    break;
+-          case 3  : cout << "success:";
+-	            cout << " A new best feasible incumbent was found.\n";
+-		    break;
+-          default : cerr << "indeterminate: Return value incorrect!\n";
+-	}
+-    }
+-  return iteration_success;
+-}
+-
+ // This method relays the call to build the epsilon array to Constraints.
+ void Evaluator::buildEpsilonArray(const unsigned int dim, const double deltaT,
+ 				  const double delta, const double factor)
+@@ -719,3 +580,375 @@
+            // starting point.
+       (filter->getIncumbent())->showHistory(history, scales_add, scales_mult);
+ }
++
++
++#ifndef PARANOMAD
++
++/* This method evaluates truth for a list of points received as parameters. It
++   returns true if a new best iterate was found, false otherwise. */
++unsigned int Evaluator::processThisList(const unsigned int dimension,
++		                std::vector<AugmentedPoint *> & list_of_points,
++					bool entire_list, ofstream & fout,
++					ofstream & fgraph, ofstream & history,
++					const int sent_from)
++{
++  if (display_factor >= 3)
++    cout << "Evaluating the list of points...\n";
++  // Local variables we'll need.
++  bool feasible_trial = true;
++  // This variable will hold the decrease of f(x) when a better iterate is
++  // found.
++  double fx_decrease = 0.0;
++  double inc_truth, trial_truth;
++  double * scales_add = f_control->getScalesAdd();
++  double * scales_mult = f_control->getScalesMult();
++  int output_ok = 1;
++  // 'count' is incremented by one every pass in the loop.
++  unsigned int count = 0, iteration_success = 0, trial_success = 0;
++  std::vector<AugmentedPoint *>::iterator trial;
++  // Main loop.
++  for (trial = list_of_points.begin(); trial != list_of_points.end(); trial++)
++    {
++      // The variable is reset for each point.
++      fx_decrease = 0.0;
++      /* If we reached a termination criterion, like the number of truth
++	 evaluations, 'terminate' equals true and we stop evaluating points. */
++      if (terminate)
++	{
++	  if (display_factor >= 3)
++	    cout << "\nA termination criterion was reached.\n";
++	  break;
++	}
++      /* If the trial point's surrogate function value is greater than the
++	 incumbent's surrogate function value by a certain factor, we stop
++	 evaluating Truth for this list of points. (This is safe because the
++	 points are ordered by surrogate function value). */
++      if ((sent_from > 0) && ((* trial)->getPosition(1) != -1) &&
++	  (incumbent != NULL) && (abs((* trial)->getLow()) >
++			       abs(surrogate_tolerance * incumbent->getLow())))
++	{
++	  if (display_factor >= 5)
++	    {
++	      cout << "|Trial's s(x) value| is greater than\n";
++	      cout << "|surrogate_tolerance * incumbent's s(x) value|\n";
++	      cout << "We stop evaluating the list of points.\n";
++	      cout << abs((* trial)->getLow()) << " > ";
++	      cout << abs(surrogate_tolerance * incumbent->getLow()) << endl;
++	    }
++	  break;
++	}
++      else   // The trial point's truth value is evaluated.
++	output_ok = evaluateTruth(dimension, * trial);
++      if (display_factor >= 3)
++	{
++	  cout << count + 1 << ": ";
++	  (* trial)->show();
++	}
++
++      /* 'output_ok' is equal to '1' if the point was within the bounds, and
++	 not in the temporary cache. */
++      if (output_ok == 1)
++	{
++	  // Every trial point si unsuccessful at first.
++	  trial_success = 0;
++	  // The newly evaluated point is written in the history file.
++	  (* trial)->showHistory(history, scales_add, scales_mult);
++	  /* 'feasible_trial' will tell us if the trial point is feasible or
++	     not. */
++	  if (filter != NULL)
++	    feasible_trial = ((* trial)->getHx() == 0.0) ? true : false;
++	  // If the trial point is infeasible...
++	  if (feasible_trial == false)
++	    // ... it's sent to populate the filter.
++	    trial_success = filter->populate(** trial);
++	  else   // The trial point is feasible.
++	    {
++	      /* We get incumbent's and trial's truth values to compare them.
++		 Note that if the entire list of points is to be evaluated
++		 (we're doing a complete poll or search), the best iterate can
++		 change many times. That's why the line
++		 'double inc_truth = incumbent->getOutput(0);' is inside the
++		 loop. */
++	      trial_truth = (* trial)->getOutput(0);
++	      /* If 'incumbent' doesn't exist (no feasible point was found up
++		 to this point), 'inc_truth' is set to a very large number. */
++	      if (incumbent == NULL)
++		inc_truth = INFINIT;
++	      else   // If 'incumbent' exists, we get its truth value.
++		inc_truth = incumbent->getOutput(0);
++
++	      // if (trial's truth value < incumbent's truth value)...
++	      if (trial_truth < inc_truth)
++		{
++		  // ...Success! We have a new best iterate!
++		  trial_success = 3;
++		  /* If 'incumbent' is NULL, it means that no feasible point
++		     was found up to now. */
++		  if (incumbent == NULL)
++		    // It's created by copying the trial point.
++		    incumbent = new AugmentedPoint(** trial);
++		  else
++		    {
++		      // The decrease in f(x) is calculated.
++		      fx_decrease = inc_truth - trial_truth;
++		      // We copy the trial point in 'incumbent'.
++		      incumbent->update(* trial);
++		    }
++		  // The new best iterate is written in the output files.
++		  teval = f_control->getTruthEvaluations();
++		  fout << "   " << teval << "    ";
++		  incumbent->showResults(fout, scales_add, scales_mult);
++		  fgraph << teval << "  " << trial_truth << "\n";
++		}
++	    }
++
++	  // The iteration success variable is updated.
++	  if (trial_success > iteration_success)
++	    iteration_success = trial_success;
++	  // If a new incumbent was found, these tasks are done:
++	  if (trial_success >= 2)
++	    {
++	      if ((display_factor >= 5) && (entire_list) &&
++		  (trial_success == 3))
++		cout << "New best feasible incumbent found!\n";
++	      /* The counter value is put into 'polldir_index'. It's used
++		 by PollControl when the poll directions are ordered by
++		 success.*/
++	      polldir_index = count;
++	      // The consecutive failures counter is put to zero.
++	      consecutive_fails = 0;
++	      /* We tell the 'Constraints' object to update the proximity
++		 vector. */
++	      if (constraints != NULL)
++		constraints->updateProximityArray(dimension,
++						  (* trial)->getPoint());
++	      // The run statistics are updated.
++	      updateStatistics(sent_from, count, fx_decrease);
++	      /* If 'entire_list' is false, it means we stop evaluating
++		 points as soon as a better one is found. */
++	      if (entire_list == false)
++		break;
++	    }
++	  else   // Failure! We don't have a new best iterate.
++	    /* The consecutive failures counter is incremented, and compared to
++	       the termination criterion. */
++	    f_control->compare(++consecutive_fails);
++	}
++      // The counter of loop passes is incremented.
++      count++;
++    }
++
++  if (display_factor >= 5)
++    {
++      (sent_from > 0) ? cout << "\nSearch " : cout << "\nPoll ";
++      switch (iteration_success)
++	{
++          case 0  : cout << "failure.\n";
++	            break;
++          case 1  : cout << "partly successful:";
++	            cout << " New point(s) added to the filter.\n";
++		    break;
++          case 2  : cout << "success:";
++	            cout << " A new least infeasible incumbent was found.\n";
++		    break;
++          case 3  : cout << "success:";
++	            cout << " A new best feasible incumbent was found.\n";
++		    break;
++          default : cerr << "indeterminate: Return value incorrect!\n";
++	}
++    }
++  return iteration_success;
++}
++
++
++#else
++
++/// WVG changed for parallelization
++/* This method evaluates truth for a list of points received as parameters. It
++   returns true if a new best iterate was found, false otherwise. */
++unsigned int Evaluator::processThisList(const unsigned int dimension,
++		                std::vector<AugmentedPoint *> & list_of_points,
++					bool entire_list, ofstream & fout,
++					ofstream & fgraph, ofstream & history,
++					const int sent_from) {
++	if (display_factor >= 3) cout << "Evaluating a list of points in parallel...\n";
++  	
++	// Local variables we'll need.
++  	bool feasible_trial = true;
++  	
++	// This variable will hold the decrease of f(x) when a better iterate is
++  	// found.
++  	double fx_decrease = 0.0;
++  	double inc_truth, trial_truth;
++  	double * scales_add = f_control->getScalesAdd();
++  	double * scales_mult = f_control->getScalesMult();
++  	int output_ok = 1;
++	int i = 0;
++  	
++	// 'count' is incremented by one every pass in the loop.
++  	unsigned int count = 0, iteration_success = 0, trial_success = 0;
++  	std::vector<AugmentedPoint *>::iterator trial;
++  	
++	// Main loop.
++  	vector< int > evalOutput = parallelEvaluateTruth(dimension, list_of_points);
++
++	for (trial = list_of_points.begin(); trial != list_of_points.end(); trial++) {
++		// The variable is reset for each point.
++		fx_decrease = 0.0;
++		/* If we reached a termination criterion, like the number of truth
++	 	evaluations, 'terminate' equals true and we stop evaluating points. */
++		if (terminate) {
++	  		if (display_factor >= 3) cout << "\nA termination criterion was reached.\n";
++	  		break;
++		}
++     	 /* If the trial point's surrogate function value is greater than the
++	 	incumbent's surrogate function value by a certain factor, we stop
++	 	evaluating Truth for this list of points. (This is safe because the
++	 	points are ordered by surrogate function value). */
++      	if ((sent_from > 0) && ((* trial)->getPosition(1) != -1) &&
++	  		(incumbent != NULL) && (abs((* trial)->getLow()) >
++			       abs(surrogate_tolerance * incumbent->getLow()))) {
++	  		if (display_factor >= 5) {
++	      		cout << "|Trial's s(x) value| is greater than\n";
++	      		cout << "|surrogate_tolerance * incumbent's s(x) value|\n";
++	      		cout << "We stop evaluating the list of points.\n";
++	      		cout << abs((* trial)->getLow()) << " > ";
++	      		cout << abs(surrogate_tolerance * incumbent->getLow()) << endl;
++			}
++	  		break;
++		}
++		else {   
++			// The trial point's truth value is evaluated.
++			output_ok = evalOutput[i++];
++		}
++      
++		if (display_factor >= 3) {
++	  		cout << count + 1 << ": ";
++	  		(* trial)->show();
++		}
++
++      	/* 'output_ok' is equal to '1' if the point was within the bounds, and
++	 	not in the temporary cache. */
++      	if (output_ok == 1) {
++	  		// Every trial point si unsuccessful at first.
++	  		trial_success = 0;
++	  		
++			// The newly evaluated point is written in the history file.
++	  		(* trial)->showHistory(history, scales_add, scales_mult);
++	  			/* 'feasible_trial' will tell us if the trial point is feasible or
++	     		not. */
++	  		if (filter != NULL) {
++	    		feasible_trial = ((* trial)->getHx() == 0.0) ? true : false;
++			}
++	  		// If the trial point is infeasible...
++	  		if (feasible_trial == false) {
++	    		// ... it's sent to populate the filter.
++	    		trial_success = filter->populate(** trial);
++			}
++	  		else  {  // The trial point is feasible.
++	 			/* We get incumbent's and trial's truth values to compare them.
++		 		Note that if the entire list of points is to be evaluated
++		 		(we're doing a complete poll or search), the best iterate can
++		 		change many times. That's why the line
++		 		'double inc_truth = incumbent->getOutput(0);' is inside the
++		 		loop. */
++	      		
++				trial_truth = (* trial)->getOutput(0);
++	      		/* If 'incumbent' doesn't exist (no feasible point was found up
++		 		to this point), 'inc_truth' is set to a very large number. */
++	      		
++				if (incumbent == NULL) {
++					inc_truth = INFINIT;
++				}
++	      		else {  // If 'incumbent' exists, we get its truth value.
++					inc_truth = incumbent->getOutput(0);
++				}
++
++	      		// if (trial's truth value < incumbent's truth value)...
++	      		if (trial_truth < inc_truth) {
++		  			// ...Success! We have a new best iterate!
++		  			trial_success = 3;
++		  			/* If 'incumbent' is NULL, it means that no feasible point
++		     		was found up to now. */
++		  
++					if (incumbent == NULL) {
++		    			// It's created by copying the trial point.
++		    			incumbent = new AugmentedPoint(** trial);
++					}
++		  			else {
++		      			// The decrease in f(x) is calculated.
++		      			fx_decrease = inc_truth - trial_truth;
++		      			// We copy the trial point in 'incumbent'.
++		      			incumbent->update(* trial);
++		   			}
++		 	 		// The new best iterate is written in the output files.
++		  			teval = f_control->getTruthEvaluations();
++		  			fout << "   " << teval << "    ";
++		  			incumbent->showResults(fout, scales_add, scales_mult);
++		  			fgraph << teval << "  " << trial_truth << "\n";
++				}
++	    	}
++
++	  		// The iteration success variable is updated.
++	  		if (trial_success > iteration_success) {
++				iteration_success = trial_success;
++			}
++	  		// If a new incumbent was found, these tasks are done:
++	  		if (trial_success >= 2) {
++	      		if ((display_factor >= 5) && (entire_list) &&
++		  			(trial_success == 3)) {
++ 					cout << "New best feasible incumbent found!\n";
++	      					/* The counter value is put into 'polldir_index'. It's used
++		 					by PollControl when the poll directions are ordered by
++		 					success.*/
++				}
++	      		polldir_index = count;
++	      		// The consecutive failures counter is put to zero.
++	      		consecutive_fails = 0;
++	      		/* We tell the 'Constraints' object to update the proximity
++		 		vector. */
++	      		if (constraints != NULL) {
++					constraints->updateProximityArray(dimension,
++						  (* trial)->getPoint());
++				}
++	      		// The run statistics are updated.
++	      		updateStatistics(sent_from, count, fx_decrease);
++	      		/* If 'entire_list' is false, it means we stop evaluating
++		 		points as soon as a better one is found. */
++	      		if (entire_list == false) {
++					break;
++				}
++	    	}
++	  		else {   // Failure! We don't have a new best iterate.
++	    		/* The consecutive failures counter is incremented, and compared to
++	       		the termination criterion. */
++	    		f_control->compare(++consecutive_fails);
++			}
++		}
++      	// The counter of loop passes is incremented.
++      	count++;
++    }
++
++	if (display_factor >= 5) {
++      (sent_from > 0) ? cout << "\nSearch " : cout << "\nPoll ";
++      switch (iteration_success) {
++          case 0  : cout << "failure.\n";
++	            break;
++          case 1  : cout << "partly successful:";
++	            cout << " New point(s) added to the filter.\n";
++		    break;
++          case 2  : cout << "success:";
++	            cout << " A new least infeasible incumbent was found.\n";
++		    break;
++          case 3  : cout << "success:";
++	            cout << " A new best feasible incumbent was found.\n";
++		    break;
++          default : cerr << "indeterminate: Return value incorrect!\n";
++		}
++    }
++
++	return iteration_success;
++
++}
++
++#endif
+diff -Naur NOMADOriginal/evaluator.h NOMADNeurofitter/evaluator.h
+--- NOMADOriginal/evaluator.h	2005-03-09 23:46:37.000000000 +0100
++++ NOMADNeurofitter/evaluator.h	2006-10-03 13:55:22.000000000 +0200
+@@ -93,6 +93,12 @@
+   GeneralConstraints * getGenCons();
+   int evaluateTruth(const unsigned int dim, AugmentedPoint * ap,
+ 		    bool startingPoint = false);
++
++  #ifdef PARANOMAD
++	vector< int > parallelEvaluateTruth(const unsigned int dim, vector< AugmentedPoint * > points,
++            bool startingPoint = false);
++  #endif
++
+   int * getProximityArray();
+   unsigned int getNewTruthEvaluations();
+   unsigned int getPermCacheHits();
+diff -Naur NOMADOriginal/functioncontrol.cpp NOMADNeurofitter/functioncontrol.cpp
+--- NOMADOriginal/functioncontrol.cpp	2005-03-09 23:20:18.000000000 +0100
++++ NOMADNeurofitter/functioncontrol.cpp	2006-10-03 13:55:22.000000000 +0200
+@@ -35,6 +35,7 @@
+    to FunctionControl. */
+ 
+ #include <cstring>
++#include <cmath>
+ #include <iostream>
+ using namespace std;
+ #include "cachecontrol.h"
+@@ -338,6 +339,86 @@
+     return true;
+ }
+ 
++/// WVG added for parallelization
++// This method evaluates the objective function value for a given point 'ap'.
++#ifdef PARANOMAD
++vector< int > FunctionControl::parallelEvaluateTruth(vector< AugmentedPoint * > points) {
++
++	/// WVG todo check the scaling mess
++	vector < double * > unScaledPoints(points.size());
++	vector < double > fitnessValues(points.size());  
++	vector < int > returnValues(points.size());  
++
++
++	for (unsigned int nPoint = 0; nPoint < points.size(); nPoint++) {
++
++		unsigned int dim = points[nPoint]->getDimension();
++		unsigned int i;
++
++		/* We have to unscale the point's coordinates before we can call the
++		objective function. First we get ap's coordinates... */
++  
++		double * copy = points[nPoint]->getPoint();
++  		// The unscaled coordinates will be put into 'apoint'.
++  		unScaledPoints[nPoint] = new double[dim];
++  		// The scaled coordinates are unscaled by this formula:
++  		for (i = 0; i < dim; i++) {
++    		unScaledPoints[nPoint][i] = (copy[i] - scales_add[i]) * scales_mult[i];
++		}
++
++  		// The point is shown, scaled and unscaled (for debugging).
++  		if (display_factor >= 10) {
++			cout << "\nScaled point: (";
++      		for (i = 0; i < dim - 1; i++) {
++				cout << copy[i] << ", ";
++	  		}
++      		cout << copy[dim - 1] << ")\n";
++      		cout << "Unscaled point: (";
++      		for (i = 0; i < dim - 1; i++) {
++				cout << unScaledPoints[nPoint][i] << ", ";
++			}
++      		cout << unScaledPoints[nPoint][dim - 1] << ")\n";
++    	}
++
++		// If there are general constraints, we evaluate the Gi(x).
++      	if (gen_cons != NULL) {
++			gen_cons->evaluate(*(points[i]), false);
++		}
++
++	}
++
++	fitnessValues = truth->parallelEvaluate(unScaledPoints);
++
++	truth_evaluations = truth_evaluations + points.size();
++	new_truth_evaluations = new_truth_evaluations + points.size();
++
++    term->compareTruthEvals(truth_evaluations);
++	term->compareNewTruthEvals(new_truth_evaluations);
++
++	for (unsigned int nPoint = 0; nPoint < points.size(); nPoint++) {
++		points[nPoint]->setOutput(0, fitnessValues[nPoint]);
++
++		if (surr_control != NULL) {
++    		surr_control->store(*(points[nPoint]));
++		}
++  	
++		// unscaled point's memory is freed.
++  		delete [] unScaledPoints[nPoint];
++  
++		/* The method returns 'false' in these cases:
++     	1- The truth value is infinite. */
++  		if ((fitnessValues[nPoint] == -INFINIT) || (fitnessValues[nPoint] == INFINIT)) {
++			 returnValues[nPoint] = false;
++		}
++  		else {
++    		returnValues[nPoint] = true;
++		}
++	}
++		
++	return returnValues;  
++}
++#endif
++
+ // This method returns the scales addition array.
+ double * FunctionControl::getScalesAdd()
+ {
+diff -Naur NOMADOriginal/functioncontrol.h NOMADNeurofitter/functioncontrol.h
+--- NOMADOriginal/functioncontrol.h	2005-03-09 23:22:11.000000000 +0100
++++ NOMADNeurofitter/functioncontrol.h	2006-10-03 13:55:22.000000000 +0200
+@@ -91,6 +91,11 @@
+   ~FunctionControl();
+   bool cachesUsed();
+   bool evaluateTruth(AugmentedPoint & ap, bool startingPoint = false);
++
++  #ifdef PARANOMAD
++	vector< int > parallelEvaluateTruth(vector< AugmentedPoint * > points);
++  #endif
++
+   double * getScalesAdd();
+   double * getScalesMult();
+   // Returns a pointer to the GeneralConstraints object.
+diff -Naur NOMADOriginal/mesh.cpp NOMADNeurofitter/mesh.cpp
+--- NOMADOriginal/mesh.cpp	2005-03-09 20:28:22.000000000 +0100
++++ NOMADNeurofitter/mesh.cpp	2006-10-03 13:55:22.000000000 +0200
+@@ -34,6 +34,7 @@
+ // Solver object, which has direct access to Mesh.
+ 
+ #include <iostream>
++#include <cmath>
+ using namespace std;
+ #include "mesh.h"
+ 
+diff -Naur NOMADOriginal/nomad NOMADNeurofitter/nomad
+--- NOMADOriginal/nomad	1970-01-01 01:00:00.000000000 +0100
++++ NOMADNeurofitter/nomad	2006-10-03 13:55:22.000000000 +0200
+@@ -0,0 +1,15 @@
++//Library header added WVG
++
++
++#include <fstream>
++#include <iostream>
++#include <stdlib.h>
++#include <vector>
++
++using namespace std;
++
++#include "defines.h"
++#include "description.h"
++#include "parameters.h"
++#include "preferences.h"
++#include "solver.h"
+diff -Naur NOMADOriginal/parallelEvaluator.cpp NOMADNeurofitter/parallelEvaluator.cpp
+--- NOMADOriginal/parallelEvaluator.cpp	1970-01-01 01:00:00.000000000 +0100
++++ NOMADNeurofitter/parallelEvaluator.cpp	2006-10-03 13:55:22.000000000 +0200
+@@ -0,0 +1,765 @@
++/******************************************************************************
++* NOMAD -  Nonlinear Optimization for Mixed vAriables and Derivatives.        *
++* Copyright (C) 2001-2004  Gilles Couture - Ecole Polytechnique,              *
++*                          Charles Audet - Ecole Polytechnique,               *
++*		           John Dennis - Rice University.                     *
++*                                                                             *
++* Author: Gilles Couture                                                      *
++* …cole Polytechnique de MontrÈal - GERAD                                     *
++* C.P. 6079, Succ. Centre-ville, MontrÈal (QuÈbec) H3C 3A7 Canada             *
++* Tel:  (514) 340-6053 x6928                                                  *
++* Email: Gilles.Couture@gerad.ca                                              *
++* Fax: (514) 340-5665                                                         *
++*                                                                             *
++* This program is free software; you can redistribute it and/or               *
++* modify it under the terms of the GNU General Public License                 *
++* as published by the Free Software Foundation. You can find the              *
++* GNU General Public License at:                                              *
++*             http://www.gnu.org/copyleft/gpl.html                            *
++*                                                                             *
++* This program is distributed in the hope that it will be useful,             *
++* but WITHOUT ANY WARRANTY; without even the implied warranty of              *
++* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               *
++* GNU General Public License for more details.                                *
++*                                                                             *
++* You should have received a copy of the GNU General Public License           *
++* along with this program; if not, write to the Free Software                 *
++* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. *
++*                                                                             *
++* You can find information on the NOMAD software at:                          *
++*             http://www.gerad.ca/NOMAD/                                      *
++******************************************************************************/
++
++// evaluator.cpp -- Evaluator class methods.
++
++#include <cmath>
++#include <fstream>
++#include <iostream>
++#include <vector>
++using namespace std;
++#include "augmentedpoint.h"
++#include "constraints.h"
++#include "parallelEvaluator.h"
++#include "filter.h"
++#include "parallelFunctioncontrol.h"
++
++/* Private methods:
++******************************************************************************/
++
++// This method initializes the object's variables.
++void Evaluator::initialize()
++{
++  terminate = false;
++  surrogate_tolerance = 0.0;
++  consecutive_fails = polldir_index = teval = 0;
++}
++
++// This method updates the run statistics. It's called when one of the
++// incumbents is improved.
++void Evaluator::updateStatistics(const int sent_from, const unsigned int count,
++				 const double fx_decrease)
++{
++  // This switch calls the correct Statistics method, according to 'sent_from'.
++  switch (sent_from)
++    {
++      // The poll generated a better iterate.
++      case 0  : stats.addToPollDecrease(fx_decrease);
++                break;
++      // The initial search generated a better iterate.
++      case 1  : stats.addToInitialDecrease(fx_decrease);
++	        break;
++      // The iterative search generated a better iterate.
++      case 2  : stats.addToIterativeDecrease(fx_decrease);
++          	break;
++      // The dense search generated a better iterate.
++      case 3  : stats.addToDenseDecrease(fx_decrease);
++		break;
++      // This case is trickier, because the search was a concatenation of a one
++      // point dense search and an iterative search.
++      case 6  : if (count == 0)
++		  // The dense search generated a better iterate (the first
++		  // point in the list was the dense search point).
++		  stats.addToDenseDecrease(fx_decrease);
++		else
++		  // The iterative search generated a better iterate.
++		  stats.addToIterativeDecrease(fx_decrease);
++	        break;
++      default : cerr << "Can't update statistics: Parameter incorrect.\n";
++    }
++}
++
++/* Public methods:
++******************************************************************************/
++
++// Default constructor called by the Solver object at Start-up.
++Evaluator::Evaluator(Terminator & t)
++{
++  // The variables are initialized to default values.
++  display_factor = 0;
++  initialize();
++  // We don't know if the problem has bound constraints at this time.
++  constraints = NULL;
++  // FunctionControl is created using default values.
++  f_control = new FunctionControl(t);
++  incumbent = NULL;
++  // We'll have information about the starting point later.
++  starting_point = NULL;
++  filter = NULL;
++}
++
++// Destructor.
++Evaluator::~Evaluator()
++{
++  // The created objects are destroyed.
++  if (constraints != NULL)
++    delete constraints;
++  if (f_control != NULL)
++    delete f_control;
++  if (incumbent != NULL)
++    delete incumbent;
++  if (starting_point != NULL)
++    delete starting_point;
++  if (filter != NULL)
++    delete filter;
++}
++
++// This method returns true if the starting point is feasible, false otherwise.
++bool Evaluator::feasible()
++{
++  // If 'incumbent' exists, it means that the starting point was feasible.
++  if (incumbent != NULL)
++    return true;
++  else
++    return false;
++}
++
++// This method returns 'true' if the Constraints object exists.
++bool Evaluator::getConstraints()
++{
++  if (constraints != NULL)
++    return true;
++  else
++    return false;
++}
++
++// This method returns the incumbent's f(x) value.
++double Evaluator::getTruth()
++{
++  /* If 'incumbent' is NULL, it means that no feasible point was found by NOMAD
++     up to this point. A very large number is returned. */
++  if (incumbent == NULL)
++    return INFINIT;
++  else
++    return incumbent->getOutput(0);
++}
++
++// This method returns Constraints' lower bounds array.
++double * Evaluator::getLowerBounds()
++{
++  return constraints->getLowerBounds();
++}
++
++// This method returns a poll center.
++double * Evaluator::getPollCenter(const bool feasible)
++{
++  // First case: there are no general constraints in the problem.
++  if ((incumbent != NULL) && (filter == NULL))
++    {
++      if (display_factor >= 5)
++	cout << "No general constraints - poll center is best feasible.\n";
++      // The incumbent point will be the poll center.
++      return incumbent->getPoint();
++    }
++  else
++    {
++      // Second case: no feasible points were found up to this point.
++      if ((incumbent == NULL) && (filter != NULL))
++	{
++	  if (display_factor >= 5)
++	    cout << "No feasible point - poll center is least infeasible.\n";
++	  // The least infeasible point will be the poll center.
++	  return filter->getPollCenter();
++	}
++      else
++	/* Third case: polling is done alternatively between the incumbent and
++	   the least feasible point, according to the 'feasible' variable. */
++	{
++	  if (feasible)
++	    {
++	      if (display_factor >= 5)
++		cout << "Poll center is best feasible.\n";
++	      // The incumbent point will be the poll center.
++	      return incumbent->getPoint();
++	    }
++	  else
++	    {
++	      if (display_factor >= 5)
++		cout << "Poll center is least infeasible.\n";
++	      // The least infeasible point will be the poll center.
++	      return filter->getPollCenter();
++	    }
++	}
++    }
++}
++
++// This method returns Constraints' upper bounds array.
++double * Evaluator::getUpperBounds()
++{
++  return constraints->getUpperBounds();
++}
++
++// This method returns a pointer to the GeneralConstraints object.
++GeneralConstraints * Evaluator::getGenCons()
++{
++  return f_control->getGenCons();
++}
++
++/* This method first asks the Constraints object if the trial point 'ap'
++   satisfies the bound constraints. If it does, 'truth' is evaluated. */
++int Evaluator::evaluateTruth(const unsigned int dim, AugmentedPoint * ap,
++			     bool startingPoint)
++{
++  // If there are bound constraints, and the point is outside the bounds...
++  if ((constraints != NULL) && (!constraints->check(dim, ap->getPoint())))
++    {
++      // ... truth is set to a very large number.
++      ap->setOutput(0, INFINIT);
++      /* Returning '-1' tells 'Solver' that the starting point is outside the
++	 bounds. */
++      return -1;
++    }
++  // If there's a surrogate and 'ap' is the starting point...
++  if ((startingPoint) && (ap->getPosition(1) != -1))
++    // ... the starting point's surrogate value is evaluated.
++    f_control->evaluateFlow(* ap);
++  /* In all other cases (there are no bound constraints, or the point is
++     inside the bounds), we evaluate truth. */
++  return f_control->evaluateTruth(* ap, startingPoint);
++}
++
++
++//WVG Added this function for parallelization
++/* This method first asks the Constraints object if the trial point 'ap'
++   satisfies the bound constraints. If it does, 'truth' is evaluated. */
++vector< int > Evaluator::parallelEvaluateTruth(const unsigned int dim, vector< AugmentedPoint * > points, bool startingPoint) {
++	vector<AugmentedPoint *> toEvalPoints;
++	// If there are bound constraints, and the point is outside the bounds...
++	for (unsigned int i = 0; i < points.size(); i++) {
++		if ((constraints != NULL) && (!constraints->check(dim, points[i]->getPoint()))) {
++			// ... truth is set to a very large number.
++			points[i]->setOutput(0, INFINIT);
++      		/* Returning '-1' tells 'Solver' that the starting point is outside the
++	 		bounds. */
++			continue;
++		}
++	
++  		// If there's a surrogate and 'ap' is the starting point...
++  		if ((startingPoint) && (points[i]->getPosition(1) != -1)) {
++    		// ... the starting point's surrogate value is evaluated.
++			f_control->evaluateFlow(*(points[i]));
++		}
++
++  		/* In all other cases (there are no bound constraints, or the point is
++		inside the bounds), we evaluate truth. */
++
++		toEvalPoints.push_back(points[i]);
++	}
++  	
++	return f_control->parallelEvaluateTruth(toEvalPoints);
++}
++
++// This method returns Constraints' proximity array.
++int * Evaluator::getProximityArray()
++{
++  return constraints->getProximityArray();
++}
++
++// Returns FunctionControl's number of new truth evaluations.
++unsigned int Evaluator::getNewTruthEvaluations()
++{
++  return f_control->getNewTruthEvaluations();
++}
++
++// Returns the number of hits in the permanent cache.
++unsigned int Evaluator::getPermCacheHits()
++{
++  return f_control->getPermCacheHits();
++}
++
++// Returns the number of hits in the temporary cache.
++unsigned int Evaluator::getTempCacheHits()
++{
++  return f_control->getTempCacheHits();
++}
++
++// Returns FunctionControl's number of truth evaluations.
++unsigned int Evaluator::getTruthEvaluations()
++{
++  return f_control->getTruthEvaluations();
++}
++
++
++/// WVG changed for parallelization
++/* This method evaluates truth for a list of points received as parameters. It
++   returns true if a new best iterate was found, false otherwise. */
++unsigned int Evaluator::processThisList(const unsigned int dimension,
++		                std::vector<AugmentedPoint *> & list_of_points,
++					bool entire_list, ofstream & fout,
++					ofstream & fgraph, ofstream & history,
++					const int sent_from) {
++	if (display_factor >= 3) cout << "Evaluating the list of points...\n";
++  	
++	// Local variables we'll need.
++  	bool feasible_trial = true;
++  	
++	// This variable will hold the decrease of f(x) when a better iterate is
++  	// found.
++  	double fx_decrease = 0.0;
++  	double inc_truth, trial_truth;
++  	double * scales_add = f_control->getScalesAdd();
++  	double * scales_mult = f_control->getScalesMult();
++  	int output_ok = 1;
++	int i = 0;
++  	
++	// 'count' is incremented by one every pass in the loop.
++  	unsigned int count = 0, iteration_success = 0, trial_success = 0;
++  	std::vector<AugmentedPoint *>::iterator trial;
++  	
++	// Main loop.
++  	vector< int > evalOutput = parallelEvaluateTruth(dimension, list_of_points);
++
++	for (trial = list_of_points.begin(); trial != list_of_points.end(); trial++) {
++		// The variable is reset for each point.
++		fx_decrease = 0.0;
++		/* If we reached a termination criterion, like the number of truth
++	 	evaluations, 'terminate' equals true and we stop evaluating points. */
++		if (terminate) {
++	  		if (display_factor >= 3) cout << "\nA termination criterion was reached.\n";
++	  		break;
++		}
++     	 /* If the trial point's surrogate function value is greater than the
++	 	incumbent's surrogate function value by a certain factor, we stop
++	 	evaluating Truth for this list of points. (This is safe because the
++	 	points are ordered by surrogate function value). */
++      	if ((sent_from > 0) && ((* trial)->getPosition(1) != -1) &&
++	  		(incumbent != NULL) && (abs((* trial)->getLow()) >
++			       abs(surrogate_tolerance * incumbent->getLow()))) {
++	  		if (display_factor >= 5) {
++	      		cout << "|Trial's s(x) value| is greater than\n";
++	      		cout << "|surrogate_tolerance * incumbent's s(x) value|\n";
++	      		cout << "We stop evaluating the list of points.\n";
++	      		cout << abs((* trial)->getLow()) << " > ";
++	      		cout << abs(surrogate_tolerance * incumbent->getLow()) << endl;
++			}
++	  		break;
++		}
++		else {   
++			// The trial point's truth value is evaluated.
++			output_ok = evalOutput[i++];
++		}
++      
++		if (display_factor >= 3) {
++	  		cout << count + 1 << ": ";
++	  		(* trial)->show();
++		}
++
++      	/* 'output_ok' is equal to '1' if the point was within the bounds, and
++	 	not in the temporary cache. */
++      	if (output_ok == 1) {
++	  		// Every trial point si unsuccessful at first.
++	  		trial_success = 0;
++	  		
++			// The newly evaluated point is written in the history file.
++	  		(* trial)->showHistory(history, scales_add, scales_mult);
++	  			/* 'feasible_trial' will tell us if the trial point is feasible or
++	     		not. */
++	  		if (filter != NULL) {
++	    		feasible_trial = ((* trial)->getHx() == 0.0) ? true : false;
++			}
++	  		// If the trial point is infeasible...
++	  		if (feasible_trial == false) {
++	    		// ... it's sent to populate the filter.
++	    		trial_success = filter->populate(** trial);
++			}
++	  		else  {  // The trial point is feasible.
++	 			/* We get incumbent's and trial's truth values to compare them.
++		 		Note that if the entire list of points is to be evaluated
++		 		(we're doing a complete poll or search), the best iterate can
++		 		change many times. That's why the line
++		 		'double inc_truth = incumbent->getOutput(0);' is inside the
++		 		loop. */
++	      		
++				trial_truth = (* trial)->getOutput(0);
++	      		/* If 'incumbent' doesn't exist (no feasible point was found up
++		 		to this point), 'inc_truth' is set to a very large number. */
++	      		
++				if (incumbent == NULL) {
++					inc_truth = INFINIT;
++				}
++	      		else {  // If 'incumbent' exists, we get its truth value.
++					inc_truth = incumbent->getOutput(0);
++				}
++
++	      		// if (trial's truth value < incumbent's truth value)...
++	      		if (trial_truth < inc_truth) {
++		  			// ...Success! We have a new best iterate!
++		  			trial_success = 3;
++		  			/* If 'incumbent' is NULL, it means that no feasible point
++		     		was found up to now. */
++		  
++					if (incumbent == NULL) {
++		    			// It's created by copying the trial point.
++		    			incumbent = new AugmentedPoint(** trial);
++					}
++		  			else {
++		      			// The decrease in f(x) is calculated.
++		      			fx_decrease = inc_truth - trial_truth;
++		      			// We copy the trial point in 'incumbent'.
++		      			incumbent->update(* trial);
++		   			}
++		 	 		// The new best iterate is written in the output files.
++		  			teval = f_control->getTruthEvaluations();
++		  			fout << "   " << teval << "    ";
++		  			incumbent->showResults(fout, scales_add, scales_mult);
++		  			fgraph << teval << "  " << trial_truth << "\n";
++				}
++	    	}
++
++	  		// The iteration success variable is updated.
++	  		if (trial_success > iteration_success) {
++				iteration_success = trial_success;
++			}
++	  		// If a new incumbent was found, these tasks are done:
++	  		if (trial_success >= 2) {
++	      		if ((display_factor >= 5) && (entire_list) &&
++		  			(trial_success == 3)) {
++ 					cout << "New best feasible incumbent found!\n";
++	      					/* The counter value is put into 'polldir_index'. It's used
++		 					by PollControl when the poll directions are ordered by
++		 					success.*/
++				}
++	      		polldir_index = count;
++	      		// The consecutive failures counter is put to zero.
++	      		consecutive_fails = 0;
++	      		/* We tell the 'Constraints' object to update the proximity
++		 		vector. */
++	      		if (constraints != NULL) {
++					constraints->updateProximityArray(dimension,
++						  (* trial)->getPoint());
++				}
++	      		// The run statistics are updated.
++	      		updateStatistics(sent_from, count, fx_decrease);
++	      		/* If 'entire_list' is false, it means we stop evaluating
++		 		points as soon as a better one is found. */
++	      		if (entire_list == false) {
++					break;
++				}
++	    	}
++	  		else {   // Failure! We don't have a new best iterate.
++	    		/* The consecutive failures counter is incremented, and compared to
++	       		the termination criterion. */
++	    		f_control->compare(++consecutive_fails);
++			}
++		}
++      	// The counter of loop passes is incremented.
++      	count++;
++    }
++
++	if (display_factor >= 5) {
++      (sent_from > 0) ? cout << "\nSearch " : cout << "\nPoll ";
++      switch (iteration_success) {
++          case 0  : cout << "failure.\n";
++	            break;
++          case 1  : cout << "partly successful:";
++	            cout << " New point(s) added to the filter.\n";
++		    break;
++          case 2  : cout << "success:";
++	            cout << " A new least infeasible incumbent was found.\n";
++		    break;
++          case 3  : cout << "success:";
++	            cout << " A new best feasible incumbent was found.\n";
++		    break;
++          default : cerr << "indeterminate: Return value incorrect!\n";
++		}
++    }
++
++	return iteration_success;
++
++}
++
++// This method relays the call to build the epsilon array to Constraints.
++void Evaluator::buildEpsilonArray(const unsigned int dim, const double deltaT,
++				  const double delta, const double factor)
++{
++  if (constraints != NULL)
++    constraints->buildEpsilonArray(dim, deltaT, delta, factor);
++}
++
++// The caches must be closed at the end of a run.
++void Evaluator::closeCaches()
++{
++  f_control->closeCaches();
++}
++
++// The user wants to continue the previous run from where it ended.
++void Evaluator::continueRun()
++{
++  // The object's attributes are initialized.
++  initialize();
++  // The Constraints and FunctionControl objects are alerted.
++  if (constraints != NULL)
++    constraints->continueRun();
++  f_control->continueRun();
++  // The run statistics are reset.
++  stats.reset();
++}
++
++// This method stops the evaluation of the list of points in
++// 'process_this_list(...)' when one of the termination criteria is met.
++void Evaluator::endProgram()
++{
++  terminate = true;
++  // TEMP!!!
++  if (filter != NULL)
++    filter->writeInGraphFile();
++}
++
++/* The directory and executable names for the truth and surrogate functions are
++   sent to FunctionControl. */
++void Evaluator::enterBlackBoxes(const char * dir, const char * input,
++				const char * truthF,
++				std::vector<const char *> & gen_constraints,
++				const char * surrF)
++{
++  if ((gen_constraints.size() > 0) && (filter == NULL))
++    filter = new Filter();
++  f_control->enterBlackBoxes(dir, input, truthF, gen_constraints, surrF);
++}
++
++// This method is called when the user wants to use a cache.
++void Evaluator::enterCache(const unsigned int dim,
++			   const unsigned int out_dim, const char * perm)
++{
++  f_control->makeDatabases(dim, out_dim, perm);
++}
++
++// The filter parameters are entered.
++void Evaluator::enterFilter(const bool choice, const double h_max,
++			    const double h_min, const unsigned int norm)
++{
++  f_control->enterFilter(choice, h_max, h_min, norm);
++}
++
++/* The output types are sent to FunctionControl (this method is used if the
++   user functions are not in black box form. */
++void Evaluator::enterOutputTypes(const bool surr_used,
++				 const unsigned int gen_cons_nb)
++{
++  if ((gen_cons_nb > 0) && (filter == NULL))
++    filter = new Filter();
++  f_control->enterOutputTypes(surr_used, gen_cons_nb);
++}
++
++// The problem data is received from Solver.
++void Evaluator::enterProblem(const unsigned int dim,
++			     const unsigned int out_dim,
++			     const unsigned int * out_index, double * coord,
++			     const double * lower, const double * upper,
++			     const unsigned int scaling, const double * scales,
++			     const double low, const double up)
++{
++  // The FunctionControl object has to build the scales arrays.
++  f_control->buildScales(dim, coord, lower, upper, scaling, scales, low, up);
++  // The scales arrays are built; we assign pointers to them.
++  double * scales_add = f_control->getScalesAdd();
++  double * scales_mult = f_control->getScalesMult();
++  
++  // The starting point is created.
++  starting_point = new AugmentedPoint(dim, out_dim, out_index, coord,
++				      scales_add, scales_mult);
++
++  /* The constraints object is created, with the bounds and scales arrays (the
++     bounds have to be scaled). */
++  if ((lower != NULL) && (upper != NULL))
++    constraints = new Constraints(dim, lower, upper, scales_add, scales_mult);
++}
++
++// The surrogate parameter is entered.
++void Evaluator::enterSurrogate(const double surr_tol)
++{
++  surrogate_tolerance = surr_tol;
++}
++
++/* This method receives a list of points and sends them to 'FunctionControl'
++   so that their Flow values are calculated. */
++void Evaluator::evaluateFlow(const unsigned int dim,
++			     std::vector<AugmentedPoint *> & list_of_points)
++{
++  std::vector<AugmentedPoint *>::iterator temp;
++  /* Each point is checked by the Constraints object to see if it satisfies
++     the bound constraints. If it does, Flow is evaluated. */
++  for (temp = list_of_points.begin(); temp != list_of_points.end(); temp++)
++    {
++      // If there are bound constraints...
++      if ((constraints != NULL) &&
++	  // ... we check if the point satisfies them.
++	  (constraints->check(dim, (* temp)->getPoint()) == false))
++	// If it doesn't, Flow is set to a very large number.
++	(* temp)->setLow(INFINIT);
++      else   // There are no bound constraints, or the point is inside.
++	// The point's Flow value is calculated.
++	f_control->evaluateFlow(** temp);
++    }
++}
++
++/* This method passes the received parameters to FunctionControl, along with
++   the incumbent point's coordinates. */
++void Evaluator::fillWithBestPoint(const unsigned int dim, double * coord)
++{
++  f_control->fillWithBestPoint(dim, coord, incumbent->getPoint());
++}
++
++// This method checks if the starting point is feasible or not.
++void Evaluator::isStartingPointFeasible()
++{
++  /* We have an infeasible starting point in this case:
++     - If there's a Filter object, it means that there are general constraints
++       in the current problem (the starting point might be infeasible).
++     - If Hx is greater than zero, the starting point is infeasible. */
++  if ((filter != NULL) && (starting_point->getHx() > 0.0))
++    // The starting point copy will populate the filter.
++    filter->populate(* starting_point);
++  else   // The starting point is feasible.
++    // The starting point is copied in the 'incumbent' AugmentedPoint object.
++    incumbent = new AugmentedPoint(* starting_point);
++}
++
++// The 'linkWithSurrogate(...)' call is relayed to FunctionControl.
++void Evaluator::linkWithSurrogate(SurrogateControl & surr)
++{
++  f_control->linkWithSurrogate(surr);
++}
++
++// This method sets the display factor.
++void Evaluator::setDisplay(const unsigned int display)
++{
++  display_factor = display;
++  // The display factor is reset in these objects.
++  if (constraints != NULL)
++    constraints->setDisplay(display_factor);
++  if (filter != NULL)
++    filter->setDisplay(display_factor);
++  f_control->setDisplay(display_factor);
++}
++
++// The incumbent point outputs itself.
++void Evaluator::showIncumbent()
++{
++  if (incumbent == NULL)
++    cout << "NA (no feasible point was found)\n";
++  else
++    incumbent->show();
++}
++
++// The incumbent point outputs itself in the output file.
++void Evaluator::showIncumbent(ofstream & fout)
++{
++  if (incumbent == NULL)
++    fout << "NA (no feasible point was found)\n";
++  else
++    incumbent->showResults(fout, f_control->getScalesAdd(),
++			   f_control->getScalesMult());
++}
++
++// Outputs Evaluator's variables.
++void Evaluator::showInput(const unsigned int dim, ofstream & fout)
++{
++  if (!fout.is_open())
++    return;
++
++  bool feasible_start_pt = feasible();
++  double * scales_add = f_control->getScalesAdd();
++  double * scales_mult = f_control->getScalesMult();
++
++  fout << "Use the caches? ";
++  f_control->cachesUsed() ? fout << "Yes\n" : fout << "No\n";
++  if (surrogate_tolerance != 0.0)
++    fout << "Surrogate tolerance: " << surrogate_tolerance << "\n";
++  // The starting point is shown.
++  fout << "Starting point ";
++  feasible_start_pt == false ? fout << "(infeasible):" : fout << "(feasible):";
++  fout << "  ";
++  // If 'starting_point' exists it's shown.
++  if (starting_point != NULL)
++    starting_point->showResults(fout, scales_add, scales_mult);
++  else   // If it doesn't exist, it means that the user chose to continue a
++         // run. The starting point is the best feasible point.
++    if (feasible_start_pt)
++      incumbent->showResults(fout, scales_add, scales_mult);
++    else   // If there's no best feasible point, the least infeasible is the
++           // starting point.
++      (filter->getIncumbent())->showResults(fout, scales_add, scales_mult);
++
++  // Now we show the problem's constraints.
++  fout << "\nConstraints:\n------------\n";
++  if (constraints != NULL)
++    // The constraints variables are shown.
++    constraints->showInput(dim, fout, scales_add, scales_mult);
++  // FunctionControl's variables are shown.
++  f_control->showInput(dim, fout);
++}
++
++// Once the problem is solved, we output the solution, and counters.
++void Evaluator::showOutput(ofstream & fout)
++{
++  if (!fout.is_open())
++    return;
++  // FunctionControl's counters are shown.
++  f_control->showOutput(fout);
++  fout << "Number of consecutive failures: ";
++  // The consecutive failures counter is shown.
++  fout << consecutive_fails << "\n\n";
++  // The run statistics are written in the file.
++  fout << stats << "\n";
++}
++
++// This method is called only once, from 'Solver::evaluateStartingPoint()'.
++void Evaluator::updateProximityArray(const unsigned int dimension)
++{
++  /* This method tells Constraints to update the proximity array according to
++   the starting point. */
++  if (constraints != NULL)
++    constraints->updateProximityArray(dimension, starting_point->getPoint());
++}
++
++// This method writes the legend and the starting point in the history file.
++void Evaluator::writeHistoryLegend(ofstream & history)
++{
++  // Pointers to these arrays are needed to unscale the starting point (the
++  // user must see all the points visited by NOMAD in coordinates he can
++  // understand, so we have to unscale them).
++  double * scales_add = f_control->getScalesAdd();
++  double * scales_mult = f_control->getScalesMult();
++
++  // FunctionControl will finish writing the history file legend.
++  f_control->writeHistoryLegend(history);
++
++  // The 'starting point' exists it's written in the history file.
++  if (starting_point != NULL)
++    {
++      starting_point->showHistory(history, scales_add, scales_mult);
++      // The starting point was copied in either the filter list (if it was
++      // infeasible), or the AugmentedPoint 'incumbent' (if it was feasible).
++      // It has also been written in the output and history files. It can be
++      // safely destroyed, having served its purposes.
++      delete starting_point;
++      starting_point = NULL;
++    }
++  else   // If it doesn't exist, it means that the user chose to continue a
++         // run. The starting point is the best feasible point.
++    if (feasible())
++      incumbent->showHistory(history, scales_add, scales_mult);
++    else   // If there's no best feasible point, the least infeasible is the
++           // starting point.
++      (filter->getIncumbent())->showHistory(history, scales_add, scales_mult);
++}
+diff -Naur NOMADOriginal/parallelFunctioncontrol.cpp NOMADNeurofitter/parallelFunctioncontrol.cpp
+--- NOMADOriginal/parallelFunctioncontrol.cpp	1970-01-01 01:00:00.000000000 +0100
++++ NOMADNeurofitter/parallelFunctioncontrol.cpp	2006-10-03 13:55:22.000000000 +0200
+@@ -0,0 +1,698 @@
++/******************************************************************************
++* NOMAD -  Nonlinear Optimization for Mixed vAriables and Derivatives.        *
++* Copyright (C) 2001-2004  Gilles Couture - Ecole Polytechnique,              *
++*                          Charles Audet - Ecole Polytechnique,               *
++*		           John Dennis - Rice University.                     *
++*                                                                             *
++* Author: Gilles Couture                                                      *
++* …cole Polytechnique de MontrÈal - GERAD                                     *
++* C.P. 6079, Succ. Centre-ville, MontrÈal (QuÈbec) H3C 3A7 Canada             *
++* Tel:  (514) 340-6053 x6928                                                  *
++* Email: Gilles.Couture@gerad.ca                                              *
++* Fax: (514) 340-5665                                                         *
++*                                                                             *
++* This program is free software; you can redistribute it and/or               *
++* modify it under the terms of the GNU General Public License                 *
++* as published by the Free Software Foundation. You can find the              *
++* GNU General Public License at:                                              *
++*             http://www.gnu.org/copyleft/gpl.html                            *
++*                                                                             *
++* This program is distributed in the hope that it will be useful,             *
++* but WITHOUT ANY WARRANTY; without even the implied warranty of              *
++* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               *
++* GNU General Public License for more details.                                *
++*                                                                             *
++* You should have received a copy of the GNU General Public License           *
++* along with this program; if not, write to the Free Software                 *
++* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. *
++*                                                                             *
++* You can find information on the NOMAD software at:                          *
++*             http://www.gerad.ca/NOMAD/                                      *
++******************************************************************************/
++
++/* functioncontrol.cpp -- FunctionControl class methods. All methods of the
++   class are called from Evaluator, which is the only class with direct access
++   to FunctionControl. */
++
++#include <cstring>
++#include <cmath>
++#include <iostream>
++using namespace std;
++#include "cachecontrol.h"
++#include "defines.h"
++#include "parallelFunctioncontrol.h"
++#include "generalconstraints.h"
++#include "surrfunction.h"
++#include "parallelTruthfunction.h"
++
++// Private methods.
++// ----------------
++
++//
++char * FunctionControl::createBlackBoxString(char * file, const char * dir,
++					    const char * box, const char * txt)
++{ 
++  const char * str1 = "cd ";
++  const char * str2 = "; ";
++  const char * str3 = " > ";
++  file = new char[8 + strlen(dir) + strlen(box) + strlen(txt) + 1];
++  strcpy(file, str1);
++  strcat(file, dir);
++  strcat(file, str2);
++  strcat(file, box);
++  strcat(file, str3);
++  strcat(file, txt);
++  return file;
++}
++
++//
++char * FunctionControl::createFileString(char * file, const char * dir,
++					 const char * txt)
++{
++  file = new char[strlen(dir) + strlen(txt) + 1];
++  strcpy(file, dir);
++  strcat(file, txt);
++  return file;
++}
++
++// This method evaluates the objective function value for a given point 'ap'.
++double FunctionControl::giveMeTruth(AugmentedPoint & ap)
++{
++  double val = 0.0;
++  if (truth != NULL)
++    // The truth function is inside Nomad.
++    val = truth->evaluate(ap.getPoint());
++  else   // We call the truth function black box with a system call.
++    {
++      system(truth_box);
++      ifstream output(output_file, ios::in);
++      if ((output >> val) == false)
++	val = INFINIT;
++      output.close();
++    }
++  /* The "new_truth_evaluations" counter is incremented. We ask the Terminator
++     object if the new truth evaluations criterion is exceeded. */
++  term->compareNewTruthEvals(++new_truth_evaluations);
++  // The truth value is stored in 'ap'.
++  ap.setOutput(0, val);
++  return val;
++}
++
++/* This method builds the 'scales_mult' array for unbounded problems. The other
++   array, 'scales_add' isn't needed. */
++void FunctionControl::automaticScaling(const unsigned int dim, double * coord)
++{
++  double scale_exponent;
++  for(unsigned int i = 0; i < dim; i++)
++    {
++      scale_exponent = coord[i] != 0.0 ? log(abs(coord[i])) / log(2.0) : 0.0;
++      // We build the 'scales_mult' array.
++      scales_mult[i] = pow(2.0, floor(scale_exponent - 1.0));
++    }
++}
++
++/* This method builds the 'scales_mult' array for bounded problems. The other
++   array, 'scales_add' isn't needed. */
++void FunctionControl::automaticScaling(const unsigned int dim, double * coord,
++				       const double * lower,
++				       const double * upper)
++{
++  double scale_exponent;
++  unsigned int finite;
++  for(unsigned int i = 0; i < dim; i++)
++    {
++      finite = ((lower[i] != 0.0) && (lower[i] != -INFINIT)) ? 4 : 0;
++      finite += ((upper[i] != 0.0) && (upper[i] != INFINIT)) ? 2 : 0;
++      if (finite == 0)
++	finite += (coord[i] != 0.0) ? 1 : 0;
++      switch(finite)
++	{
++	  case 6  : scale_exponent =
++		      ((log(abs(lower[i])) / log(2.0)) +
++		       (log(abs(upper[i])) / log(2.0))) / 2.0;
++	            if (display_factor >= 5)
++		      cout << "Case 6: lower[i] and upper[i] finite.\n";
++		    break;
++	  case 4  : scale_exponent = log(abs(lower[i])) / log(2.0);
++	            if (display_factor >= 5)
++		      cout << "Case 4: lower[i] finite.\n";
++		    break;
++	  case 2  : scale_exponent = log(abs(upper[i])) / log(2.0);
++	            if (display_factor >= 5)
++		      cout << "Case 2: upper[i] finite.\n";
++		    break;
++	  case 1  : scale_exponent = log(abs(coord[i])) / log(2.0);
++	            if (display_factor >= 5)
++		      cout << "Case 1: x[i] finite.\n";
++		    break;
++	  case 0  : scale_exponent = 1.0;
++	            if (display_factor >= 5)
++		      cout << "Case 0: Really bad!\n";
++		    break;
++	  default : scale_exponent = 1.0;
++	            cout << "This is not a possible case!\n";
++	}
++      // We build the 'scales_mult' array.
++      scales_mult[i] = pow(2.0, floor(scale_exponent - 1.0));
++    }
++}
++
++/* This method is called when the user provided bounds for the scaling; i.e all
++   variables will be scaled between two real numbers, 'low' and 'up'. */
++void FunctionControl::boundScaling(const unsigned int dim,
++				   const double * lower, const double * upper,
++				   const double low, const double up)
++{
++  // The two scaling arrays are built.
++  for (unsigned int i = 0; i < dim; i++)
++    {
++      scales_mult[i] = (upper[i] - lower[i]) / (up - low);
++      scales_add[i] = low - (lower[i] / scales_mult[i]);
++    }
++}
++
++// The point coordinates are written in the input file.
++void FunctionControl::openInputFile(const unsigned int dim,
++				    const double * coord)
++{
++  // The file is opened.
++  ofstream input(input_file);
++  if (input.fail())
++    {
++      cerr << "\nError while opening " << input_file << endl;
++      exit(0);
++    }
++  input.precision(64);
++  // Each coordinate is written on a separate line.
++  for (unsigned int i = 0; i < dim; i++)
++    input << coord[i] << "\n";
++  // The file is closed.
++  input.close();
++}
++
++// This method outputs the scaling arrays to a file.
++void FunctionControl::showScales(const unsigned int dim, ofstream & fout)
++{
++  unsigned int i;
++  // First 'scales_mult' is written.
++  fout << "Multiplication array: (";
++  for (i = 0; i < dim - 1; i++)
++    fout << scales_mult[i] << ", ";
++  fout << scales_mult[i] << ")\n";
++  // Then 'scales_add' is written.
++  fout << "Addition array: (";
++  for (i = 0; i < dim - 1; i++)
++    fout << scales_add[i] << ", ";
++  fout << scales_add[i] << ")\n";
++}
++
++// Public methods.
++// ---------------
++
++// Default constructor, called from Evaluator at Start-up.
++FunctionControl::FunctionControl(Terminator & t)
++  : term(& t)
++{
++  // The variables are initialized to 0.
++  low = 0.0;
++  up = 0.0;
++  display_factor = 0;
++  truth_evaluations = 0;
++  new_truth_evaluations = 0;
++  use_scaling = 0;
++  // The scaling vectors are initialized to NULL.
++  scales_add = NULL;
++  scales_mult = NULL;
++  // The strings are initialized to 0 (NULL).
++  input_file = 0;
++  surrogate_box = 0;
++  truth_box = 0;
++  output_file = 0;
++  // The pointers are set to NULL.
++  cache_control = NULL;
++  gen_cons = NULL;
++  surr_f = NULL;
++  surr_control = NULL;
++  truth = NULL;
++}
++
++// Destructor.
++FunctionControl::~FunctionControl()
++{
++  if (cache_control != NULL)
++    delete cache_control;
++  if (gen_cons != NULL)
++    delete gen_cons;
++  if (truth != NULL)
++    delete truth;
++  if (surr_f != NULL)
++    delete surr_f;
++  // The strings are destroyed.
++  if (input_file != 0)
++    delete [] input_file;
++  if (truth_box != 0)
++    delete [] truth_box;
++  if (surrogate_box != 0)
++    delete [] surrogate_box;
++  if (output_file != 0)
++    delete [] output_file;
++  if (scales_add != NULL)
++    delete [] scales_add;
++  if (scales_mult != NULL)
++    delete [] scales_mult;
++}
++
++// This method checks if the caches are used in a run.
++bool FunctionControl::cachesUsed()
++{
++  if (cache_control != NULL)
++    return true;
++  else
++    return false;
++}
++
++// This method evaluates the objective function value for a given point 'ap'.
++bool FunctionControl::evaluateTruth(AugmentedPoint & ap, bool startingPoint)
++{
++  double val = 0.0;
++  unsigned int cache_hit = NO_CACHE_HIT;
++  unsigned int dim = ap.getDimension();
++  unsigned int i;
++  /* We have to unscale the point's coordinates before we can call the
++     objective function. First we get ap's coordinates... */
++  double * copy = ap.getPoint();
++  // The unscaled coordinates will be put into 'apoint'.
++  double * apoint = new double[dim];
++  // The scaled coordinates are unscaled by this formula:
++  for (i = 0; i < dim; i++)
++    apoint[i] = (copy[i] - scales_add[i]) * scales_mult[i];
++
++  // The point is shown, scaled and unscaled (for debugging).
++  if (display_factor >= 10)
++    {
++      cout << "\nScaled point: (";
++      for (i = 0; i < dim - 1; i++)
++	cout << copy[i] << ", ";
++      cout << copy[dim - 1] << ")\n";
++      cout << "Unscaled point: (";
++      for (i = 0; i < dim - 1; i++)
++	cout << apoint[i] << ", ";
++      cout << apoint[dim - 1] << ")\n";
++    }
++
++  // apoint's coordinates are written in the input file.
++  if (truth == NULL)
++    openInputFile(ap.getDimension(), apoint);
++  // We check if the point is already in the caches.
++  if (cache_control != NULL)
++    cache_hit = cache_control->contains(apoint, ap.getTruthValues());
++  /* If the point is in the temporary cache, the 'truth_evaluations' counter
++     is not incremented. In all other cases the counter is incremented
++     {point not in the caches, point in the permanent cache}. */
++  if (cache_hit != TEMP_CACHE_HIT)
++    {
++      // The "truth_evaluations" counter is incremented. We ask the
++      // Terminator object if the truth evaluations criterion is exceeded.
++      term->compareTruthEvals(++truth_evaluations);
++      // If there are general constraints, we evaluate the Gi(x).
++      if (gen_cons != NULL)
++	gen_cons->evaluate(ap, startingPoint);
++      /* If the point wasn't in the caches, its objective function value is
++	 evaluated. */
++      if (cache_hit == NO_CACHE_HIT)
++	val = giveMeTruth(ap);
++    }
++  if (cache_control != NULL)
++    // The point is inserted in the caches.
++    cache_control->insert(apoint, ap.getTruthValues());
++  // We give the augmented point to the surrogate manager.
++  if (surr_control != NULL)
++    surr_control->store(ap);
++  // apoint's memory is freed.
++  delete [] apoint;
++  /* The method returns 'false' in these cases:
++     1- The point was in the temporary cache.
++     2- The truth value is infinite. */
++  if ((cache_hit == TEMP_CACHE_HIT) || (val == -INFINIT) || (val == INFINIT))
++    return false;
++  else
++    return true;
++}
++
++
++/// WVG added for parallelization
++// This method evaluates the objective function value for a given point 'ap'.
++vector< int > FunctionControl::parallelEvaluateTruth(vector< AugmentedPoint * > points) {
++
++	/// WVG todo check the scaling mess
++	vector < double * > unScaledPoints;
++	vector < double > fitnessValues;  
++	vector < int > returnValues;  
++
++	for (unsigned int nPoint = 0; nPoint < points.size(); nPoint++) {
++ 
++		unsigned int dim = points[nPoint]->getDimension();
++		unsigned int i;
++  
++		/* We have to unscale the point's coordinates before we can call the
++		objective function. First we get ap's coordinates... */
++  
++		double * copy = points[nPoint]->getPoint();
++  		// The unscaled coordinates will be put into 'apoint'.
++  		unScaledPoints[nPoint] = new double[dim];
++  		// The scaled coordinates are unscaled by this formula:
++  		for (i = 0; i < dim; i++) {
++    		unScaledPoints[nPoint][i] = (copy[i] - scales_add[i]) * scales_mult[i];
++		}
++
++  		// The point is shown, scaled and unscaled (for debugging).
++  		if (display_factor >= 10) {
++			cout << "\nScaled point: (";
++      		for (i = 0; i < dim - 1; i++) {
++				cout << copy[i] << ", ";
++	  		}
++      		cout << copy[dim - 1] << ")\n";
++      		cout << "Unscaled point: (";
++      		for (i = 0; i < dim - 1; i++) {
++				cout << unScaledPoints[nPoint][i] << ", ";
++			}
++      		cout << unScaledPoints[nPoint][dim - 1] << ")\n";
++    	}
++
++		// If there are general constraints, we evaluate the Gi(x).
++      	if (gen_cons != NULL) {
++			gen_cons->evaluate(*(points[i]), false);
++		}
++
++	}
++
++	fitnessValues = truth->parallelEvaluate(unScaledPoints);
++
++	truth_evaluations = truth_evaluations + points.size();
++	new_truth_evaluations = new_truth_evaluations + points.size();
++
++    term->compareTruthEvals(truth_evaluations);
++	term->compareNewTruthEvals(new_truth_evaluations);
++
++	for (unsigned int nPoint = 0; nPoint < points.size(); nPoint++) {
++		points[nPoint]->setOutput(0, fitnessValues[nPoint]);
++
++		if (surr_control != NULL) {
++    		surr_control->store(*(points[nPoint]));
++		}
++  	
++		// apoint's memory is freed.
++  		delete [] unScaledPoints[nPoint];
++  
++		/* The method returns 'false' in these cases:
++     	1- The truth value is infinite. */
++  		if ((fitnessValues[nPoint] == -INFINIT) || (fitnessValues[nPoint] == INFINIT)) {
++			 returnValues[nPoint] = false;
++		}
++  		else {
++    		returnValues[nPoint] = true;
++		}
++	}
++		
++	return returnValues;  
++}
++
++// This method returns the scales addition array.
++double * FunctionControl::getScalesAdd()
++{
++  return scales_add;
++}
++
++// This method returns the scales multiplication array.
++double * FunctionControl::getScalesMult()
++{
++  return scales_mult;
++}
++
++// Returns the number of hits in the permanent cache.
++unsigned int FunctionControl::getPermCacheHits()
++{
++  if (cache_control != NULL)
++    return cache_control->getPermCacheHits();
++  else
++    return 0;
++}
++
++// Returns the number of hits in the temporary cache.
++unsigned int FunctionControl::getTempCacheHits()
++{
++  if (cache_control != NULL)
++    return cache_control->getTempCacheHits();
++  else
++    return 0;
++}
++
++// This method builds the scaling arrays for the current problem.
++void FunctionControl::buildScales(const unsigned int dim, double * coord,
++				  const double * lower, const double * upper,
++				  const unsigned int scaling,
++				  const double * scale, const double a,
++				  const double b)
++{
++  low = a;
++  up = b;
++  use_scaling = scaling;
++  unsigned int i;
++  // The scales arrays  are created for the design variables and the bounds.
++  scales_add = new double[dim];
++  scales_mult = new double[dim];
++  /* The arrays are initialized to default values. The scales multiplier values
++     are '1.0' and the scales adder values are '0.0', which is the unscaled
++     case. */
++  for(i = 0; i < dim; i++)
++    {
++      scales_add[i] = 0.0;
++      scales_mult[i] = 1.0;
++    }
++  // If the user requested scaling...
++  if (scaling > 0)
++    {
++      // First case: The user provided his own scaling vector.
++      if ((scaling == 2) && (scale != NULL))
++	// The 'scales_add' array stays unchanged.
++	for(i = 0; i < dim; i++)
++	  scales_mult[i] = scale[i];
++      else
++	/* The user provided bounds for scaling: the lower and upper bounds
++	   must exist for this method to work. */
++	if ((scaling == 3) && (lower != NULL) &&
++	    (upper != NULL) && (low != up))
++	  boundScaling(dim, lower, upper, low, up);
++	else
++	  {
++	    /* In this case, either the user requested automatic scaling
++	       ('scaling' equals 1), or he requested some other kind of
++	       scaling but failed to provide the correct parameters. */
++	    if ((lower == NULL) && (upper == NULL))
++	      automaticScaling(dim, coord);
++	    else
++	      automaticScaling(dim, coord, lower, upper);
++	  }
++    }
++}
++
++// The caches are closed at the end of the run.
++void FunctionControl::closeCaches()
++{
++  if (cache_control != NULL)
++    cache_control->closeCaches();
++}
++
++// The user wants to continue the run.
++void FunctionControl::continueRun()
++{
++  truth_evaluations = 0;
++  new_truth_evaluations = 0;
++  if (cache_control != NULL)
++    cache_control->continueRun();
++}
++
++/* The directory and executable names for the truth and surrogate functions are
++   sent to FunctionControl. */
++void FunctionControl::enterBlackBoxes(const char * dir, const char * input,
++				      const char * truthF,
++				   std::vector<const char *> & gen_constraints,
++				      const char * surrF)
++{
++  // The input string is created.
++  input_file = new char[strlen(input) + 1];
++  strcpy(input_file, input);
++  // The truth box string is created.
++  truth_box = createBlackBoxString(truth_box, dir, truthF, "output.txt");
++  output_file = createFileString(output_file, dir, "output.txt");
++  // If required, the surrogate box string is created.
++  if (surrF != NULL)
++    surrogate_box = createBlackBoxString(surrogate_box, dir, surrF,
++					 "output.txt");
++  // If required, the GeneralConstraints object is created.
++  if ((gen_constraints.size() > 0) && (gen_cons == NULL))
++    gen_cons = new GeneralConstraints(dir, input, output_file,
++				      gen_constraints);
++  // These displays help debug the program.
++  if (display_factor >= 9)
++    {
++      cout << "In 'FunctionControl::enterBlackBoxes(...)'\n";
++      cout << "input_file = " << input_file << "\n";
++      cout << "output_file = " << output_file << "\n";
++      cout << "truth_box = " << truth_box << "\n";
++      if (surrF != NULL)
++	cout << "surrogate_box = " << surrogate_box << "\n";
++      cout << "\n";
++    }
++}
++
++// The filter parameters are received and passed on to GeneralConstraints.
++void FunctionControl::enterFilter(const bool choice, const double h_max,
++				  const double h_min, const unsigned int norm)
++{
++  if (gen_cons != NULL)
++    gen_cons->enterFilter(choice, h_max, h_min, norm);
++}
++
++/* The variables for the number of general constraints, and the use of a
++   surrogate are received. (It means that the user doesn't use black boxes.) */
++void FunctionControl::enterOutputTypes(const bool surr_used,
++				       const unsigned int gen_cons_nb)
++{
++  if ((gen_cons_nb > 0) && (gen_cons == NULL))
++    gen_cons = new GeneralConstraints(gen_cons_nb);
++  truth = new TruthFunction();
++  if (surr_used)
++    surr_f = new SurrFunction();
++}
++
++/* This method calculates the surrogate function value for a given augmented
++   point, 'ap'. */
++void FunctionControl::evaluateFlow(AugmentedPoint & ap)
++{
++  /* We have to unscale the point's coordinates before we can call the
++     objective function. First we get ap's coordinates... */
++  double * copy = ap.getPoint();
++  double * truth_val = ap.getTruthValues();
++  unsigned int dim = ap.getDimension();
++  // The unscaled coordinates will be put into 'apoint'.
++  double * apoint = new double[dim];
++  // The scaled coordinates are multiplied by the scale.
++  for (unsigned int i = 0; i < dim; i++)
++    apoint[i] = (copy[i] - scales_add[i]) * scales_mult[i];
++  // We check if the point is already in the caches.
++  if ((cache_control != NULL) &&
++      (cache_control->contains(apoint, truth_val) > 0))
++    {
++      // The point is already in the caches.
++      if (display_factor >= 7)
++	cout << "Cache hit for evaluateFlow!\n";
++    }
++  else   // The point wasn't in the cache (maybe the cache is not used).
++    {
++      // The point's surrogate function value is evaluated.
++      double val;
++      if (surr_f != NULL)
++	val = surr_f->evaluate(apoint);
++      else
++	{
++	  openInputFile(ap.getDimension(), apoint);
++	  system(surrogate_box);
++	  ifstream output(output_file);
++	  if ((output >> val) == false)
++	    val = INFINIT;
++	  output.close();
++	}
++      ap.setLow(val);
++    }
++  // apoint's memory is freed.
++  delete [] apoint;
++}
++
++// This method fills the array 'coord' with the unscaled incumbent.
++void FunctionControl::fillWithBestPoint(const unsigned int dim, double * coord,
++					const double * incumbent)
++{
++  for (unsigned int i = 0; i < dim; i++)
++    coord[i] = (incumbent[i] - scales_add[i]) * scales_mult[i];
++}
++
++// This method creates a link to the surrogate manager.
++void FunctionControl::linkWithSurrogate(SurrogateControl & surr)
++{
++  surr_control = & surr;
++}
++
++// This method is called when the user wants to use the caches.
++void FunctionControl::makeDatabases(const unsigned int dim,
++				    const unsigned int out, const char * perm)
++{
++  // The 'CacheManager' object is created.
++  if (perm != NULL)
++    cache_control = new CacheControl(dim, out, perm);
++}
++
++// The display factor is reset.
++void FunctionControl::setDisplay(const unsigned int display)
++{
++  display_factor = display;
++  // These objects' display factors are also reset.
++  if (gen_cons != NULL)
++    gen_cons->setDisplay(display_factor);
++  if (cache_control != NULL)
++    cache_control->setDisplay(display_factor);
++}
++
++// showInput -- Writes FunctionControl's variables in a file.
++void FunctionControl::showInput(const unsigned int dim, ofstream & fout)
++{
++  if (!fout.is_open())
++    return;
++  fout << "\nScaling:\n--------\n";
++  switch(use_scaling)
++    {
++      case 0  : fout << "No scaling\n";
++	        break;
++      case 1  : fout << "Automatic\n";
++	        break;
++      case 2  : fout << "User-provided multiplication vector\n";
++	        break;
++      case 3  : fout << "User-provided bounds, a = " << low;
++	        fout << ", b = " << up << "\n";
++		break;
++      default : cout << "This is not a scaling choice!\n";
++    }
++  if (use_scaling > 0)
++    showScales(dim, fout);
++  if (gen_cons != NULL)
++    gen_cons->showInput(fout);
++}
++
++// showOutput -- Writes FunctionControl's outputs in a file.
++void FunctionControl::showOutput(ofstream & fout)
++{
++  if (!fout.is_open())
++    return;
++  fout << "Truth evaluations: " << truth_evaluations << "\n";
++  fout << "New truth evaluations: " << new_truth_evaluations << "\n";
++  if (cache_control != NULL)
++    cache_control->showOutput(fout);
++}
++
++// This method writes the history legend, at the top of the history file.
++void FunctionControl::writeHistoryLegend(ofstream & history)
++{
++  // The item for the surrogate value is written, if needed.
++  if (surr_control != NULL)
++    history << "surr(x)" << "\t";
++
++  // The items for the general constraints values are written, if needed.
++  if (gen_cons != NULL)
++    {
++      unsigned int nb = gen_cons->getGenConsNb();
++      for (unsigned int i = 1; i <= nb; i++)
++	history << "g" << i << "(x)" << "\t";
++      // The item for h(x) is written.
++      history << "h(x)" << "\n\n";
++    }
++}
+diff -Naur NOMADOriginal/preferences.cpp NOMADNeurofitter/preferences.cpp
+--- NOMADOriginal/preferences.cpp	2004-12-01 20:48:48.000000000 +0100
++++ NOMADNeurofitter/preferences.cpp	2006-10-03 13:55:22.000000000 +0200
+@@ -145,6 +145,26 @@
+   loadPreferences();
+ }
+ 
++///WVG Added to be able to specify the location of the preference file
++
++// Class constructor.
++Preferences::Preferences(const char * fileName)
++{
++  /* All the variables are initialized to default preferences, just in case
++     the user forgets to include a given variable in the preferences file. */
++  // The boolean variables are initialized.
++  send_email = false;
++  // The string variable is initialized.
++  email_address = NULL;
++  send_email_string = NULL;
++  // The unsigned variables are initialized.
++  display_factor = 0;
++  // The problem file must be loaded.
++  loadPreferences(fileName);
++}
++
++
++
+ // Destructor.
+ Preferences::~Preferences()
+ {
+@@ -205,7 +225,7 @@
+ void Preferences::loadPreferences()
+ {
+   // We open the file.
+-  ifstream fin("LIBRARY/preferences.txt");
++  ifstream fin("LIBRARY/preferences.dat");
+   // If the file has been opened ('file' is a correct path)...
+   if (fin.is_open())
+     {
+@@ -219,6 +239,29 @@
+     cerr << "Couldn't open preferences file 'LIBRARY/preferences.txt'\n\n";
+ }
+ 
++
++///WVG added to specify location of preference file
++
++// This method opens the preferences file and loads them in memory.
++void Preferences::loadPreferences(const char * fileName)
++{
++  // We open the file.
++  ifstream fin(fileName);
++  // If the file has been opened ('file' is a correct path)...
++  if (fin.is_open())
++    {
++      // ...we read the file's data with this method.
++      readPreferences(fin);
++      // The file is closed.
++      fin.close();
++    }
++  else
++    // We alert the user that something is wrong with the path.
++    cerr << "Couldn't open preferences file '" << fileName <<"'\n\n";
++}
++
++
++
+ // This method prints the object's attributes to standard output.
+ void Preferences::show() const
+ {
+diff -Naur NOMADOriginal/preferences.h NOMADNeurofitter/preferences.h
+--- NOMADOriginal/preferences.h	2004-12-01 20:49:12.000000000 +0100
++++ NOMADNeurofitter/preferences.h	2006-10-03 13:55:22.000000000 +0200
+@@ -55,6 +55,11 @@
+   // The class methods are described in "preferences.cpp".
+ public:
+   Preferences();
++  
++  // Added by WVG to allow reading from specific preference file	
++  Preferences(const char *);
++  void loadPreferences(const char *);
++  
+   ~Preferences();
+   bool getSendEmail();
+   char * getEmailAddress();
+diff -Naur NOMADOriginal/solver.h NOMADNeurofitter/solver.h
+--- NOMADOriginal/solver.h	2005-03-09 23:40:24.000000000 +0100
++++ NOMADNeurofitter/solver.h	2006-10-03 13:55:22.000000000 +0200
+@@ -49,6 +49,7 @@
+ class SearchControl;
+ class SurrogateControl;
+ class Terminator;
++//class TruthFunction; //Added to allow setting TruthFunction WVG
+ 
+ class Solver
+ {
+@@ -72,6 +73,7 @@
+   SearchControl * searchcontrol;
+   SurrogateControl * surr_control;
+   Terminator * terminator;
++//  TruthFunction * truth;
+ 
+ // The class methods are described in "solver.cpp".
+   bool update(const unsigned int search_success,
+@@ -82,6 +84,7 @@
+ 			  ofstream & history);
+  public:
+   Solver();
++//  Solver(TruthFunction *);
+   ~Solver();
+   double getMeshSize();
+   double getTruth();
+diff -Naur NOMADOriginal/terminator.cpp NOMADNeurofitter/terminator.cpp
+--- NOMADOriginal/terminator.cpp	2005-03-09 23:14:13.000000000 +0100
++++ NOMADNeurofitter/terminator.cpp	2006-10-03 14:02:22.000000000 +0200
+@@ -33,6 +33,7 @@
+ /* terminator.cpp -- Terminator class methods. */
+ 
+ #include <iostream>
++#include <cmath>
+ using namespace std;
+ #include "terminator.h"
+ 
+diff -Naur NOMADOriginal/truthfunction.h NOMADNeurofitter/truthfunction.h
+--- NOMADOriginal/truthfunction.h	2004-02-17 18:14:50.000000000 +0100
++++ NOMADNeurofitter/truthfunction.h	2006-10-03 13:55:22.000000000 +0200
+@@ -48,5 +48,10 @@
+   TruthFunction();
+   ~TruthFunction();
+   double evaluate(const double * coord);
++
++#ifdef PARANOMAD
++  vector< double > parallelEvaluate(const vector< double* > coord);
++#endif
++
+ };
+ #endif

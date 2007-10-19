@@ -1,0 +1,22 @@
+To apply the patch:
+
+Download EO from http://eodev.sourceforge.net (release 0.9.3z.1)
+
+Unpack EO
+
+Change directory to the eo-0.9.3z.1 directory 
+
+Run the command "patch -p1 <EOPATCHLOCATION/EO.Neurofitter-0.9.1.patch
+(where EOPATCHLOCATION is the directory containing the patch)
+
+
+To compile EO:
+
+Run the following commands in the eo-0.9.3z.1 directory:
+./configure (maybe you have to do this more than 1 time)
+make
+
+
+Now you can adapt the Makefile of Neurofitter so that it points to the directory containing EO
+
+

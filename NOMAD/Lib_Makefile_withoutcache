@@ -1,0 +1,109 @@
+# Makefile to build the library version of NOMAD (without the caches).
+#****************************************************************
+
+COMPILER 	= g++
+OPTIONS		= -O2 -Wall -W
+MATHLIB		  = -lm
+
+AR = ar
+
+LIBNOMAD	= libnomad.a
+PROJECT 	= nomad
+OBJS1 		= $(PROJECT).cpp augmentedpoint.cpp cachecontrol.cpp constraints.cpp continuouspollster.cpp description.cpp direction.cpp directionset.cpp evaluator.cpp filter.cpp functioncontrol.cpp generalconstraints.cpp latinhypercubesearcher.cpp mesh.cpp parameters.cpp point.cpp pollcontrol.cpp preferences.cpp randomsearcher.cpp searchcontrol.cpp solver.cpp speculativesearcher.cpp statistics.cpp subject.cpp surrfunction.cpp surrogate.cpp surrogatecontrol.cpp terminator.cpp
+
+OBJS 		= augmentedpoint.o cachecontrol.o constraints.o continuouspollster.o description.o direction.o directionset.o evaluator.o filter.o functioncontrol.o generalconstraints.o latinhypercubesearcher.o mesh.o parameters.o point.o pollcontrol.o preferences.o randomsearcher.o searchcontrol.o solver.o speculativesearcher.o statistics.o subject.o surrfunction.o surrogate.o surrogatecontrol.o terminator.o
+
+$(LIBNOMAD): $(OBJS)
+	$(AR) rcs $(LIBNOMAD) $(OBJS)	
+
+$(PROJECT): $(OBJS)
+	$(COMPILER) $(OPTIONS) $(OBJS) -o $(PROJECT) $(MATHLIB)
+
+$(PROJECT).o: $(PROJECT).cpp
+	$(COMPILER) $(OPTIONS) -c $(PROJECT).cpp
+
+augmentedpoint.o: augmentedpoint.cpp
+	$(COMPILER) $(OPTIONS) -c augmentedpoint.cpp
+
+cachecontrol.o: cachecontrol.cpp
+	$(COMPILER) $(OPTIONS) -c cachecontrol.cpp
+
+constraints.o: constraints.cpp
+	$(COMPILER) $(OPTIONS) -c constraints.cpp
+
+continuouspollster.o: continuouspollster.cpp
+	$(COMPILER) $(OPTIONS) -c continuouspollster.cpp
+
+description.o: description.cpp
+	$(COMPILER) $(OPTIONS) -c description.cpp
+
+direction.o: direction.cpp
+	$(COMPILER) $(OPTIONS) -c direction.cpp
+
+directionset.o: directionset.cpp
+	$(COMPILER) $(OPTIONS) -c directionset.cpp
+
+evaluator.o: evaluator.cpp
+	$(COMPILER) $(OPTIONS) -c evaluator.cpp
+
+filter.o: filter.cpp
+	$(COMPILER) $(OPTIONS) -c filter.cpp
+
+functioncontrol.o: functioncontrol.cpp
+	$(COMPILER) $(OPTIONS) -c functioncontrol.cpp
+
+generalconstraints.o: generalconstraints.cpp
+	$(COMPILER) $(OPTIONS) -c generalconstraints.cpp
+
+latinhypercubesearcher.o: latinhypercubesearcher.cpp
+	$(COMPILER) $(OPTIONS) -c latinhypercubesearcher.cpp
+
+mesh.o: mesh.cpp
+	$(COMPILER) $(OPTIONS) -c mesh.cpp
+
+parameters.o: parameters.cpp
+	$(COMPILER) $(OPTIONS) -c parameters.cpp
+
+point.o: point.cpp
+	$(COMPILER) $(OPTIONS) -c point.cpp
+
+pollcontrol.o: pollcontrol.cpp
+	$(COMPILER) $(OPTIONS) -c pollcontrol.cpp
+
+preferences.o: preferences.cpp
+	$(COMPILER) $(OPTIONS) -c preferences.cpp
+
+randomsearcher.o: randomsearcher.cpp
+	$(COMPILER) $(OPTIONS) -c randomsearcher.cpp
+
+searchcontrol.o: searchcontrol.cpp
+	$(COMPILER) $(OPTIONS) -c searchcontrol.cpp
+
+solver.o: solver.cpp
+	$(COMPILER) $(OPTIONS) -c solver.cpp
+
+speculativesearcher.o: speculativesearcher.cpp
+	$(COMPILER) $(OPTIONS) -c speculativesearcher.cpp
+
+statistics.o: statistics.cpp
+	$(COMPILER) $(OPTIONS) -c statistics.cpp
+
+subject.o: subject.cpp
+	$(COMPILER) $(OPTIONS) -c subject.cpp
+
+surrfunction.o: surrfunction.cpp
+	$(COMPILER) $(OPTIONS) -c surrfunction.cpp
+
+surrogate.o: surrogate.cpp
+	$(COMPILER) $(OPTIONS) -c surrogate.cpp
+
+surrogatecontrol.o: surrogatecontrol.cpp
+	$(COMPILER) $(OPTIONS) -c surrogatecontrol.cpp
+
+terminator.o: terminator.cpp
+	$(COMPILER) $(OPTIONS) -c terminator.cpp
+
+clean: 
+	-rm -f *.o
+	-rm -f *.a
+	-rm -f *~ core
