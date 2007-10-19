@@ -66,8 +66,8 @@ AC_ARG_WITH([nomad],
 		neurofitter_nomad_src=yes
 		neurofitter_have_nomad=yes
 		AC_DEFINE(HAVE_PKG_eo,1)
-	        nomad_libdir="$ac_pwd/NOMAD/NOMAD"
-		nomad_include="$ac_pwd/NOMAD/NOMAD"
+	        nomad_libdir="$ac_pwd/NOMAD"
+		nomad_include="$ac_pwd/NOMAD"
 		nomad_CFLAGS="-I$nomad_include"
 		nomad_LDFLAGS="-L$nomad_libdir -lnomad"
 		AC_SUBST(nomad_CFLAGS)
