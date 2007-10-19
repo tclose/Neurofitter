@@ -20,18 +20,24 @@ Settings:
     	</VdVdtMatrixParameters>
 
 	The VdVdtMatrixParameters are:
+
 			The number of bins in the V direction of the VdVdtMatrix
 		    	<vLength>...</vLength>
 			The number of bins in the dVdt direction of the VdVdtMatrix
             	<dVdtLength>...</dVdtLength>
+
 			The minimal V in the VdVdtMatrix (units should be same as output data traces)
             	<minimalV>...</minimalV>
+
 			The maximal V in the VdVdtMatrix (units should be same as output data traces)
             	<maximalV>...</maximalV>
+
 			Value used to compare if two values are identical (should be set very low)
             	<comparePrecision>1e-15</comparePrecision>
+
 			You can let Neurofitter show numerical output of the matrices if the verboselevel is very high
             	<numericOutputFormat>0</numericOutputFormat>
+
 			Let Neurofitter calculate the sum of the square roots instead of sum squares when calculating 
 			the error value. Setting this value to 1 is supposed to be better.
             	<SumOfSquareRoots>1</SumOfSquareRoots>

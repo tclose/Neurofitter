@@ -1,7 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
 dnl TODO:
-dnl - enable debug mode by default
 dnl - figure out how to use EO and NOMAD in-place (i.e. without having to install them) 
 dnl
 
@@ -34,17 +33,17 @@ ACX_MPI(neurofitter_have_mpi=yes)
 AC_DEFINE([HAVE_PKG_eo], 0, [Define if package EO is used.])
 AC_DEFINE([HAVE_PKG_nomad], 0, [Define if package NOMAD is used.])
 
-AC_ARG_WITH([eo-src], 
-	    [  --with-eo-src           build and use the bundled EO library], 
+AC_ARG_WITH([eo], 
+	    [  --with-eo           build and use the bundled EO library], 
 	    [if test "$withval" == "yes" -o "$withval" == "";
  	     then
 		neurofitter_eo_src=yes
 		neurofitter_have_eo=yes
 		AC_DEFINE(HAVE_PKG_eo,1)
-	        eo_libdir="$srcdir/EO/lib"
-		eo_include="$srcdir/EO/src"
-		eo_CFLAGS="-I$eo_include"
-		eo_LDFLAGS="-I$eo_libdir"
+	        eo_libdir="$ac_pwd/EO/src"
+		eo_include="$ac_pwd/EO/src"
+		eo_CFLAGS="-I$eo_include -I$ac_pwd/EO"
+		eo_LDFLAGS="-L$eo_libdir -L$eo_libdir/es -L$eo_libdir/ga -L$eo_libdir/utils"
 		AC_SUBST(eo_CFLAGS)
 		AC_SUBST(eo_LDFLAGS)
 	     fi])
@@ -60,15 +59,15 @@ fi
 #  HEADERFILE [, ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 
 
-AC_ARG_WITH([nomad-src], 
-	    [  --with-nomad-src           build and use the bundled NOMAD library], 
+AC_ARG_WITH([nomad], 
+	    [  --with-nomad           build and use the bundled NOMAD library], 
 	    [if test "$withval" == "yes" -o "$withval" == "";
  	     then
 		neurofitter_nomad_src=yes
 		neurofitter_have_nomad=yes
 		AC_DEFINE(HAVE_PKG_eo,1)
-	        nomad_libdir="$srcdir/NOMAD"
-		nomad_include="$srcdir/NOMAD"
+	        nomad_libdir="$ac_pwd/NOMAD/NOMAD"
+		nomad_include="$ac_pwd/NOMAD/NOMAD"
 		nomad_CFLAGS="-I$nomad_include"
 		nomad_LDFLAGS="-L$nomad_libdir -lnomad"
 		AC_SUBST(nomad_CFLAGS)
@@ -77,10 +76,10 @@ AC_ARG_WITH([nomad-src],
 AM_CONDITIONAL(BUILD_NOMAD_SRC, test "$neurofitter_nomad_src" = "yes")
 if test "$neurofitter_nomad_src" == "yes" ;
 then
-	AC_CONFIG_SUBDIRS([NOMAD])
+	AC_CONFIG_FILES([NOMAD/Makefile])
 else
-AC_ARG_WITH([nomad], 
-	    [  --with-nomad[=DIR]        use the NOMAD library], 
+AC_ARG_WITH([nomad-ext], 
+	    [  --with-nomad-ext[=DIR]        use an installed NOMAD library], 
 	    [if test "$withval" != "";
  	     then
 	      	OLD_LDFLAGS=$LDFLAGS
@@ -242,7 +241,7 @@ AC_MSG_NOTICE([
 
 Neurofitter is now configured as follows:
 
-  Source directory:     $srcdir
+  Source directory:     $ac_pwd
   Installation prefix:  $prefix
   C compiler:           $CC $XTRA_CFLAGS $WARN_CFLAGS $CFLAGS
   C++ compiler:         $CXX $XTRA_CXXFLAGS $WARN_CXXFLAGS $CXXFLAGS

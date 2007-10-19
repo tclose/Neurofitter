@@ -81,13 +81,15 @@ Put's the bounds of parameter 1 at [1.0 10000.0] and parameter 2 at [1.0 50000.0
 
 WorkingDirectory
 ================
-Location where you want to let Neurofitter write it's output
+Location where you want to let Neurofitter write its output
 
 PrintParameterFile
 ==================
-If this is set to 1 it means Neurofitter will write the settings file to stdout before starting. This is handy if you will save
-the Neurofitter stdout output for later, and you still want to know the settings file you used.
-If set to 0, Neurofitter won't print the settings.xml file
+If this is set to 1 it means Neurofitter will write the settings file
+to stdout before starting. This is handy if you will save the
+Neurofitter stdout output for later, and you still want to know the
+settings file you used.  If set to 0, Neurofitter won't print the
+settings.xml file
 
 FitterType
 ==========
