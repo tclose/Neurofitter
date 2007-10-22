@@ -1,8 +1,6 @@
 
 # Proxy makefile that invokes the real NOMAD makefile
 
-SUBDIR=NOMAD
-
 all-local:
 	     $(MAKE) -f Lib_Makefile_parallel $(AM_MAKEFLAGS) libnomad.a
 check-local:
@@ -19,4 +17,5 @@ uninstall-local:
 
 
 # Distribute files from here.
-EXTRA_DIST = Lib_Makefile_parallel $(shell find $(SUBDIR) -iname *.cpp -iname *.h) 
+EXTRA_DIST = Lib_Makefile_parallel nomad $(shell find . -iname "*.cpp" -or -iname "*.h") 
+

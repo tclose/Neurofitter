@@ -40,8 +40,8 @@ AC_ARG_WITH([eo],
 		neurofitter_eo_src=yes
 		neurofitter_have_eo=yes
 		AC_DEFINE(HAVE_PKG_eo,1)
-	        eo_libdir="$ac_pwd/EO/src"
-		eo_include="$ac_pwd/EO/src"
+	        eo_libdir=`pwd`/EO/src
+		eo_include=`pwd`/EO/src
 		eo_CFLAGS="-I$eo_include -I$ac_pwd/EO"
 		eo_LDFLAGS="-L$eo_libdir -L$eo_libdir/es -L$eo_libdir/ga -L$eo_libdir/utils"
 		AC_SUBST(eo_CFLAGS)
