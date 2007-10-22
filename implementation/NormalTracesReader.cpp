@@ -5,7 +5,7 @@ Date of last commit: $Date$
 */
 
 #include <math.h>
-
+#include "../Tools.h"
 #include "../NormalTracesReader.h"
 
 /// Read data traces from a directory 
@@ -168,7 +168,9 @@ ModelResults NormalTracesReader::readTracesFromFilesList(string filesList) {
         char fileName[256];
         fileNameStream.getline(fileName,256);
         string fileNameString(fileName);
-        filesVector[i] = fileNameString;
+		trimString(fileNameString);
+		if (fileNameString == "") i = i-1;
+        else filesVector[i] = fileNameString;
     }
     return readTracesFromFilesVector(filesVector);
 }
