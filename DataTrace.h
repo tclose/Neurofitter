@@ -47,11 +47,13 @@ public:
 	void printOn(OutputChannel &) const;
 	void readFrom(InputChannel &);
 
-	double &operator[](const int);
-	const double &operator[](const int) const;
+	bool pointIsValid(const int) const;
+
+	double get(const int t) const;
+	void set(const int t, const double value);
 
 protected:
-	vector< double > points;
+	vector< pair< double, bool > > points;
 	
 	double weight;
 	double startTime;

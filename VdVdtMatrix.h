@@ -58,26 +58,31 @@ public:
     	///////////////////////////////////////
 
     	for (int nPoint = trace.getLag(); nPoint < trace.getLength()-trace.getLag(); nPoint++) {
-        	V = trace[nPoint];
-			// Multiplied by 2 to normalize to 1 of weight = 1/2
-        	VPrev = 2*(1-trace.getLagWeight())*trace[nPoint-trace.getLag()];
-        	VNext = 2*(trace.getLagWeight())*trace[nPoint+trace.getLag()];
-        	dVdt = (VPrev-VNext) * trace.getSamplingFrequency();
+			if (trace.pointIsValid(nPoint) && trace.pointIsValid(nPoint-trace.getLag()) && trace.pointIsValid(nPoint+trace.getLag())) {
+        		V = trace.get(nPoint);
+				// Multiplied by 2 to normalize to 1 of weight = 1/2
+        		VPrev = 2*(1-trace.getLagWeight())*trace.get(nPoint-trace.getLag());
+        		VNext = 2*(trace.getLagWeight())*trace.get(nPoint+trace.getLag());
+        		dVdt = (VPrev-VNext) * trace.getSamplingFrequency();
 
-        	if (V < minimalV) showMessage("Warning: V smaller than minimal V in MapVdVdtMatrix: " + str(V) + "\n",5,fixedParams);
-        	if (V >= maximalV) showMessage("Warning: V larger than maximal V in MapVdVdtMatrix: " + str(V) + "\n",5,fixedParams);
-        	if (dVdt < minimaldVdt) showMessage("Warning: dVdt smaller than minimal dVdt in MapVdVdtMatrix: " + str(dVdt) + "\n",5,fixedParams);
-        	if (dVdt >= maximaldVdt) showMessage("Warning: dVdt larger than maximal dVdt in MapVdVdtMatrix: " + str(dVdt) + "\n",5,fixedParams);
+        		if (V < minimalV) showMessage("Warning: V smaller than minimal V in MapVdVdtMatrix: " + str(V) + "\n",5,fixedParams);
+        		if (V >= maximalV) showMessage("Warning: V larger than maximal V in MapVdVdtMatrix: " + str(V) + "\n",5,fixedParams);
+        		if (dVdt < minimaldVdt) showMessage("Warning: dVdt smaller than minimal dVdt in MapVdVdtMatrix: " + str(dVdt) + "\n",5,fixedParams);
+        		if (dVdt >= maximaldVdt) showMessage("Warning: dVdt larger than maximal dVdt in MapVdVdtMatrix: " + str(dVdt) + "\n",5,fixedParams);
 
-        	if (V < minimalV) V=minimalV;
-        	if (V >= maximalV) V=maximalV-dxVdVdtmatrix;                                                    
-        	if (dVdt < minimaldVdt) dVdt=minimaldVdt;
-        	if (dVdt >= maximaldVdt) dVdt=maximaldVdt-dyVdVdtmatrix;
+        		if (V < minimalV) V=minimalV;
+        		if (V >= maximalV) V=maximalV-dxVdVdtmatrix;                                                    
+        		if (dVdt < minimaldVdt) dVdt=minimaldVdt;
+        		if (dVdt >= maximaldVdt) dVdt=maximaldVdt-dyVdVdtmatrix;
 
-        	int vIndex = (int)( (V-minimalV) / dxVdVdtmatrix );
-        	int dVdtIndex = (int)( (dVdt-minimaldVdt) / dyVdVdtmatrix );
+        		int vIndex = (int)( (V-minimalV) / dxVdVdtmatrix );
+        		int dVdtIndex = (int)( (dVdt-minimaldVdt) / dyVdVdtmatrix );
 
-			set(vIndex,dVdtIndex,get(vIndex,dVdtIndex) + 1.0/(trace.getLength()-2));
+				set(vIndex,dVdtIndex,get(vIndex,dVdtIndex) + 1.0/(trace.getLength()-2));
+			}
+			else {
+				showMessage("Warning: Not all of data points in the defined time range are valid in the Datatrace object\n",15,fixedParams);
+			}
 		}
 
 	}

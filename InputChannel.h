@@ -14,6 +14,7 @@ using namespace std;
 class InputChannel {
 
 	public:
+		virtual InputChannel &operator>>(bool &) = 0;
 		virtual InputChannel &operator>>(int &) = 0;
 		virtual InputChannel &operator>>(unsigned &) = 0;
 		virtual InputChannel &operator>>(string &) = 0;

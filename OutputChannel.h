@@ -15,6 +15,7 @@ using namespace std;
 class OutputChannel {
 
 	public:
+    	virtual OutputChannel &operator<<(const bool &) = 0; ///< Send a bool
     	virtual OutputChannel &operator<<(const int &) = 0; ///< Send an integer
     	virtual OutputChannel &operator<<(const unsigned &) = 0; ///< Send an unsigned integer
     	virtual OutputChannel &operator<<(const string &) = 0; ///< Send a string

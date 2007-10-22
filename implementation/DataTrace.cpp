@@ -7,10 +7,10 @@ Date of last commit: $Date$
 #include "../DataTrace.h"
 
 DataTrace::DataTrace() 
-	:  points(vector< double >(0)), weight(-1), startTime(-1), stopTime(-1), lag(-1), lagWeight(-1) {}
+	:  points(vector< pair< double, bool > >(0,pair< double, bool >(0,false))), weight(-1), startTime(-1), stopTime(-1), lag(-1), lagWeight(-1) {}
 
 DataTrace::DataTrace(int size)
-	: points(vector< double >(size)), weight(-1), startTime(-1), stopTime(-1), lag(-1), lagWeight(-1) {}
+	:  points(vector< pair< double, bool > >(size, pair< double, bool >(0,false))), weight(-1), startTime(-1), stopTime(-1), lag(-1), lagWeight(-1) {}
 
 int DataTrace::getLength() const {
 	return points.size();
@@ -21,7 +21,7 @@ int DataTrace::getLength() const {
 ///
 void DataTrace::resetAndSetLength(const int size) {
 	points.clear();
-	points.resize(size,0);
+	points.resize(size,pair< double, bool >(0,false));
 }
 
 double DataTrace::getWeight() const {	
@@ -81,6 +81,7 @@ void DataTrace::setName(const string newName) {
 }
 
 void DataTrace::setLag(int newLag, double newLagWeight) {
+	if (newLag < 1) crash("DataTrace","Lags smaller than 1 or not allowed");
 	lag = newLag;
 	lagWeight = newLagWeight;
 }
@@ -89,7 +90,8 @@ void DataTrace::printOn(OutputChannel & output) const {
 	int length = points.size();
 	output << length;
 	for (int i = 0; i < length; i++) {
-		output << points[i];
+		output << points[i].first;
+		output << points[i].second;
 	}
 	output << weight;
 	output << startTime;
@@ -103,9 +105,10 @@ void DataTrace::printOn(OutputChannel & output) const {
 void DataTrace::readFrom(InputChannel & input) {
 	unsigned length;
 	input >> length;
-	points = vector< double >(length);
+	points = vector< pair< double, bool > >(length, pair< double, bool >(0, false));
 	for (unsigned i = 0; i < points.size(); i++) {
-		input >> points[i];
+		input >> points[i].first;
+		input >> points[i].second;
 	}
 	input >> weight;
 	input >> startTime;
@@ -116,18 +119,26 @@ void DataTrace::readFrom(InputChannel & input) {
 	input >> lagWeight;
 }
     
+bool DataTrace::pointIsValid(const int subscript) const {
+	if (subscript < 0 || subscript >= (int)points.size()) {
+        crash("DataTrace","Invalid subscript: "+str(subscript));
+    }
+    return points[subscript].second;
+} 
 
-double &DataTrace::operator[] (const int subscript) {
+double DataTrace::get(const int subscript) const {
     if (subscript < 0 || subscript >= (int)points.size()) {
         crash("DataTrace","Invalid subscript: "+str(subscript));
     }
-	return points[subscript];
+	if (!points[subscript].second) crash("DataTrace","Retrieving data point that is not valid: "+str(subscript));
+	return points[subscript].first;
 }
 
-const double &DataTrace::operator[] (const int subscript) const {
+void DataTrace::set (const int subscript, const double newValue) {
     if (subscript < 0 || subscript >= (int)points.size()) {
         crash("DataTrace","Invalid subscript: "+str(subscript));
     }
-	return points[subscript];
+	points[subscript].second = true;
+	points[subscript].first = newValue;
 }
 

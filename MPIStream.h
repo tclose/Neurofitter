@@ -46,6 +46,7 @@ class MPIInputStream : public virtual MPICommunicator,  public InputChannel {
 public:
   MPIInputStream(void); ///< Default constructor of MPIInputStream
   MPIInputStream(MPI_Comm X); ///< Constructor of MPIInputStream using an MPI_Comm
+  MPIInputStream &operator>>(bool &Data); ///< Read a bool from the MPI channel
   MPIInputStream &operator>>(int &Data); ///< Read an integer from the MPI channel
   MPIInputStream &operator>>(unsigned &Data); ///< Read an unsigned integer from the MPI channel
   MPIInputStream &operator>>(string &Data); ///< Read a string from the MPI channel
@@ -63,6 +64,7 @@ class MPIOutputStream : public virtual MPICommunicator, public OutputChannel {
 public:
   MPIOutputStream(void); ///< Default constructor of MPIOutputStream
   MPIOutputStream(MPI_Comm X); ///< Constructor of MPIOutputStream that uses an MPI_Comm
+  MPIOutputStream &operator<<(const bool& Data); ///< Write an bool to the MPI channel
   MPIOutputStream &operator<<(const int& Data); ///< Write an integer to the MPI channel
   MPIOutputStream &operator<<(const unsigned& Data); ///< Write an unsigned integer to the MPI channel
   MPIOutputStream &operator<<(const string& Data); ///< Write a string to the MPI channel
