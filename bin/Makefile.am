@@ -13,28 +13,28 @@ bin_PROGRAMS = neurofitter $(MPINEUROFITTER)
 ## Add necessary flags for EO and NOMAD libraries
 if BUILD_EO_SRC
    EO_SRC=$(SRCDIR)/EOFitterInterface.cpp
-   eo_src_CFLAGS+= -Wno-deprecated -Wno-long-long -DWITH_EO 
-   eo_src_LDFLAGS+= -les -leoutils -leo 
+   eo_src_CFLAGS= -Wno-deprecated -Wno-long-long -DWITH_EO 
+   eo_src_LDFLAGS= -les -leoutils -leo 
 else
 if USE_EO
    EO_SRC=$(SRCDIR)/EOFitterInterface.cpp
-   eo_CFLAGS+= -Wno-deprecated -Wno-long-long -DWITH_EO 
-   eo_LDFLAGS+= -les -leoutils -leo 
+   eo_CFLAGS= -Wno-deprecated -Wno-long-long -DWITH_EO 
+   eo_LDFLAGS= -les -leoutils -leo 
 endif
 endif
 
 if BUILD_NOMAD_SRC
    NOMAD_SRC=$(SRCDIR)/NOMADFitterInterface.cpp $(SRCDIR)/truthfunction.cpp 
-   nomad_src_CFLAGS+= -DWITH_NOMAD -DPARANOMAD 
-   nomad_src_LDFLAGS+= -lnomad 
+   nomad_src_CFLAGS= -DWITH_NOMAD -DPARANOMAD 
+   nomad_src_LDFLAGS= -lnomad 
 if BUILD_EO_SRC
    EONOMAD_SRC=$(SRCDIR)/EONOMADFitterInterface.cpp
 endif
 else
 if USE_NOMAD
    NOMAD_SRC=$(SRCDIR)/NOMADFitterInterface.cpp $(SRCDIR)/truthfunction.cpp 
-   nomad_CFLAGS+= -DWITH_NOMAD -DPARANOMAD 
-   nomad_LDFLAGS+= -lnomad 
+   nomad_CFLAGS= -DWITH_NOMAD -DPARANOMAD 
+   nomad_LDFLAGS= -lnomad 
 if USE_EO
    EONOMAD_SRC=$(SRCDIR)/EONOMADFitterInterface.cpp
 endif
