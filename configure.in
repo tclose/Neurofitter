@@ -33,6 +33,8 @@ ACX_MPI(neurofitter_have_mpi=yes)
 AC_DEFINE([HAVE_PKG_eo], 0, [Define if package EO is used.])
 AC_DEFINE([HAVE_PKG_nomad], 0, [Define if package NOMAD is used.])
 
+local_ac_pwd=`pwd`
+
 AC_ARG_WITH([eo], 
 	    [  --with-eo           build and use the bundled EO library], 
 	    [if test "$withval" == "yes" -o "$withval" == "";
@@ -40,9 +42,9 @@ AC_ARG_WITH([eo],
 		neurofitter_eo_src=yes
 		neurofitter_have_eo=yes
 		AC_DEFINE(HAVE_PKG_eo,1)
-	        eo_libdir=`pwd`/EO/src
-		eo_include=`pwd`/EO/src
-		eo_CFLAGS="-I$eo_include -I$ac_pwd/EO"
+	        eo_libdir="$local_ac_pwd/EO/src"
+		eo_include="$local_ac_pwd/EO/src"
+		eo_CFLAGS="-I$eo_include -I$local_ac_pwd/EO"
 		eo_LDFLAGS="-L$eo_libdir -L$eo_libdir/es -L$eo_libdir/ga -L$eo_libdir/utils"
 		AC_SUBST(eo_CFLAGS)
 		AC_SUBST(eo_LDFLAGS)
@@ -66,8 +68,8 @@ AC_ARG_WITH([nomad],
 		neurofitter_nomad_src=yes
 		neurofitter_have_nomad=yes
 		AC_DEFINE(HAVE_PKG_eo,1)
-	        nomad_libdir=`pwd`/NOMAD
-		nomad_include=`pwd`/NOMAD
+	        nomad_libdir="$local_ac_pwd/NOMAD"
+		nomad_include="$local_ac_pwd/NOMAD"
 		nomad_CFLAGS="-I$nomad_include"
 		nomad_LDFLAGS="-L$nomad_libdir -lnomad"
 		AC_SUBST(nomad_CFLAGS)
@@ -241,7 +243,7 @@ AC_MSG_NOTICE([
 
 Neurofitter is now configured as follows:
 
-  Source directory:     `pwd`
+  Source directory:     $local_ac_pwd
   Installation prefix:  $prefix
   C compiler:           $CC $XTRA_CFLAGS $WARN_CFLAGS $CFLAGS
   C++ compiler:         $CXX $XTRA_CXXFLAGS $WARN_CXXFLAGS $CXXFLAGS
