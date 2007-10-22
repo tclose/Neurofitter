@@ -11,18 +11,33 @@ endif
 bin_PROGRAMS = neurofitter $(MPINEUROFITTER)
 
 ## Add necessary flags for EO and NOMAD libraries
+if BUILD_EO_SRC
+   EO_SRC=$(SRCDIR)/EOFitterInterface.cpp
+   eo_src_CFLAGS+= -Wno-deprecated -Wno-long-long -DWITH_EO 
+   eo_src_LDFLAGS+= -les -leoutils -leo 
+else
 if USE_EO
    EO_SRC=$(SRCDIR)/EOFitterInterface.cpp
    eo_CFLAGS+= -Wno-deprecated -Wno-long-long -DWITH_EO 
    eo_LDFLAGS+= -les -leoutils -leo 
 endif
+endif
 
+if BUILD_NOMAD_SRC
+   NOMAD_SRC=$(SRCDIR)/NOMADFitterInterface.cpp $(SRCDIR)/truthfunction.cpp 
+   nomad_src_CFLAGS+= -DWITH_NOMAD -DPARANOMAD 
+   nomad_src_LDFLAGS+= -lnomad 
+if BUILD_EO_SRC
+   EONOMAD_SRC=$(SRCDIR)/EONOMADFitterInterface.cpp
+endif
+else
 if USE_NOMAD
    NOMAD_SRC=$(SRCDIR)/NOMADFitterInterface.cpp $(SRCDIR)/truthfunction.cpp 
    nomad_CFLAGS+= -DWITH_NOMAD -DPARANOMAD 
    nomad_LDFLAGS+= -lnomad 
 if USE_EO
    EONOMAD_SRC=$(SRCDIR)/EONOMADFitterInterface.cpp
+endif
 endif
 endif
 
@@ -56,8 +71,8 @@ neurofitter_SOURCES =  $(SRCDIR)/Neurofitter.cpp \
  $(EONOMAD_SRC) 
 
 ## Compile flags for the neurofitter program
-neurofitter_LDFLAGS  = $(XML_LIBS) $(eo_LDFLAGS) $(nomad_LDFLAGS) $(AM_LDFLAGS)
-neurofitter_CFLAGS   = $(XML_CPPFLAGS) $(eo_CFLAGS) $(nomad_CFLAGS) $(AM_CFLAGS)
+neurofitter_LDFLAGS  = $(XML_LIBS) $(eo_LDFLAGS) $(nomad_LDFLAGS) $(eo_src_LDFLAGS) $(nomad_src_LDFLAGS) $(AM_LDFLAGS)
+neurofitter_CFLAGS   = $(XML_CPPFLAGS) $(eo_src_CFLAGS) $(nomad_src_CFLAGS) $(AM_CFLAGS)
 neurofitter_CXXFLAGS = $(neurofitter_CFLAGS) $(AM_CXXFLAGS)
 
 ## Sources for the mpineurofitter program -- will be compiled with the
