@@ -9,7 +9,7 @@ Date of last commit: $Date$
 #include "../NormalTracesReader.h"
 
 /// Read data traces from a directory 
-ModelResults NormalTracesReader::readTraces(string dirName) {
+ModelResults NormalTracesReader::readTracesFromFilesVector(vector< string > filesVector) {
 
 	int numberOfRuns = toInt(fixedParams["NumberOfRuns"]);
 
@@ -91,7 +91,7 @@ ModelResults NormalTracesReader::readTraces(string dirName) {
         	//////////////////////////
         	/// Open the data file ///
         	//////////////////////////
-			string inputFileName = dirName + "/" + fixedParams["OutputFilePrefix"] + "_Run" + str(nRun) +".dat";
+			string inputFileName = filesVector[nRun];
         	ifstream inputFile(inputFileName.c_str(), ios::in);
             if (!inputFile.good()) crash("NormalTracesReader","Error while opening file "+inputFileName);
         	showMessage("Reading from file: " + inputFileName + " from " + str(periodStart[nPeriod]) + " until " + str(periodStops[nPeriod]) + "\n",5,fixedParams);
@@ -149,3 +149,27 @@ ModelResults NormalTracesReader::readTraces(string dirName) {
 	return results;
 
 }
+
+ModelResults NormalTracesReader::readTracesFromDirectory(string dirName) {
+
+    vector< string > filesVector(getNumberOfRuns());
+    for (unsigned int i = 0; i < filesVector.size(); i++) {
+        filesVector[i] = dirName + "/" + fixedParams["OutputFilePrefix"] + "_Run" + str(i) +".dat";
+    }
+    return readTracesFromFilesVector(filesVector);
+}
+
+ModelResults NormalTracesReader::readTracesFromFilesList(string filesList) {
+
+    vector< string > filesVector(getNumberOfRuns());
+    istringstream fileNameStream(filesList);
+    for (unsigned int i = 0; i < filesVector.size(); i++) {
+        if (!fileNameStream.good()) crash("NormalTracesReader","Error while reading " + str(getNumberOfRuns()) + " data filenames from XML settings file");
+        char fileName[256];
+        fileNameStream.getline(fileName,256);
+        string fileNameString(fileName);
+        filesVector[i] = fileNameString;
+    }
+    return readTracesFromFilesVector(filesVector);
+}
+

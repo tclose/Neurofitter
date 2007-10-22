@@ -59,6 +59,7 @@ neurofitter_SOURCES =  $(SRCDIR)/Neurofitter.cpp \
  $(SRCDIR)/MatrixErrorValueCalculator.cpp \
  $(SRCDIR)/FakeExperimentInterface.cpp \
  $(SRCDIR)/FileExperimentInterface.cpp \
+ $(SRCDIR)/FileListExperimentInterface.cpp \
  $(SRCDIR)/FileFitterInterface.cpp \
  $(SRCDIR)/FitterResults.cpp \
  $(SRCDIR)/MeshFitterInterface.cpp \
@@ -94,6 +95,7 @@ mpineurofitter_CXXFLAGS=$(neurofitter_CXXFLAGS)  -DWITH_MPI
 pkginclude_HEADERS = $(INCLUDEDIR)/Neurofitter.h \
   $(INCLUDEDIR)/DataTrace.h \
   $(INCLUDEDIR)/FileExperimentInterface.h \
+  $(INCLUDEDIR)/FileListExperimentInterface.h \
   $(INCLUDEDIR)/MersenneTwister.h \
   $(INCLUDEDIR)/NOMADFitterInterface.h \
   $(INCLUDEDIR)/DirectVdVdtMatrix.h \
