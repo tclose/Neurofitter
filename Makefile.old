@@ -57,7 +57,8 @@ FITOBJS=	$(CPPDIR)/DirectVdVdtMatrix.o \
 
 # The object files related to experiment interfaces			
 EXPOBJS=	$(CPPDIR)/FakeExperimentInterface.o \
-			$(CPPDIR)/FileExperimentInterface.o
+			$(CPPDIR)/FileExperimentInterface.o \
+			$(CPPDIR)/FileListExperimentInterface.o
 
 # The object files related to fitter interfaces
 FITTEROBJS=	$(CPPDIR)/FitterResults.o \

@@ -40,6 +40,7 @@ using namespace std;
 #include "ExecutableModelInterface.h"
 #include "FakeExperimentInterface.h"
 #include "FileExperimentInterface.h"
+#include "FileListExperimentInterface.h"
 #include "VdVdtMatrix.h"
 #include "MapVdVdtMatrix.h"
 #include "DirectVdVdtMatrix.h"

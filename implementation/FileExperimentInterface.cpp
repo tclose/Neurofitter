@@ -11,6 +11,6 @@ FileExperimentInterface::FileExperimentInterface(TracesReader * t, FixedParamete
 
 ModelResults FileExperimentInterface::getData() const{
 
-	return tracesReader->readTraces(fixedParams["FilesDirectory"]);
+	return tracesReader->readTracesFromDirectory(fixedParams["FilesDirectory"]);
 
 }

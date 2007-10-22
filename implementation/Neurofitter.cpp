@@ -84,6 +84,9 @@ int main (int argc, char* argv[]) {
 		else if (fixedParams["ExperimentType"] == "File") {
 			experiment = new FileExperimentInterface(tracesReader, expFixedParams);
 		}
+		else if (fixedParams["ExperimentType"] == "FileList") {
+			experiment = new FileListExperimentInterface(tracesReader, expFixedParams);
+		}
 		else crash("Main program", "No matching experiment type");
 
 		/////////////////////////////////////

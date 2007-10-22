@@ -19,7 +19,8 @@ class TracesReader : public FixedParamObject {
 
 	public:
 		TracesReader(FixedParameters params) : FixedParamObject(params) {}; ///< Constructor which read fixed parameters
-		virtual ModelResults readTraces(string dirName) = 0; ///< Read the traces from a certain directory
+		virtual ModelResults readTracesFromDirectory(string dirName) = 0; ///< Read the traces from a certain directory
+		virtual ModelResults readTracesFromFilesList(string fileList) = 0; ///< Read the traces from a certain directory
 		virtual ~TracesReader() {}; ///< Destructor
 		int getNumberOfRuns() {return toInt(fixedParams["NumberOfRuns"]);} ///< Get the number of runs that is being read
 		int getNumberOfRunParameters() {return toInt(fixedParams["NumberOfRunParameters"]);} ///< Get the number of parameters that is being read

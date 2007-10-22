@@ -18,10 +18,10 @@ class NormalTracesReader : public TracesReader {
 
 	public:
 		NormalTracesReader(FixedParameters params) : TracesReader(params) {}; ///< Constructor that reads the fixed parameters
-		virtual ModelResults readTraces(string dirName); /// Read the traces from a directory
-
+		virtual ModelResults readTracesFromDirectory(string dirName); /// Read the traces from a directory
+		virtual ModelResults readTracesFromFilesList(string filesList); /// Read the traces from a list of filenames, filenames are seperated by newlines
 	protected:
-
+		virtual ModelResults readTracesFromFilesVector(vector< string > filesVector);
 };
 
 #endif

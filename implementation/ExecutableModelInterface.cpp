@@ -84,7 +84,7 @@ runModel(const ModelTuningParameters & params) {
 	/// read results ///
 	////////////////////
 
-	return tracesReader->readTraces(fixedParams["OutputDirectory"]);
+	return tracesReader->readTracesFromDirectory(fixedParams["OutputDirectory"]);
 
 }
 
