@@ -1,18 +1,5 @@
 #!/bin/sh
 
-echo "******************"
-echo "Running EO autogen"
-echo "******************"
-
-cd EO
-./autogen.sh
-
-cd ..
-
-echo "***************************"
-echo "Running Neurofitter autogen"
-echo "***************************"
-
 # This script generates the files necessary for configure and
 # automake. It needs to be run before the software is packaged, to
 # ensure that configure can run on systems where autoconf and friends
@@ -32,7 +19,7 @@ fi
 "$LIBTOOLIZE" --copy --force
 
 # Gather macros required for autoconf.
-aclocal -I m4
+aclocal
 
 #
 autoheader

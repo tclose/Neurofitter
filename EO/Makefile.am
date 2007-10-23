@@ -18,9 +18,7 @@ DOCDIR 		= ~/public_html/eodocs
 IDXDIR 		= ~/index
 
 
-dist-hook:
-		$(MAKE) documentation
-		cp -p -r $(srcdir)/doc/html $(srcdir)/doc/latex $(srcdir)/doc/man $(distdir)/doc/
+#cp -p -r $(srcdir)/doc/html $(srcdir)/doc/latex $(srcdir)/doc/man $(distdir)/doc/
 
 documentation:
 		cd doc && $(MAKE) doc && cd ..
