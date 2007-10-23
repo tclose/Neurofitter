@@ -1,14 +1,15 @@
 ## Makefile.am for eo
 
-if USE_APPLICATIONS
-SUBDIRS_APP		= app
-endif
+#if USE_APPLICATIONS
+#SUBDIRS_APP		= app
+#endif
 
-if USE_TUTORIAL
-SUBDIRS_TUT		= tutorial
-endif
+#if USE_TUTORIAL
+#SUBDIRS_TUT		= tutorial
+#endif
 
-SUBDIRS		= src doc contrib win $(SUBDIRS_APP) $(SUBDIRS_TUT) test
+SUBDIRS		= src doc contrib win test
+#SUBDIRS		= src doc contrib win $(SUBDIRS_APP) $(SUBDIRS_TUT) test
 
 
 # Directory for documents
