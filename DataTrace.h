@@ -25,6 +25,7 @@ public:
 	DataTrace(const int size); 
 
 	int getLength() const;
+	int getValidLength() const;
 
 	double getWeight() const;
 	double getStartTime() const;
@@ -62,6 +63,8 @@ protected:
 
 	int lag;
 	double lagWeight;
+
+	int validLength;
 
 	string name;
 };

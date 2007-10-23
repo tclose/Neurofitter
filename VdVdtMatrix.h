@@ -78,7 +78,7 @@ public:
         		int vIndex = (int)( (V-minimalV) / dxVdVdtmatrix );
         		int dVdtIndex = (int)( (dVdt-minimaldVdt) / dyVdVdtmatrix );
 
-				set(vIndex,dVdtIndex,get(vIndex,dVdtIndex) + 1.0/(trace.getLength()-2));
+				set(vIndex,dVdtIndex,get(vIndex,dVdtIndex) + 1.0/(trace.getValidLength()-2*trace.getLag()));
 			}
 			else {
 				showMessage("Warning: Not all of data points in the defined time range are valid in the Datatrace object\n",15,fixedParams);

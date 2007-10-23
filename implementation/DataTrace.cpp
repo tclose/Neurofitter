@@ -7,19 +7,24 @@ Date of last commit: $Date$
 #include "../DataTrace.h"
 
 DataTrace::DataTrace() 
-	:  points(vector< pair< double, bool > >(0,pair< double, bool >(0,false))), weight(-1), startTime(-1), stopTime(-1), lag(-1), lagWeight(-1) {}
+	:  points(vector< pair< double, bool > >(0,pair< double, bool >(0,false))), weight(-1), startTime(-1), stopTime(-1), lag(-1), lagWeight(-1), validLength(0) {}
 
 DataTrace::DataTrace(int size)
-	:  points(vector< pair< double, bool > >(size, pair< double, bool >(0,false))), weight(-1), startTime(-1), stopTime(-1), lag(-1), lagWeight(-1) {}
+	:  points(vector< pair< double, bool > >(size, pair< double, bool >(0,false))), weight(-1), startTime(-1), stopTime(-1), lag(-1), lagWeight(-1), validLength(0) {}
 
 int DataTrace::getLength() const {
 	return points.size();
+}
+
+int DataTrace::getValidLength() const {
+	return validLength;
 }
 
 ///
 /// This will remove all existing data !!!
 ///
 void DataTrace::resetAndSetLength(const int size) {
+	validLength = 0;
 	points.clear();
 	points.resize(size,pair< double, bool >(0,false));
 }
@@ -100,6 +105,7 @@ void DataTrace::printOn(OutputChannel & output) const {
 	output << name;
 	output << lag;
 	output << lagWeight;
+	output << validLength;
 }
 
 void DataTrace::readFrom(InputChannel & input) {
@@ -117,6 +123,7 @@ void DataTrace::readFrom(InputChannel & input) {
 	input >> name;
 	input >> lag;
 	input >> lagWeight;
+	input >> validLength;
 }
     
 bool DataTrace::pointIsValid(const int subscript) const {
@@ -138,6 +145,7 @@ void DataTrace::set (const int subscript, const double newValue) {
     if (subscript < 0 || subscript >= (int)points.size()) {
         crash("DataTrace","Invalid subscript: "+str(subscript));
     }
+	if (!points[subscript].second) validLength++;
 	points[subscript].second = true;
 	points[subscript].first = newValue;
 }

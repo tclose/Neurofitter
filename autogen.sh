@@ -5,6 +5,8 @@
 # ensure that configure can run on systems where autoconf and friends
 # are not installed.
 
+#export PATH=/opt/local/bin:$PATH
+
 aclocal -I m4
 glibtoolize -f -c  ||  libtoolize -f -c 
 autoheader 
