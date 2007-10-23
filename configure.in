@@ -255,6 +255,6 @@ Neurofitter is now configured as follows:
   NOMAD found:          $neurofitter_have_nomad
   NOMAD library dir:    $nomad_libdir
   NOMAD include dir:    $nomad_include
-  NOMAD CFLAGS:         $nomad_CFLAGS
-  NOMAD LDFLAGS:        $nomad_LDFLAGS
+  NOMAD CFLAGS:         $nomad_CFLAGS_include
+  NOMAD LDFLAGS:        $nomad_LDFLAGS_include
 ])
