@@ -44,10 +44,10 @@ AC_ARG_WITH([eo],
 		AC_DEFINE(HAVE_PKG_eo,1)
 	        eo_libdir="$local_ac_pwd/EO/src"
 		eo_include="$local_ac_pwd/EO/src"
-		eo_src_CFLAGS="-I$eo_include -I$local_ac_pwd/EO"
-		eo_src_LDFLAGS="-L$eo_libdir -L$eo_libdir/es -L$eo_libdir/ga -L$eo_libdir/utils"
-		AC_SUBST(eo_src_CFLAGS)
-		AC_SUBST(eo_src_LDFLAGS)
+		eo_src_CFLAGS_include="-I$eo_include -I$local_ac_pwd/EO"
+		eo_src_LDFLAGS_include="-L$eo_libdir -L$eo_libdir/es -L$eo_libdir/ga -L$eo_libdir/utils"
+		AC_SUBST(eo_src_CFLAGS_include)
+		AC_SUBST(eo_src_LDFLAGS_include)
 	     fi])
 AM_CONDITIONAL(BUILD_EO_SRC, test "$neurofitter_eo_src" = "yes")
 if test "$neurofitter_eo_src" == "yes" ;
@@ -57,8 +57,6 @@ else
 	AC_caolan_SEARCH_PACKAGE(eo, _ZTI14eoFunctorStore, [es eoutils eo], [eo/es/make_es.h], neurofitter_have_eo=yes)
 fi
 
-#  AC_caolan_SEARCH_PACKAGE(PACKAGE, FUNCTION, LIBRARY LIST,
-#  HEADERFILE [, ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 
 
 AC_ARG_WITH([nomad], 
@@ -70,10 +68,10 @@ AC_ARG_WITH([nomad],
 		AC_DEFINE(HAVE_PKG_eo,1)
 	        nomad_libdir="$local_ac_pwd/NOMAD"
 		nomad_include="$local_ac_pwd/NOMAD"
-		nomad_src_CFLAGS="-I$nomad_include"
-		nomad_src_LDFLAGS="-L$nomad_libdir -lnomad"
-		AC_SUBST(nomad_src_CFLAGS)
-		AC_SUBST(nomad_src_LDFLAGS)
+		nomad_src_CFLAGS_include="-I$nomad_include"
+		nomad_src_LDFLAGS_include="-L$nomad_libdir -lnomad"
+		AC_SUBST(nomad_src_CFLAGS_include)
+		AC_SUBST(nomad_src_LDFLAGS_include)
 	     fi])
 AM_CONDITIONAL(BUILD_NOMAD_SRC, test "$neurofitter_nomad_src" = "yes")
 if test "$neurofitter_nomad_src" == "yes" ;
@@ -101,11 +99,11 @@ AC_ARG_WITH([nomad-ext],
  	           then  
 		     nomad_libdir="$withval"
 		     nomad_include="$withval"
-		     nomad_CFLAGS="-I$nomad_include"
-		     nomad_LDFLAGS="-L$nomad_libdir -lnomad"
+		     nomad_CFLAGS_include="-I$nomad_include"
+		     nomad_LDFLAGS_include="-L$nomad_libdir -lnomad"
 		   fi
-		   AC_SUBST(nomad_CFLAGS)
-		   AC_SUBST(nomad_LDFLAGS)
+		   AC_SUBST(nomad_CFLAGS_include)
+		   AC_SUBST(nomad_LDFLAGS_include)
 	     fi
 	     if test "$withval" != ""
 	     then
@@ -233,6 +231,7 @@ AC_ARG_ENABLE(debug,
 AM_CONDITIONAL(NEUROFITTER_DEBUG, test x$debug = xtrue)
 
 
+
 dnl Create makefiles and other configuration files
 AC_CONFIG_FILES([Makefile bin/Makefile tests/Makefile])
 
@@ -251,8 +250,8 @@ Neurofitter is now configured as follows:
   EO found:             $neurofitter_have_eo
   EO library dir:       $eo_libdir
   EO include dir:       $eo_include
-  EO CFLAGS:            $eo_CFLAGS
-  EO LDFLAGS:           $eo_LDFLAGS
+  EO CFLAGS:            $eo_CFLAGS_include
+  EO LDFLAGS:           $eo_LDFLAGS_include
   NOMAD found:          $neurofitter_have_nomad
   NOMAD library dir:    $nomad_libdir
   NOMAD include dir:    $nomad_include

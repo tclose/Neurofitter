@@ -5,10 +5,28 @@
 # ensure that configure can run on systems where autoconf and friends
 # are not installed.
 
-#export PATH=/opt/local/bin:$PATH
+# Echo commands after command-line processing.
+set -x
 
+if test x"$LIBTOOLIZE" = x; then
+# Libtoolize. On Darwin, libtoolize is called glibtoolize.
+if glibtoolize --version > /dev/null 2> /dev/null; then 
+LIBTOOLIZE="glibtoolize"
+elif libtoolize --version > /dev/null 2> /dev/null; then
+LIBTOOLIZE="libtoolize"
+fi
+fi
+"$LIBTOOLIZE" --copy --force
+
+# Gather macros required for autoconf.
 aclocal -I m4
-glibtoolize -f -c  ||  libtoolize -f -c 
-autoheader 
-autoconf 
-automake  -a -c
+
+#
+autoheader
+
+#
+#
+automake --foreign --add-missing --copy
+
+#
+autoconf

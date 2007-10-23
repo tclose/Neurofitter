@@ -10,32 +10,31 @@ endif
 
 bin_PROGRAMS = neurofitter $(MPINEUROFITTER)
 
-
 ## Add necessary flags for EO and NOMAD libraries
 if BUILD_EO_SRC
    EO_SRC=$(SRCDIR)/EOFitterInterface.cpp
-   @eo_src_CFLAGS@ = @eo_src_CFLAGS@ -Wno-deprecated -Wno-long-long -DWITH_EO 
-   @eo_src_LDFLAGS@ = @eo_src_LDFLAGS@ -les -leoutils -leo 
+   eo_src_CFLAGS = @eo_src_CFLAGS_include@ -Wno-deprecated -Wno-long-long -DWITH_EO 
+   eo_src_LDFL = @eo_src_LDFLAGS_include@ -les -leoutils -leo 
 else
 if USE_EO
    EO_SRC=$(SRCDIR)/EOFitterInterface.cpp
-   @eo_CFLAGS@ = @eo_CFLAGS@ -Wno-deprecated -Wno-long-long -DWITH_EO 
-   @eo_LDFLAGS@ = @eo_LDFLAGS@ -les -leoutils -leo 
+   eo_CFLAGS = @eo_CFLAGS_include@ -Wno-deprecated -Wno-long-long -DWITH_EO 
+   eo_LDFL = @eo_LDFLAGS_include@ -les -leoutils -leo 
 endif
 endif
 
 if BUILD_NOMAD_SRC
    NOMAD_SRC=$(SRCDIR)/NOMADFitterInterface.cpp $(SRCDIR)/truthfunction.cpp 
-   @nomad_src_CFLAGS@ = @nomad_src_CFLAGS@ -DWITH_NOMAD -DPARANOMAD 
-   @nomad_src_LDFLAGS@ = @nomad_src_CFLAGS@ -lnomad 
+   nomad_src_CFLAGS = @nomad_src_CFLAGS_include@ -DWITH_NOMAD -DPARANOMAD 
+   nomad_src_LDFL = @nomad_src_LDFLAGS_include@ -lnomad 
 if BUILD_EO_SRC
    EONOMAD_SRC=$(SRCDIR)/EONOMADFitterInterface.cpp
 endif
 else
 if USE_NOMAD
    NOMAD_SRC=$(SRCDIR)/NOMADFitterInterface.cpp $(SRCDIR)/truthfunction.cpp 
-   @nomad_CFLAGS@ = @nomad_CFLAGS@ -DWITH_NOMAD -DPARANOMAD 
-   @nomad_LDFLAGS@ = @nomad_LDFLAGS@ -lnomad 
+   nomad_CFLAGS = @nomad_CFLAGS_include@ -DWITH_NOMAD -DPARANOMAD 
+   nomad_LDFL = @nomad_LDFLAGS_include@ -lnomad 
 if USE_EO
    EONOMAD_SRC=$(SRCDIR)/EONOMADFitterInterface.cpp
 endif
@@ -73,7 +72,7 @@ neurofitter_SOURCES =  $(SRCDIR)/Neurofitter.cpp \
  $(EONOMAD_SRC) 
 
 ## Compile flags for the neurofitter program
-neurofitter_LDFLAGS  = $(XML_LIBS) $(eo_LDFLAGS) $(nomad_LDFLAGS) $(eo_src_LDFLAGS) $(nomad_src_LDFLAGS) $(AM_LDFLAGS)
+neurofitter_LDFLAGS  = $(XML_LIBS) $(eo_LDFL) $(nomad_LDFL) $(eo_src_LDFL) $(nomad_src_LDFL) $(AM_LDFLAGS)
 neurofitter_CFLAGS   = $(XML_CPPFLAGS) $(eo_src_CFLAGS) $(nomad_src_CFLAGS) $(AM_CFLAGS)
 neurofitter_CXXFLAGS = $(neurofitter_CFLAGS) $(AM_CXXFLAGS)
 
