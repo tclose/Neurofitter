@@ -169,11 +169,8 @@ dnl Search for the getopt function
 AC_SEARCH_LIBS(getopt, [getopt], , AC_MSG_ERROR(getopt function not found))
 
 
-if test ! "$neurofitter_use_mpi" = "yes" ;
-then
-    dnl Check for the xml2 library
-    AM_PATH_XML2(2.3.0, , AC_MSG_ERROR(xml2 (>= 2.3.0) library not found))
-fi
+dnl Check for the xml2 library
+AM_PATH_XML2(2.3.0, , AC_MSG_ERROR(xml2 (>= 2.3.0) library not found))
 
 
 dnl Check for header files
