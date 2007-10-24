@@ -1,9 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
 
-dnl TODO:
-dnl - figure out how to use EO and NOMAD in-place (i.e. without having to install them) 
-dnl
-
 dnl AC_INIT (package, version, [bug-report-email], [tarname])
 AC_INIT([neurofitter],[0.9.3])
 
