@@ -25,7 +25,7 @@ AC_PROG_CXX
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
-AC_PROG_RANLIB
+AM_PROG_LIBTOOL
 AC_CHECK_PROG(DOXYGEN, doxygen, doxygen, true)
 
 dnl Checks for header files.
@@ -53,10 +53,6 @@ AC_CHECK_FUNCS(select)
 
 dnl create makefiles
 AC_OUTPUT(Makefile \
-          app/Makefile \
-          app/mastermind/Makefile \
-          app/gprop/Makefile \
-          app/gpsymreg/Makefile \
           contrib/Makefile \
           doc/Makefile \
           src/Makefile \
@@ -67,10 +63,4 @@ AC_OUTPUT(Makefile \
           src/other/Makefile \
           src/utils/Makefile \
           test/Makefile \
-          tutorial/Makefile \
-          tutorial/Lesson1/Makefile \
-          tutorial/Lesson2/Makefile \
-          tutorial/Lesson3/Makefile \
-          tutorial/Lesson4/Makefile \
-          tutorial/Lesson5/Makefile \
           win/Makefile)

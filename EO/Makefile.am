@@ -25,3 +25,5 @@ documentation:
 		cd doc && $(MAKE) doc && cd ..
 
 doc: 		documentation
+
+EXTRA_DIST  = autogen.sh 

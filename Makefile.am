@@ -20,8 +20,8 @@ LIBS =
 
 ACLOCAL_AMFLAGS ?= -I $(top_srcdir)/m4
 
-NF_CXXFLAGS = -ansi -pedantic 
-NF_CFLAGS   = -ansi -pedantic 
+NF_CXXFLAGS = -ansi -pedantic -Wall -O3 -g
+NF_CFLAGS   = -ansi -pedantic -Wall -O3 -g
 
 if NEUROFITTER_DEBUG
   NF_DEBUG_CXXFLAGS = -Wall -g -O3 
