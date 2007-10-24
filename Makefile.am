@@ -20,24 +20,6 @@ LIBS =
 
 ACLOCAL_AMFLAGS ?= -I $(top_srcdir)/m4
 
-NF_CXXFLAGS = -ansi -pedantic -Wall -O3 -g
-NF_CFLAGS   = -ansi -pedantic -Wall -O3 -g
-
-if NEUROFITTER_DEBUG
-  NF_DEBUG_CXXFLAGS = -Wall -g -O3 
-  NF_DEBUG_CPPFLAGS = -DDEBUG 
-else
-  NF_DEBUG_CXXFLAGS = -O3 
-endif
-
-if USE_MPI
-  NF_MPI_CXXFLAGS = -Wno-deprecated -Wno-long-long 
-  NF_MPI_CPPFLAGS = -Wno-deprecated -Wno-long-long 
-endif
-
-AM_CXXFLAGS = $(NF_CXXFLAGS) $(NF_DEBUG_CXXFLAGS) $(NF_MPI_CXXFLAGS) 
-AM_CPPFLAGS = $(NF_CPPFLAGS) $(NF_DEBUG_CPPFLAGS) $(NF_MPI_CPPFLAGS) 
-
 
 ## Include files that are NOT going to be a part of the distribution.
 noinst_HEADERS = 

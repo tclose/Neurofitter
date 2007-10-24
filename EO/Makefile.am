@@ -8,7 +8,7 @@
 #SUBDIRS_TUT		= tutorial
 #endif
 
-SUBDIRS		= src doc contrib win test
+SUBDIRS		= src  contrib win test
 #SUBDIRS		= src doc contrib win $(SUBDIRS_APP) $(SUBDIRS_TUT) test
 
 

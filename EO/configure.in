@@ -54,7 +54,6 @@ AC_CHECK_FUNCS(select)
 dnl create makefiles
 AC_OUTPUT(Makefile \
           contrib/Makefile \
-          doc/Makefile \
           src/Makefile \
           src/do/Makefile \
           src/es/Makefile \

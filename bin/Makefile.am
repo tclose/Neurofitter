@@ -41,6 +41,24 @@ endif
 endif
 endif
 
+NF_CXXFLAGS = -ansi -pedantic -Wall -O3 
+NF_CFLAGS   = -ansi -pedantic -Wall -O3 
+
+if NEUROFITTER_DEBUG
+  NF_DEBUG_CXXFLAGS = -Wall -g 
+  NF_DEBUG_CPPFLAGS = -DDEBUG 
+else
+  NF_DEBUG_CXXFLAGS = 
+endif
+
+if USE_MPI
+  NF_MPI_CXXFLAGS = -Wno-deprecated -Wno-long-long 
+  NF_MPI_CPPFLAGS = -Wno-deprecated -Wno-long-long 
+endif
+
+AM_CXXFLAGS = $(NF_CXXFLAGS) $(NF_DEBUG_CXXFLAGS) $(NF_MPI_CXXFLAGS) 
+AM_CPPFLAGS = $(NF_CPPFLAGS) $(NF_DEBUG_CPPFLAGS) $(NF_MPI_CPPFLAGS) 
+
 ## Sources for the neurofitter program -- will be compiled with the
 ## flags below
 neurofitter_SOURCES =  $(SRCDIR)/Neurofitter.cpp \
