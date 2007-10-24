@@ -49,6 +49,21 @@ MPIInputStream::MPIInputStream(void) : MPICommunicator()  {}
 /// Constructor of MPIInputStream using an MPI_Comm
 MPIInputStream::MPIInputStream(MPI_Comm X) : MPICommunicator(X)  {}
 
+/// Read a bool from the MPI channel
+MPIInputStream &MPIInputStream::operator>>(bool &Data) {
+  int truth = 0;
+  MPI_Recv(&truth,1,MPI_INT,messageRank,messageId,handle,&status);
+  if (truth == 0) {
+		Data = false;
+  }
+  else {
+		Data = true;
+  }
+  messageRank = status.MPI_SOURCE;
+  messageId = status.MPI_TAG;
+  return(*this);
+}
+
 /// Read an integer from the MPI channel
 MPIInputStream &MPIInputStream::operator>>(int &Data) {
   MPI_Recv(&Data,1,MPI_INT,messageRank,messageId,handle,&status);
@@ -100,6 +115,19 @@ MPIOutputStream::MPIOutputStream(void) : MPICommunicator() {}
 
 /// Constructor of MPIOutputStream that uses an MPI_Comm
 MPIOutputStream::MPIOutputStream(MPI_Comm X): MPICommunicator(X) {}
+
+/// Write a bool to the MPI channel
+MPIOutputStream &MPIOutputStream::operator<<(const bool & Data) {
+	int truth = 0;
+	if (Data) {
+		truth = 1;
+	}
+	else {
+		truth = 0;
+	}
+	MPI_Send(&truth,1,MPI_INT,messageRank,messageId,handle);
+	return(*this);
+}
 
 /// Write an integer to the MPI channel
 MPIOutputStream &MPIOutputStream::operator<<(const int & Data) {
