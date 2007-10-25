@@ -178,7 +178,7 @@ FixedParameters readParameters(int argc, char* argv[], int rank) {
 		showMessage(string(argv[i]) + ",");
 	}
 	showMessage("}\n");
-	if (argc < 2 || argv[1]==NULL) crash("Neurofitter","Not enough arguments: "+str(argc));
+	if (argc < 2 || argv[1]==NULL) crash("Neurofitter","Not enough arguments: "+str(argc)+" You need to give the location of the settings XML file");
 
 	//When in MPI mode append the rank to the filename;
 	#ifdef WITH_MPI	
