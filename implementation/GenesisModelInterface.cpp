@@ -35,7 +35,7 @@ vector< ModelResults > GenesisModelInterface::runParallelModel(const vector< Mod
     vector< ModelResults > resultList(numberOfParallelModels);
 
     for (unsigned int i = 0; i < numberOfParallelModels; i++) {
-		showMessage("\nRunning model " + str((int)i) + " of " + str(numberOfParallelModels) + " parallel models\n",4,fixedParams);
+		showMessage("\nRunning model " + str((int)i+1) + " of " + str(numberOfParallelModels) + " parallel models\n",4,fixedParams);
         resultList[i] = runModel(paramList[i]);
     }
 
