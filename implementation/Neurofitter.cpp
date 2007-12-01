@@ -116,6 +116,9 @@ int main (int argc, char* argv[]) {
 			else if (fixedParams["FitterType"] == "Easy") {
 				fitter = new EasyFitterInterface(errorValue,fitterFixedParams);
 			}
+			else if (fixedParams["FitterType"] == "SimpleGradient") {
+				fitter = new SimpleGradientFitterInterface(errorValue,fitterFixedParams);
+			}
 			else if (fixedParams["FitterType"] == "Random") {
 				fitter = new RandomFitterInterface(errorValue,fitterFixedParams);
 			}

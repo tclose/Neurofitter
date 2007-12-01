@@ -82,6 +82,7 @@ neurofitter_SOURCES =  $(SRCDIR)/Neurofitter.cpp \
  $(SRCDIR)/FitterResults.cpp \
  $(SRCDIR)/MeshFitterInterface.cpp \
  $(SRCDIR)/EasyFitterInterface.cpp \
+ $(SRCDIR)/SimpleGradientFitterInterface.cpp \
  $(SRCDIR)/RandomFitterInterface.cpp \
  $(SRCDIR)/SwarmFitterInterface.cpp \
  $(SRCDIR)/SwarmFly.cpp \

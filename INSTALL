@@ -59,7 +59,14 @@ Compilation
 3. Configuring Neurofitter for use with EO and NOMAD
 
    To compile Neurofitter with the EO interface, use the --with-eo
-   argument to specify the location of the EO library.
+   argument. 
+
+   ./configure --with-eo
+
+   This will use the EO source included in the Neurofitter tarball.
+   If you want to use an external EO installation, you can specify the location 
+   of the EO library (you will however have to use a version that is patched with 
+   the patch available on the Neurofitter website).
 
    ./configure --with-eo=/usr/local/eo
 
@@ -72,6 +79,12 @@ Compilation
                --with-eo-libdir=/usr/local/lib/eo
    
    To configure Neurofitter for use with the NOMAD library:
+
+   ./configure --with-nomad
+
+   If you want to use an external NOMAD installation, you can specify the location 
+   of the NOMAd library (you will however have to use a version that is patched with
+   the patch available on the Neurofitter website).   
 
    ./configure --with-nomad=/usr/local/nomad
 

@@ -47,6 +47,7 @@ using namespace std;
 #include "DistanceVdVdtMatrix.h"
 #include "MatrixErrorValueCalculator.h"
 #include "EasyFitterInterface.h"
+#include "SimpleGradientFitterInterface.h"
 #include "MeshFitterInterface.h"
 #include "RandomFitterInterface.h"
 #include "FileFitterInterface.h"
