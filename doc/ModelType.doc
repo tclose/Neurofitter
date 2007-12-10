@@ -10,7 +10,8 @@ Possible types are:
 - Neuron
 	Interface to the Neuron neuron simulator.
 	Settings:
-		The location of the Neuron special file 
+		The location of the Neuron special file (you might want to specify the '-nogui' option of the special
+		file, to disable the GUI, since you probably don't need it
         	<SpecialLocation>...</SpecialLocation>
 		
 		The directory that contains the Neuron model files
