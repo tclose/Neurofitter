@@ -45,6 +45,9 @@ using namespace std;
 #include "MapVdVdtMatrix.h"
 #include "DirectVdVdtMatrix.h"
 #include "DistanceVdVdtMatrix.h"
+#include "ROI.h"
+#include "ROIStringParser.h"
+
 #include "MatrixErrorValueCalculator.h"
 #include "EasyFitterInterface.h"
 #include "SimpleGradientFitterInterface.h"

@@ -10,6 +10,11 @@ Date of last commit: $Date$
 #include <vector>
 #include <string>
 #include <iostream>
+#include <string>
+#include <map>
+#include <vector>
+
+#include "ROI.h"
 
 using namespace std;
 
@@ -24,15 +29,18 @@ class ROIStringParser {
 
 		string toString() const; ///< Returns a string representation
 		int getNumberOfROIs() const;
+		int getNumberOfROILines() const;
 		int getNumberOfPeriods() const;
 		int getNumberOfRuns() const;
 		int getNumberOfROIsForRunAndPeriod(int nRun, int nPeriod) const;
 
 	private:
 		string sourceString;
+		int numberOfROILines;
 		int numberOfRuns;
 		int numberOfPeriods;
 		int numberOfROIs;
+		map< int , vector< ROI > > ROIs;
 };
 
 #endif

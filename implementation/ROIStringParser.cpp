@@ -1,12 +1,23 @@
-ROIStringParser::ROIStringParser(const string newString, int newNumberOfROIlines, int newNumberOfRuns, int newNumberOfPeriods):
-	sourceString(newString), numberOfROIlines(newNumberOfROIlines), numberOfPeriods(newNumberOfPeriods) {
+#include <string>
+#include <sstream>
+
+#include "../ROI.h"
+#include "../Tools.h"
+#include "../ROIStringParser.h"
+
+ROIStringParser::~ROIStringParser() {
+
+}
+
+ROIStringParser::ROIStringParser(const string newString, int newNumberOfROILines, int newNumberOfRuns, int newNumberOfPeriods):
+	sourceString(newString), numberOfROILines(newNumberOfROILines), numberOfPeriods(newNumberOfPeriods) {
 
 	string dummy, allRunStr, allPeriodStr, runStr, periodStr, vBoundsStr, dVdtBoundsStr, weightStr;
 	int run, period;
 
 	istringstream ss(sourceString);
 
-	for (int i = 0; i < numberOfROIlines; i++) {
+	for (int i = 0; i < numberOfROILines; i++) {
 		getline(ss, dummy, '['); 
 		getline(ss, allRunStr, ']');
 		getline(ss, dummy, '['); 
@@ -18,34 +29,51 @@ ROIStringParser::ROIStringParser(const string newString, int newNumberOfROIlines
 		getline(ss, dummy, '['); 
 		getline(ss, weightStr, ']');
 
-		istringstream ss2(allRunStr);
-		istringstream ss3(periodStr);
-		while (getline(ss2,runStr,',')) {
-			getline(ss3, periodStr, ',');
-			run = toInt(runStr);
-			period = toInt(periodStr);
+		istringstream runStream(allRunStr);
+		istringstream periodStream(periodStr);
+		while (runStream.good()) {
+			runStream >> run;
+			periodStream >> period;
 
-			ROIs[run*numberOfRuns+period].push_back();			
+			ROI roi(vBoundsStr, dVdtBoundsStr, weightStr);
+			ROIs[run*numberOfPeriods+period].push_back(roi);
+			numberOfROIs++;			
 		}		
 		
-
-		istringstream ss2(vBoundsStr);
-		istringstream ss2(dVdtBoundsStr);
-		istringstream ss2(weightStr);
 	}
-
 
 }
 
 string ROIStringParser::toString() const {
-	return sourceString;
+	string returnString ="";
+	returnString += "Number of runs: " + str(numberOfRuns) + "\tNumber of periods: " + str(numberOfPeriods) + "\tNumber of ROIs: " + str(numberOfROIs) + "\n";
+	for (map< int , vector< ROI > >::const_iterator iter = ROIs.begin(); iter != ROIs.end(); iter++) {
+		for (vector< ROI >::const_iterator ROIIter = iter->second.begin(); ROIIter != iter->second.end(); ROIIter++)
+			returnString += ROIIter->toString() + "\n";
+	}
+	return returnString;
+
 }
 
-int ROIStringParser::getNumberOfROIlines() const {
-	
+int ROIStringParser::getNumberOfROILines() const {
+	return numberOfROILines;
 }
-        int getNumberOfPeriods() const;
-        int getNumberOfRuns() const;
-        int getNumberOfROIsForRunAndPeriod(int nRun, int nPeriod) const;
+
+int ROIStringParser::getNumberOfPeriods() const {
+	return numberOfPeriods;
+}
+
+int ROIStringParser::getNumberOfRuns() const {
+	return numberOfRuns;
+}
+
+int ROIStringParser::getNumberOfROIsForRunAndPeriod(int nRun, int nPeriod) const {
+
+	int index = nRun*numberOfPeriods+nPeriod;
+	map< int , vector< ROI > >::const_iterator iter = ROIs.find(index);
+	if (iter == ROIs.end()) return 0;
+	return iter->second.size();
+
+}
 
 
