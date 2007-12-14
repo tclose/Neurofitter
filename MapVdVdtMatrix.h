@@ -10,11 +10,13 @@ Date of last commit: $Date$
 #include <iostream>
 #include <cmath>
 
+#include "MeshVdVdtMatrix.h";
+
 using namespace std;
 
 #include "VdVdtMatrix.h"
 
-class MapVdVdtMatrix : public VdVdtMatrix {
+class MapVdVdtMatrix : public MeshVdVdtMatrix {
 
 public:
 	MapVdVdtMatrix();

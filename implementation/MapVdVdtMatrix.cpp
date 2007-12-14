@@ -7,13 +7,13 @@ Date of last commit: $Date$
 #include "../MapVdVdtMatrix.h"
 
 MapVdVdtMatrix::MapVdVdtMatrix() 
-	: VdVdtMatrix() {}
+	: MeshVdVdtMatrix() {}
 
 MapVdVdtMatrix::MapVdVdtMatrix(FixedParameters params) 
-	: VdVdtMatrix(params) {}
+	: MeshVdVdtMatrix(params) {}
 
 MapVdVdtMatrix::MapVdVdtMatrix(const DataTrace& trace, FixedParameters params) 
-	:	VdVdtMatrix(params) { 
+	:	MeshVdVdtMatrix(params) { 
 
 	readFrom(trace);		
 

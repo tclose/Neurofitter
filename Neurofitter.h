@@ -42,6 +42,7 @@ using namespace std;
 #include "FileExperimentInterface.h"
 #include "FileListExperimentInterface.h"
 #include "VdVdtMatrix.h"
+#include "MeshVdVdtMatrix.h"
 #include "MapVdVdtMatrix.h"
 #include "DirectVdVdtMatrix.h"
 #include "DistanceVdVdtMatrix.h"
