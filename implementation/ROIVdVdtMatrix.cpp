@@ -6,6 +6,7 @@ Date of last commit: $Date$
 
 #include "../ROIStringParser.h"
 
+#include "../ROI.h"
 #include "../ROIVdVdtMatrix.h"
 
 ROIVdVdtMatrix::ROIVdVdtMatrix() 
@@ -15,7 +16,11 @@ ROIVdVdtMatrix::ROIVdVdtMatrix(FixedParameters params)
 	: VdVdtMatrix(params) {}
 
 ROIVdVdtMatrix::ROIVdVdtMatrix(DataTrace & trace, FixedParameters params) 
-	: VdVdtMatrix(params), ROIs(params["ROILines"], toInt(params["NumberOfROILines"]), trace.getNumberOfRuns(), trace.getNumberOfPeriods()) {readFrom(trace);}
+	: VdVdtMatrix(params) {
+
+	readFrom(trace);
+
+}
 
 void ROIVdVdtMatrix::makeEmpty() {
 
@@ -36,5 +41,35 @@ double ROIVdVdtMatrix::compare(const VdVdtMatrix & o) const {
 	}
 	
 	return errorValue;
+
+}
+
+void ROIVdVdtMatrix::readFrom(const DataTrace& trace) {
+		makeEmpty();
+
+		ROIsParser.initialize(fixedParams["ROILines"], toInt(fixedParams["NumberOfROILines"]), trace.getNumberOfRuns(), trace.getNumberOfPeriods());
+	
+		showMessage("ROIs parsed: " + ROIsParser.toString(),14,fixedParams);	
+		
+		vector< ROI > ROIs = ROIsParser.getROIsForRunAndPeriod(trace.getRun(), trace.getPeriod());
+		for (vector< ROI >::const_iterator iter = ROIs.begin(); iter != ROIs.end(); iter++) {
+			DirectVdVdtMatrix matrix(fixedParams);
+			matrix.setToROI(*iter);
+			matrix.setWeight(iter->getWeight());
+			matrix.readFrom(trace);
+			matrices.push_back(matrix);
+		}
+		
+	}
+
+string ROIVdVdtMatrix::toString() const {
+
+	string returnString = "";
+	int nROI = 0;
+	for (vector< DirectVdVdtMatrix >::const_iterator iter = matrices.begin(); iter != matrices.end(); iter++) {
+		returnString += "ROI " + str(nROI) + ": \n" + iter->toString() + "\n";
+		nROI++;
+	}
+	return returnString;
 
 }

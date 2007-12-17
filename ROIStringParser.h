@@ -27,6 +27,7 @@ class ROIStringParser {
 		ROIStringParser(const string, int newNumberOfROIs, int newNumberOfRuns, int newNumberOfPeriods); ///< Constructor that uses an initializing string
 		~ROIStringParser(); ///< Destructor
 
+		void initialize(const string, int newNumberOfROIs, int newNumberOfRuns, int newNumberOfPeriods);
 		string toString() const; ///< Returns a string representation
 		int getNumberOfROIs() const;
 		int getNumberOfROILines() const;

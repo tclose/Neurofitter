@@ -12,21 +12,36 @@ using namespace std;
 #include "FixedParamObject.h"
 #include "TracesReader.h"
 #include "VdVdtMatrix.h"
+#include "ROI.h"
 #include "Tools.h"
 
 class MeshVdVdtMatrix : public VdVdtMatrix {
 
 public:
-	MeshVdVdtMatrix() : VdVdtMatrix(), vLength(), dVdtLength() {}; 
+	MeshVdVdtMatrix() : VdVdtMatrix(), vLength(), dVdtLength(), vdVdtLengthSet(false), vSet(false), dVdtSet(false){}; 
 	MeshVdVdtMatrix(FixedParameters params) : 
 		VdVdtMatrix(params),
-        vLength(toInt(fixedParams["vLength"])),
-        dVdtLength(toInt(fixedParams["dVdtLength"])) {};	
+		vdVdtLengthSet(false),
+		vSet(false), 
+		dVdtSet(false) {
+		if (fixedParams.parameterExists("vLength") && fixedParams.parameterExists("dVdtLength")) setVdVdtLength(toInt(fixedParams["vLength"]), toInt(fixedParams["dVdtLength"]));
+	};	
 
 	virtual ~MeshVdVdtMatrix() {};
 
-	int getVLength() const { return vLength; };
-	int getdVdtLength() const { return dVdtLength; };
+	int getVLength() const {if (vdVdtLengthSet) return vLength; else crash("MeshVdVdtMatrix","vLength not set"); return -1;};
+	int getdVdtLength() const {if (vdVdtLengthSet) return dVdtLength; else crash("MeshVdVdtMatrix","vdVdtLength not set"); return -1;};
+
+	void setVdVdtLength(int newVLength, int newdVdtLength) { vLength = newVLength; dVdtLength = newdVdtLength; vdVdtLengthSet = true;};
+
+	void setMinMaxV(double newMinimalV, double newMaximalV) {minimalV = newMinimalV; maximalV = newMaximalV; vSet = true;};
+	void setMinMaxdVdt(double newMinimaldVdt, double newMaximaldVdt) {minimaldVdt = newMinimaldVdt; maximaldVdt = newMaximaldVdt; dVdtSet = true;};
+
+	void setToROI(ROI roi) {
+		setMinMaxV(roi.getMinV(), roi.getMaxV());
+		setMinMaxdVdt(roi.getMindVdt(), roi.getMaxdVdt());
+		setVdVdtLength(roi.getVLength(), roi.getdVdtLength());
+	}
 
 	virtual double get(const int v, const int dVdt) const = 0;
 	virtual void set(const int v, const int dVdt, double value) = 0;
@@ -41,11 +56,15 @@ public:
     	double dVdt = 0;
     	double V = 0, VPrev = 0, VNext = 0;
 
-    	const double minimalV = toDouble(fixedParams["minimalV"]); // lowest possible V values in VdVdt matrix
-    	const double maximalV = toDouble(fixedParams["maximalV"]); // highest possible V values in VdVdt matrix
+		if (!vSet) { 
+    		minimalV = toDouble(fixedParams["minimalV"]); // lowest possible V values in VdVdt matrix
+    		maximalV = toDouble(fixedParams["maximalV"]); // highest possible V values in VdVdt matrix
+		}
 
-    	const double minimaldVdt = -(maximalV-minimalV)*trace.getSamplingFrequency();
-    	const double maximaldVdt = (maximalV-minimalV)*trace.getSamplingFrequency();
+		if (!dVdtSet) {
+    		minimaldVdt = -(maximalV-minimalV)*trace.getSamplingFrequency();
+    		maximaldVdt = (maximalV-minimalV)*trace.getSamplingFrequency();
+		}
 
     	const double dxVdVdtmatrix = (maximalV-minimalV)/vLength;
     	const double dyVdVdtmatrix = (maximaldVdt-minimaldVdt)/dVdtLength;
@@ -78,7 +97,7 @@ public:
 				set(vIndex,dVdtIndex,get(vIndex,dVdtIndex) + 1.0/(trace.getValidLength()-2*trace.getLag()));
 			}
 			else {
-				showMessage("Warning: Not all of data points in the defined time range are valid in the Datatrace object\n",15,fixedParams);
+				showMessage("Warning: Not all of the data points in the defined time range are valid in the Datatrace object\n",15,fixedParams);
 			}
 		}
 
@@ -112,6 +131,9 @@ public:
 protected:
 	int vLength;
 	int dVdtLength;	
+	bool vdVdtLengthSet;
+	double minimalV, maximalV, minimaldVdt, maximaldVdt;
+	bool vSet, dVdtSet;
 
 };
 	
