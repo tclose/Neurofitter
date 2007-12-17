@@ -53,9 +53,10 @@ MODOBJS=	$(CPPDIR)/ModelResults.o \
 FITOBJS=	$(CPPDIR)/DirectVdVdtMatrix.o \
 			$(CPPDIR)/MapVdVdtMatrix.o \
 			$(CPPDIR)/DistanceVdVdtMatrix.o \
-			$(CPPDIR)/MatrixErrorValueCalculator.o \
 			$(CPPDIR)/ROI.o \
-			$(CPPDIR)/ROIStringParser.o
+			$(CPPDIR)/ROIStringParser.o \
+			$(CPPDIR)/ROIVdVdtMatrix.o \
+			$(CPPDIR)/MatrixErrorValueCalculator.o
 
 # The object files related to experiment interfaces			
 EXPOBJS=	$(CPPDIR)/FakeExperimentInterface.o \

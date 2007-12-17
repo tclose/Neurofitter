@@ -33,6 +33,7 @@ class ROIStringParser {
 		int getNumberOfPeriods() const;
 		int getNumberOfRuns() const;
 		int getNumberOfROIsForRunAndPeriod(int nRun, int nPeriod) const;
+		vector< ROI > getROIsForRunAndPeriod(int nRun, int nPeriod) const;
 
 	private:
 		string sourceString;

@@ -6,6 +6,7 @@ Date of last commit: $Date$
 
 #include "../DirectVdVdtMatrix.h"
 #include "../DistanceVdVdtMatrix.h"
+#include "../ROIVdVdtMatrix.h"
 
 #include "../MatrixErrorValueCalculator.h"
 
@@ -28,6 +29,9 @@ MatrixErrorValueCalculator::MatrixErrorValueCalculator(ModelInterface * interfac
 		else if (fixedParams["VdVdtMatrixType"] == "Distance") {
 			expVdVdtMatrices[nTrace] = new DistanceVdVdtMatrix(expData[nTrace], FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
 		}
+		else if (fixedParams["VdVdtMatrixType"] == "ROI") {
+			expVdVdtMatrices[nTrace] = new ROIVdVdtMatrix(expData[nTrace], FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
+		}
 		else { 
 			crash("MatrixErrorValueCalculator", "No matching VdVdtmatrix type: " + fixedParams["VdVdtMatrixType"]);
 		}
@@ -39,6 +43,9 @@ MatrixErrorValueCalculator::MatrixErrorValueCalculator(ModelInterface * interfac
 	}
     else if (fixedParams["VdVdtMatrixType"] == "Distance") {
 		modelVdVdtMatrix = new DistanceVdVdtMatrix(FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
+	}
+    else if (fixedParams["VdVdtMatrixType"] == "ROI") {
+		modelVdVdtMatrix = new ROIVdVdtMatrix(FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
 	}
 	else {
 		crash("MatrixErrorValueCalculator", "No matching VdVdtmatrix type: " + fixedParams["VdVdtMatrixType"]);

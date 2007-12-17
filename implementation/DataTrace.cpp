@@ -7,10 +7,10 @@ Date of last commit: $Date$
 #include "../DataTrace.h"
 
 DataTrace::DataTrace() 
-	:  points(vector< pair< double, bool > >(0,pair< double, bool >(0,false))), weight(-1), startTime(-1), stopTime(-1), lag(-1), lagWeight(-1), validLength(0) {}
+	:  points(vector< pair< double, bool > >(0,pair< double, bool >(0,false))), weight(-1), startTime(-1), stopTime(-1), lag(-1), lagWeight(-1), run(-1), numberOfRuns(-1), period(-1), numberOfPeriods(-1), validLength(0) {}
 
 DataTrace::DataTrace(int size)
-	:  points(vector< pair< double, bool > >(size, pair< double, bool >(0,false))), weight(-1), startTime(-1), stopTime(-1), lag(-1), lagWeight(-1), validLength(0) {}
+	:  points(vector< pair< double, bool > >(size, pair< double, bool >(0,false))), weight(-1), startTime(-1), stopTime(-1), lag(-1), lagWeight(-1), run(-1), numberOfRuns(-1), period(-1), numberOfPeriods(-1), validLength(0) {}
 
 int DataTrace::getLength() const {
 	return points.size();
@@ -50,6 +50,27 @@ double DataTrace::getSamplingFrequency() const{
 	return samplingFrequency;
 }
 
+int DataTrace::getRun() const {
+	if (run == -1) crash("DataTrace","Run not set");
+	return run;
+}
+    
+int DataTrace::getNumberOfRuns() const {
+	if (numberOfRuns == -1) crash("DataTrace","Number of runs not set");
+	return numberOfRuns;
+}
+
+
+int DataTrace::getPeriod() const {
+	if (period == -1) crash("DataTrace","Period not set");
+	return period;
+}
+
+int DataTrace::getNumberOfPeriods() const {
+	if (numberOfPeriods == -1) crash("DataTrace","Number of periods not set");
+	return numberOfPeriods;
+}
+
 string DataTrace::getName() const {
 	return name;
 }
@@ -67,6 +88,7 @@ double DataTrace::getLagWeight() const {
 void DataTrace::setStartTime(const double newStartTime) {
 	startTime = newStartTime;
 }
+
     
 void DataTrace::setStopTime(const double newStopTime) {
 	stopTime = newStopTime;	
@@ -86,9 +108,29 @@ void DataTrace::setName(const string newName) {
 }
 
 void DataTrace::setLag(int newLag, double newLagWeight) {
-	if (newLag < 1) crash("DataTrace","Lags smaller than 1 or not allowed");
+	if (newLag < 1) crash("DataTrace","Lags smaller than 1 are not allowed");
 	lag = newLag;
 	lagWeight = newLagWeight;
+}
+
+void DataTrace::setRun(int newRun) {
+	if (newRun < 0) crash("DataTrace","Run number smaller than 0 is not allowed");
+	run = newRun;
+}
+
+void DataTrace::setNumberOfRuns(int newNumberOfRuns) {
+	if (newNumberOfRuns < 0) crash("DataTrace","Number of runs smaller than 0 are not allowed");
+	numberOfRuns = newNumberOfRuns;
+}
+
+void DataTrace::setPeriod(int newPeriod) {
+	if (newPeriod < 0) crash("DataTrace","Period number smaller than 0 is not allowed");
+	period = newPeriod;
+}
+
+void DataTrace::setNumberOfPeriods(int newNumberOfPeriods) {
+	if (newNumberOfPeriods < 0) crash("DataTrace","Number of periods smaller than 0 or not allowed");
+	numberOfPeriods = newNumberOfPeriods;
 }
 
 void DataTrace::printOn(OutputChannel & output) const {
@@ -105,6 +147,10 @@ void DataTrace::printOn(OutputChannel & output) const {
 	output << name;
 	output << lag;
 	output << lagWeight;
+	output << run;
+	output << numberOfRuns;
+	output << period;
+	output << numberOfPeriods;
 	output << validLength;
 }
 
@@ -123,6 +169,10 @@ void DataTrace::readFrom(InputChannel & input) {
 	input >> name;
 	input >> lag;
 	input >> lagWeight;
+	input >> run;
+	input >> numberOfRuns;
+	input >> period;
+	input >> numberOfPeriods;
 	input >> validLength;
 }
     

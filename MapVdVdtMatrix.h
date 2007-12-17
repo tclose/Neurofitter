@@ -25,10 +25,10 @@ public:
 	MapVdVdtMatrix(const FixedParameters);
 	MapVdVdtMatrix(const DataTrace&, const FixedParameters);
 
+	void makeEmpty();
+
 	double get(const int v, const int dVdt) const;	
 	void set(const int v, const int dVdt, double value);	
-
-	void makeEmpty();
 
 	virtual double compare(const VdVdtMatrix&) const = 0;
 	

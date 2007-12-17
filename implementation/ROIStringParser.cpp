@@ -5,9 +5,7 @@
 #include "../Tools.h"
 #include "../ROIStringParser.h"
 
-ROIStringParser::~ROIStringParser() {
-
-}
+ROIStringParser::~ROIStringParser() {}
 
 ROIStringParser::ROIStringParser(const string newString, int newNumberOfROILines, int newNumberOfRuns, int newNumberOfPeriods):
 	sourceString(newString), numberOfROILines(newNumberOfROILines), numberOfPeriods(newNumberOfPeriods) {
@@ -76,4 +74,11 @@ int ROIStringParser::getNumberOfROIsForRunAndPeriod(int nRun, int nPeriod) const
 
 }
 
+vector< ROI > ROIStringParser::getROIsForRunAndPeriod(int nRun, int nPeriod) const {
 
+	int index = nRun*numberOfPeriods+nPeriod;
+	map< int , vector< ROI > >::const_iterator iter = ROIs.find(index);
+	if (iter == ROIs.end()) return vector< ROI >();
+	return iter->second;
+
+}

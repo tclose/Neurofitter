@@ -4,36 +4,37 @@ Author of last commit: $Author$
 Date of last commit: $Date$
 */
 
-#ifndef NEUROFITTER_MESHVDVDTMATRIX_H
-#define NEUROFITTER_MESHVDVDTMATRIX_H
+#ifndef NEUROFITTER_ROIVDVDTMATRIX_H
+#define NEUROFITTER_ROIVDVDTMATRIX_H
 
 using namespace std;
 
 #include "FixedParamObject.h"
+#include "ROIStringParser.h"
 #include "TracesReader.h"
 #include "VdVdtMatrix.h"
+#include "DirectVdVdtMatrix.h"
 #include "Tools.h"
 
-class MeshVdVdtMatrix : public VdVdtMatrix {
+class ROIVdVdtMatrix : public VdVdtMatrix {
 
 public:
-	MeshVdVdtMatrix() : VdVdtMatrix(), vLength(), dVdtLength() {}; 
-	MeshVdVdtMatrix(FixedParameters params) : 
-		VdVdtMatrix(params),
-        vLength(toInt(fixedParams["vLength"])),
-        dVdtLength(toInt(fixedParams["dVdtLength"])) {};	
+	ROIVdVdtMatrix(); 
+	ROIVdVdtMatrix(FixedParameters params);	
+	ROIVdVdtMatrix(DataTrace & trace, FixedParameters params);	
 
-	virtual ~MeshVdVdtMatrix() {};
+	void makeEmpty();
 
-	int getVLength() const { return vLength; };
-	int getdVdtLength() const { return dVdtLength; };
+	virtual ~ROIVdVdtMatrix() {};
 
-	virtual double get(const int v, const int dVdt) const = 0;
-	virtual void set(const int v, const int dVdt, double value) = 0;
+	double compare(const VdVdtMatrix&) const;
 
 	void readFrom(const DataTrace& trace) {
 		makeEmpty();
 
+
+		
+		/*
 		//////////////////
     	/// Initialize ///
     	//////////////////
@@ -81,10 +82,11 @@ public:
 				showMessage("Warning: Not all of data points in the defined time range are valid in the Datatrace object\n",15,fixedParams);
 			}
 		}
-
+		*/
 	}
 
 	string toString() const {
+	/*
     	ostringstream result;
     	double value;
 
@@ -104,14 +106,17 @@ public:
         result << endl;
     }
         
-    return result.str();
+    return result.str(); */ 
+	return "ROIVdVdtMatrix";
 }
 
 
 	
 protected:
-	int vLength;
-	int dVdtLength;	
+	///todo Make this more generic (no directvdvdt)
+	vector< DirectVdVdtMatrix > matrices;
+	ROIStringParser ROIs;
+
 
 };
 	

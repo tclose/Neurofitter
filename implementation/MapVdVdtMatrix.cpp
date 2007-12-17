@@ -16,6 +16,11 @@ MapVdVdtMatrix::MapVdVdtMatrix(const DataTrace& trace, FixedParameters params)
 	:	MeshVdVdtMatrix(params) { 
 
 	readFrom(trace);		
+}
+
+void MapVdVdtMatrix::makeEmpty() {
+
+	matrix.clear();
 
 }
 
@@ -45,10 +50,6 @@ inline void MapVdVdtMatrix::set(const int v, const int dVdt, double value) {
         crash("MapVdVdtMatrix","Invalid dVdt: "+str(dVdt));
     }
 	matrix[mIndex(v,dVdt)] = value;
-}
-
-void MapVdVdtMatrix::makeEmpty() {
-	matrix.clear();
 }
 
 int MapVdVdtMatrix::mIndex(const int v, const int dVdt) const {

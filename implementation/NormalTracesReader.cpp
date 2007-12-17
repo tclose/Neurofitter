@@ -123,6 +123,10 @@ ModelResults NormalTracesReader::readTracesFromFilesVector(vector< string > file
             	results[periodIndex+nRecording].setStartTime(time);
             	results[periodIndex+nRecording].setStopTime(periodStops[nPeriod]);			
             	results[periodIndex+nRecording].setLag(differenceLags[nPeriod], differenceWeights[nPeriod]);			
+            	results[periodIndex+nRecording].setRun(nRun);			
+            	results[periodIndex+nRecording].setNumberOfRuns(numberOfRuns);			
+            	results[periodIndex+nRecording].setPeriod(nPeriod);			
+            	results[periodIndex+nRecording].setNumberOfPeriods(numberOfPeriods);			
         	}
 
         	/////////////////////

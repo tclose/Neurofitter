@@ -34,6 +34,11 @@ public:
 	int getLag() const;
 	double getLagWeight() const;
 
+	int getRun() const;
+	int getNumberOfRuns() const;
+	int getPeriod() const;
+	int getNumberOfPeriods() const;
+
 	string getName() const;
 
 	void setWeight(const double);
@@ -42,6 +47,10 @@ public:
 	void setSamplingFrequency(const double);
 	void setName(const string);
 	void setLag(const int lag, const double weight);
+	void setRun(const int);
+	void setNumberOfRuns(const int);
+	void setPeriod(const int);
+	void setNumberOfPeriods(const int);
 
 	void resetAndSetLength(const int);
 
@@ -63,6 +72,11 @@ protected:
 
 	int lag;
 	double lagWeight;
+
+	int run;
+	int numberOfRuns;
+	int period;
+	int numberOfPeriods;
 
 	int validLength;
 
