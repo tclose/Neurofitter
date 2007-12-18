@@ -72,8 +72,12 @@ neurofitter_SOURCES =  $(SRCDIR)/Neurofitter.cpp \
  $(SRCDIR)/ExecutableModelInterface.cpp \
  $(SRCDIR)/ModelTuningParameters.cpp \
  $(SRCDIR)/DirectVdVdtMatrix.cpp \
+ $(SRCDIR)/MeshVdVdtMatrix.cpp \
  $(SRCDIR)/MapVdVdtMatrix.cpp \
  $(SRCDIR)/DistanceVdVdtMatrix.cpp \
+ $(SRCDIR)/ROI.cpp \
+ $(SRCDIR)/ROIStringParser.cpp \
+ $(SRCDIR)/ROIVdVdtMatrix.cpp \
  $(SRCDIR)/MatrixErrorValueCalculator.cpp \
  $(SRCDIR)/FakeExperimentInterface.cpp \
  $(SRCDIR)/FileExperimentInterface.cpp \
@@ -118,6 +122,10 @@ pkginclude_HEADERS = $(INCLUDEDIR)/Neurofitter.h \
   $(INCLUDEDIR)/MersenneTwister.h \
   $(INCLUDEDIR)/NOMADFitterInterface.h \
   $(INCLUDEDIR)/DirectVdVdtMatrix.h \
+  $(INCLUDEDIR)/ROIVdVdtMatrix.h \
+  $(INCLUDEDIR)/ROIStringParser.h \
+  $(INCLUDEDIR)/ROI.h \
+  $(INCLUDEDIR)/SimpleGradientFitterInterface.h \
   $(INCLUDEDIR)/FileFitterInterface.h \
   $(INCLUDEDIR)/MeshFitterInterface.h \
   $(INCLUDEDIR)/NormalTracesReader.h \
@@ -148,6 +156,7 @@ pkginclude_HEADERS = $(INCLUDEDIR)/Neurofitter.h \
   $(INCLUDEDIR)/ExecutableModelInterface.h  \
   $(INCLUDEDIR)/InputChannel.h	\
   $(INCLUDEDIR)/ExperimentInterface.h \
+  $(INCLUDEDIR)/MeshVdVdtMatrix.h \
   $(INCLUDEDIR)/MapVdVdtMatrix.h \
   $(INCLUDEDIR)/VdVdtMatrix.h \
   $(INCLUDEDIR)/FakeExperimentInterface.h \

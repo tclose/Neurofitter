@@ -38,6 +38,8 @@ public:
 	int getNumberOfRuns() const;
 	int getPeriod() const;
 	int getNumberOfPeriods() const;
+	int getRecordingSite() const;
+	int getNumberOfRecordingSites() const;
 
 	string getName() const;
 
@@ -51,6 +53,8 @@ public:
 	void setNumberOfRuns(const int);
 	void setPeriod(const int);
 	void setNumberOfPeriods(const int);
+	void setRecordingSite(const int);
+	void setNumberOfRecordingSites(const int);
 
 	void resetAndSetLength(const int);
 
@@ -77,6 +81,8 @@ protected:
 	int numberOfRuns;
 	int period;
 	int numberOfPeriods;
+	int recordingSite;
+	int numberOfRecordingSites;
 
 	int validLength;
 

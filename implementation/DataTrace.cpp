@@ -7,10 +7,12 @@ Date of last commit: $Date$
 #include "../DataTrace.h"
 
 DataTrace::DataTrace() 
-	:  points(vector< pair< double, bool > >(0,pair< double, bool >(0,false))), weight(-1), startTime(-1), stopTime(-1), lag(-1), lagWeight(-1), run(-1), numberOfRuns(-1), period(-1), numberOfPeriods(-1), validLength(0) {}
+	:  points(vector< pair< double, bool > >(0,pair< double, bool >(0,false))), 
+	weight(-1), startTime(-1), stopTime(-1), lag(-1), lagWeight(-1), run(-1), numberOfRuns(-1), period(-1), numberOfPeriods(-1), recordingSite(-1), numberOfRecordingSites(-1), validLength(0) {}
 
 DataTrace::DataTrace(int size)
-	:  points(vector< pair< double, bool > >(size, pair< double, bool >(0,false))), weight(-1), startTime(-1), stopTime(-1), lag(-1), lagWeight(-1), run(-1), numberOfRuns(-1), period(-1), numberOfPeriods(-1), validLength(0) {}
+	:  points(vector< pair< double, bool > >(size, pair< double, bool >(0,false))), 
+	weight(-1), startTime(-1), stopTime(-1), lag(-1), lagWeight(-1), run(-1), numberOfRuns(-1), period(-1), numberOfPeriods(-1), recordingSite(-1), numberOfRecordingSites(-1), validLength(0) {}
 
 int DataTrace::getLength() const {
 	return points.size();
@@ -69,6 +71,16 @@ int DataTrace::getPeriod() const {
 int DataTrace::getNumberOfPeriods() const {
 	if (numberOfPeriods == -1) crash("DataTrace","Number of periods not set");
 	return numberOfPeriods;
+}
+
+int DataTrace::getRecordingSite() const {
+	if (recordingSite == -1) crash("DataTrace","Recording site not set");
+	return recordingSite;
+}
+
+int DataTrace::getNumberOfRecordingSites() const {
+	if (numberOfRecordingSites == -1) crash("DataTrace","Number of recording sites not set");
+	return numberOfRecordingSites;
 }
 
 string DataTrace::getName() const {
@@ -131,6 +143,16 @@ void DataTrace::setPeriod(int newPeriod) {
 void DataTrace::setNumberOfPeriods(int newNumberOfPeriods) {
 	if (newNumberOfPeriods < 0) crash("DataTrace","Number of periods smaller than 0 or not allowed");
 	numberOfPeriods = newNumberOfPeriods;
+}
+
+void DataTrace::setRecordingSite(int newRecordingSite) {
+	if (newRecordingSite < 0) crash("DataTrace","Recording site number smaller than 0 is not allowed");
+	recordingSite = newRecordingSite;
+}
+
+void DataTrace::setNumberOfRecordingSites(int newNumberOfRecordingSites) {
+	if (newNumberOfRecordingSites < 0) crash("DataTrace","Number of recording sites smaller than 0 or not allowed");
+	numberOfRecordingSites = newNumberOfRecordingSites;
 }
 
 void DataTrace::printOn(OutputChannel & output) const {

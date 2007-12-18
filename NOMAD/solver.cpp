@@ -263,45 +263,45 @@ GeneralConstraints * Solver::getGenCons()
 
 /* This method evaluates the truth value of the starting point. It's called
    just before 'solveProblem()'. */
-int Solver::evaluateStartingPoint() const
-{
-  // 'sp' is a pointer to the starting point.
-  AugmentedPoint * sp = evaluator->getStartingPoint();
+int Solver::evaluateStartingPoint() const {
 
-  /* If the starting point is null, it means that the user wants to continue a
-     run; the starting point is already evaluated, there's nothing to do but
-     return. */
-  if (sp == 0)
-    return 1;
-  else
-    // The starting point exists, its truth value is calculated.
-    {
-      // We get the user's choice of poll directions.
-      int direction_choice = pollcontrol->getChoice();
-      /* If the user chose standard n+1 directions or uniform n+1 directions,
-	 PollControl has to build the epsilon array. */
-      if ((direction_choice == 1) || (direction_choice == 2))
-	evaluator->buildEpsilonArray(max_dimension, terminator->getMeshSize(),
-				     mesh->getMeshSize(), mesh->getBasis());
-      /* The starting point's truth value is evaluated; we also check if the
-	 point is within the bounds. If it's outside the bounds,
-	 'evaluate_Truth(...)' returns '-1' . */
-      int value = evaluator->evaluateTruth(max_dimension, sp, true);
-      /* We check if the starting point is feasible or not (if we have general
-	 constraints, the starting point could be infeasible). */
-      evaluator->isStartingPointFeasible();
-      // If the starting point was within the bounds...
-      if (value != -1)
-	{
-	  /* ... We tell Evaluator to update the proximity array, which gives
-	     us information about how close the starting point is from the
-	     bounds. */
-	  evaluator->updateProximityArray(max_dimension);
-	  /* Pollcontrol will possibly update the direction set, according to
-	     the updated proximity vector. */
-	  pollcontrol->updateDirectionSet(max_dimension);
-	}
-      return value;
+  	// 'sp' is a pointer to the starting point.
+  	AugmentedPoint * sp = evaluator->getStartingPoint();
+
+  	// If the starting point is null, it means that the user wants to continue a
+    // run; the starting point is already evaluated, there's nothing to do but
+    // return.
+  	if (sp == 0) return 1;
+	else {
+    	// The starting point exists, its truth value is calculated.
+      
+	  	//We get the user's choice of poll directions.
+      	int direction_choice = pollcontrol->getChoice();
+      
+	  	//If the user chose standard n+1 directions or uniform n+1 directions, PollControl has to build the epsilon array.
+      	if ((direction_choice == 1) || (direction_choice == 2)) evaluator->buildEpsilonArray(max_dimension, terminator->getMeshSize(), mesh->getMeshSize(), mesh->getBasis());
+      
+		// The starting point's truth value is evaluated; we also check if the
+	  	// point is within the bounds. If it's outside the bounds,
+	  	//	'evaluate_Truth(...)' returns '-1' .
+		int value = evaluator->evaluateTruth(max_dimension, sp, true);
+
+      	// We check if the starting point is feasible or not (if we have general
+	 	// constraints, the starting point could be infeasible).
+      	evaluator->isStartingPointFeasible();
+
+      	// If the starting point was within the bounds...
+      	if (value != -1)	{
+	  		// We tell Evaluator to update the proximity array, which gives
+	     	// us information about how close the starting point is from the
+	     	// bounds.
+	  		evaluator->updateProximityArray(max_dimension);
+	  
+			// Pollcontrol will possibly update the direction set, according to
+	     	// the updated proximity vector.
+	  		pollcontrol->updateDirectionSet(max_dimension);
+		}
+      	return value;
     }
 }
 
@@ -566,96 +566,100 @@ void Solver::showOutput(ofstream & fout)
 
 // Data entry is completed and the starting point is ok: it's time to solve
 // the problem. All problem outputs are written in a file, 'fout'.
-void Solver::solveProblem(ofstream & fout)
-{
-  if (display_factor > 0)
-    {
+void Solver::solveProblem(ofstream & fout) {
+	
+	if (display_factor > 0) {
       cout << "\n\n********************\n* START OF THE RUN *";
       cout << "\n********************\n\n";
     }
 
-  // We create a new output file, 'fgraph', where we'll write the data needed
-  // for the GUI to draw a graph.
-  ofstream fgraph("LIBRARY/graph.txt");
-  // The history file will contain all the points visited by the algorithm.
-  ofstream history("LIBRARY/history.txt");
-  // This method will prepare the output files.
-  prepareOutputFiles(fout, fgraph, history);
+  	// We create a new output file, 'fgraph', where we'll write the data needed
+  	// for the GUI to draw a graph.
+  	ofstream fgraph("LIBRARY/graph.txt");
+  
+	// The history file will contain all the points visited by the algorithm.
+  	ofstream history("LIBRARY/history.txt");
+  
+	// This method will prepare the output files.
+  	prepareOutputFiles(fout, fgraph, history);
 
-  // This variable will determine the success of an iteration.
-  bool iteration_success = false;
-  // This variable will hold the current mesh size.
-  double mesh_size;
-  // This array will be the poll center.
-  double * poll_center = NULL;
-  // These two variables will help determine the success of an iteration.
-  unsigned int search_success, poll_success;
+  	// This variable will determine the success of an iteration.
+  	bool iteration_success = false;
+  
+	// This variable will hold the current mesh size.
+  	double mesh_size;
+  
+	// This array will be the poll center.
+  	double * poll_center = NULL;
+  
+	// These two variables will help determine the success of an iteration.
+  	unsigned int search_success, poll_success;
 
-  // 'solveProblem()' main loop. Every pass through the loop is an iteration
-  // of the algorithm. The boolean variable "terminate" starts out false.
-  while (!(terminate))
-    {
-      if (display_factor > 0)
-	{
-	  cout << "\nNew iteration: " << evaluator->getTruthEvaluations();
-	  cout << " truth evaluations\n--------------\n";
+  	// 'solveProblem()' main loop. Every pass through the loop is an iteration
+  	// of the algorithm. The boolean variable "terminate" starts out false.
+  	while (!(terminate)) {
+		if (display_factor > 0) {
+			cout << "\nNew iteration: " << evaluator->getTruthEvaluations();
+	  		cout << " truth evaluations\n--------------\n";
+		}
+		
+		// The surrogate manager's list of points is deleted at every iteration.
+      	if (surr_control != NULL) surr_control->cleanList();
+      
+		// We ask Mesh for the current mesh size;
+      	mesh_size = mesh->getMeshSize();
+      
+		// We ask Evaluator for a poll center.
+      	poll_center = evaluator->getPollCenter(feasible);
+      
+		// This variable is reset at every pass through the loop.
+      	poll_success = 0;
+
+      	// First we do a search.
+      	search_success = searchcontrol->search(max_dimension, mesh_size, poll_center, iteration_success, fout, fgraph, history);
+      
+		// If the search doesn't fail... (it returns '0' or '1'  when it does)
+		// We tell PollControl to check if the new incumbent is near the
+		// bounds. If it is, the direction set has to be updated.
+      	if (search_success >= 2) pollcontrol->updateDirectionSet(max_dimension);
+		// The search did not find a new incumbent: we poll.
+      	else poll_success = pollcontrol->poll(max_dimension, mesh_size,mesh->getBasis(), poll_center,fout, fgraph, history);
+      
+		// Update at the end of an iteration.
+      	iteration_success = update(search_success, poll_success);
+      
+		// The iteration counter is incremented.
+      	terminator->compareIterationsCount(++iteration_count);
+      	if (display_factor > 0) {
+	  		cout << "Iteration #" << iteration_count << " was ";
+	  		iteration_success == true ? cout << "successful\n" :
+	    	cout << "unsuccessful\n";
+		}
 	}
-      // The surrogate manager's list of points is deleted at every iteration.
-      if (surr_control != NULL)
-	surr_control->cleanList();
-      // We ask Mesh for the current mesh size;
-      mesh_size = mesh->getMeshSize();
-      // We ask Evaluator for a poll center.
-      poll_center = evaluator->getPollCenter(feasible);
-      // This variable is reset at every pass through the loop.
-      poll_success = 0;
 
-      // First we do a search.
-      search_success = searchcontrol->search
-	(max_dimension, mesh_size, poll_center, iteration_success,
-	 fout, fgraph, history);
-      // If the search doesn't fail... (it returns '0' or '1'  when it does)
-      if (search_success >= 2)
-	// We tell PollControl to check if the new incumbent is near the
-	// bounds. If it is, the direction set has to be updated.
-	pollcontrol->updateDirectionSet(max_dimension);
-      else   // The search did not find a new incumbent: we poll.
-	poll_success = pollcontrol->poll(max_dimension, mesh_size,
-					 mesh->getBasis(), poll_center,
-					 fout, fgraph, history);
-      // Update at the end of an iteration.
-      iteration_success = update(search_success, poll_success);
-      // The iteration counter is incremented.
-      terminator->compareIterationsCount(++iteration_count);
-      if (display_factor > 0)
-	{
-	  cout << "Iteration #" << iteration_count << " was ";
-	  iteration_success == true ? cout << "successful\n" :
-	    cout << "unsuccessful\n";
-	}
-    }
-
-  // We're out of the loop: first we get the last value of the truth
-  // evaluations counter.
-  unsigned int teval = evaluator->getTruthEvaluations();
-  // Then we get the value of the truth evaluations counter the last time
-  // a new incumbent was found. If the 2 values are equal it means that the
-  // last point evaluated was the new incumbent. Thus the final best point is
-  // already written in the output file; in this case we do nothing.
-  if (evaluator->getTeval() != teval)
-    {
+  	// We're out of the loop: first we get the last value of the truth
+  	// evaluations counter.
+  	unsigned int teval = evaluator->getTruthEvaluations();
+  
+	// Then we get the value of the truth evaluations counter the last time
+  	// a new incumbent was found. If the 2 values are equal it means that the
+  	// last point evaluated was the new incumbent. Thus the final best point is
+  	// already written in the output file; in this case we do nothing.
+  	if (evaluator->getTeval() != teval) {
       // The last point evaluated is written in the output file.
       fout << "   " << teval << "    ";
       evaluator->showIncumbent(fout);
-      if (evaluator->feasible())
-	fgraph << teval << "  " << evaluator->getTruth() << "\n";
-    }
+      if (evaluator->feasible()) fgraph << teval << "  " << evaluator->getTruth() << "\n";
+	}
 
-  // The graph files are closed.
-  fgraph.close();
-  history.close();
-  // The problem solution is written in the output file.
-  showOutput(fout);
-  // The caches are closed.
-  evaluator->closeCaches();
+  	// The graph files are closed.
+  	fgraph.close();
+  	history.close();
+  
+	// The problem solution is written in the output file.
+  	showOutput(fout);
+  
+	// The caches are closed.
+  	evaluator->closeCaches();
+
 }

@@ -113,58 +113,60 @@ int main(int argc, char * argv[])
 // found.
 void continueRun(const Description & description,
 		 Parameters & parameters, Preferences & preferences,
-		 Solver & solver, const char * param_file)
-{
-  // 'Solver' is warned, so that certain variables will be reset.
-  solver.continueRun();
-  //
-  if (param_file != 0)
-    parameters.load(param_file);
-  // The problem is solved.
-  solveProblem(description, parameters, preferences, solver);
+		 Solver & solver, const char * param_file) {
+  
+	// 'Solver' is warned, so that certain variables will be reset.
+  	solver.continueRun();
+  
+	//
+  	if (param_file != 0) parameters.load(param_file);
+  
+	// The problem is solved.
+  	solveProblem(description, parameters, preferences, solver);
 }
 
 // This function checks if the problem parameters are correct, then tells
 // Solver to solve the current problem.
 void solveProblem(const Description & description,
 		  const Parameters & parameters, Preferences & preferences,
-		  Solver & solver)
-{
-  // The problem is ready to be solved if the parameters file contains all
-  // the basic parameters.
-  if (parameters.readyToSolve())
-    {
-      // The parameters are captured and sent to Solver.
-      parameters.capture(description.getGeneralConstraintsNumber(),
+		  Solver & solver) {
+  
+	// The problem is ready to be solved if the parameters file contains all
+	// the basic parameters.
+  	if (parameters.readyToSolve()) {
+		// The parameters are captured and sent to Solver.
+      	parameters.capture(description.getGeneralConstraintsNumber(),
 			 description.getSurrogateUse(), solver);
-      // The preferences are sent to Solver.
-      preferences.capture(description.getName(), solver);
+      
+	  	// The preferences are sent to Solver.
+      	preferences.capture(description.getName(), solver);
 
-      // Data entry complete: Solver evaluates the starting point.
-      if (solver.evaluateStartingPoint() > 0)
-	{
-	  // 'fout' is the results file for the current run.
-	  ofstream fout(description.getResultsFile());
-	  // The problem's input is written in 'fout'.
-	  solver.showInput(fout);
-	  // The problem is solved by the optimization module.
-	  solver.solveProblem(fout);
-	  // The results file is closed.
-	  fout.close();
-	  // The 'Preferences' object must be alerted that the run is over.
-	  preferences.endOfRun();
-	}
-      else
-	{
-	  cerr << "The starting point is outside the bounds!\n";
-	  cerr << "Please correct before running NOMAD.\n";
-	  cerr << "See the program documentation in the 'DOC' directory.\n\n";
-	}
+      	// Data entry complete: Solver evaluates the starting point.
+      	if (solver.evaluateStartingPoint() > 0) {
+	  		// 'fout' is the results file for the current run.
+	  		ofstream fout(description.getResultsFile());
+	  		
+			// The problem's input is written in 'fout'.
+	  		solver.showInput(fout);
+	  
+			// The problem is solved by the optimization module.
+	  		solver.solveProblem(fout);
+	  
+			// The results file is closed.
+	  		fout.close();
+	  
+			// The 'Preferences' object must be alerted that the run is over.
+	  		preferences.endOfRun();
+		}
+		else {
+	  		cerr << "The starting point is outside the bounds!\n";
+	  		cerr << "Please correct before running NOMAD.\n";
+	  		cerr << "See the program documentation in the 'DOC' directory.\n\n";
+		}
     }
-  else   // We alert the user that something's wrong with the parameters.
-    {
-      cerr << "Something is wrong with the parameters!\n";
-      cerr << "Please correct before running NOMAD.\n";
-      cerr << "See the program documentation in the 'DOC' directory.\n\n";
+  	else {  // We alert the user that something's wrong with the parameters.
+		cerr << "Something is wrong with the parameters!\n";
+		cerr << "Please correct before running NOMAD.\n";
+      	cerr << "See the program documentation in the 'DOC' directory.\n\n";
     }
 }

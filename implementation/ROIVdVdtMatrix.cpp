@@ -47,11 +47,11 @@ double ROIVdVdtMatrix::compare(const VdVdtMatrix & o) const {
 void ROIVdVdtMatrix::readFrom(const DataTrace& trace) {
 		makeEmpty();
 
-		ROIsParser.initialize(fixedParams["ROILines"], toInt(fixedParams["NumberOfROILines"]), trace.getNumberOfRuns(), trace.getNumberOfPeriods());
+		ROIsParser.initialize(fixedParams["ROILines"], toInt(fixedParams["NumberOfROILines"]), trace.getNumberOfRuns(), trace.getNumberOfPeriods(), trace.getNumberOfRecordingSites());
 	
 		showMessage("ROIs parsed: " + ROIsParser.toString(),14,fixedParams);	
 		
-		vector< ROI > ROIs = ROIsParser.getROIsForRunAndPeriod(trace.getRun(), trace.getPeriod());
+		vector< ROI > ROIs = ROIsParser.getROIsForRunAndPeriodAndRecord(trace.getRun(), trace.getPeriod(), trace.getRecordingSite());
 		for (vector< ROI >::const_iterator iter = ROIs.begin(); iter != ROIs.end(); iter++) {
 			DirectVdVdtMatrix matrix(fixedParams);
 			matrix.setToROI(*iter);

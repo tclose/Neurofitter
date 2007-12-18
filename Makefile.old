@@ -51,6 +51,7 @@ MODOBJS=	$(CPPDIR)/ModelResults.o \
 
 # The object files related to error value calculator interfaces			
 FITOBJS=	$(CPPDIR)/DirectVdVdtMatrix.o \
+			$(CPPDIR)/MeshVdVdtMatrix.o \
 			$(CPPDIR)/MapVdVdtMatrix.o \
 			$(CPPDIR)/DistanceVdVdtMatrix.o \
 			$(CPPDIR)/ROI.o \

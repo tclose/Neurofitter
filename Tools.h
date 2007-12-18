@@ -71,7 +71,7 @@ inline void flushMessage() {
 
 /// Stop the program with an error message
 inline void crash(string object, string message) {
-	//throw runtime_error("Error in "+object+": "+message);
+	throw runtime_error("Error in "+object+": "+message);
 	cerr << "Exception in " << object << ": " << message << endl;
 	cerr.flush();
 	exit(1);
@@ -121,6 +121,12 @@ inline void trimString(string& str)
     if(pos != string::npos) str.erase(0, pos);
   }
   else str.erase(str.begin(), str.end());
+}
+
+inline string trim(const string origStr) {
+	string str = origStr; 
+	trimString(str);
+	return str;
 }
 
 #endif

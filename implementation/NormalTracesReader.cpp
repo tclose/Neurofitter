@@ -127,6 +127,8 @@ ModelResults NormalTracesReader::readTracesFromFilesVector(vector< string > file
             	results[periodIndex+nRecording].setNumberOfRuns(numberOfRuns);			
             	results[periodIndex+nRecording].setPeriod(nPeriod);			
             	results[periodIndex+nRecording].setNumberOfPeriods(numberOfPeriods);			
+            	results[periodIndex+nRecording].setRecordingSite(nRecording);			
+            	results[periodIndex+nRecording].setNumberOfRecordingSites(numberOfRecordSites);			
         	}
 
         	/////////////////////

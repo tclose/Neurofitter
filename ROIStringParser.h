@@ -24,23 +24,25 @@ class ROIStringParser {
 
 	public:
 		ROIStringParser() : sourceString("") {}; ///< Default constructor
-		ROIStringParser(const string, int newNumberOfROIs, int newNumberOfRuns, int newNumberOfPeriods); ///< Constructor that uses an initializing string
+		ROIStringParser(const string, int newNumberOfROIs, int newNumberOfRuns, int newNumberOfPeriods, int newNumberOfRecordingSites); ///< Constructor that uses an initializing string
 		~ROIStringParser(); ///< Destructor
 
-		void initialize(const string, int newNumberOfROIs, int newNumberOfRuns, int newNumberOfPeriods);
+		void initialize(const string, int newNumberOfROIs, int newNumberOfRuns, int newNumberOfPeriods, int newNumberOfRecordingSites);
 		string toString() const; ///< Returns a string representation
 		int getNumberOfROIs() const;
 		int getNumberOfROILines() const;
 		int getNumberOfPeriods() const;
+		int getNumberOfRecordingSites() const;
 		int getNumberOfRuns() const;
-		int getNumberOfROIsForRunAndPeriod(int nRun, int nPeriod) const;
-		vector< ROI > getROIsForRunAndPeriod(int nRun, int nPeriod) const;
+		int getNumberOfROIsForRunAndPeriodAndRecord(int nRun, int nPeriod, int nRecord) const;
+		vector< ROI > getROIsForRunAndPeriodAndRecord(int nRun, int nPeriod, int nRecord) const;
 
 	private:
 		string sourceString;
 		int numberOfROILines;
 		int numberOfRuns;
 		int numberOfPeriods;
+		int numberOfRecordingSites;
 		int numberOfROIs;
 		map< int , vector< ROI > > ROIs;
 };
