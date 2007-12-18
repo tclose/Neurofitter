@@ -75,7 +75,7 @@ void MatrixErrorValueCalculator::calculateErrorValue(ModelTuningParameters & par
 
 }
 
-void MatrixErrorValueCalculator::calculateParallelErrorValue(vector< ModelTuningParameters & > & paramList) {
+void MatrixErrorValueCalculator::calculateParallelErrorValue(vector< ModelTuningParameters > & paramList) {
 
 	vector< double > errorValues(paramList.size());
 
