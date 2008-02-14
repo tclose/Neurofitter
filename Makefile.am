@@ -28,8 +28,8 @@ noinst_HEADERS =
 ACLOCAL_DIST = m4/ac_caolan_search_package.m4 \
 	       m4/acx_mpi.m4 \
 	       m4/ax_prog_doxygen.m4 \
-               m4/libxml2.m4
+           m4/libxml2.m4
 
 SCRIPTS_DIST =  
 
-EXTRA_DIST  = autogen.sh TODO $(ACLOCAL_DIST) $(SCRIPTS_DIST)
+EXTRA_DIST  = autogen.sh TODO Makefile.old $(ACLOCAL_DIST) $(SCRIPTS_DIST)

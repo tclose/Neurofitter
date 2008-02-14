@@ -18,6 +18,7 @@ FitterResults SimpleGradientFitterInterface::runFitter(ModelTuningParameters * s
 
 	newPoints.push_back(bestPoint);
 	errorValue->calculateParallelErrorValue(newPoints);
+	bestPoint = newPoints[0];
 	
 	double numberOfEvaluations = 1;
 
@@ -27,7 +28,7 @@ FitterResults SimpleGradientFitterInterface::runFitter(ModelTuningParameters * s
 
 		newPoints.clear();
 
-		generateSurrounding(bestPoint, toDouble(fixedParams["AddedValue"]), newPoints);		
+		generateSurrounding(bestPoint, toDouble(fixedParams["AddedValue"]), newPoints);
 		
 		errorValue->calculateParallelErrorValue(newPoints);
 		numberOfEvaluations += newPoints.size();
@@ -35,11 +36,11 @@ FitterResults SimpleGradientFitterInterface::runFitter(ModelTuningParameters * s
 
 		bool bestPointChanged = false;
 		for (unsigned int i = 0; i < newPoints.size(); i++) {
-			if (newPoints[i].getErrorValue() < bestPoint.getErrorValue()) {
+			if (newPoints[i].getErrorValue() <= bestPoint.getErrorValue()) {
 				bestPoint = newPoints[i];
 				bestPointChanged = true;
 			}
-    	}		
+    	}
 	}
 
 	return FitterResults(results);
@@ -54,11 +55,11 @@ void SimpleGradientFitterInterface::generateSurrounding(ModelTuningParameters ce
 		ModelTuningParameters newPointRight(center);
 		newPointLeft.resetErrorValue();
 		newPointRight.resetErrorValue();
-		if ((newValue = center[j] + center[j]*addedValue) > center.getUpperBound(j)) {
+		if ((newValue = center[j] + center[j]*addedValue) < center.getUpperBound(j)) {
 			newPointRight[j] = newValue;
 			newPoints.push_back(newPointRight);
 		}
-		if ((newValue = center[j] - center[j]*addedValue) < center.getLowerBound(j)) {
+		if ((newValue = center[j] - center[j]*addedValue) > center.getLowerBound(j)) {
 			newPointLeft[j] = newValue;
 			newPoints.push_back(newPointLeft);
 		}

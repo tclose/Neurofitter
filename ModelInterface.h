@@ -19,7 +19,7 @@ public:
 	ModelInterface(TracesReader * t) : tracesReader(t) {};
 
 	virtual ModelResults runModel(const ModelTuningParameters &) = 0;
-	virtual vector< ModelResults > runParallelModel(const vector< ModelTuningParameters >) = 0;	
+	virtual void runParallelModel(const vector< ModelTuningParameters >, vector< ModelResults> &) = 0;	
 	virtual ~ModelInterface() {};
 
 protected:	

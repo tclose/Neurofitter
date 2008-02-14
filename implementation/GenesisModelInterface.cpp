@@ -28,17 +28,8 @@ ModelResults GenesisModelInterface::runModel(const ModelTuningParameters & param
 }
 
 
-vector< ModelResults > GenesisModelInterface::runParallelModel(const vector< ModelTuningParameters > paramList) {
+void GenesisModelInterface::runParallelModel(const vector< ModelTuningParameters > paramList, vector< ModelResults > & results) {
 
-	unsigned int numberOfParallelModels = paramList.size();
-
-    vector< ModelResults > resultList(numberOfParallelModels);
-
-    for (unsigned int i = 0; i < numberOfParallelModels; i++) {
-		showMessage("\nRunning model " + str((int)i+1) + " of " + str(numberOfParallelModels) + " parallel models\n",4,fixedParams);
-        resultList[i] = runModel(paramList[i]);
-    }
-
-    return resultList;
+	execModel.runParallelModel(paramList, results);
 
 }

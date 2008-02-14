@@ -89,15 +89,11 @@ runModel(const ModelTuningParameters & params) {
 }
 
 
-vector< ModelResults > ExecutableModelInterface::runParallelModel(const vector< ModelTuningParameters > paramList) {
-
-	vector< ModelResults > resultList(paramList.size()); 
+void ExecutableModelInterface::runParallelModel(const vector< ModelTuningParameters > paramList, vector< ModelResults > & resultList) {
 
 	for (unsigned int i = 0; i < paramList.size(); i++) {
 		resultList[i] = runModel(paramList[i]);
 	}
-
-	return resultList;
 
 }
 

@@ -29,15 +29,9 @@ ModelResults NeuronModelInterface::runModel(const ModelTuningParameters & params
 }
 
 
-vector< ModelResults > NeuronModelInterface::runParallelModel(const vector< ModelTuningParameters > paramList) {
+void NeuronModelInterface::runParallelModel(const vector< ModelTuningParameters > paramList, vector< ModelResults > & results) {
 
-	vector< ModelResults > resultList(paramList.size()); 
-
-	for (unsigned int i = 0; i < paramList.size(); i++) {
-		resultList[i] = runModel(paramList[i]);
-	}
-
-	return resultList;
+	execModel.runParallelModel(paramList, results);
 
 }
 

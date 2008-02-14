@@ -79,7 +79,9 @@ void MatrixErrorValueCalculator::calculateParallelErrorValue(vector< ModelTuning
 
 	vector< double > errorValues(paramList.size());
 
-    vector< ModelResults > results = model->runParallelModel(paramList);
+    vector< ModelResults > results(paramList.size());
+
+	model->runParallelModel(paramList, results);
 
 	for (unsigned int i = 0; i < paramList.size(); i++) {
 		showMessage("Model VdVdtMatrices\n",5,fixedParams);

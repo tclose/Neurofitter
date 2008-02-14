@@ -20,7 +20,7 @@ class ExecutableModelInterface : public ModelInterface, public FixedParamObject 
 public:	
 	ExecutableModelInterface(TracesReader * t, FixedParameters params) : ModelInterface(t), FixedParamObject(params) {}; 
     virtual ModelResults runModel(const ModelTuningParameters &) ;
-	virtual vector< ModelResults > runParallelModel(const vector< ModelTuningParameters >);
+	virtual void runParallelModel(const vector< ModelTuningParameters >, vector< ModelResults > &);
 
 private:
 

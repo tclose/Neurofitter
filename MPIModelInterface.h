@@ -30,7 +30,7 @@ public:
 	MPIModelInterface(TracesReader*, FixedParameters params); 
 	~MPIModelInterface();
     virtual ModelResults runModel(const ModelTuningParameters &);
-	virtual vector< ModelResults > runParallelModel(const vector< ModelTuningParameters >); 
+	virtual void runParallelModel(const vector< ModelTuningParameters >, vector< ModelResults > &); 
 
 private:
 	MPIModelInterface();

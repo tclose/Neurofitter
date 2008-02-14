@@ -22,7 +22,7 @@ class GenesisModelInterface : public ModelInterface, public FixedParamObject {
 public:	
 	GenesisModelInterface(TracesReader * t, FixedParameters params);
     virtual ModelResults runModel(const ModelTuningParameters &) ;
-	virtual vector< ModelResults > runParallelModel(const vector< ModelTuningParameters >);
+	virtual void runParallelModel(const vector< ModelTuningParameters >, vector< ModelResults > &);
 
 private:
 	ExecutableModelInterface execModel;

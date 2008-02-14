@@ -41,14 +41,14 @@ ModelResults	MPIModelInterface::
 runModel(const ModelTuningParameters & params) {
 
 	vector< ModelTuningParameters > paramList(1);
+	vector< ModelResults > result(1);
 	paramList[0] = params;
-	return (runParallelModel(paramList))[0];
+	runParallelModel(paramList, result);
+	return result[0];
 
 }
 
-vector< ModelResults > MPIModelInterface::runParallelModel(const vector< ModelTuningParameters > paramList) {
-
-	vector< ModelResults > results(paramList.size());
+void MPIModelInterface::runParallelModel(const vector< ModelTuningParameters > paramList, vector< ModelResults > & results) {
 
 	showMessage("Running " + str((int)paramList.size()) + " jobs in parallel\n",4,fixedParams);
 	
@@ -76,8 +76,6 @@ vector< ModelResults > MPIModelInterface::runParallelModel(const vector< ModelTu
 		receiveResultsFromSlave(taskRank, results);
 		nReceived++;
 	}
-
-	return results;
 
 }
 
