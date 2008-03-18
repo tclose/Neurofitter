@@ -23,8 +23,8 @@ FitterResults FileFitterInterface::runFitter(ModelTuningParameters * unusedStart
 	///Read the points
 	for (int i = 0; i < toInt(fixedParams["NumberOfPoints"]); i++) {
 		for (int j = 0; j < toInt(fixedParams["Dimensions"]); j++) {
-			paramFile >> (paramList[i][j]) ;
 			if (!paramFile.good()) crash("FileFitterInterface","Error while reading file "+fixedParams["Filename"]);
+			paramFile >> (paramList[i][j]) ;
 		}
 	}
 
