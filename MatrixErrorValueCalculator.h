@@ -39,6 +39,8 @@ private:
 	vector< VdVdtMatrix * > expVdVdtMatrices;	
 	VdVdtMatrix * modelVdVdtMatrix;
 	ofstream exportFileStream;
+	
+	bool printMatrix;
 };
 
 #endif

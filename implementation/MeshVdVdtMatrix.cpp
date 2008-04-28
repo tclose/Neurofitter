@@ -136,7 +136,7 @@ void MeshVdVdtMatrix::readFrom(const DataTrace& trace) {
 			set(vIndex,dVdtIndex,get(vIndex,dVdtIndex) + 1.0/(trace.getValidLength()-2*trace.getLag()));
 		}
 		else {
-			showMessage("Warning: Not all of the data points in the defined time range are valid in the Datatrace object\n",15,fixedParams);
+			showMessage("Warning: Data point with seq number "+str(nPoint)+" is not valid in the defined time range of the Datatrace object: "+trace.getName()+"\n",15,fixedParams);
 		}
 	}
 

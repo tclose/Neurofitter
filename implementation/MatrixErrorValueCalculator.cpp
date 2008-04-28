@@ -11,10 +11,25 @@ Date of last commit: $Date$
 #include "../MatrixErrorValueCalculator.h"
 
 MatrixErrorValueCalculator::MatrixErrorValueCalculator(ModelInterface * interface, ExperimentInterface * experiment, FixedParameters params) 
-	: ErrorValueCalculator(interface), FixedParamObject(params), modelVdVdtMatrix(NULL) {
+	: ErrorValueCalculator(interface), FixedParamObject(params), modelVdVdtMatrix(NULL), printMatrix(false) {
 
 	if (toInt(fixedParams["enableFileExport"]) > 0) {
 		this->enableFileExport(fixedParams["exportFile"]);
+	}
+
+	if (fixedParams.parameterExists("enablePrintMatrix")) {
+		if (toInt(fixedParams["enablePrintMatrix"]) > 0) {
+			printMatrix = true;	
+		}
+		else {
+			printMatrix = false;
+		}
+	}
+	else if (toInt(fixedParams["VerboseLevel"]) >= 5) {
+		printMatrix = true;
+	}
+	else {
+		printMatrix = false;
 	}
 
 	ModelResults expData = experiment->getData();	
@@ -35,7 +50,7 @@ MatrixErrorValueCalculator::MatrixErrorValueCalculator(ModelInterface * interfac
 		else { 
 			crash("MatrixErrorValueCalculator", "No matching VdVdtmatrix type: " + fixedParams["VdVdtMatrixType"]);
 		}
-		showMessage(expVdVdtMatrices[nTrace]->toString()+"\n",5,fixedParams);
+		if (printMatrix) showMessage(expVdVdtMatrices[nTrace]->toString()+"\n");
 	}
 
     if (fixedParams["VdVdtMatrixType"] == "Direct") {
@@ -89,7 +104,7 @@ void MatrixErrorValueCalculator::calculateParallelErrorValue(vector< ModelTuning
     	for (int nTrace = 0; nTrace < results[i].getLength(); nTrace++) {
         	modelVdVdtMatrix->readFrom(results[i][nTrace]);
         	errorValues[i] += results[i][nTrace].getWeight() * expVdVdtMatrices[nTrace]->compare(*modelVdVdtMatrix);
-			showMessage(modelVdVdtMatrix->toString() + "\n",5,fixedParams);        	
+			if (printMatrix) showMessage(modelVdVdtMatrix->toString() + "\n");        	
     	}
 
     	numberOfEvaluations++;
