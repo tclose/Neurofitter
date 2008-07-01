@@ -1,7 +1,7 @@
 /*
-Revision of last commit: $Rev: 227 $
-Author of last commit: $Author: werner $
-Date of last commit: $Date: 2007-10-18 13:29:41 +0900 (Thu, 18 Oct 2007) $
+Revision of last commit: $Rev$
+Author of last commit: $Author$
+Date of last commit: $Date$
 */
 
 #include "../NSGA2Individual.h"
