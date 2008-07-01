@@ -19,7 +19,7 @@ class NSGA2Individual : public FixedParamObject {
 public:
 	NSGA2Individual();
 	NSGA2Individual(ModelTuningParameters);
-	bool dominates(NSGA2Individual other);
+	bool dominates(NSGA2Individual other) const;
 	void setRank(unsigned rank);
 	unsigned getRank() const;
 	double getObjective(unsigned index);

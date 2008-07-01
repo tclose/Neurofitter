@@ -8,7 +8,7 @@ Date of last commit: $Date$
 
 // Standard PSO version 2006, for algorithm see end of file
 
-NSGA2FitterInterface::NSGA2FitterInterface(ErrorValueCalculator * fit, FixedParameters params) : FitterInterface(fit), FixedParamObject(params) {}
+NSGA2FitterInterface::NSGA2FitterInterface(ErrorValueCalculator * fit, FixedParameters params) : FitterInterface(fit), FixedParamObject(params), parentPopulationSize(toUnsigned(fixedParams["ParentPopulationSize"]))  {}
 
 
 FitterResults NSGA2FitterInterface::runFitter(ModelTuningParameters * startPoint) {
@@ -30,24 +30,18 @@ FitterResults NSGA2FitterInterface::runFitter(ModelTuningParameters * startPoint
 		parents.clear();
 		
 		int rank = 0;
-		while (parents.getSize() + (population.getFront(rank)).size() <= population.getSize()) {		
+		while (parents.getSize() + (population.getFront(rank)).size() <= parentPopulationSize) {		
 			//calculateCrowdingDistance(population.getFront(rank))
 			parents = parents.makeUnion(population.getFront(rank));
 			rank++;
 		}
 		
-		vector< NSGA2Individual * > sortedFront = sortFront(population.getFront(rank));
+		vector< NSGA2Individual > sortedFront = population.getSortedFront(rank);
+		sortedFront.erase(sortedFront.begin()+(parentPopulationSize-parents.getSize()),sortedFront.end());
 		parents = parents.makeUnion(sortedFront);
 		children = parents.createChildren();
-
 	}
 
 	return FitterResults();
  
-}
-
-vector< NSGA2Individual * > NSGA2FitterInterface::sortFront(vector< NSGA2Individual * > front) const {
-
-	return vector< NSGA2Individual * >(0);
-
 }

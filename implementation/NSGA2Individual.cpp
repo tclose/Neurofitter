@@ -12,7 +12,7 @@ NSGA2Individual::NSGA2Individual(): rankSet(false), crowdDistanceSet(false) {}
 
 NSGA2Individual::NSGA2Individual(ModelTuningParameters params): rankSet(false), crowdDistanceSet(false), tuningParameters(params) {}
 
-bool NSGA2Individual::dominates(NSGA2Individual other) {
+bool NSGA2Individual::dominates(NSGA2Individual other) const {
 
 	if (!rankSet || !other.rankSet) crash("NSGA2Individual","Rank not set while evaluating domination");
 	if (rank < other.rank) {

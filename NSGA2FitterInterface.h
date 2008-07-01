@@ -38,6 +38,8 @@ class NSGA2FitterInterface : public FitterInterface, FixedParamObject {
 		NSGA2Population parents;
 		NSGA2Population population;
 		NSGA2Population children;
+
+		unsigned parentPopulationSize;
 };
 
 #endif
