@@ -37,7 +37,7 @@ ModelTuningParameters SwarmFly::calculateNewPosition() {
 		
         	ModelTuningParameters newPosition(currentPosition);
 
-       		for (int i = 0; i < currentPosition.getLength(); i++) {
+       		for (unsigned i = 0; i < currentPosition.getLength(); i++) {
             	currentSpeed[i] = w*currentSpeed[i] + randGen->rand(c)*(bestLocalSolution[i]-currentPosition[i]) + randGen->rand(c)*(bestInformantsSolution[i]-currentPosition[i]);
             	newPosition[i] = currentPosition[i] + currentSpeed[i];
         	}
@@ -72,10 +72,10 @@ ModelTuningParameters SwarmFly::calculateRandomPosition() {
 	ModelTuningParameters randomPosition(currentPosition);
 	randomPosition.resetErrorValue();
 	
-	for (int i = 0; i < randomPosition.getLength(); i++) {
+	for (unsigned i = 0; i < randomPosition.getLength(); i++) {
 		randomPosition[i] = randomPosition.getLowerBound(i)+randGen->rand(randomPosition.getUpperBound(i)-randomPosition.getLowerBound(i));
     }
-	for (int i = 0; i < currentSpeed.getLength(); i++) {
+	for (unsigned i = 0; i < currentSpeed.getLength(); i++) {
 		double startX = randomPosition.getLowerBound(i)+randGen->rand(randomPosition.getUpperBound(i)-randomPosition.getLowerBound(i));
 		double startY = randomPosition.getLowerBound(i)+randGen->rand(randomPosition.getUpperBound(i)-randomPosition.getLowerBound(i));
         currentSpeed[i] = startX-startY;
@@ -116,7 +116,7 @@ vector< SwarmFly * > SwarmFly::getInformants() {
 
 void SwarmFly::keepInBox(ModelTuningParameters & newPosition) {
 
-	for (int i = 0; i < newPosition.getLength(); i++) {
+	for (unsigned i = 0; i < newPosition.getLength(); i++) {
 		if (newPosition[i] > newPosition.getUpperBound(i)) {
 			newPosition[i] = newPosition.getUpperBound(i);
 			currentSpeed[i] = 0;

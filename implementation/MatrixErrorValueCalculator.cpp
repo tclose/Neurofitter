@@ -93,6 +93,7 @@ void MatrixErrorValueCalculator::calculateErrorValue(ModelTuningParameters & par
 void MatrixErrorValueCalculator::calculateParallelErrorValue(vector< ModelTuningParameters > & paramList) {
 
 	vector< double > errorValues(paramList.size());
+	vector< vector< double > > MOErrorValues(paramList.size());
 
     vector< ModelResults > results(paramList.size());
 
@@ -101,9 +102,12 @@ void MatrixErrorValueCalculator::calculateParallelErrorValue(vector< ModelTuning
 	for (unsigned int i = 0; i < paramList.size(); i++) {
 		showMessage("Model VdVdtMatrices\n",5,fixedParams);
 
+		MOErrorValues[i] = vector< double >(results[i].getLength());
+
     	for (int nTrace = 0; nTrace < results[i].getLength(); nTrace++) {
         	modelVdVdtMatrix->readFrom(results[i][nTrace]);
         	errorValues[i] += results[i][nTrace].getWeight() * expVdVdtMatrices[nTrace]->compare(*modelVdVdtMatrix);
+			MOErrorValues[i][nTrace] = results[i][nTrace].getWeight() * expVdVdtMatrices[nTrace]->compare(*modelVdVdtMatrix);
 			if (printMatrix) showMessage(modelVdVdtMatrix->toString() + "\n");        	
     	}
 
@@ -115,13 +119,14 @@ void MatrixErrorValueCalculator::calculateParallelErrorValue(vector< ModelTuning
 
     	if (exportFileStream.is_open()) {
         	exportFileStream << numberOfGenerations << " "<< numberOfEvaluations << " " << errorValues[i] << " ";
-        	for (int j = 0; j < paramList[i].getLength(); j++) {
+        	for (unsigned j = 0; j < paramList[i].getLength(); j++) {
             	exportFileStream << (paramList[i][j]) << " ";
         	}
         	exportFileStream << endl;
     	}
 
     	paramList[i].setErrorValue(errorValues[i]);
+    	paramList[i].setMOErrorValues(MOErrorValues[i]);
 
 	}
 	

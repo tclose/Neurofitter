@@ -16,6 +16,15 @@ Date of last commit: $Date$
 
 using namespace std;
 
+
+/// Stop the program with an error message
+inline void crash(string object, string message) {
+	//throw runtime_error("Error in "+object+": "+message);
+	cerr << "Exception in " << object << ": " << message << endl;
+	cerr.flush();
+	exit(1);
+}
+
 /// Convert a float to a string
 inline string str(float x) {
    std::ostringstream o;
@@ -49,6 +58,13 @@ inline int toInt(string s) {
    return atoi(s.c_str());
 }
 
+/// Convert a string to an integer
+inline unsigned toUnsigned(string s) {
+   int returnValue = atoi(s.c_str());
+   if (returnValue < 0) crash("Tools.h","Trying to convert negative number to positive: "+s);
+   return returnValue;
+}
+
 /// Convert a string to a double
 inline double toDouble(string s) {
    return atof(s.c_str());
@@ -68,14 +84,6 @@ inline void flushMessage() {
 	cout.flush();
 }
 
-
-/// Stop the program with an error message
-inline void crash(string object, string message) {
-	//throw runtime_error("Error in "+object+": "+message);
-	cerr << "Exception in " << object << ": " << message << endl;
-	cerr.flush();
-	exit(1);
-}
 
 /// Get the date and time as a string
 inline string getDateAndTime() {

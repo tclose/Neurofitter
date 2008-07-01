@@ -8,6 +8,7 @@ Date of last commit: $Date$
 #define NEUROFITTER_FIXEDPARAMOBJECT_H
 
 #include "FixedParameters.h"
+#include "Tools.h"
 
 using namespace std;
 

@@ -90,6 +90,9 @@ neurofitter_SOURCES =  $(SRCDIR)/Neurofitter.cpp \
  $(SRCDIR)/RandomFitterInterface.cpp \
  $(SRCDIR)/SwarmFitterInterface.cpp \
  $(SRCDIR)/SwarmFly.cpp \
+ $(SRCDIR)/NSGA2FitterInterface.cpp \
+ $(SRCDIR)/NSGA2Individual.cpp \
+ $(SRCDIR)/NSGA2Population.cpp \
  $(EO_SRC) \
  $(NOMAD_SRC) \
  $(EONOMAD_SRC) 

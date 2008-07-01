@@ -20,8 +20,8 @@ FitterResults EasyFitterInterface::runFitter(ModelTuningParameters * unusedStart
 	vector< ModelTuningParameters > results;
 
     vector< ModelTuningParameters > bestPoints(toInt(fixedParams["NumberOfThreads"]), initPoint);
-    for (int i = 0; i < toInt(fixedParams["NumberOfThreads"]); i++) {
-		for (int j = 0; j < bestPoints[i].getLength(); j++) {
+    for (unsigned i = 0; i < toUnsigned(fixedParams["NumberOfThreads"]); i++) {
+		for (unsigned j = 0; j < bestPoints[i].getLength(); j++) {
 			bestPoints[i][j] = bestPoints[i].getLowerBound(j)+randGen.rand(bestPoints[i].getUpperBound(j)-bestPoints[i].getLowerBound(j));
 		}
 	}
@@ -31,8 +31,8 @@ FitterResults EasyFitterInterface::runFitter(ModelTuningParameters * unusedStart
 	results.insert(results.end(),bestPoints.begin(),bestPoints.end());
 
 	vector< ModelTuningParameters > radii(toInt(fixedParams["NumberOfThreads"]), initPoint);
-    for (int i = 0; i < toInt(fixedParams["NumberOfThreads"]); i++) {
-		for (int j = 0; j < radii[i].getLength(); j++) {
+    for (unsigned i = 0; i < toUnsigned(fixedParams["NumberOfThreads"]); i++) {
+		for (unsigned j = 0; j < radii[i].getLength(); j++) {
 			radii[i][j] = randGen.rand((radii[i].getUpperBound(j)-radii[i].getLowerBound(j))/5);
 		}
 	}		
@@ -54,7 +54,7 @@ FitterResults EasyFitterInterface::runFitter(ModelTuningParameters * unusedStart
 			bool bestPointChanged = false;
 			for (int k = j*toInt(fixedParams["NumberOfTriesPT"]); k < (j+1)*toInt(fixedParams["NumberOfTriesPT"]); k++) {
 				if (newPoints[k].getErrorValue() < bestPoints[j].getErrorValue()) {
-					for (int s = 0; s < radii[j].getLength(); s++) { 
+					for (unsigned s = 0; s < radii[j].getLength(); s++) { 
 						if (bestPoints[j][s] != newPoints[k][s]) {
 							radii[j][s] = fabs(bestPoints[j][s] - newPoints[k][s])/2.0;
 							showMessage("Changed radius in dimension " + str(s) + " of thread " + str(j) + " to " + str(radii[j][s]) + "\n",4,fixedParams);
@@ -65,7 +65,7 @@ FitterResults EasyFitterInterface::runFitter(ModelTuningParameters * unusedStart
 				}
 			}
 			if (!bestPointChanged) {
-				for (int s = 0; s < radii[j].getLength(); s++) { 
+				for (unsigned s = 0; s < radii[j].getLength(); s++) { 
 					radii[j][s] = min(sigma*radii[j][s], radii[j].getUpperBound(s)-radii[j].getLowerBound(s));
 					showMessage("Increased radius in dimension " + str(s) + " of thread " + str(j) + " to " + str(radii[j][s]) + "\n",4,fixedParams);
 				}
@@ -85,8 +85,8 @@ void EasyFitterInterface::generateSurrounding(ModelTuningParameters center, Mode
 	newPoint.resetErrorValue();
 
 	double newValue;
-	for (int i = 0; i < toInt(fixedParams["NumberOfTriesPT"]); i++) {
-		for (int j = 0; j < center.getLength(); j++) {
+	for (unsigned i = 0; i < toUnsigned(fixedParams["NumberOfTriesPT"]); i++) {
+		for (unsigned j = 0; j < center.getLength(); j++) {
 			if (randGen.rand(1) < 0.5) 
 				newValue = center[j] + randGen.rand(sigma*radii[j]);
 				//newValue = center[j] + randGen.randNorm(0,radii[j]);

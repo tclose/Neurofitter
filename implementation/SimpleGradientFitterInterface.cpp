@@ -50,7 +50,7 @@ FitterResults SimpleGradientFitterInterface::runFitter(ModelTuningParameters * s
 void SimpleGradientFitterInterface::generateSurrounding(ModelTuningParameters center, double addedValue, vector< ModelTuningParameters > & newPoints) {
 
 	double newValue;
-	for (int j = 0; j < center.getLength(); j++) {
+	for (unsigned j = 0; j < center.getLength(); j++) {
 		ModelTuningParameters newPointLeft(center);
 		ModelTuningParameters newPointRight(center);
 		newPointLeft.resetErrorValue();

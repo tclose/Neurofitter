@@ -128,6 +128,9 @@ int main (int argc, char* argv[]) {
 			else if (fixedParams["FitterType"] == "Swarm") {
 				fitter = new SwarmFitterInterface(errorValue,fitterFixedParams);
 			}
+			else if (fixedParams["FitterType"] == "NSGA2") {
+				fitter = new SwarmFitterInterface(errorValue,fitterFixedParams);
+			}
 		#ifdef WITH_NOMAD
 			else if (fixedParams["FitterType"] == "NOMAD") {
 				fitter = new NOMADFitterInterface(errorValue,fitterFixedParams);

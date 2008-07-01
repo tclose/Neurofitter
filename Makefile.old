@@ -72,7 +72,10 @@ FITTEROBJS=	$(CPPDIR)/FitterResults.o \
 			$(CPPDIR)/RandomFitterInterface.o \
 			$(CPPDIR)/FileFitterInterface.o \
 			$(CPPDIR)/SwarmFitterInterface.o \
-			$(CPPDIR)/SwarmFly.o
+			$(CPPDIR)/SwarmFly.o \
+			$(CPPDIR)/NSGA2FitterInterface.o \
+			$(CPPDIR)/NSGA2Population.o \
+			$(CPPDIR)/NSGA2Individual.o 
 
 # The object files related Neurofitter without MPI
 NORMALOBJS = $(CPPDIR)/Neurofitter.o

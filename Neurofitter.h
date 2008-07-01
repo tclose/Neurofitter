@@ -56,6 +56,7 @@ using namespace std;
 #include "RandomFitterInterface.h"
 #include "FileFitterInterface.h"
 #include "SwarmFitterInterface.h"
+#include "NSGA2FitterInterface.h"
 
 #ifdef WITH_EO
 	#include "EOErrorValueCalculator.h"

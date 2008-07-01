@@ -39,7 +39,7 @@ class ModelTuningParameters {
 			/// Construct with bounds read from strings
 		ModelTuningParameters(const int length, const string bounds); 
 
-		int getLength() const;	///< Get the number of parameters
+		unsigned getLength() const;	///< Get the number of parameters
 	
 		void setTuningParameters(const vector< double >); ///< Change the parameters in the object
 		void setTuningParameters(const string, const int); ///< Change the parameters in the object (read from a string)
@@ -57,6 +57,13 @@ class ModelTuningParameters {
 		void setErrorValue(const double newValue);	///< Set the error value of the parameters
 		double getErrorValue() const;	///< Get the error value of the parameters
 
+		bool validErrorValue() const;
+
+		void setMOErrorValues(const vector< double >);	///< Set the error value of the parameters
+		vector< double > getMOErrorValues() const;	///< Get the error value of the parameters
+		double getMOErrorValue(unsigned) const; ///< Get the objective with index
+		unsigned getNumberOfMOErrorValues() const; ///< Get the number of objectives
+
 		string toString() const; ///< Returns a string containing the parameters
 
 		void printOn(OutputChannel &) const; ///< Print the object on a stream
@@ -68,6 +75,8 @@ class ModelTuningParameters {
 		vector < double > bounds; ///< Vector containing the bounds (closed interval)
 	
 		double errorValue; ///< The error value of the parameters
+
+		vector< double > MOErrorValues; ///< Error values for multi-objective optimization
 
 		bool errorValueIsValid; ///< Set only when error value is initialized
 };

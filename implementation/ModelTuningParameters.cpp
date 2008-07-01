@@ -51,7 +51,7 @@ double ModelTuningParameters::getUpperBound(const int subscript) const {
 	return bounds[2*subscript+1];	
 }
 
-int ModelTuningParameters::getLength() const {
+unsigned ModelTuningParameters::getLength() const {
 	return tuningParameters.size();	
 }
 
@@ -117,6 +117,10 @@ void ModelTuningParameters::setErrorValue(const double newValue) {
 	errorValueIsValid = true;
 }
 
+void ModelTuningParameters::setMOErrorValues(const vector< double > newValues) {
+	MOErrorValues = newValues;
+}
+
 void ModelTuningParameters::resetErrorValue() {
 	errorValueIsValid = false;
 }
@@ -130,10 +134,45 @@ double ModelTuningParameters::getErrorValue() const {
 
 }
 
+
+bool ModelTuningParameters::validErrorValue() const {
+
+	return errorValueIsValid;
+
+}	
+
+vector< double > ModelTuningParameters::getMOErrorValues() const {
+
+	if (!errorValueIsValid) {
+		crash("ModelTuningParameters","Getting MO error values which are uninitialized");
+	}
+	return MOErrorValues;
+
+}
+
+double ModelTuningParameters::getMOErrorValue(unsigned index) const {
+
+	if (!errorValueIsValid) {
+        crash("ModelTuningParameters","Getting MO error values which are uninitialized");
+    }
+	if (index >= MOErrorValues.size()) {
+        crash("ModelTuningParameters","Getting MO error value with invalid index: "+str(index));
+	}
+	return MOErrorValues[index];
+
+}
+        
+unsigned ModelTuningParameters::getNumberOfMOErrorValues() const {
+
+	if (!errorValueIsValid) return 0;
+	return MOErrorValues.size();
+
+}
+
 string ModelTuningParameters::toString() const {
 	ostringstream o;
 	o << "{ ";
-	for (int i = 0; i < getLength(); i++) {
+	for (unsigned i = 0; i < getLength(); i++) {
    		o << (*this)[i] << " ";		
 	}
 	o << "}";
@@ -154,6 +193,11 @@ void ModelTuningParameters::printOn(OutputChannel & output) const {
 	}
 	output << (int)errorValueIsValid;
 	output << errorValue;
+
+	output << (unsigned)MOErrorValues.size();
+	for (unsigned i = 0; i < MOErrorValues.size(); i++) {
+		output << MOErrorValues[i];
+	}
 
 }
 
@@ -176,5 +220,12 @@ void ModelTuningParameters::readFrom(InputChannel & input) {
 	int fValid;
 	input >> fValid; errorValueIsValid = (bool)fValid;
 	input >> errorValue;
+
+	unsigned MOErrorValuesLength;
+	input >> MOErrorValuesLength;
+	MOErrorValues = vector< double >(MOErrorValuesLength);
+	for (unsigned i = 0; i < MOErrorValuesLength; i++) {
+		input >> MOErrorValues[i];
+	}
 	
 }
