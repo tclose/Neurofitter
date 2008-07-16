@@ -6,20 +6,29 @@ Date of last commit: $Date$
 
 #include "../NSGA2Individual.h"
 
-// Standard PSO version 2006, for algorithm see end of file
-
 NSGA2Individual::NSGA2Individual(): rankSet(false), crowdDistanceSet(false) {}
 
 NSGA2Individual::NSGA2Individual(ModelTuningParameters params): rankSet(false), crowdDistanceSet(false), tuningParameters(params) {}
 
+
 bool NSGA2Individual::dominates(NSGA2Individual other) const {
 
-	if (!rankSet || !other.rankSet) crash("NSGA2Individual","Rank not set while evaluating domination");
+	for (unsigned i = 0; i < getNumberOfObjectives(); i++) {
+		if (other.getObjective(i) <= getObjective(i)) return false; 
+	}	
+	
+	return true;
+
+}
+
+bool NSGA2Individual::crowdCompIsSmaller(NSGA2Individual other) const {
+
+	if (!rankSet || !other.rankSet) crash("NSGA2Individual","Rank not set while evaluating crowded-comparator");
 	if (rank < other.rank) {
 		return true;
 	}
-	else if  (rank == other.rank) {
-		if (!crowdDistanceSet || !other.crowdDistanceSet) crash("NSGA2Individual","Crowding distnace not set while evaluating domination of individuals with equal rank");
+	else if (rank == other.rank) {
+		if (!crowdDistanceSet || !other.crowdDistanceSet) crash("NSGA2Individual","Crowding distance not set while evaluating domination of individuals with equal rank");
 		return (crowdDistance > other.crowdDistance);
 	}
 	else {
@@ -42,15 +51,27 @@ unsigned NSGA2Individual::getRank() const {
 
 }
 
-double NSGA2Individual::getObjective(unsigned index) {
+unsigned NSGA2Individual::getNumberOfObjectives() const {
+
+	return tuningParameters.getNumberOfMOErrorValues();
+
+}
+
+double NSGA2Individual::getObjective(unsigned index) const {
 
 	if (!errorValuesCalculated()) crash("NSGA2Individual","Trying to get uninitialized objective value, index: "+str(index));
 	return tuningParameters.getMOErrorValue(index);
 
 }
 
+void NSGA2Individual::resetRank() {
 
-bool NSGA2Individual::errorValuesCalculated() {
+	rankSet = false;
+	crowdDistanceSet = false;	
+
+}
+
+bool NSGA2Individual::errorValuesCalculated() const {
 
 	return tuningParameters.validErrorValue();	
 
@@ -68,3 +89,30 @@ void NSGA2Individual::setModelTuningParameters(ModelTuningParameters newParams) 
 
 }
 
+void NSGA2Individual::setCrowdingDistance(double dist) {
+
+	crowdDistance = dist;
+	crowdDistanceSet = true;
+
+}
+    
+
+double NSGA2Individual::getCrowdingDistance() const {
+
+	if (!crowdDistanceSet) crash("NSGA2Individual","Crowding distance not set in getCrowdingDistance()");
+	return crowdDistance;
+
+}
+    
+
+bool NSGA2Individual::crowdingDistanceSet() const {
+
+	return crowdDistanceSet;
+
+}
+
+string NSGA2Individual::toString() const {
+
+	return tuningParameters.toString();
+
+}

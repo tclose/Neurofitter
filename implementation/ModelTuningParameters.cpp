@@ -164,8 +164,12 @@ double ModelTuningParameters::getMOErrorValue(unsigned index) const {
         
 unsigned ModelTuningParameters::getNumberOfMOErrorValues() const {
 
-	if (!errorValueIsValid) return 0;
-	return MOErrorValues.size();
+	if (!errorValueIsValid) {
+		return 0;
+	}
+	else {
+		return MOErrorValues.size();
+	}
 
 }
 

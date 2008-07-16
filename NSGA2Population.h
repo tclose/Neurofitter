@@ -9,6 +9,7 @@ Date of last commit: $Date$
 
 
 #include <vector>
+#include <limits>
 
 #include "FixedParamObject.h"
 #include "NSGA2Individual.h"
@@ -24,8 +25,8 @@ class NSGA2Population : public FixedParamObject {
 public:
 
 	NSGA2Population() {};
-	NSGA2Population(MTRand * rand);
-	NSGA2Population(vector< NSGA2Individual * >);
+	NSGA2Population(FixedParameters);
+	NSGA2Population(MTRand * rand, FixedParameters);
 
 	void classify();
 	bool isClassified() const;
@@ -41,18 +42,20 @@ public:
 	vector< NSGA2Individual > getFront(unsigned rank) const;
 	vector< NSGA2Individual > getSortedFront(unsigned rank) const;
 	vector< NSGA2Individual > getIndividuals() const;
-	unsigned getMaxRank() const;
+	int getMaxRank() const;
 	void clear();
 	NSGA2Population createChildren() const;
 	void calculateErrorValues(ErrorValueCalculator * errorValueCalc);
+	void calculateFrontCrowdingDistance(unsigned rank);
 
 private:
 	bool classified;
+	unsigned offspringSize;
 	MTRand * random;
 	vector< NSGA2Individual > population;
-	vector< vector< int > > fronts;
-	vector< vector< int > > dominationList;
-	vector< int > dominationNumber;
+	vector< vector< unsigned > > fronts;
+	vector< vector< unsigned > > dominationList;
+	vector< unsigned > dominationNumber;
 
 	void initIndividual(NSGA2Individual &);
 	vector< NSGA2Individual > mate(pair< NSGA2Individual, NSGA2Individual > parents) const;

@@ -70,19 +70,22 @@ inline double toDouble(string s) {
    return atof(s.c_str());
 }
 
+inline void flushMessage() {
+	cout.flush();
+}
+
 inline void showMessage(const string text, const int verboseLevel, FixedParameters fixedParams) {
 	if (toInt(fixedParams["VerboseLevel"]) >= verboseLevel) {
 		cout << text;
 	}
+	flushMessage();
 }
 
 inline void showMessage(const string text) {
 	cout << text;
+	flushMessage();
 }
 
-inline void flushMessage() {
-	cout.flush();
-}
 
 
 /// Get the date and time as a string

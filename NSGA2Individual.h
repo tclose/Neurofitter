@@ -20,12 +20,19 @@ public:
 	NSGA2Individual();
 	NSGA2Individual(ModelTuningParameters);
 	bool dominates(NSGA2Individual other) const;
+	bool crowdCompIsSmaller(NSGA2Individual other) const;
 	void setRank(unsigned rank);
 	unsigned getRank() const;
-	double getObjective(unsigned index);
-	bool errorValuesCalculated();
+	void resetRank();
+	unsigned getNumberOfObjectives() const;
+	double getObjective(unsigned index) const;
+	bool errorValuesCalculated() const;
 	ModelTuningParameters getModelTuningParameters();
 	void setModelTuningParameters(ModelTuningParameters);
+	void setCrowdingDistance(double);
+	double getCrowdingDistance() const;
+	bool crowdingDistanceSet() const;
+	string toString() const;
 
 private:
 	int rank;
