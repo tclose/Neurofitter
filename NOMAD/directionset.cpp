@@ -36,6 +36,8 @@
 
 #include <cmath>
 #include <iostream>
+#include <stdlib.h>
+#include <algorithm>
 using namespace std;
 #include "defines.h"
 #include "directionset.h"

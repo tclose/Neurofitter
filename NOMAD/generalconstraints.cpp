@@ -35,6 +35,7 @@
 #include <cmath>
 #include <cstring>
 #include <iostream>
+#include <stdlib.h>
 using namespace std;
 #include "defines.h"
 #include "generalconstraints.h"
