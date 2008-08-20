@@ -29,6 +29,7 @@ public:
 	NSGA2Population(MTRand * rand, FixedParameters);
 
 	void classify();
+	void declassify();
 	bool isClassified() const;
 	unsigned getSize() const;
 	void initialize(ModelTuningParameters,unsigned);

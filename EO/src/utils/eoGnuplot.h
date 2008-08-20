@@ -31,6 +31,7 @@
 #endif
 
 #include <string>
+#include <string.h>
 
 /**
 @author Marc Schoenauer 2001

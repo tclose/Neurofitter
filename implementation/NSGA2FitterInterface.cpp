@@ -23,6 +23,8 @@ FitterResults NSGA2FitterInterface::runFitter(ModelTuningParameters * startPoint
 
 	while(true) {
 		population = parents.makeUnion(children);
+		population.declassify();
+
 		population.calculateErrorValues(errorValue);
 		population.classify();
 		parents.clear();

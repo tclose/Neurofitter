@@ -10,7 +10,7 @@ Date of last commit: $Date$
 #include <iostream>
 #include <cmath>
 
-#include "MeshVdVdtMatrix.h";
+#include "MeshVdVdtMatrix.h"
 
 using namespace std;
 

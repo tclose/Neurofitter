@@ -30,7 +30,7 @@ void NSGA2Population::classify() {
 					showMessage("Individual "+ind1.toString()+" dominates "+ind2.toString()+"\n",24,fixedParams);
 					dominationList[i].push_back(j);
 				}
-				else {
+				else if (ind2.dominates(ind1)) {
 					dominationNumber[i]++;
 				}
 			}
@@ -109,12 +109,22 @@ NSGA2Population NSGA2Population::makeUnion(NSGA2Population other) const {
 
 }
 
+void NSGA2Population::declassify() {
+
+	for (unsigned i = 0; i < population.size(); i++) {
+		population[i].resetRank();
+	}
+
+	classified = false;
+
+}
+
 NSGA2Population NSGA2Population::makeUnion(vector< NSGA2Individual > other) const {
 
 	NSGA2Population returnPopulation(*this);
 
 	for (unsigned i = 0; i < other.size(); i++) {
-		other[i].resetRank();
+		//other[i].resetRank();
 		returnPopulation.addIndividual(other[i]);
 	}
 
@@ -127,7 +137,7 @@ NSGA2Population NSGA2Population::makeUnion(vector< NSGA2Individual > other) cons
 void NSGA2Population::addIndividual(NSGA2Individual ind) {
 
 	classified = false;
-	ind.resetRank();
+	//ind.resetRank();
 	population.push_back(ind);
 
 }
@@ -136,7 +146,7 @@ void NSGA2Population::addIndividuals(vector< NSGA2Individual > inds) {
 
 	classified = false;
 	for (unsigned i = 0; i < inds.size(); i++) {
-		inds[i].resetRank();
+		//inds[i].resetRank();
 		population.push_back(inds[i]);
 	}
 
@@ -260,8 +270,8 @@ vector< NSGA2Individual > NSGA2Population::mate(pair< NSGA2Individual, NSGA2Indi
 
 	ModelTuningParameters child1(parent1);
 	child1.resetErrorValue();
-	ModelTuningParameters child2(parent2);
-	child2.resetErrorValue();
+	//ModelTuningParameters child2(parent2);
+	//child2.resetErrorValue();
 
 	for (unsigned i = 0; i < parent1.getLength(); i++) {
 		double u = random->rand(); //Random [0,1]
@@ -278,20 +288,21 @@ vector< NSGA2Individual > NSGA2Population::mate(pair< NSGA2Individual, NSGA2Indi
 		}
 
 		child1[i] = 0.5*((1+beta)*parent1[i]+(1-beta)*parent2[i]); 
-		child2[i] = 0.5*((1-beta)*parent1[i]+(1+beta)*parent2[i]);
+		//child2[i] = 0.5*((1-beta)*parent1[i]+(1+beta)*parent2[i]);
 
 		if (child1[i] > child1.getUpperBound(i)) child1[i] = child1.getUpperBound(i);
-		if (child2[i] > child2.getUpperBound(i)) child2[i] = child2.getUpperBound(i);
+		//if (child2[i] > child2.getUpperBound(i)) child2[i] = child2.getUpperBound(i);
 		if (child1[i] < child1.getLowerBound(i)) child1[i] = child1.getLowerBound(i);
-		if (child1[i] < child1.getLowerBound(i)) child1[i] = child1.getLowerBound(i);
+		//if (child2[i] < child2.getLowerBound(i)) child2[i] = child2.getLowerBound(i);
 
 	}
 	
 	vector< NSGA2Individual > children;
 	children.push_back(NSGA2Individual(child1));
-	children.push_back(NSGA2Individual(child2));
+	//children.push_back(NSGA2Individual(child2));
 
-	showMessage(" to create 2 children: "+child1.toString()+", "+child2.toString()+"\n",14,fixedParams);
+	//showMessage(" to create 2 children: "+child1.toString()+", "+child2.toString()+"\n",14,fixedParams);
+	showMessage(" to create a child: "+child1.toString()+"\n",14,fixedParams);
 
 	return children;
 

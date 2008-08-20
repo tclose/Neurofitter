@@ -23,7 +23,7 @@ bool NSGA2Individual::dominates(NSGA2Individual other) const {
 
 bool NSGA2Individual::crowdCompIsSmaller(NSGA2Individual other) const {
 
-	if (!rankSet || !other.rankSet) crash("NSGA2Individual","Rank not set while evaluating crowded-comparator");
+	if (!rankSet || !other.rankSet) crash("NSGA2Individual","Rank not set while evaluating crowded-comparator in: "+toString());
 	if (rank < other.rank) {
 		return true;
 	}
@@ -99,7 +99,7 @@ void NSGA2Individual::setCrowdingDistance(double dist) {
 
 double NSGA2Individual::getCrowdingDistance() const {
 
-	if (!crowdDistanceSet) crash("NSGA2Individual","Crowding distance not set in getCrowdingDistance()");
+	if (!crowdDistanceSet) crash("NSGA2Individual","Crowding distance not set in getCrowdingDistance() in: "+toString());
 	return crowdDistance;
 
 }
