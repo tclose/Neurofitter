@@ -167,9 +167,8 @@ unsigned ModelTuningParameters::getNumberOfMOErrorValues() const {
 	if (!errorValueIsValid) {
 		crash("ModelTuningParameters","Getting number of MO error values, but they are not initialized");
 	}
-	else {
-		return MOErrorValues.size();
-	}
+
+	return MOErrorValues.size();
 
 }
 
