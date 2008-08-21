@@ -165,7 +165,7 @@ double ModelTuningParameters::getMOErrorValue(unsigned index) const {
 unsigned ModelTuningParameters::getNumberOfMOErrorValues() const {
 
 	if (!errorValueIsValid) {
-		return 0;
+		crash("ModelTuningParameters","Getting number of MO error values, but they are not initialized");
 	}
 	else {
 		return MOErrorValues.size();
