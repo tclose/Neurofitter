@@ -54,7 +54,9 @@ void MPIErrorValueCalculator::calculateErrorValue(ModelTuningParameters & params
 
 	/// This is necessary because otherwise the error value is not transferred
 	/// since no reference is passed to calculateParallelErrorValue
-	params.setErrorValue(paramList[0].getErrorValue());
+	//params.setErrorValue(paramList[0].getErrorValue());
+	
+	params = paramList[0];
 
 }
 
