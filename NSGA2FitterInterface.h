@@ -8,6 +8,7 @@ Date of last commit: $Date$
 #define NEUROFITTER_NSGA2FITTERINTERFACE_H
 
 #include <vector>
+#include <fstream>
 
 #include "MersenneTwister.h"
 
@@ -34,10 +35,14 @@ class NSGA2FitterInterface : public FitterInterface, FixedParamObject {
 
 	private:
 		vector< NSGA2Individual * > sortFront(vector< NSGA2Individual * > front) const;
+		void enableFileExport(const string fileName);
+		void writeToExportFile(unsigned generationNumber);
 
 		NSGA2Population parents;
 		NSGA2Population population;
 		NSGA2Population children;
+
+		ofstream exportFileStream;
 
 		unsigned parentPopulationSize;
 };

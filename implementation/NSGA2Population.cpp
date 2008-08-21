@@ -276,7 +276,7 @@ vector< NSGA2Individual > NSGA2Population::mate(pair< NSGA2Individual, NSGA2Indi
 	for (unsigned i = 0; i < parent1.getLength(); i++) {
 		double u = random->rand(); //Random [0,1]
 
-		double eta = 10;
+		double eta = toDouble(fixedParams["EtaCrossover"]);;
 
 		double beta;
 
@@ -319,16 +319,25 @@ vector< NSGA2Individual > NSGA2Population::mutate(vector< NSGA2Individual > inds
 
 		for (unsigned j = 0; j < individual.getLength(); j++) {
 
-			double u = random->rand(); //Random [0,1]
+			double u1 = random->rand(); //Random [0,1]
+			double u2 = random->rand(); //Random [0,1]
 
-			double eta = 10;
+			double pMutation = toDouble(fixedParams["pMutation"]);;
+			double eta = toDouble(fixedParams["EtaMutation"]);;
 
 			double delta;
-			if (u < 0.5) {
-				delta = pow(2*u,1/(eta+1)) - 1;
+			
+			
+			if (u1 < pMutation) {
+				if (u2 < 0.5) {
+					delta = pow(2*u2,1/(eta+1)) - 1;
+				}
+				else {
+					delta = 1 - pow(2*(1-u2),1/(eta+1));
+				}
 			}
 			else {
-				delta = 1 - pow(2*(1-u),1/(eta+1));
+				delta = 0;
 			}
 
 			individual[j] = individual[j] + (individual.getUpperBound(j)-individual.getLowerBound(j))*delta;
