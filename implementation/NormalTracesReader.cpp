@@ -50,6 +50,9 @@ ModelResults NormalTracesReader::readTracesFromFilesVector(vector< string > file
 			if (!periodStream.good()) crash("NormalTracesReader","Error while reading " + str(numberOfPeriods) + " recording periods from parameter file");
         	periodStream >> periodStart[i];
         	periodStream >> periodStops[i];
+			if (periodStart[i] >= periodStops[i]) {
+				crash("NormalTracesReader","Error while reading " + str(numberOfPeriods) + " recording periods from parameter file: a start time is large than a stop time");
+			}
         	periodStream >> periodWeights[i];
     	}
 	
