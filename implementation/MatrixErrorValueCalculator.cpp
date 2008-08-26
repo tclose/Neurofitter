@@ -141,6 +141,7 @@ vector< pair< ModelTuningParameters, double > > MatrixErrorValueCalculator::getE
 
 void MatrixErrorValueCalculator::enableFileExport(const string fileName) {
 	exportFileStream.open(fileName.c_str(), ios::out);
+	if (!exportFileStream.good()) crash("MatrixErrorValueCalculator","Can't open export file");
 	
 	showMessage("MatrixErrorValueCalculator: Enabled export to file: " + fileName + "\n",3,fixedParams);        	
 }
