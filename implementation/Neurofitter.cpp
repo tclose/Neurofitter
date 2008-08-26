@@ -6,6 +6,8 @@ Date of last commit: $Date$
 
 #include "../Neurofitter.h"
 
+#include <ctime>
+
 using namespace std;
 
 FixedParameters readParameters(int argc, char* argv[], int rank);
@@ -200,6 +202,14 @@ FixedParameters readParameters(int argc, char* argv[], int rank) {
 	string fileContent = string(istreambuf_iterator<char>(paramFile),istreambuf_iterator<char>());
 	fileContent = XMLString::removeXMLComments(fileContent);
 	FixedParameters fixedParameters = FixedParameters(XMLString("<root>"+fileContent+"</root>").getSubString("TestProgram"));
+
+
+	if (fixedParameters.parameterExists("UseTimeAsSeed")) {
+		if (toInt(fixedParameters["UseTimeAsSeed"]) != 0) {
+			if (fixedParameters.parameterExists("Seed")) crash("Neurofitter","UseTimeAsSeed should not be used together with a user specified seed");
+			fixedParameters.addParameter("Seed",str((int)time(0)),true);
+		}
+	}
 
 	// Say which parameters should be passed to child objects
 	fixedParameters.setGlobal("Dimensions");
