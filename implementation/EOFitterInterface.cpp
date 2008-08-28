@@ -201,7 +201,7 @@ string EOParamsContent = " \
 \n\
 	# auto filled in --vecSize=4                             # -n : The number of variables \n\
 	# auto filled in --initBounds=[1,100000];[1,100000];[1,100000];[1,100000]# -B : Bounds for initialization (MUST be bounded) \n\
- 	--sigmaInit=10                          # -s : Initial value for Sigma(s) \n\
+ 	--sigmaInit=0.01%                          # -s : Initial value for Sigma(s) \n\
 \n\
 	--useEval=1                              # Use nb of eval. as counter (vs nb of gen.) \n\
  	--useTime=1                              # Display time (s) every generation \n\
