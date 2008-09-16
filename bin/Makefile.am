@@ -144,6 +144,9 @@ pkginclude_HEADERS = $(INCLUDEDIR)/Neurofitter.h \
   $(INCLUDEDIR)/FitterResults.h	\
   $(INCLUDEDIR)/ModelTuningParameters.h	\
   $(INCLUDEDIR)/SwarmFitterInterface.h \
+  $(INCLUDEDIR)/NSGA2FitterInterface.h \
+  $(INCLUDEDIR)/NSGA2Population.h \
+  $(INCLUDEDIR)/NSGA2Individual.h \
   $(INCLUDEDIR)/EOErrorValueCalculator.h \
   $(INCLUDEDIR)/FixedParameters.h \
   $(INCLUDEDIR)/MPIErrorValueCalculator.h \

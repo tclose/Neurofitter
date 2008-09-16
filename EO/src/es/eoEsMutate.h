@@ -104,7 +104,7 @@ public:
             {
                 _eo[i] += _eo.stdev * rng.normal();
             }
-            bounds.foldsInBounds(_eo);
+            bounds.truncate(_eo);
             return true;
         }
 
@@ -137,7 +137,7 @@ public:
                 _eo.stdevs[i] = stdev;
                 _eo[i] += stdev * rng.normal();
             }
-            bounds.foldsInBounds(_eo);
+            bounds.truncate(_eo);
             return true;
         }
 
@@ -204,7 +204,7 @@ public:
             }
             for (i = 0; i < _eo.size(); i++)
                 _eo[i] += VarStp[i];
-            bounds.foldsInBounds(_eo);
+            bounds.truncate(_eo);
             return true;
         }
 

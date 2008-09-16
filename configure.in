@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 
 dnl AC_INIT (package, version, [bug-report-email], [tarname])
-AC_INIT([neurofitter],[0.9.3])
+AC_INIT([neurofitter],[0.9.4.RC1])
 
 dnl check for this file's existence to make sure that the directory
 dnl specified by --srcdir is the right one
