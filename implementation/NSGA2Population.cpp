@@ -293,7 +293,11 @@ vector< NSGA2Individual > NSGA2Population::mate(pair< NSGA2Individual, NSGA2Indi
 
 			newValue = 0.5*((1+beta)*parent1[i]+(1-beta)*parent2[i]);
 		} while ((newValue > child1.getUpperBound(i) || newValue < child1.getLowerBound(i)) && numberOfTries++ < 100);
-		
+
+		//Necessary for if numberOfTries is 100
+		if (newValue > child1.getUpperBound(i)) newValue = child1.getUpperBound(i);
+		if (newValue < child1.getLowerBound(i)) newValue = child1.getLowerBound(i);
+
 		child1[i] = newValue;
 
 	}
@@ -342,6 +346,11 @@ vector< NSGA2Individual > NSGA2Population::mutate(vector< NSGA2Individual > inds
 					newValue = individual[j] + (individual.getUpperBound(j)-individual.getLowerBound(j))*delta;
 
 				} while ((newValue > individual.getUpperBound(j) || newValue < individual.getLowerBound(j)) && numberOfTries++ < 100);
+
+				//In case numberOfTries is 100
+				if (newValue > individual.getUpperBound(j)) newValue = individual.getUpperBound(j);
+				if (newValue < individual.getLowerBound(j)) newValue = individual.getLowerBound(j);
+
 
 				individual[j] = newValue;
 			}
