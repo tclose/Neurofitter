@@ -274,34 +274,33 @@ vector< NSGA2Individual > NSGA2Population::mate(pair< NSGA2Individual, NSGA2Indi
 	//child2.resetErrorValue();
 
 	for (unsigned i = 0; i < parent1.getLength(); i++) {
-		double u = random->rand(); //Random [0,1]
 
 		double eta = toDouble(fixedParams["EtaCrossover"]);;
-
 		double beta;
 
-		if (u <= 0.5) {
-			beta = pow(2*u,1/(eta+1));
-		}
-		else {
-			beta = pow(1/(2*(1-u)),1/(eta+1));
-		}
+		double newValue; 
 
-		child1[i] = 0.5*((1+beta)*parent1[i]+(1-beta)*parent2[i]); 
-		//child2[i] = 0.5*((1-beta)*parent1[i]+(1+beta)*parent2[i]);
+		int numberOfTries = 0;
+		do {
+			double u = random->rand(); //Random [0,1]
 
-		if (child1[i] > child1.getUpperBound(i)) child1[i] = child1.getUpperBound(i);
-		//if (child2[i] > child2.getUpperBound(i)) child2[i] = child2.getUpperBound(i);
-		if (child1[i] < child1.getLowerBound(i)) child1[i] = child1.getLowerBound(i);
-		//if (child2[i] < child2.getLowerBound(i)) child2[i] = child2.getLowerBound(i);
+			if (u <= 0.5) {
+				beta = pow(2*u,1/(eta+1));
+			}
+			else {
+				beta = pow(1/(2*(1-u)),1/(eta+1));
+			}
+
+			newValue = 0.5*((1+beta)*parent1[i]+(1-beta)*parent2[i]);
+		} while ((newValue > child1.getUpperBound(i) || newValue < child1.getLowerBound(i)) && numberOfTries++ < 100);
+		
+		child1[i] = newValue;
 
 	}
 	
 	vector< NSGA2Individual > children;
 	children.push_back(NSGA2Individual(child1));
-	//children.push_back(NSGA2Individual(child2));
 
-	//showMessage(" to create 2 children: "+child1.toString()+", "+child2.toString()+"\n",14,fixedParams);
 	showMessage(" to create a child: "+child1.toString()+"\n",14,fixedParams);
 
 	return children;
@@ -320,29 +319,32 @@ vector< NSGA2Individual > NSGA2Population::mutate(vector< NSGA2Individual > inds
 		for (unsigned j = 0; j < individual.getLength(); j++) {
 
 			double u1 = random->rand(); //Random [0,1]
-			double u2 = random->rand(); //Random [0,1]
 
 			double pMutation = toDouble(fixedParams["pMutation"]);;
 			double eta = toDouble(fixedParams["EtaMutation"]);;
 
 			double delta;
+			double newValue;
 			
-			
-			if (u1 < pMutation) {
-				if (u2 < 0.5) {
-					delta = pow(2*u2,1/(eta+1)) - 1;
-				}
-				else {
-					delta = 1 - pow(2*(1-u2),1/(eta+1));
-				}
-			}
-			else {
-				delta = 0;
-			}
+			if (u1 < pMutation) {			
+				int numberOfTries = 0;
 
-			individual[j] = individual[j] + (individual.getUpperBound(j)-individual.getLowerBound(j))*delta;
-			if (individual[j] > individual.getUpperBound(j)) individual[j] = individual.getUpperBound(j);
-			if (individual[j] < individual.getLowerBound(j)) individual[j] = individual.getLowerBound(j);
+				do {
+
+					double u2 = random->rand(); //Random [0,1]
+
+					if (u2 < 0.5) {
+						delta = pow(2*u2,1/(eta+1)) - 1;
+                	}
+                	else {
+                    	delta = 1 - pow(2*(1-u2),1/(eta+1));
+                	}
+					newValue = individual[j] + (individual.getUpperBound(j)-individual.getLowerBound(j))*delta;
+
+				} while ((newValue > individual.getUpperBound(j) || newValue < individual.getLowerBound(j)) && numberOfTries++ < 100);
+
+				individual[j] = newValue;
+			}
 
 		}
 		
