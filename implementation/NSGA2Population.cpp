@@ -324,7 +324,15 @@ vector< NSGA2Individual > NSGA2Population::mutate(vector< NSGA2Individual > inds
 
 			double u1 = random->rand(); //Random [0,1]
 
-			double pMutation = toDouble(fixedParams["pMutation"]);;
+			double pMutation;
+
+			if (fixedParams.parameterExists("pMutation")) {
+				pMutation = toDouble(fixedParams["pMutation"]);;
+			}
+			else {
+				pMutation = 1.0/individual.getLength();
+			}
+
 			double eta = toDouble(fixedParams["EtaMutation"]);;
 
 			double delta;
