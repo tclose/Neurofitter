@@ -16,7 +16,7 @@ MPIErrorValueCalculator::MPIErrorValueCalculator(ModelInterface * model, Experim
 	if (fixedParams["ErrorValueCalculatorType"] == "Matrix") {
 		localErrorValue = new MatrixErrorValueCalculator(model,experiment,fitFixedParams);
 	}
-	else if (fixedParams["ErrorValueCalculatorType"] == "Rodigro") {
+	else if (fixedParams["ErrorValueCalculatorType"] == "Rodrigo") {
 		localErrorValue = new RodrigoErrorValueCalculator(model,experiment,fitFixedParams);
 	}
 	else crash("MPIErrorValueCalculator", "No matching error value calculator type");

@@ -20,6 +20,7 @@ using namespace std;
 #include "ModelTuningParameters.h"
 #include "ErrorValueCalculator.h"
 #include "MatrixErrorValueCalculator.h"
+#include "RodrigoErrorValueCalculator.h"
 #include "FixedParamObject.h"
 #include "MPIStream.h"
 
