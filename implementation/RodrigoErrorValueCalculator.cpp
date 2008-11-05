@@ -14,11 +14,15 @@ RodrigoErrorValueCalculator::RodrigoErrorValueCalculator(ModelInterface * interf
 	if (toInt(fixedParams["enableFileExport"]) > 0) {
 		this->enableFileExport(fixedParams["exportFile"]);
 	}
+	if (toInt(fixedParams["enableTracesExport"]) > 0) {
+		this->enableTracesExport(fixedParams["tracesFile"]);
+	}
 
 }
 
 RodrigoErrorValueCalculator::~RodrigoErrorValueCalculator() {
 	exportFileStream.close();
+	tracesFileStream.close();
 }
 
 void RodrigoErrorValueCalculator::calculateErrorValue(ModelTuningParameters & params) {
@@ -54,7 +58,7 @@ void RodrigoErrorValueCalculator::calculateParallelErrorValue(vector< ModelTunin
 			crash("RodrigoErrorValueCalculator","Didn't get exactly three traces: "+str(results[i].getLength()));
 		}
 		
-		//DataTrace & Cai = results[i][0]; 
+		DataTrace & Cai = results[i][0]; 
 		DataTrace & LTDModel = results[i][1]; 
 		DataTrace & LTDExp = results[i][2];
        
@@ -74,6 +78,17 @@ void RodrigoErrorValueCalculator::calculateParallelErrorValue(vector< ModelTunin
             	exportFileStream << (paramList[i][j]) << " ";
         	}
         	exportFileStream << endl;
+    	}
+
+    	if (tracesFileStream.is_open()) {
+        	tracesFileStream << numberOfGenerations << " "<< numberOfEvaluations << " " << errorValues[i] << " ";
+        	for (unsigned j = 0; j < paramList[i].getLength(); j++) {
+            	tracesFileStream << (paramList[i][j]) << " ";
+        	}
+        	for (int j = 0; j < Cai.getLength(); j++) {
+            	tracesFileStream << (Cai.get(j)) << " " << (LTDModel.get(j)) << " " << (LTDExp.get(j)) << " ";
+        	}
+        	tracesFileStream << endl;
     	}
 
     	paramList[i].setErrorValue(errorValues[i]);
@@ -113,7 +128,19 @@ void RodrigoErrorValueCalculator::enableFileExport(const string fileName) {
 void RodrigoErrorValueCalculator::disableFileExport() {
 	exportFileStream.close();
 }
-   
+
 string RodrigoErrorValueCalculator::getExportFile() const {
 	return exportFile;
 }
+
+void RodrigoErrorValueCalculator::enableTracesExport(const string fileName) {
+	tracesFileStream.open(fileName.c_str(), ios::out);
+	if (!tracesFileStream.good()) crash("RodrigoErrorValueCalculator","Can't open traces file");
+	
+	showMessage("RodrigoErrorValueCalculator: Enabled traces export to file: " + fileName + "\n",3,fixedParams);        	
+}
+
+void RodrigoErrorValueCalculator::disableTracesExport() {
+	tracesFileStream.close();
+}
+   

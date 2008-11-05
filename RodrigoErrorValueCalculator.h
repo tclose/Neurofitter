@@ -32,11 +32,16 @@ public:
     virtual void disableFileExport();
     virtual string getExportFile() const;
 
+	virtual void enableTracesExport(const string fileName);
+    virtual void disableTracesExport();
+
 	virtual vector< pair< ModelTuningParameters, double > > getErrorValueHistory();
 
 private:
 	double calculateRMSError(DataTrace &, DataTrace &);
+
 	ofstream exportFileStream;
+	ofstream tracesFileStream;
 };
 
 #endif
