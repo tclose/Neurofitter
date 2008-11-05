@@ -50,6 +50,7 @@ using namespace std;
 #include "ROIStringParser.h"
 
 #include "MatrixErrorValueCalculator.h"
+#include "RodrigoErrorValueCalculator.h"
 #include "EasyFitterInterface.h"
 #include "SimpleGradientFitterInterface.h"
 #include "MeshFitterInterface.h"

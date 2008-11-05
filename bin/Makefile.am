@@ -79,6 +79,7 @@ neurofitter_SOURCES =  $(SRCDIR)/Neurofitter.cpp \
  $(SRCDIR)/ROIStringParser.cpp \
  $(SRCDIR)/ROIVdVdtMatrix.cpp \
  $(SRCDIR)/MatrixErrorValueCalculator.cpp \
+ $(SRCDIR)/RodrigoErrorValueCalculator.cpp \
  $(SRCDIR)/FakeExperimentInterface.cpp \
  $(SRCDIR)/FileExperimentInterface.cpp \
  $(SRCDIR)/FileListExperimentInterface.cpp \
@@ -167,6 +168,7 @@ pkginclude_HEADERS = $(INCLUDEDIR)/Neurofitter.h \
   $(INCLUDEDIR)/VdVdtMatrix.h \
   $(INCLUDEDIR)/FakeExperimentInterface.h \
   $(INCLUDEDIR)/MatrixErrorValueCalculator.h \
+  $(INCLUDEDIR)/RodrigoErrorValueCalculator.h \
   $(INCLUDEDIR)/NeuronModelInterface.h	\
   $(INCLUDEDIR)/XMLString.h \
   $(INCLUDEDIR)/truthfunction.h

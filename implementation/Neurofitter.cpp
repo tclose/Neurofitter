@@ -98,6 +98,9 @@ int main (int argc, char* argv[]) {
 		if (fixedParams["ErrorValueCalculatorType"] == "Matrix") {
 			errorValue = new MatrixErrorValueCalculator(model,experiment,fitFixedParams);
 		}
+		else if (fixedParams["ErrorValueCalculatorType"] == "Rodrigo") {
+            errorValue = new RodrigoErrorValueCalculator(model,experiment,fitFixedParams);
+        }
 		#ifdef WITH_MPI
 		else if (fixedParams["ErrorValueCalculatorType"] == "MPI") {
             errorValue = new MPIErrorValueCalculator(model,experiment,fitFixedParams);
