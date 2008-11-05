@@ -134,7 +134,16 @@ string RodrigoErrorValueCalculator::getExportFile() const {
 }
 
 void RodrigoErrorValueCalculator::enableTracesExport(const string fileName) {
-	tracesFileStream.open(fileName.c_str(), ios::out);
+	
+	//When in MPI mode append the rank to the filename;
+    #ifdef WITH_MPI
+        string fileLoc = fileName + "." + fixedParams["Rank"];
+    #else
+        string fileLoc = fileName;
+    #endif
+
+
+	tracesFileStream.open(fileLoc.c_str(), ios::out);
 	if (!tracesFileStream.good()) crash("RodrigoErrorValueCalculator","Can't open traces file");
 	
 	showMessage("RodrigoErrorValueCalculator: Enabled traces export to file: " + fileName + "\n",3,fixedParams);        	
