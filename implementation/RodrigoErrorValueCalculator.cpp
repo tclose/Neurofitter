@@ -54,13 +54,15 @@ void RodrigoErrorValueCalculator::calculateParallelErrorValue(vector< ModelTunin
 
 		MOErrorValues[i] = vector< double >(1);
 
-		if (results[i].getLength() != 3) {
+		if (results[i].getLength() != 5) {
 			crash("RodrigoErrorValueCalculator","Didn't get exactly three traces: "+str(results[i].getLength()));
 		}
 		
 		DataTrace & Cai = results[i][0]; 
 		DataTrace & LTDModel = results[i][1]; 
 		DataTrace & LTDExp = results[i][2];
+		DataTrace & Inputcurrent = results[i][3];
+		DataTrace & Frequency = results[i][4];
        
 		rmsError = calculateRMSError(LTDModel, LTDExp); 
 		errorValues[i] = rmsError;
@@ -86,7 +88,7 @@ void RodrigoErrorValueCalculator::calculateParallelErrorValue(vector< ModelTunin
             	tracesFileStream << (paramList[i][j]) << " ";
         	}
         	for (int j = 0; j < Cai.getLength(); j++) {
-            	tracesFileStream << (Cai.get(j)) << " " << (LTDModel.get(j)) << " " << (LTDExp.get(j)) << " ";
+            	tracesFileStream << (Cai.get(j)) << " " << (LTDModel.get(j)) << " " << (LTDExp.get(j)) << " " << (Inputcurrent.get(j)) << " " << (Frequency.get(j)) << " ";
         	}
         	tracesFileStream << endl;
     	}
