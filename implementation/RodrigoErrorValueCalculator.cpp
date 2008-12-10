@@ -106,8 +106,16 @@ double RodrigoErrorValueCalculator::calculateRMSError(DataTrace & LTDModel, Data
 
 	double rmsError = 0;
 
+	double maxValue = 0;
+
 	for (int i = 0; i < LTDModel.getLength(); i++) {
-		rmsError += (LTDModel.get(i)-LTDExp.get(i))*(LTDModel.get(i)-LTDExp.get(i));
+		if (LTDModel.get(i) > maxValue) maxValue = LTDModel.get(i);
+	}
+
+	if (maxValue == 0) maxValue = 1;
+
+	for (int i = 0; i < LTDModel.getLength(); i++) {
+		rmsError += (LTDModel.get(i)/maxValue - LTDExp.get(i))*(LTDModel.get(i)/maxValue - LTDExp.get(i));
 	}
 	rmsError /= LTDModel.getLength();
 	rmsError = pow(rmsError,0.5);
