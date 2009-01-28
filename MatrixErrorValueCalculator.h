@@ -19,6 +19,7 @@ using namespace std;
 #include "ErrorValueCalculator.h"
 #include "FixedParamObject.h"
 #include "VdVdtMatrix.h"
+#include "DataTrace.h"
 
 class MatrixErrorValueCalculator : public ErrorValueCalculator, public FixedParamObject {
 
@@ -30,7 +31,9 @@ public:
 	virtual void calculateParallelErrorValue(vector< ModelTuningParameters > & params);
 
 	virtual void enableFileExport(const string fileName);
+	virtual void enableMatrixFileExport(const string fileName);
     virtual void disableFileExport();
+    virtual void disableMatrixFileExport();
     virtual string getExportFile() const;
 
 	virtual vector< pair< ModelTuningParameters, double > > getErrorValueHistory();
@@ -39,8 +42,13 @@ private:
 	vector< VdVdtMatrix * > expVdVdtMatrices;	
 	VdVdtMatrix * modelVdVdtMatrix;
 	ofstream exportFileStream;
+	ofstream matrixExportFileStream;
+
+	void initMatrixLine(ModelTuningParameters, bool isExperimental, DataTrace);
+	void saveMatrix(DataTrace, VdVdtMatrix*);
 	
 	bool printMatrix;
+	bool filePrintMatrix;
 };
 
 #endif

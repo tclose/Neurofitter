@@ -30,6 +30,7 @@ void ROIStringParser::initialize(const string newString, int newNumberOfROILines
 	istringstream ss(sourceString);
 
 	for (int i = 0; i < numberOfROILines; i++) {
+		if (!ss.good()) crash("ROIStringParser", "Unable to read from ROI string\n");
 		getline(ss, dummy, '['); 
 		getline(ss, allRunStr, ']');
 		getline(ss, dummy, '['); 
@@ -46,6 +47,8 @@ void ROIStringParser::initialize(const string newString, int newNumberOfROILines
 		getline(ss, overflowStr, ']');
 		getline(ss, dummy, '['); 
 		getline(ss, weightStr, ']');
+
+		if (!ss.good()) crash("ROIStringParser", "Unable to read from ROI string\n");
 
 		istringstream allRunStream(allRunStr);
 		istringstream allPeriodStream(allPeriodStr);
@@ -76,6 +79,8 @@ void ROIStringParser::initialize(const string newString, int newNumberOfROILines
 			if (record < 0 || record >= numberOfRecordingSites) crash("ROIStringParser","Recording site with number " + str(record) + " does not exist");
 			recordVector.push_back(record);
 		}
+
+		if (!ss.good()) crash("ROIStringParser", "Unable to read from ROI string\n");
 
 		for (unsigned int nRun = 0; nRun < runVector.size(); nRun++) {
 			for (unsigned int nPeriod = 0; nPeriod < periodVector.size(); nPeriod++) {

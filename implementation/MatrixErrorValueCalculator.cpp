@@ -11,10 +11,16 @@ Date of last commit: $Date$
 #include "../MatrixErrorValueCalculator.h"
 
 MatrixErrorValueCalculator::MatrixErrorValueCalculator(ModelInterface * interface, ExperimentInterface * experiment, FixedParameters params) 
-	: ErrorValueCalculator(interface), FixedParamObject(params), modelVdVdtMatrix(NULL), printMatrix(false) {
+	: ErrorValueCalculator(interface), FixedParamObject(params), modelVdVdtMatrix(NULL), printMatrix(false), filePrintMatrix(false) {
 
 	if (toInt(fixedParams["enableFileExport"]) > 0) {
 		this->enableFileExport(fixedParams["exportFile"]);
+	}
+
+	if (fixedParams.parameterExists("enableMatrixFileExport")) {
+		if (toInt(fixedParams["enableMatrixFileExport"]) > 0) {
+			this->enableMatrixFileExport(fixedParams["matrixExportFile"]);
+		}
 	}
 
 	if (fixedParams.parameterExists("enablePrintMatrix")) {
@@ -37,6 +43,9 @@ MatrixErrorValueCalculator::MatrixErrorValueCalculator(ModelInterface * interfac
 	expVdVdtMatrices = vector< VdVdtMatrix * >(expData.getLength(), (VdVdtMatrix*)NULL); 
 	
 	showMessage("Experiment VdVdtMatrices\n",5,fixedParams);
+
+	if (filePrintMatrix) initMatrixLine(ModelTuningParameters(toInt(fixedParams["Dimensions"])), 1, expData[0]);
+
 	for (int nTrace = 0; nTrace < expData.getLength(); nTrace++) {
 		if (fixedParams["VdVdtMatrixType"] == "Direct") {
 			expVdVdtMatrices[nTrace] = new DirectVdVdtMatrix(expData[nTrace], FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
@@ -51,7 +60,10 @@ MatrixErrorValueCalculator::MatrixErrorValueCalculator(ModelInterface * interfac
 			crash("MatrixErrorValueCalculator", "No matching VdVdtmatrix type: " + fixedParams["VdVdtMatrixType"]);
 		}
 		if (printMatrix) showMessage(expVdVdtMatrices[nTrace]->toString()+"\n");
+		if (filePrintMatrix) saveMatrix(expData[nTrace], expVdVdtMatrices[nTrace]);
 	}
+	
+	if (matrixExportFileStream.is_open()) matrixExportFileStream << " 0" << endl;
 
     if (fixedParams["VdVdtMatrixType"] == "Direct") {
 		modelVdVdtMatrix = new DirectVdVdtMatrix(FixedParameters(fixedParams["VdVdtMatrixParameters"],fixedParams.getGlobals()));
@@ -104,11 +116,14 @@ void MatrixErrorValueCalculator::calculateParallelErrorValue(vector< ModelTuning
 
 		MOErrorValues[i] = vector< double >(results[i].getLength());
 
+		if (filePrintMatrix) initMatrixLine(paramList[i], 0, results[i][0]);
+
     	for (int nTrace = 0; nTrace < results[i].getLength(); nTrace++) {
         	modelVdVdtMatrix->readFrom(results[i][nTrace]);
-        	errorValues[i] += results[i][nTrace].getWeight() * expVdVdtMatrices[nTrace]->compare(*modelVdVdtMatrix);
 			MOErrorValues[i][nTrace] = results[i][nTrace].getWeight() * expVdVdtMatrices[nTrace]->compare(*modelVdVdtMatrix);
-			if (printMatrix) showMessage(modelVdVdtMatrix->toString() + "\n");        	
+        	errorValues[i] += MOErrorValues[i][nTrace];
+			if (printMatrix) showMessage(modelVdVdtMatrix->toString() + "\n");
+			if (filePrintMatrix) saveMatrix(results[i][nTrace], modelVdVdtMatrix);
     	}
 
     	numberOfEvaluations++;
@@ -125,12 +140,40 @@ void MatrixErrorValueCalculator::calculateParallelErrorValue(vector< ModelTuning
         	exportFileStream << endl;
     	}
 
+		if (matrixExportFileStream.is_open()) matrixExportFileStream << " " << errorValues[i] << endl;
+
     	paramList[i].setErrorValue(errorValues[i]);
     	paramList[i].setMOErrorValues(MOErrorValues[i]);
 
 	}
 	
 	numberOfGenerations++;
+
+}
+
+void MatrixErrorValueCalculator::initMatrixLine(ModelTuningParameters params, bool isExperimental, DataTrace trace) {
+	if (isExperimental) {
+		matrixExportFileStream << "1 ";
+		matrixExportFileStream << params.getLength() << " ";
+		for (unsigned i = 0; i < params.getLength(); i++) {
+			matrixExportFileStream << "0 ";
+		}
+	}
+	else {
+		matrixExportFileStream << "0 ";
+		matrixExportFileStream << params.getLength() << " ";
+		for (unsigned i = 0; i < params.getLength(); i++) {
+			matrixExportFileStream << params[i] << " ";
+		}
+	}
+	matrixExportFileStream << trace.getNumberOfRuns() << " " << trace.getNumberOfPeriods() << " " << trace.getNumberOfRecordingSites() << " ";
+	
+}
+
+void MatrixErrorValueCalculator::saveMatrix(DataTrace trace, VdVdtMatrix * matrix) {
+
+	matrixExportFileStream << trace.getRun() << " " << trace.getPeriod() << " " << trace.getRecordingSite() << " ";
+	matrixExportFileStream << matrix->toFileExportString() << " ";
 
 }
 
@@ -152,4 +195,18 @@ void MatrixErrorValueCalculator::disableFileExport() {
    
 string MatrixErrorValueCalculator::getExportFile() const {
 	return exportFile;
+}
+
+void MatrixErrorValueCalculator::enableMatrixFileExport(const string fileName) {
+	matrixExportFileStream.open(fileName.c_str(), ios::out);
+	if (!matrixExportFileStream.good()) crash("MatrixErrorValueCalculator","Can't open matrix export file");
+
+	filePrintMatrix = true;
+	
+	showMessage("MatrixErrorValueCalculator: Enabled matrix export to file: " + fileName + "\n",3,fixedParams);        	
+}
+
+void MatrixErrorValueCalculator::disableMatrixFileExport() {
+	matrixExportFileStream.close();
+	filePrintMatrix = false;
 }

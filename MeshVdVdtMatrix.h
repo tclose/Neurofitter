@@ -41,6 +41,7 @@ public:
 	void readFrom(const DataTrace& trace);
 
 	string toString() const;
+	string toFileExportString() const;
 	
 protected:
 	int vLength;

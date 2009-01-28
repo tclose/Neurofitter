@@ -34,10 +34,11 @@ double ROIVdVdtMatrix::compare(const VdVdtMatrix & o) const {
 
 	double errorValue = 0;
 
-	if (other.matrices.size() != matrices.size()) crash("DirectVdVdtMatrix","Matrices length sizes don't match");
+	if (other.matrices.size() != matrices.size()) crash("ROIVdVdtMatrix","Matrices length sizes don't match");
 
 	for (unsigned int i = 0; i < matrices.size(); i++) {
 		errorValue += matrices[i].getWeight() * matrices[i].compare(other.matrices[i]);
+		showMessage("Comparision: "+str(matrices[i].compare(other.matrices[i]))+" Weight: "+str(matrices[i].getWeight())+"\n");
 	}
 	
 	return errorValue;
@@ -70,6 +71,19 @@ string ROIVdVdtMatrix::toString() const {
 		returnString += "ROI " + str(nROI) + ": \n" + iter->toString() + "\n";
 		nROI++;
 	}
+	return returnString;
+
+}
+
+string ROIVdVdtMatrix::toFileExportString() const {
+
+	string returnString = "";
+	int nROI = 0;
+	for (vector< DirectVdVdtMatrix >::const_iterator iter = matrices.begin(); iter != matrices.end(); iter++) {
+		returnString += iter->toFileExportString() + " ";
+		nROI++;
+	}
+	returnString = str(nROI) + " " + returnString;
 	return returnString;
 
 }

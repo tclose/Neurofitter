@@ -35,7 +35,12 @@ ROI::ROI(const string vBoundsString, const string dVdtBoundsString, const string
 	lengthsStream >> dVdtLength;
 
 	istringstream overflowStream(overflowString);
-	overflowStream >> overflow;
+	int overflowInt;
+	overflowStream >> overflowInt;
+
+	if (overflowInt == 0) overflow = false;
+	else if (overflowInt == 1) overflow = true;
+	else crash("ROI", "UseOverflow can't be parsed, use 1 for true, 0 for false");
 
 	istringstream weightStream(weightString);
 	weightStream >> weight;
@@ -49,7 +54,8 @@ string ROI::toString() const {
 	}
 	else returnString += "[]";
 	returnString += "[" + str(vLength) + " " + str(dVdtLength) + "] ";
-	returnString += "[" + str(overflow) + "] ";
+	if (overflow) returnString += "[ 1 ] ";
+	else returnString += "[ 0 ] ";
 	returnString += "[" + str(weight) + "]";
 
 	return returnString;

@@ -33,6 +33,7 @@ public:
 
 
 	string toString() const;
+	string toFileExportString() const;
 
 	
 protected:

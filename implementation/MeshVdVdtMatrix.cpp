@@ -105,6 +105,8 @@ void MeshVdVdtMatrix::readFrom(const DataTrace& trace) {
     /// Fill the matrix (and normalize) ///
     ///////////////////////////////////////
 
+	this->setMaxNumberOfPoints(trace.getValidLength()-2*trace.getLag());
+
     for (int nPoint = trace.getLag(); nPoint < trace.getLength()-trace.getLag(); nPoint++) {
 		if (trace.pointIsValid(nPoint) && trace.pointIsValid(nPoint-trace.getLag()) && trace.pointIsValid(nPoint+trace.getLag())) {
        		V = trace.get(nPoint);
@@ -122,18 +124,18 @@ void MeshVdVdtMatrix::readFrom(const DataTrace& trace) {
         	int dVdtIndex = (int)( (dVdt-minimaldVdt) / dyVdVdtmatrix );
 
 			if (overflow) {
-        		if (vIndex < 0) vIndex = 0;
-        		if (vIndex >= vLength) vIndex = vLength-1;
-        		if (dVdtIndex < 0) dVdtIndex = 0;
-        		if (dVdtIndex >= dVdtLength) dVdtIndex = dVdtLength-1;
+        		if (V < minimalV) vIndex = 0;
+        		if (V >= maximalV) vIndex = vLength-1;
+        		if (dVdt < minimaldVdt) dVdtIndex = 0;
+        		if (dVdt >= maximaldVdt) dVdtIndex = dVdtLength-1;
 			}
 			else {
-        		if (vIndex < 0 || vIndex >= vLength || dVdtIndex < 0 || dVdtIndex >= dVdtLength) continue;
+        		if (V < minimalV || V >= maximalV || dVdt < minimaldVdt || dVdt >= maximaldVdt) continue;
 			}
 
-			//showMessage(str(vIndex) + " " + str(dVdtIndex) + "\n");
+			//if (!overflow) showMessage(str(vIndex) + " " + str(dVdtIndex) + " " + str(V) + " " + str(minimalV) + " " + str(dxVdVdtmatrix) + "\n");
 
-			set(vIndex,dVdtIndex,get(vIndex,dVdtIndex) + 1.0/(trace.getValidLength()-2*trace.getLag()));
+			set(vIndex,dVdtIndex,get(vIndex,dVdtIndex) + 1); //1.0/(trace.getValidLength()-2*trace.getLag())
 		}
 		else {
 			showMessage("Warning: Data point with seq number "+str(nPoint)+" is not valid in the defined time range of the Datatrace object: "+trace.getName()+"\n",15,fixedParams);
@@ -165,4 +167,18 @@ string MeshVdVdtMatrix::toString() const {
         
     return result.str();
 
+}
+
+string MeshVdVdtMatrix::toFileExportString() const {
+
+    ostringstream result;
+
+	result << dVdtLength << " " << vLength << " ";
+    for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
+		for (int vIndex=0;vIndex<vLength;vIndex++) {
+			result << " " << get(vIndex, dVdtIndex);
+		}
+	}
+        
+    return result.str();
 }

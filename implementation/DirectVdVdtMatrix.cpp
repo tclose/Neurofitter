@@ -33,6 +33,13 @@ double DirectVdVdtMatrix::compare(const VdVdtMatrix & o) const {
     	////////////////////////////////////////////////////////////
     	/// Calculate the square of the sum of the squares roots ///
     	////////////////////////////////////////////////////////////
+		double worstValue = 0;
+		double worstSpread;
+	
+		if (this->getMaxNumberOfPoints() > other.getMaxNumberOfPoints())
+			worstSpread = ceil((double)this->getMaxNumberOfPoints()/(vLength*dVdtLength));
+		else
+			worstSpread = ceil((double)other.getMaxNumberOfPoints()/(vLength*dVdtLength));
 
     	for (int vIndex=0;vIndex<vLength;vIndex++) {
         	for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
@@ -40,15 +47,19 @@ double DirectVdVdtMatrix::compare(const VdVdtMatrix & o) const {
             	if (diff > precision) {
                 	errorValue += pow(diff,0.5);
             	}
+				worstValue += pow(worstSpread, 0.5);
         	}
     	}
 
-		errorValue = pow(errorValue,2);
+		if (worstValue == 0) return errorValue = 1;
+		errorValue = pow(errorValue/worstValue,2);
 	}
 	else {
     	///////////////////////////////////////////////////////////
     	/// Calculate the square root of the sum of the squares ///
     	///////////////////////////////////////////////////////////
+
+		double worstValue = pow(pow((double)this->getMaxNumberOfPoints(),2)+pow((double)other.getMaxNumberOfPoints(),2),0.5);
 
     	for (int vIndex=0;vIndex<vLength;vIndex++) {
         	for (int dVdtIndex=0;dVdtIndex<dVdtLength;dVdtIndex++) {
@@ -59,7 +70,8 @@ double DirectVdVdtMatrix::compare(const VdVdtMatrix & o) const {
         	}
     	}
 
-		errorValue = pow(errorValue,0.5);
+		if (worstValue == 0) return errorValue = 1;
+		else errorValue = pow(errorValue,0.5)/worstValue;
     }
 
 	                                                                                                    
