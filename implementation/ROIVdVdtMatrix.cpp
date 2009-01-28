@@ -38,7 +38,7 @@ double ROIVdVdtMatrix::compare(const VdVdtMatrix & o) const {
 
 	for (unsigned int i = 0; i < matrices.size(); i++) {
 		errorValue += matrices[i].getWeight() * matrices[i].compare(other.matrices[i]);
-		showMessage("Comparision: "+str(matrices[i].compare(other.matrices[i]))+" Weight: "+str(matrices[i].getWeight())+"\n");
+		//showMessage("Comparision: "+str(matrices[i].compare(other.matrices[i]))+" Weight: "+str(matrices[i].getWeight())+"\n");
 	}
 	
 	return errorValue;
