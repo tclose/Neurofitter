@@ -124,10 +124,10 @@ void MeshVdVdtMatrix::readFrom(const DataTrace& trace) {
         	int dVdtIndex = (int)( (dVdt-minimaldVdt) / dyVdVdtmatrix );
 
 			if (overflow) {
-        		if (V < minimalV) vIndex = 0;
-        		if (V >= maximalV) vIndex = vLength-1;
-        		if (dVdt < minimaldVdt) dVdtIndex = 0;
-        		if (dVdt >= maximaldVdt) dVdtIndex = dVdtLength-1;
+        		if (V < minimalV || vIndex < 0) vIndex = 0;
+        		if (V >= maximalV || vIndex >= vLength) vIndex = vLength-1;
+        		if (dVdt < minimaldVdt || dVdtIndex < 0) dVdtIndex = 0;
+        		if (dVdt >= maximaldVdt || dVdtIndex >= dVdtLength) dVdtIndex = dVdtLength-1;
 			}
 			else {
         		if (V < minimalV || V >= maximalV || dVdt < minimaldVdt || dVdt >= maximaldVdt) continue;
