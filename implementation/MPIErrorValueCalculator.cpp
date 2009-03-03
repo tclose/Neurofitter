@@ -101,6 +101,8 @@ void MPIErrorValueCalculator::runErrorValueOnSlave(int slaveNumber, int resultNu
     showMessage("Sending parameters to slave: " + str(slaveNumber) + "... ",4,fixedParams);
     mpiChannel.setMessageRank(slaveNumber);
     mpiChannel << resultNumber;
+    numberOfEvaluations++;
+    mpiChannel << numberOfEvaluations;
     params.printOn(mpiChannel);
     showMessage(" Parameters sent \n",4,fixedParams);
 
@@ -109,20 +111,21 @@ void MPIErrorValueCalculator::runErrorValueOnSlave(int slaveNumber, int resultNu
 void MPIErrorValueCalculator::receiveErrorValueFromSlave(int & taskRank, vector< ModelTuningParameters > & paramList) {
 
     int resultNumber;
+	int evaluationNumber;
 
     showMessage("Waiting for error value from slave ... \n",4,fixedParams);
     mpiChannel.setMessageRank(MPI_ANY_SOURCE);
     mpiChannel >> resultNumber;
+    mpiChannel >> evaluationNumber;
     taskRank = mpiChannel.getMessageRank();
 
     showMessage("Receiving result " + str(resultNumber) + " from slave " + str(taskRank) + "... ",4,fixedParams);
 
     paramList[resultNumber].readFrom(mpiChannel);
-	numberOfEvaluations++;
 
 	if (exportFileStream.is_open()) {
-			exportFileStream << numberOfGenerations << " " << numberOfEvaluations << " " << paramList[resultNumber].getErrorValue() << " ";
-			for (int j = 0; j < paramList[resultNumber].getLength(); j++) {
+			exportFileStream << numberOfGenerations << " " << evaluationNumber << " " << paramList[resultNumber].getErrorValue() << " ";
+			for (unsigned j = 0; j < paramList[resultNumber].getLength(); j++) {
 				exportFileStream << (paramList[resultNumber][j]) << " ";
 			}
 			exportFileStream << endl;
@@ -135,6 +138,7 @@ void MPIErrorValueCalculator::receiveErrorValueFromSlave(int & taskRank, vector<
 void MPIErrorValueCalculator::startSlave() {
 
     int resultNumber;
+    int evaluationNumber;
     MPI_Status status;
 
     while (true) {
@@ -142,6 +146,7 @@ void MPIErrorValueCalculator::startSlave() {
         mpiChannel.setMessageRank(0);
         mpiChannel.setMessageId(MPI_ANY_TAG);
         mpiChannel >> resultNumber;
+        mpiChannel >> evaluationNumber;
         if (mpiChannel.getMessageId() == dietag) {
         	showMessage("Slave " + str(rank) +  " received a kill signal from master\n",3,fixedParams);
             return;
@@ -162,6 +167,7 @@ void MPIErrorValueCalculator::startSlave() {
                 
         mpiChannel.setMessageRank(0);
         mpiChannel << resultNumber;
+        mpiChannel << evaluationNumber;
         parameters.printOn(mpiChannel);
         
         showMessage("Slave " + str(rank) + " has sent error value back\n",4,fixedParams);            
