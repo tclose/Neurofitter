@@ -6,7 +6,10 @@
 ROI::~ROI() {
 }
 
-ROI::ROI(double newMinV, double newMaxV, double newMindVdt, double newMaxdVdt, int newVLength, int newdVdtLength, bool newOverflow, double newWeight) : 
+ROI::ROI(int newRun, int newPeriod, int newRecordingsite, double newMinV, double newMaxV, double newMindVdt, double newMaxdVdt, int newVLength, int newdVdtLength, bool newOverflow, double newWeight) : 
+	run(newRun),
+	period(newPeriod),
+	recordingsite(newRecordingsite),
 	minV(newMinV), 
 	maxV(newMaxV), 
 	mindVdt(newMindVdt), 
@@ -18,7 +21,12 @@ ROI::ROI(double newMinV, double newMaxV, double newMindVdt, double newMaxdVdt, i
 	weight(newWeight) {}
 
 
-ROI::ROI(const string vBoundsString, const string dVdtBoundsString, const string lengthsString, const string overflowString, const string weightString) : dVdtSet(false) {
+ROI::ROI(int newRun, int newPeriod, int newRecordingsite, const string vBoundsString, const string dVdtBoundsString, const string lengthsString, const string overflowString, const string weightString) : 
+	run(newRun),
+    period(newPeriod),
+    recordingsite(newRecordingsite),
+	dVdtSet(false)
+ {
 	istringstream vBoundsStream(vBoundsString);
 	vBoundsStream >> minV;
 	vBoundsStream >> maxV;
@@ -48,6 +56,9 @@ ROI::ROI(const string vBoundsString, const string dVdtBoundsString, const string
 
 string ROI::toString() const {
 	string returnString = "";
+	returnString += "[" + str(run) + "] ";
+	returnString += "[" + str(period) + "] ";
+	returnString += "[" + str(recordingsite) + "] ";
 	returnString += "[" + str(minV) + " " + str(maxV) + "] ";
 	if (dVdtSet) {
 		returnString += "[" + str(mindVdt) + " " + str(maxdVdt) + "] ";
@@ -59,6 +70,18 @@ string ROI::toString() const {
 	returnString += "[" + str(weight) + "]";
 
 	return returnString;
+}
+
+int ROI::getRun() const {
+	return run;
+}
+
+int ROI::getPeriod() const {
+	return period;
+}
+
+int ROI::getRecordingsite() const {
+	return recordingsite;
 }
 
 double ROI::getMinV() const {

@@ -19,11 +19,14 @@ class ROI {
 
 	public:
 		ROI() : sourceString("") {}; ///< Default constructor
-		ROI(double minV, double maxV, double mindVdt, double maxdVdt, int vLength, int dVdtLength, bool overFlow, double weight);
-		ROI(const string vBoundsString, const string dVdtBoundsString, const string vdVdtLength, const string overFlow, const string weight); ///< Constructor that uses an initializing string
+		ROI(int run, int period, int recordingsite, double minV, double maxV, double mindVdt, double maxdVdt, int vLength, int dVdtLength, bool overFlow, double weight);
+		ROI(int run, int period, int recordingsite, const string vBoundsString, const string dVdtBoundsString, const string vdVdtLength, const string overFlow, const string weight); ///< Constructor that uses an initializing string
 		~ROI(); ///< Destructor
 
 		string toString() const; ///< Returns a string representation
+		int getRun() const;
+		int getPeriod() const;
+		int getRecordingsite() const;
 		int getVLength() const;
 		int getdVdtLength() const;
 		double getMinV() const;
@@ -35,6 +38,7 @@ class ROI {
 		bool dVdtIsSet() const;
 
 	private:
+		int run, period, recordingsite;
 		string sourceString;
 		double minV, maxV, mindVdt, maxdVdt;
 		bool dVdtSet;

@@ -85,7 +85,7 @@ void ROIStringParser::initialize(const string newString, int newNumberOfROILines
 		for (unsigned int nRun = 0; nRun < runVector.size(); nRun++) {
 			for (unsigned int nPeriod = 0; nPeriod < periodVector.size(); nPeriod++) {
 				for (unsigned int nRecord = 0; nRecord < recordVector.size(); nRecord++) {
-					ROI roi(vBoundsStr, dVdtBoundsStr, lengthsStr, overflowStr, weightStr);
+					ROI roi(runVector[nRun], periodVector[nPeriod], recordVector[nRecord], vBoundsStr, dVdtBoundsStr, lengthsStr, overflowStr, weightStr);
 					ROIs[runVector[nRun]*numberOfPeriods*numberOfRecordingSites+periodVector[nPeriod]*numberOfRecordingSites+recordVector[nRecord]].push_back(roi);
 					numberOfROIs++;
 				}
