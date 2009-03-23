@@ -102,9 +102,9 @@ void ROIStringParser::initialize(const string newString, int newNumberOfROILines
 string ROIStringParser::toString() const {
 	string returnString ="";
 	returnString += "Number of runs: " + str(numberOfRuns) + "\tNumber of periods: " + str(numberOfPeriods) + "\tNumber of recording sites: " + str(numberOfRecordingSites) + "\tNumber of ROIs: " + str(numberOfROIs) + "\n";
+	unsigned i = 0;
 	for (map< int , vector< ROI > >::const_iterator iter = ROIs.begin(); iter != ROIs.end(); iter++) {
 		//returnString += "Index: " + str(iter->first) + ":\n";
-		unsigned i = 0;
 		for (vector< ROI >::const_iterator ROIIter = iter->second.begin(); ROIIter != iter->second.end(); ROIIter++) {
 			returnString += str(i++)+": "+ROIIter->toString() + "\n";
 		}
