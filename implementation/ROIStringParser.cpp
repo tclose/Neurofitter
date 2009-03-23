@@ -104,8 +104,9 @@ string ROIStringParser::toString() const {
 	returnString += "Number of runs: " + str(numberOfRuns) + "\tNumber of periods: " + str(numberOfPeriods) + "\tNumber of recording sites: " + str(numberOfRecordingSites) + "\tNumber of ROIs: " + str(numberOfROIs) + "\n";
 	for (map< int , vector< ROI > >::const_iterator iter = ROIs.begin(); iter != ROIs.end(); iter++) {
 		//returnString += "Index: " + str(iter->first) + ":\n";
+		unsigned i = 0;
 		for (vector< ROI >::const_iterator ROIIter = iter->second.begin(); ROIIter != iter->second.end(); ROIIter++) {
-			returnString += ROIIter->toString() + "\n";
+			returnString += str(i++)+": "+ROIIter->toString() + "\n";
 		}
 	}
 	return returnString;
