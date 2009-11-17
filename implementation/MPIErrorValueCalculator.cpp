@@ -19,6 +19,9 @@ MPIErrorValueCalculator::MPIErrorValueCalculator(ModelInterface * model, Experim
 	else if (fixedParams["ErrorValueCalculatorType"] == "Rodrigo") {
 		localErrorValue = new RodrigoErrorValueCalculator(model,experiment,fitFixedParams);
 	}
+	else if (fixedParams["ErrorValueCalculatorType"] == "RMS") {
+		localErrorValue = new RMSErrorValueCalculator(model,experiment,fitFixedParams);
+	}
 	else crash("MPIErrorValueCalculator", "No matching error value calculator type");
     
 	mpiChannel.setMessageId(tag);

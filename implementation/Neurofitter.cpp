@@ -101,6 +101,9 @@ int main (int argc, char* argv[]) {
 		else if (fixedParams["ErrorValueCalculatorType"] == "Rodrigo") {
             errorValue = new RodrigoErrorValueCalculator(model,experiment,fitFixedParams);
         }
+		else if (fixedParams["ErrorValueCalculatorType"] == "RMS") {
+            errorValue = new RMSErrorValueCalculator(model,experiment,fitFixedParams);
+        }
 		#ifdef WITH_MPI
 		else if (fixedParams["ErrorValueCalculatorType"] == "MPI") {
             errorValue = new MPIErrorValueCalculator(model,experiment,fitFixedParams);

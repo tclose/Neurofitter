@@ -51,6 +51,7 @@ using namespace std;
 
 #include "MatrixErrorValueCalculator.h"
 #include "RodrigoErrorValueCalculator.h"
+#include "RMSErrorValueCalculator.h"
 #include "EasyFitterInterface.h"
 #include "SimpleGradientFitterInterface.h"
 #include "MeshFitterInterface.h"

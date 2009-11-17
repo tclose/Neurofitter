@@ -21,6 +21,7 @@ using namespace std;
 #include "ErrorValueCalculator.h"
 #include "MatrixErrorValueCalculator.h"
 #include "RodrigoErrorValueCalculator.h"
+#include "RMSErrorValueCalculator.h"
 #include "FixedParamObject.h"
 #include "MPIStream.h"
 
