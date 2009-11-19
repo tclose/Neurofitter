@@ -14,9 +14,6 @@ RMSErrorValueCalculator::RMSErrorValueCalculator(ModelInterface * interface, Exp
 	if (toInt(fixedParams["enableFileExport"]) > 0) {
 		this->enableFileExport(fixedParams["exportFile"]);
 	}
-	if (toInt(fixedParams["enableTracesExport"]) > 0) {
-		this->enableTracesExport(fixedParams["tracesFile"]);
-	}
 
 }
 
@@ -71,17 +68,6 @@ void RMSErrorValueCalculator::calculateParallelErrorValue(vector< ModelTuningPar
         	}
         	exportFileStream << endl;
     	}
-
-    	/* if (tracesFileStream.is_open()) {
-        	tracesFileStream << numberOfGenerations << " "<< numberOfEvaluations << " " << errorValues[i] << " ";
-        	for (unsigned j = 0; j < paramList[i].getLength(); j++) {
-           	tracesFileStream << (paramList[i][j]) << " ";
-        	}
-        	for (int j = 0; j < Cai.getLength(); j++) {
-            	tracesFileStream << (Cai.get(j)) << " " << (LTDModel.get(j)) << " " << (LTDExp.get(j)) << " " << (Inputcurrent.get(j)) << " " << (Frequency.get(j)) << " ";
-        	}
-        	tracesFileStream << endl;
-    	}*/
 
     	paramList[i].setErrorValue(errorValues[i]);
     	paramList[i].setMOErrorValues(MOErrorValues[i]);

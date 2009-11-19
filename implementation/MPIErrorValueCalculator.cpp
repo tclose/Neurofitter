@@ -149,7 +149,6 @@ void MPIErrorValueCalculator::startSlave() {
         mpiChannel.setMessageRank(0);
         mpiChannel.setMessageId(MPI_ANY_TAG);
         mpiChannel >> resultNumber;
-        mpiChannel >> evaluationNumber;
         if (mpiChannel.getMessageId() == dietag) {
         	showMessage("Slave " + str(rank) +  " received a kill signal from master\n",3,fixedParams);
             return;
@@ -157,6 +156,7 @@ void MPIErrorValueCalculator::startSlave() {
         else if (mpiChannel.getMessageId() != tag) {
             crash("MPIErrorValueCalculator", "Slave "+str(rank)+" received message with wrong tag: "+str(status.MPI_TAG));
         }
+        mpiChannel >> evaluationNumber;
         mpiChannel.setMessageId(tag);
             
         ModelTuningParameters parameters;
