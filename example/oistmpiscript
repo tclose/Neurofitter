@@ -1,0 +1,68 @@
+#!/bin/bash
+
+#PBS -S /bin/bash
+
+#PBS -j oe
+
+#PBS -o /users/anwar/joboutputs
+#PBS -e /users/anwar/joboutputs
+
+#PBS -q long
+#PBS -l nodes=2:ppn=8
+
+#PBS -v HOME="/users/anwar"
+
+#PBS -N CaFit
+
+###################################################
+### Copy the model to all machines we are using ###
+###################################################
+
+HOME=/users/anwar
+JOB_ID=${PBS_JOBID}
+
+#scratchBase="/work/anwar/tmp/NeurofitterWork"
+scratchBase="${TMPDIR}/NeurofitterWork"
+
+stdoutfile=$HOME/TuningCaDynamicsNeurofitterDend_depthOnly/Dia0_4/work/joboutputs/joboutput.${JOB_ID}
+
+echo "Creating scratch directory on:"
+
+machines="$PBS_NODEFILE"
+
+cat $machines
+cat $machines >>${stdoutfile}
+
+
+line=0
+for i in `cat $machines`
+do
+   scratch="${scratchBase}_${JOB_ID}_${line}";  
+   echo "$i : $scratch";
+   echo "$i : $scratch" >>${stdoutfile};
+   
+
+   qrshcmd="ssh -n -x $i"
+   
+   echo "Creating ${scratch}, ${scratch}/bin and ${scratch}/outputs" 
+   echo "Creating ${scratch}, ${scratch}/bin ${scratch}/outputs" >>${stdoutfile} 2>>${stdoutfile}
+   $qrshcmd "mkdir -p ${scratch};mkdir -p ${scratch}/bin; mkdir -p ${scratch}/outputs" 2>>${stdoutfile}
+   echo "Created ${scratch}, ${scratch}/bin and ${scratch}/outputs" >>${stdoutfile} 2>>${stdoutfile}
+
+   echo "Copying SHAREDDIR/model and $HOME/Neurofitter/bin/mpineurofitter to the scratch"
+   echo "Copying SHAREDDIR/model and $HOME/Neurofitter/bin/mpineurofitter to the scratch" >>${stdoutfile} 2>>${stdoutfile}
+   $qrshcmd "cp -rf SHAREDDIR/model $scratch;cp -f $HOME/Neurofitter/bin/mpineurofitter ${scratch}/bin;" 2>>${stdoutfile}
+   echo "Copied SHAREDDIR/model and $HOME/Neurofitter/bin/mpineurofitter to the scratch" >>${stdoutfile} 2>>${stdoutfile}
+
+   echo "Writing SHAREDDIR/roimpisettings.xml_${line}"
+   echo "Writing SHAREDDIR/roimpisettings.xml_${line}" >>${stdoutfile} 2>>${stdoutfile}
+   $qrshcmd "/usr/bin/sed s#SCRATCH#${scratch}# SHAREDDIR/roimpisettings.xml >SHAREDDIR/tmp.xml_${line};/usr/bin/sed s#JOBID#${JOB_ID}# SHAREDDIR/tmp.xml_${line} >SHAREDDIR/roimpisettings.xml_${line};rm -f SHAREDDIR/tmp.xml_${line}" 2>>${stdoutfile}
+   echo "Wrote SHAREDDIR/roimpisettings.xml_${line}" >>${stdoutfile} 2>>${stdoutfile}
+
+   line=$(($line+1))
+done
+
+echo "Starting mpirun" >>${stdoutfile}
+mpirun SHAREDDIR/bin/mpineurofitter SHAREDDIR/roimpisettings.xml >>${stdoutfile} 2>>${stdoutfile}
+echo "Mpirun has ended" >>${stdoutfile}
+
