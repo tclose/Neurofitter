@@ -1,84 +1,59 @@
 <TestProgram>
-	<Dimensions>1</Dimensions>	
-	<VerboseLevel>1</VerboseLevel>
-	<Seed>500</Seed>
-	<SamplingFrequency>50</SamplingFrequency>
-	
-	<StartingPoints>
-	0.2
-  </StartingPoints>
-            
-	<Bounds>
-                0.001   0.2
-	</Bounds>
-
-	<WorkingDirectory>NEUROFITTERSCRATCH/bin</WorkingDirectory>
-
-	<PrintParameterFile>1</PrintParameterFile>
-
-	<FitterType>Random</FitterType>
+    <Dimensions>1</Dimensions>
+    <VerboseLevel>1</VerboseLevel>
+    <Seed>500</Seed>
+    <SamplingFrequency>50</SamplingFrequency>
+    <StartingPoints> 0.2
+    </StartingPoints>
+    <Bounds> 0.001 0.2
+    </Bounds>
+    <WorkingDirectory>NEUROFITTERSCRATCH/bin</WorkingDirectory>
+    <PrintParameterFile>1</PrintParameterFile>
+    <FitterType>Random</FitterType>
     <FitterParameters>
         <NumberOfPoints>2000</NumberOfPoints>
     </FitterParameters>
-		
-
-	<TracesReaderType>Normal</TracesReaderType>
-    	<TracesReaderParameters>
-			<NumberOfRuns>5</NumberOfRuns>
-            <NumberOfRunParameters>1</NumberOfRunParameters>
-            <RunParameters>
-		0.000018  2000
-                0.0000326  1000
-                0.0000545  500
-                0.0000815  250
-		0.000111 125
-            </RunParameters>
-
-            <NumberOfPeriods>2</NumberOfPeriods>
-            <Periods>
-                    500 550 1.0
-		    550 5000 1.0
-            </Periods>
-
-        	<NumberOfRecordSites>1</NumberOfRecordSites>
-        	<RecordSites>
-            		1
-        	</RecordSites>
-
-        	<OutputFilePrefix>output</OutputFilePrefix>
-    	</TracesReaderParameters>
-	
-	<ModelType>Executable</ModelType>
+    <TracesReaderType>Normal</TracesReaderType>
+    <TracesReaderParameters>
+        <NumberOfRuns>5</NumberOfRuns>
+        <NumberOfRunParameters>1</NumberOfRunParameters>
+        <RunParameters> 0.000018 2000 0.0000326 1000 0.0000545 500 0.0000815 250 0.000111 125
+        </RunParameters>
+        <NumberOfPeriods>2</NumberOfPeriods>
+        <Periods> 500 550 1.0 550 5000 1.0
+        </Periods>
+        <NumberOfRecordSites>1</NumberOfRecordSites>
+        <RecordSites> 1
+        </RecordSites>
+        <OutputFilePrefix>output</OutputFilePrefix>
+    </TracesReaderParameters>
+    <ModelType>Executable</ModelType>
     <ModelParameters>
-            <ExecuteCommand>unset DISPLAY; cd SCRATCH/model; x86_64/special -nogui runModel3_Nannuli2_dia_0_4.hoc</ExecuteCommand>
-            <OutputDirectory>SCRATCH/outputs</OutputDirectory>
-            <ParameterFile>SCRATCH/model/param.dat</ParameterFile>
-            <ShowExecuteOutput>0</ShowExecuteOutput>
+        <ExecuteCommand>unset DISPLAY; cd SCRATCH/model; x86_64/special -nogui
+            runModel3_Nannuli2_dia_0_4.hoc</ExecuteCommand>
+        <OutputDirectory>SCRATCH/outputs</OutputDirectory>
+        <ParameterFile>SCRATCH/model/param.dat</ParameterFile>
+        <ShowExecuteOutput>0</ShowExecuteOutput>
     </ModelParameters>
-
-	<ExperimentType>FileList</ExperimentType>
+    <ExperimentType>FileList</ExperimentType>
     <ExperimentParameters>
-            <FilesList>
-                SHAREDDIR/data/Testg18e-6_Nannuli2_dia_0_4_Jan08.dat
-                SHAREDDIR/data/Testg32e-6_Nannuli2_dia_0_4_Jan08.dat
-                SHAREDDIR/data/Testg54e-6_Nannuli2_dia_0_4_Jan08.dat
-                SHAREDDIR/data/Testg81e-6_Nannuli2_dia_0_4_Jan08.dat
-		SHAREDDIR/data/Testg111e-6_Nannuli2_dia_0_4_Jan08.dat
-            </FilesList>
+        <FilesList> SHAREDDIR/data/Testg18e-6_Nannuli2_dia_0_4_Jan08.dat
+            SHAREDDIR/data/Testg32e-6_Nannuli2_dia_0_4_Jan08.dat
+            SHAREDDIR/data/Testg54e-6_Nannuli2_dia_0_4_Jan08.dat
+            SHAREDDIR/data/Testg81e-6_Nannuli2_dia_0_4_Jan08.dat
+            SHAREDDIR/data/Testg111e-6_Nannuli2_dia_0_4_Jan08.dat
+        </FilesList>
     </ExperimentParameters>
-
-	
     <ErrorValueCalculatorType>MPI</ErrorValueCalculatorType>
     <ErrorValueCalculatorParameters>
-	<ErrorValueCalculatorType>RMS</ErrorValueCalculatorType>
-    	<ErrorValueCalculatorParameters>
-                <enableFileExport>0</enableFileExport>
-		<enableTracesExport>0</enableTracesExport>
-                <exportFile>ErrorValue.dat</exportFile>
-	</ErrorValueCalculatorParameters>
-	<enableFileExport>1</enableFileExport>
-        <exportFile>/users/anwar/TuningCaDynamicsNeurofitterDend_depthOnly/Dia0_4/work/pfs/BestFit.dat.JOBID</exportFile>
-   </ErrorValueCalculatorParameters>
-	
+        <ErrorValueCalculatorType>RMS</ErrorValueCalculatorType>
+        <ErrorValueCalculatorParameters>
+            <enableFileExport>0</enableFileExport>
+            <enableTracesExport>0</enableTracesExport>
+            <exportFile>ErrorValue.dat</exportFile>
+        </ErrorValueCalculatorParameters>
+        <enableFileExport>1</enableFileExport>
+        <exportFile>/users/anwar/TuningCaDynamicsNeurofitterDend_depthOnly/Dia0_4/work/pfs/BestFit.dat.JOBID
+        </exportFile>
+    </ErrorValueCalculatorParameters>
 </TestProgram>
-
