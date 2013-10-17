@@ -40,6 +40,15 @@ class EOFitter(object):
         tau_glob -- internal parameter for self-evolution 
         beta -- internal parameter for self-evolution 
         """
+        if replacement not in self.valid_replacement:
+            raise Exception("Invalid cross-over type '{}', can be '{}'".format(replacement, 
+                    "', '".join(self.valid_replacement)))
+        if cross_type not in self.valid_cross_type:
+            raise Exception("Invalid cross-over type '{}', can be '{}'".format(cross_type, 
+                    "', '".join(self.valid_cross_type)))
+        if cross_obj not in self.valid_cross_obj:
+            raise Exception("Invalid cross-over type '{}', can be '{}'".format(cross_obj, 
+                    "', '".join(self.valid_cross_obj)))
         self.pop_size = pop_size
         self.num_offspring = num_offspring
         self.replacement = replacement
@@ -85,15 +94,6 @@ class EOFitter(object):
         tau_loc = float(element.find('TauLoc'))
         tau_glob = float(element.find('TauGlob'))
         beta = float(element.find('Beta'))
-        if replacement not in cls.valid_replacement:
-            raise Exception("Invalid cross-over type '{}', can be '{}'".format(replacement, 
-                    "', '".join(cls.valid_replacement)))
-        if cross_type not in cls.valid_cross_type:
-            raise Exception("Invalid cross-over type '{}', can be '{}'".format(cross_type, 
-                    "', '".join(cls.valid_cross_type)))
-        if cross_obj not in cls.valid_cross_obj:
-            raise Exception("Invalid cross-over type '{}', can be '{}'".format(cross_obj, 
-                    "', '".join(cls.valid_cross_obj)))
         return cls(pop_size, num_offspring, replacement, max_gen, min_gen, max_eval, target_fitness, 
                    steady_gen, cross_type, cross_obj, tau_loc, tau_glob, beta)
    
