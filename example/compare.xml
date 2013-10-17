@@ -6,7 +6,7 @@
     <SamplingFrequency>50</SamplingFrequency>
     <StartingPoints>0.2</StartingPoints>
     <Bounds>0.001 0.2</Bounds>
-    <WorkingDirectory>NEUROFITTERSCRATCH/bin</WorkingDirectory>
+    <WorkingDirectory>/home/tclose/</WorkingDirectory>
     <PrintParameterFile>1</PrintParameterFile>
     <FitterType>Random</FitterType>
     <FitterParameters>
@@ -15,10 +15,10 @@
     <TracesReaderType>Normal</TracesReaderType>
     <TracesReaderParameters>
         <NumberOfRuns>5</NumberOfRuns>
-        <NumberOfRunParameters>1</NumberOfRunParameters>
-        <RunParameters>0.000018 2000 0.0000326 1000 0.0000545 500 0.0000815 250 0.000111 125
+        <NumberOfRunParameters>10</NumberOfRunParameters>
+        <RunParameters>1.8e-05 2000 3.26e-05 1000 5.45e-05 500 8.15e-05 250 0.000111 125
         </RunParameters>
-        <NumberOfPeriods>2</NumberOfPeriods>
+        <NumberOfPeriods>6</NumberOfPeriods>
         <Periods>500 550 1.0 550 5000 1.0</Periods>
         <NumberOfRecordSites>1</NumberOfRecordSites>
         <RecordSites>1</RecordSites>
@@ -29,8 +29,8 @@
         <ExecuteCommand>unset DISPLAY; cd SCRATCH/model; x86_64/special -nogui
             runModel3_Nannuli2_dia_0_4.hoc
         </ExecuteCommand>
-        <OutputDirectory>SCRATCH/outputs</OutputDirectory>
-        <ParameterFile>SCRATCH/model/param.dat</ParameterFile>
+        <OutputDirectory>outputs</OutputDirectory>
+        <ParameterFile>/model/param.dat</ParameterFile>
         <ShowExecuteOutput>0</ShowExecuteOutput>
     </ModelParameters>
     <ExperimentType>FileList</ExperimentType>
@@ -46,12 +46,14 @@
     <ErrorValueCalculatorParameters>
         <ErrorValueCalculatorType>RMS</ErrorValueCalculatorType>
         <ErrorValueCalculatorParameters>
-            <enableFileExport>0</enableFileExport>
-            <enableTracesExport>0</enableTracesExport>
+            <enableFileExport>1</enableFileExport>
             <exportFile>ErrorValue.dat</exportFile>
+            <enableTracesExport>0</enableTracesExport>
         </ErrorValueCalculatorParameters>
         <enableFileExport>1</enableFileExport>
-        <exportFile>/users/anwar/TuningCaDynamicsNeurofitterDend_depthOnly/Dia0_4/work/pfs/BestFit.dat.JOBID
+        <exportFile>/users/anwar/TuningCaDynamicsNeurofitterDend_depthOnly/Dia0_4/work/pfs/BestFit.dat.J
+            OBID
         </exportFile>
+        <enableTracesExport>0</enableTracesExport>
     </ErrorValueCalculatorParameters>
 </TestProgram>
