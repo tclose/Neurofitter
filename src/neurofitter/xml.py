@@ -2,17 +2,22 @@ from __future__ import absolute_import
 from lxml.builder import E
 from lxml.etree import tostring
 
+#===================================================================================================
+# Fitter 
+#===================================================================================================
+
 class Fitter(object): 
     
     element_name = "Fitter"
 
-    def to_xml(self, parameters_element):
+    def to_xml(self):
         if isinstance(self, RandomFitter):
             type_xml = E(self.element_name + 'Type', 'Random')
         elif isinstance(self, EOFitter):
             type_xml = E(self.element_name + 'Type', 'EO')
-        return (type_xml, parameters_element)
-        
+        else:
+            assert(False)
+        return (type_xml, self._to_xml())
 
     @classmethod
     def from_xml(cls, type_element, parameters_element):
@@ -34,7 +39,7 @@ class RandomFitter(Fitter):
         """
         self.num_points = num_points
 
-    def to_xml(self):
+    def _to_xml(self):
         return E(self.element_name + 'Parameters', 
                  E('NumberOfPoints', str(self.num_points)))
 
@@ -90,7 +95,7 @@ class EOFitter(Fitter):
         self.tau_glob = float(tau_glob)
         self.beta = float(beta)
     
-    def to_xml(self):
+    def _to_xml(self):
         return E(self.element_name + 'Parameters',
                  E('popSize', self.pop_size),
                  E('nbOffspring', self.num_offspring),
@@ -123,18 +128,22 @@ class EOFitter(Fitter):
         beta = element.find('Beta')
         return cls(pop_size, num_offspring, replacement, max_gen, min_gen, max_eval, target_fitness, 
                    steady_gen, cross_type, cross_obj, tau_loc, tau_glob, beta)
-   
+
+
+#===================================================================================================
+# Traces Reader
+#===================================================================================================
    
 class TracesReader(object):
    
     element_name='TracesReader'
 
-    def to_xml(self, parameters_element):
+    def to_xml(self):
         if isinstance(self, NormalTracesReader):
             type_xml = E(self.element_name + 'Type', 'Normal')
         else:
             assert(False), "The class '{}' is not listed in TracesReader.to_xml()".format(type(self))
-        return (type_xml, parameters_element)
+        return (type_xml, self._to_xml())
         
     @classmethod
     def from_xml(cls, type_element, parameters_element):
@@ -159,7 +168,7 @@ class NormalTracesReader(TracesReader):
         self.record_sites = record_sites
         self.output = output
         
-    def to_xml(self):
+    def _to_xml(self):
         return E(self.element_name + 'Parameters',
                  E('NumberOfRuns', str(self.num_runs)),
                  E('NumberOfRunParameters', str(self.num_run_params)),
@@ -182,61 +191,155 @@ class NormalTracesReader(TracesReader):
         output = element.find('OutputFilePrefix')
         return cls(num_runs, num_run_params, run_params, num_periods, periods, num_record_sites,
                    record_sites, output)
-   
+
+
+#===================================================================================================
+# Model   
+#===================================================================================================
    
 class Model(object):
     
     element_name='Model'
     
+    def to_xml(self):
+        if isinstance(self, GenesisModel):
+            type_xml = E(self.element_name + 'Type', 'Genesis')
+        elif isinstance(self, NeuronModel):
+            type_xml = E(self.element_name + 'Type', 'Neuron')
+        elif isinstance(self, ExecutableModel):
+            type_xml = E(self.element_name + 'Type', 'Executable')
+        else:
+            assert(False), "The class '{}' is not listed in Model.to_xml()".format(type(self))
+        return (type_xml, self._to_xml())
+        
+    @classmethod
+    def from_xml(cls, type_element, parameters_element):
+        model_type = type_element.text
+        if model_type == 'Genesis':
+            obj = GenesisModel.from_xml(parameters_element)
+        elif model_type == 'Neuron':
+            obj = NeuronModel.from_xml(parameters_element)
+        elif model_type == 'Executable':
+            obj = ExecutableModel.from_xml(parameters_element)
+        else:
+            raise Exception("Unrecognised type '{}' of traces reader".format(traces_reader_type))
+        return obj
+
+
     
-class GenesisModel(Model):
+class ExecutableModel(Model):
     
-    def __init__(self, model_type, command, output_dir, parameter_file, show_output):
+    def __init__(self, command, output_dir, parameter_file, show_output):
         self.command = command 
         self.output_dir = output_dir  
         self.parameter_file = parameter_file  
         self.show_output = show_output  
         
-    def to_xml(self):
-        return (E(self.element_name + 'Type', self.type),
-                E(self.element_name + 'Parameters',
-                  E('ExecuteCommand', self.command),
-                  E('OutputDirectory', self.output_dir),
-                  E('ParameterFile', self.parameter_file),
-                  E('ShowExecuteOutput', str(int(self.show_output)))))
-        
-class NeuronModel(Model):
-    
-    def __init__(self, model_type, command, output_dir, parameter_file, show_output):
-        self.command = command 
-        self.output_dir = output_dir  
-        self.parameter_file = parameter_file  
-        self.show_output = show_output
-
-    def to_xml(self):
-        return (E(self.element_name + 'Type', self.type),
-                E(self.element_name + 'Parameters',
-                  E('ExecuteCommand', self.command),
-                  E('OutputDirectory', self.output_dir),
-                  E('ParameterFile', self.parameter_file),
-                  E('ShowExecuteOutput', str(int(self.show_output)))))
+    def _to_xml(self):
+        return E(self.element_name + 'Parameters',
+                 E('ExecuteCommand', self.command),
+                 E('OutputDirectory', self.output_dir),
+                 E('ParameterFile', self.parameter_file),
+                 E('ShowExecuteOutput', str(int(self.show_output))))
 
     @classmethod
     def from_xml(cls, element):
+        command = element.find('ExecuteCommand')
+        output_dir = element.find('OutputDirectory')
+        parameter_file = element.find('ParameterFile')
+        show_output = element.find('ShowExecuteOutput')
+        return cls(command, output_dir, parameter_file, show_output)
+    
+    
+class GenesisModel(Model):
+    
+    def __init__(self, genesis_location, model_dir, output_dir, model_src, param_file, 
+                 show_exec_output):
+        self.genesis_location = genesis_location 
+        self.model_dir = model_dir  
+        self.output_dir = output_dir  
+        self.model_src = model_src
+        self.param_file = param_file
+        self.show_exec_output = show_exec_output
         
+    def _to_xml(self):
+        return E(self.element_name + 'Parameters',
+                 E('GenesisLocation', self.genesis_location),
+                 E('ModelDirectory', self.model_dir),
+                 E('OutputDirectory', self.output_dir),
+                 E('ModelSource', str(self.model_src),
+                 E('ParameterFile', str(self.param_file),
+                 E('ShowExecuteOutput', str(self.show_exec_output)))
+
+    @classmethod
+    def from_xml(cls, element):
+        genesis_location = element.find('GenesisLocation')
+        model_dir = element.find('ModelDirectory')
+        output_dir = element.find('OutputDirectory')
+        model_src = element.find('ModelSource')
+        param_file = element.find('ParameterFile')
+        show_exec_output = element.find('ShowExecuteOutput')
+        return cls(genesis_location, model_dir, output_dir, model_src, param_file, show_exec_output)     
+        
+        
+class NeuronModel(Model):
+    
+    def __init__(self):
+        raise NotImplementedError
+
+    def _to_xml(self):
+        raise NotImplementedError
+
+    @classmethod
+    def from_xml(cls, element):
+        raise NotImplementedError
+        
+        
+#===================================================================================================
+# Experiment
+#===================================================================================================
         
 class Experiment(object):
     
     element_name='Experiment'
     
-    def __init__(self, exp_type, files_list):
-        self.type = exp_type
+    def to_xml(self):
+        if isinstance(self, FileListExperiment):
+            type_xml = E(self.element_name + 'Type', 'FileList')
+        elif isinstance(self, FakeExperiment):
+            type_xml = E(self.element_name + 'Type', 'Fake')
+        else:
+            assert(False), "The class '{}' is not listed in Experiment.to_xml()".format(type(self))
+        return (type_xml, self._to_xml())
+        
+    @classmethod
+    def from_xml(cls, type_element, parameters_element):
+        traces_reader_type = type_element.text
+        if traces_reader_type == 'FileList':
+            obj = FileListExperiment.from_xml(parameters_element)
+        elif traces_reader_type == 'Fake':
+            obj = FakeExperiment.from_xml(parameters_element)
+        else:
+            raise Exception("Unrecognised type '{}' of traces reader".format(traces_reader_type))
+        return obj
+    
+    
+class FileListExperiment(Experiment):
+    
+    def __init__(self, files_list):
         self.files_list = files_list 
         
-    def to_xml(self):
-        return (E(self.element_name + 'Type', self.type), 
-                E(self.element_name + 'Parameters', E('FilesList', '\n'.join(self.files_list))))
+    def _to_xml(self):
+        return E(self.element_name + 'Parameters', E('FilesList', '\n'.join(self.files_list)))
 
+    @classmethod
+    def from_xml(cls, element):
+        raise NotImplementedError
+
+
+#===================================================================================================
+# Error value calculator
+#===================================================================================================
 
 class ErrorValueCalculator(object):
     
@@ -262,6 +365,10 @@ class ErrorValueCalculator(object):
             element_list.append(E('enableTracesExport', str(self.enable_traces_export)))
         return E(self.element_name + 'Type', self.type), E(*element_list)
 
+
+#===================================================================================================
+# Complete Settings object
+#===================================================================================================
 
 class Settings(object):
     
@@ -302,9 +409,9 @@ class Settings(object):
         settings_xml = E(*element_list)
         return '<?xml version="1.0" encoding="UTF-8"?>\n' + tostring(settings_xml, 
                                                                      pretty_print=True)
-   
-   def from_xml(self):
-       
+    @classmethod
+    def from_xml(self):
+        pass
                                               
 if __name__ == '__main__':
     
