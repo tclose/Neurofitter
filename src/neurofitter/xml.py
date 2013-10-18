@@ -1,4 +1,6 @@
 from __future__ import absolute_import
+import urllib
+from lxml import etree
 from lxml.builder import E
 from lxml.etree import tostring
 import re
@@ -268,8 +270,8 @@ class GenesisModel(Model):
                  E('GenesisLocation', self.genesis_location),
                  E('ModelDirectory', self.model_dir),
                  E('OutputDirectory', self.output_dir),
-                 E('ModelSource', str(self.model_src),
-                 E('ParameterFile', str(self.param_file),
+                 E('ModelSource', str(self.model_src)),
+                 E('ParameterFile', str(self.param_file)),
                  E('ShowExecuteOutput', str(self.show_exec_output)))
 
     @classmethod
@@ -398,7 +400,7 @@ class MatrixErrorValueCalculator(ErrorValueCalculator):
         element_name = 'VdVdtMatrix'
             
         def to_xml(self):
-            if isinstance(self, DirectVdVdtMatrix):
+            if isinstance(self, MatrixErrorValueCalculator.DirectVdVdtMatrix):
                 type_xml = E(self.element_name + 'Type', 'Direct')
             else:
                 assert(False), ("The class '{}' is not listed in VdVdtMatrix.to_xml()"
@@ -409,46 +411,46 @@ class MatrixErrorValueCalculator(ErrorValueCalculator):
         def from_xml(cls, type_element, parameters_element):
             vdVdt_matrix = type_element.text
             if vdVdt_matrix == 'Direct':
-                obj = DirectVdVdtMatrix.from_xml(parameters_element)
+                obj = MatrixErrorValueCalculator.DirectVdVdtMatrix.from_xml(parameters_element)
             else:
                 raise Exception("Unrecognised type '{}' of traces reader".format(vdVdt_matrix))
             return obj
         
-        class DirectVdVdtMatrix(VdVdtMatrix):
+    class DirectVdVdtMatrix(MatrixErrorValueCalculator.VdVdtMatrix):
+        
+        def __init__(self, v_length, dvdt_length, minimal_v, maximal_v, compare_precision,
+                     numeric_output_format, sum_of_square_roots):
+            self.v_length = int(v_length)
+            self.dvdt_length = int(dvdt_length)
+            self.minimal_v = float(minimal_v)
+            self.maximal_v = float(maximal_v)
+            self.compare_precision = float(compare_precision)
+            self.numeric_output_format = numeric_output_format
+            self.sum_of_square_roots = sum_of_square_roots
             
-            def __init__(self, v_length, dvdt_length, minimal_v, maximal_v, compare_precision,
-                         numeric_output_format, sum_of_square_roots):
-                self.v_length = int(v_length)
-                self.dvdt_length = int(dvdt_length)
-                self.minimal_v = float(minimal_v)
-                self.maximal_v = float(maximal_v)
-                self.compare_precision = float(compare_precision)
-                self.numeric_output_format = numeric_output_format
-                self.sum_of_square_roots = sum_of_square_roots
-                
-            def _to_xml(self):
-                return E(element_name + 'Parameters',
-                        E('vLength', self.v_length),
-                        E('dVdtLength', self.dvdt_length),
-                        E('minimalV', self.minimal_v),
-                        E('maximalV', self.maximal_v),
-                        E('comparePrecision', self.compare_precision),
-                        E('numericOutputFormat', self.numeric_output_format),
-                        E('SumOfSquareRoots', self.sum_of_square_roots))
+        def _to_xml(self):
+            return E(self.element_name + 'Parameters',
+                    E('vLength', self.v_length),
+                    E('dVdtLength', self.dvdt_length),
+                    E('minimalV', self.minimal_v),
+                    E('maximalV', self.maximal_v),
+                    E('comparePrecision', self.compare_precision),
+                    E('numericOutputFormat', self.numeric_output_format),
+                    E('SumOfSquareRoots', self.sum_of_square_roots))
 
-            @classmethod
-            def from_xml(cls, element):
-                v_length = element.find('vLength').text
-                dvdt_length = element.find('dVdtLength').text
-                minimal_v= element.find('minimalV').text
-                maximal_v= element.find('maximalV').text
-                compare_precision= element.find('comparePrecision').text
-                numeric_output_format= element.find('numericOutputFormat').text
-                sum_of_square_roots = element.find('SumOfSquareRoots').text
-                return cls(v_length, dvdt_length, minimal_v, maximal_v, compare_precision,
-                           numeric_output_format, sum_of_square_roots)
+        @classmethod
+        def from_xml(cls, element):
+            v_length = element.find('vLength').text
+            dvdt_length = element.find('dVdtLength').text
+            minimal_v= element.find('minimalV').text
+            maximal_v= element.find('maximalV').text
+            compare_precision= element.find('comparePrecision').text
+            numeric_output_format= element.find('numericOutputFormat').text
+            sum_of_square_roots = element.find('SumOfSquareRoots').text
+            return cls(v_length, dvdt_length, minimal_v, maximal_v, compare_precision,
+                       numeric_output_format, sum_of_square_roots)
             
-    def __init__(self, vdVdt_matrix, enable_file_export, export_file)
+    def __init__(self, vdVdt_matrix, enable_file_export, export_file):
         self.vdVdt_matrix = vdVdt_matrix
         self.enable_file_export = enable_file_export
         self.export_file = export_file
@@ -461,8 +463,9 @@ class MatrixErrorValueCalculator(ErrorValueCalculator):
 
     @classmethod
     def from_xml(cls, element):
-        vdVdt_matrix = VdVdtMatrix.from_xml(element.find(VdVdtMatrix.element_name + 'Type'), 
-                                           element.find(VdVdtMatrix.element_name + 'Parameters'))
+        vdVdt_matrix = cls.VdVdtMatrix.from_xml(
+                  element.find(cls.VdVdtMatrix.element_name + 'Type'), 
+                  element.find(cls.VdVdtMatrix.element_name + 'Parameters'))
         enable_file_export = element.find('enableFileExport').text
         export_file = element.find('exportFile').text
         return cls(vdVdt_matrix, enable_file_export, export_file)
@@ -471,7 +474,6 @@ class MatrixErrorValueCalculator(ErrorValueCalculator):
 class RMSErrorValueCalculator(ErrorValueCalculator):
     
     def __init__(self, enable_file_export, export_file, enable_traces_export):
-        self.calculator = calculator 
         self.export_file = export_file
         self.enable_file_export = enable_file_export
         self.enable_traces_export = enable_traces_export 
@@ -487,7 +489,7 @@ class RMSErrorValueCalculator(ErrorValueCalculator):
         enable_file_export = element.find('enableFileExport').text
         export_file = element.find('exportFile').text
         enable_traces_export = element.finde('enableTracesExport').text
-        return cls(calculator, enable_file_export, export_file, enable_traces_export)
+        return cls(enable_file_export, export_file, enable_traces_export)
 
 
 class MPIErrorValueCalculator(ErrorValueCalculator):
@@ -518,10 +520,9 @@ class MPIErrorValueCalculator(ErrorValueCalculator):
 
 class Settings(object):
     
-    
     def __init__(self, program_name, dimensions, verbose_level, seed, sample_frequency, 
                  starting_points, bounds, work_dir, fitter, traces_reader, model, experiment, 
-                 error_value_calculator, print_parameter_file=True):
+                 error_value_calculator, print_parameter_file):
         self.program_name = program_name
         self.dimensions = dimensions
         self.verbose_level = verbose_level
@@ -556,34 +557,78 @@ class Settings(object):
         return '<?xml version="1.0" encoding="UTF-8"?>\n' + tostring(settings_xml, 
                                                                      pretty_print=True)
     @classmethod
-    def from_xml(self):
-        pass
- 
+    def from_xml(cls, element):
+        program_name = element.tag
+        dimensions = element.find('Dimensions').text
+        verbose_level = element.find('VerboseLevel').text
+        seed = element.find('Seed').text
+        sample_frequency = element.find('SamplingFrequency').text
+        starting_points = element.find('StartingPoints').text
+        bounds = element.find('Bounds').text
+        work_dir = element.find('WorkingDirectory').text
+        print_parameter_file = element.find('PrintParameterFile').text
+        fitter = Fitter.from_xml(element.find(Fitter.element_name + 'Type'),
+                                 element.find(Fitter.element_name + 'Parameters'))
+        traces_reader = TracesReader.from_xml(
+                 element.find(TracesReader.element_name + 'Type'),
+                 element.find(TracesReader.element_name + 'Parameters'))
+        model = Model.from_xml(element.find(Model.element_name + 'Type'),
+                               element.find(Model.element_name + 'Parameters'))
+        experiment = Experiment.from_xml(element.find(Experiment.element_name + 'Type'),
+                                         element.find(Experiment.element_name + 'Parameters'))
+        error_value_calculator = ErrorValueCalculator.from_xml(
+                 element.find(ErrorValueCalculator.element_name + 'Type'),
+                 element.find(ErrorValueCalculator.element_name + 'Parameters'))
+        return cls(program_name, dimensions, verbose_level, seed, sample_frequency, starting_points, 
+                   bounds, work_dir, fitter, traces_reader, model, experiment, error_value_calculator, 
+                   print_parameter_file)
+           
+
+def parse(url):
+    """
+    Read a NineML user-layer file and return a Model object.
+
+    If the URL does not have a scheme identifier, it is taken to refer to a
+    local file.
+    """
+    if not isinstance(url, file):
+        f = urllib.urlopen(url)
+        doc = etree.parse(f)
+        f.close()
+    else:
+        doc = etree.parse(url)
+    root = doc.getroot()
+    return Settings.from_xml(root)
+           
                                               
 if __name__ == '__main__':
     
-    fitter = Fitter('Random', 2000)
-    traces_reader = TracesReader('Normal', num_runs=5, 
-                                 run_params=[0.000018, 2000, 0.0000326, 1000, 0.0000545, 500, 
-                                             0.0000815, 250, 0.000111, 125], 
-                                 periods=[500, 550, 1.0, 550, 5000, 1.0], record_sites=1, 
-                                 output_prefix='output')
-    model = Model('Executable', 
-                  """unset DISPLAY; cd SCRATCH/model; x86_64/special -nogui
-                     runModel3_Nannuli2_dia_0_4.hoc""",
-                  output_dir='outputs', parameter_file='/model/param.dat', show_output=False)
-    experiment = Experiment('FileList', 
-                            ['SHAREDDIR/data/Testg18e-6_Nannuli2_dia_0_4_Jan08.dat',
-                             'SHAREDDIR/data/Testg32e-6_Nannuli2_dia_0_4_Jan08.dat',
-                             'SHAREDDIR/data/Testg54e-6_Nannuli2_dia_0_4_Jan08.dat',
-                             'SHAREDDIR/data/Testg81e-6_Nannuli2_dia_0_4_Jan08.dat',
-                             'SHAREDDIR/data/Testg111e-6_Nannuli2_dia_0_4_Jan08.dat'])
-    calculator = ErrorValueCalculator('RMS', export_file='ErrorValue.dat', enable_traces_export=0)
-    error_value_calculator = ErrorValueCalculator('MPI', calculator, 
-            export_file='/users/anwar/TuningCaDynamicsNeurofitterDend_depthOnly/Dia0_4/work/pfs/BestFit.dat.JOBID')
-    settings = Settings(program_name='TestProgram', dimensions=1, verbose_level=1, seed=500, 
-                        sample_frequency=50, starting_points=[0.2], bounds=[0.001, 0.2], 
-                        work_dir='/home/tclose/', fitter=fitter, traces_reader=traces_reader, 
-                        model=model, experiment=experiment, 
-                        error_value_calculator=error_value_calculator)
+#     fitter = Fitter('Random', 2000)
+#     traces_reader = TracesReader('Normal', num_runs=5, 
+#                                  run_params=[0.000018, 2000, 0.0000326, 1000, 0.0000545, 500, 
+#                                              0.0000815, 250, 0.000111, 125], 
+#                                  periods=[500, 550, 1.0, 550, 5000, 1.0], record_sites=1, 
+#                                  output_prefix='output')
+#     model = Model('Executable', 
+#                   """unset DISPLAY; cd SCRATCH/model; x86_64/special -nogui
+#                      runModel3_Nannuli2_dia_0_4.hoc""",
+#                   output_dir='outputs', parameter_file='/model/param.dat', show_output=False)
+#     experiment = Experiment('FileList', 
+#                             ['SHAREDDIR/data/Testg18e-6_Nannuli2_dia_0_4_Jan08.dat',
+#                              'SHAREDDIR/data/Testg32e-6_Nannuli2_dia_0_4_Jan08.dat',
+#                              'SHAREDDIR/data/Testg54e-6_Nannuli2_dia_0_4_Jan08.dat',
+#                              'SHAREDDIR/data/Testg81e-6_Nannuli2_dia_0_4_Jan08.dat',
+#                              'SHAREDDIR/data/Testg111e-6_Nannuli2_dia_0_4_Jan08.dat'])
+#     calculator = ErrorValueCalculator('RMS', export_file='ErrorValue.dat', enable_traces_export=0)
+#     error_value_calculator = ErrorValueCalculator('MPI', calculator, 
+#             export_file='/users/anwar/TuningCaDynamicsNeurofitterDend_depthOnly/Dia0_4/work/pfs/BestFit.dat.JOBID')
+#     settings = Settings(program_name='TestProgram', dimensions=1, verbose_level=1, seed=500, 
+#                         sample_frequency=50, starting_points=[0.2], bounds=[0.001, 0.2], 
+#                         work_dir='/home/tclose/', fitter=fitter, traces_reader=traces_reader, 
+#                         model=model, experiment=experiment, 
+#                         error_value_calculator=error_value_calculator)
+#     print settings.to_xml()
+
+    settings = parse('/home/tclose/git/neurofitter/example/roimpisettings.xml')
     print settings.to_xml()
+    
