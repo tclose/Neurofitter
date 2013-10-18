@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 from lxml.builder import E
 from lxml.etree import tostring
+import re
 
 #===================================================================================================
 # Fitter 
@@ -37,7 +38,7 @@ class RandomFitter(Fitter):
         """
         num_points -- The number of random points to use 
         """
-        self.num_points = num_points
+        self.num_points = int(num_points)
 
     def _to_xml(self):
         return E(self.element_name + 'Parameters', 
@@ -45,7 +46,7 @@ class RandomFitter(Fitter):
 
     @classmethod
     def from_xml(cls, element):
-        num_points = int(element.find('NumberOfPoints'))
+        num_points = element.find('NumberOfPoints').text
         return cls(num_points)
 
 
@@ -113,19 +114,19 @@ class EOFitter(Fitter):
     
     @classmethod
     def from_xml(cls, element):
-        pop_size = element.find('popSize')
-        num_offspring = element.find('nbOffspring')
-        replacement = element.find('replacement')
-        max_gen = element.find('maxGen')
-        min_gen = element.find('minGen')
-        max_eval = element.find('maxval')
-        target_fitness = element.find('targetFitness')
-        steady_gen = element.find('steadyGen')
-        cross_type = element.find('crossType')
-        cross_obj = element.find('crossObj')
-        tau_loc = element.find('TauLoc')
-        tau_glob = element.find('TauGlob')
-        beta = element.find('Beta')
+        pop_size = element.find('popSize').text
+        num_offspring = element.find('nbOffspring').text
+        replacement = element.find('replacement').text
+        max_gen = element.find('maxGen').text
+        min_gen = element.find('minGen').text
+        max_eval = element.find('maxval').text
+        target_fitness = element.find('targetFitness').text
+        steady_gen = element.find('steadyGen').text
+        cross_type = element.find('crossType').text
+        cross_obj = element.find('crossObj').text
+        tau_loc = element.find('TauLoc').text
+        tau_glob = element.find('TauGlob').text
+        beta = element.find('Beta').text
         return cls(pop_size, num_offspring, replacement, max_gen, min_gen, max_eval, target_fitness, 
                    steady_gen, cross_type, cross_obj, tau_loc, tau_glob, beta)
 
@@ -181,14 +182,14 @@ class NormalTracesReader(TracesReader):
         
     @classmethod
     def from_xml(cls, element):
-        num_runs = element.find('NumberOfRuns')
-        num_run_params = element.find('NumberOfRunParameters')
-        run_params = element.find('RunParameters').split(' ')
-        num_periods = element.find('NumberOfPeriods')
-        periods = element.find('Periods').split(' ')
-        num_record_sites = element.find('NumberOfRecordSites')
-        record_sites = element.find('RecordSites')
-        output = element.find('OutputFilePrefix')
+        num_runs = element.find('NumberOfRuns').text
+        num_run_params = element.find('NumberOfRunParameters').text
+        run_params = element.find('RunParameters').text.split(' ')
+        num_periods = element.find('NumberOfPeriods').text
+        periods = element.find('Periods').text.split(' ')
+        num_record_sites = element.find('NumberOfRecordSites').text
+        record_sites = element.find('RecordSites').text
+        output = element.find('OutputFilePrefix').text
         return cls(num_runs, num_run_params, run_params, num_periods, periods, num_record_sites,
                    record_sites, output)
 
@@ -222,7 +223,7 @@ class Model(object):
         elif model_type == 'Executable':
             obj = ExecutableModel.from_xml(parameters_element)
         else:
-            raise Exception("Unrecognised type '{}' of traces reader".format(traces_reader_type))
+            raise Exception("Unrecognised type '{}' of traces reader".format(model_type))
         return obj
 
 
@@ -244,10 +245,10 @@ class ExecutableModel(Model):
 
     @classmethod
     def from_xml(cls, element):
-        command = element.find('ExecuteCommand')
-        output_dir = element.find('OutputDirectory')
-        parameter_file = element.find('ParameterFile')
-        show_output = element.find('ShowExecuteOutput')
+        command = element.find('ExecuteCommand').text
+        output_dir = element.find('OutputDirectory').text
+        parameter_file = element.find('ParameterFile').text
+        show_output = element.find('ShowExecuteOutput').text
         return cls(command, output_dir, parameter_file, show_output)
     
     
@@ -273,12 +274,12 @@ class GenesisModel(Model):
 
     @classmethod
     def from_xml(cls, element):
-        genesis_location = element.find('GenesisLocation')
-        model_dir = element.find('ModelDirectory')
-        output_dir = element.find('OutputDirectory')
-        model_src = element.find('ModelSource')
-        param_file = element.find('ParameterFile')
-        show_exec_output = element.find('ShowExecuteOutput')
+        genesis_location = element.find('GenesisLocation').text
+        model_dir = element.find('ModelDirectory').text
+        output_dir = element.find('OutputDirectory').text
+        model_src = element.find('ModelSource').text
+        param_file = element.find('ParameterFile').text
+        show_exec_output = element.find('ShowExecuteOutput').text
         return cls(genesis_location, model_dir, output_dir, model_src, param_file, show_exec_output)     
         
         
@@ -326,16 +327,35 @@ class Experiment(object):
     
 class FileListExperiment(Experiment):
     
+    file_list_delimeter = re.compile('[ \n]+')
+    
     def __init__(self, files_list):
         self.files_list = files_list 
         
     def _to_xml(self):
-        return E(self.element_name + 'Parameters', E('FilesList', '\n'.join(self.files_list)))
+        return E(self.element_name + 'Parameters',
+                 E('FilesList', '\n'.join(self.files_list)))
 
     @classmethod
     def from_xml(cls, element):
-        raise NotImplementedError
+        parameters = cls.file_list_delimeter.split(element.find('FilesList').text)
+        return cls(parameters)
 
+    
+class FakeExperiment(Experiment):
+    
+    def __init__(self, parameters):
+        self.parameters = parameters
+        
+    def _to_xml(self):
+        return E(self.element_name + 'Parameters',
+                 E('Parameters', ' '.join(self.parameters)))
+
+    @classmethod
+    def from_xml(cls, element):
+        parameters = element.find('Parameters').text.split(' ')
+        return cls(parameters)
+        
 
 #===================================================================================================
 # Error value calculator
@@ -344,26 +364,152 @@ class FileListExperiment(Experiment):
 class ErrorValueCalculator(object):
     
     element_name='ErrorValueCalculator'
+
+    def to_xml(self):
+        if isinstance(self, MPIErrorValueCalculator):
+            type_xml = E(self.element_name + 'Type', 'MPI')
+        elif isinstance(self, RMSErrorValueCalculator):
+            type_xml = E(self.element_name + 'Type', 'RMS')
+        elif isinstance(self, MatrixErrorValueCalculator):
+            type_xml = E(self.element_name + 'Type', 'Matrix')
+        else:
+            assert(False), ("The class '{}' is not listed in ErrorValueCalculator.to_xml()"
+                            .format(type(self)))
+        return (type_xml, self._to_xml())
+        
+    @classmethod
+    def from_xml(cls, type_element, parameters_element):
+        error_value_calculator = type_element.text
+        if error_value_calculator == 'MPI':
+            obj = MPIErrorValueCalculator.from_xml(parameters_element)
+        elif error_value_calculator == 'RMS':
+            obj = RMSErrorValueCalculator.from_xml(parameters_element)
+        elif error_value_calculator == 'Matrix':
+            obj = MatrixErrorValueCalculator.from_xml(parameters_element)
+        else:
+            raise Exception("Unrecognised type '{}' of traces reader".format(error_value_calculator))
+        return obj
+
+
+class MatrixErrorValueCalculator(ErrorValueCalculator):    
+        
+    class VdVdtMatrix(object):
+        
+        element_name = 'VdVdtMatrix'
+            
+        def to_xml(self):
+            if isinstance(self, DirectVdVdtMatrix):
+                type_xml = E(self.element_name + 'Type', 'Direct')
+            else:
+                assert(False), ("The class '{}' is not listed in VdVdtMatrix.to_xml()"
+                                .format(type(self)))
+            return (type_xml, self._to_xml())
+            
+        @classmethod
+        def from_xml(cls, type_element, parameters_element):
+            vdVdt_matrix = type_element.text
+            if vdVdt_matrix == 'Direct':
+                obj = DirectVdVdtMatrix.from_xml(parameters_element)
+            else:
+                raise Exception("Unrecognised type '{}' of traces reader".format(vdVdt_matrix))
+            return obj
+        
+        class DirectVdVdtMatrix(VdVdtMatrix):
+            
+            def __init__(self, v_length, dvdt_length, minimal_v, maximal_v, compare_precision,
+                         numeric_output_format, sum_of_square_roots):
+                self.v_length = int(v_length)
+                self.dvdt_length = int(dvdt_length)
+                self.minimal_v = float(minimal_v)
+                self.maximal_v = float(maximal_v)
+                self.compare_precision = float(compare_precision)
+                self.numeric_output_format = numeric_output_format
+                self.sum_of_square_roots = sum_of_square_roots
+                
+            def _to_xml(self):
+                return E(element_name + 'Parameters',
+                        E('vLength', self.v_length),
+                        E('dVdtLength', self.dvdt_length),
+                        E('minimalV', self.minimal_v),
+                        E('maximalV', self.maximal_v),
+                        E('comparePrecision', self.compare_precision),
+                        E('numericOutputFormat', self.numeric_output_format),
+                        E('SumOfSquareRoots', self.sum_of_square_roots))
+
+            @classmethod
+            def from_xml(cls, element):
+                v_length = element.find('vLength').text
+                dvdt_length = element.find('dVdtLength').text
+                minimal_v= element.find('minimalV').text
+                maximal_v= element.find('maximalV').text
+                compare_precision= element.find('comparePrecision').text
+                numeric_output_format= element.find('numericOutputFormat').text
+                sum_of_square_roots = element.find('SumOfSquareRoots').text
+                return cls(v_length, dvdt_length, minimal_v, maximal_v, compare_precision,
+                           numeric_output_format, sum_of_square_roots)
+            
+    def __init__(self, vdVdt_matrix, enable_file_export, export_file)
+        self.vdVdt_matrix = vdVdt_matrix
+        self.enable_file_export = enable_file_export
+        self.export_file = export_file
+        
+    def _to_xml(self):
+        return E(self.element_name + 'Parameters',
+                 *(self.vdVdt_matrix.to_xml() + 
+                   (E('enableFileExport', self.enable_file_export),
+                   E('exportFile', self.export_file))))
+
+    @classmethod
+    def from_xml(cls, element):
+        vdVdt_matrix = VdVdtMatrix.from_xml(element.find(VdVdtMatrix.element_name + 'Type'), 
+                                           element.find(VdVdtMatrix.element_name + 'Parameters'))
+        enable_file_export = element.find('enableFileExport').text
+        export_file = element.find('exportFile').text
+        return cls(vdVdt_matrix, enable_file_export, export_file)
     
-    def __init__(self, error_val_type, calculator=None, export_file=None, 
-                 enable_traces_export=None):
-        self.type = error_val_type
+
+class RMSErrorValueCalculator(ErrorValueCalculator):
+    
+    def __init__(self, enable_file_export, export_file, enable_traces_export):
         self.calculator = calculator 
         self.export_file = export_file
+        self.enable_file_export = enable_file_export
         self.enable_traces_export = enable_traces_export 
         
-    def to_xml(self):
-        element_list = [self.element_name +'Parameters']
-        if self.calculator is not None:
-            element_list.extend(self.calculator.to_xml())
-        if self.export_file is not None:
-            element_list.append(E('enableFileExport', '1'))
-            element_list.append(E('exportFile', self.export_file))
-        else:
-            element_list.append(E('enableFileExport', '0'))
-        if self.enable_traces_export is not None:
-            element_list.append(E('enableTracesExport', str(self.enable_traces_export)))
-        return E(self.element_name + 'Type', self.type), E(*element_list)
+    def _to_xml(self):
+        return E(self.element_name + 'Parameters',
+                 E('enableFileExport', self.enable_file_export),
+                 E('exportFile', self.export_file),
+                 E('enableTracesExport', self.enable_traces_export))
+
+    @classmethod
+    def from_xml(cls, element):
+        enable_file_export = element.find('enableFileExport').text
+        export_file = element.find('exportFile').text
+        enable_traces_export = element.finde('enableTracesExport').text
+        return cls(calculator, enable_file_export, export_file, enable_traces_export)
+
+
+class MPIErrorValueCalculator(ErrorValueCalculator):
+        
+    def __init__(self, calculator, enable_file_export, export_file):
+        self.calculator = calculator 
+        self.export_file = export_file
+        self.enable_file_export = enable_file_export
+        
+    def _to_xml(self):
+        return E(self.element_name + 'Parameters',
+                 *(self.calculator.to_xml() + 
+                   (E('enableFileExport', self.enable_file_export),
+                    E('exportFile', self.export_file))))
+
+    @classmethod
+    def from_xml(cls, element):
+        calculator = ErrorValueCalculator.from_xml(element.find(ErrorValueCalculator.element_name + 'Type'), 
+                                                     element.find(ErrorValueCalculator.element_name + 'Parameters'))
+        enable_file_export = element.find('enableFileExport').text
+        export_file = element.find('exportFile').text
+        return cls(calculator, enable_file_export, export_file)
 
 
 #===================================================================================================
@@ -412,6 +558,7 @@ class Settings(object):
     @classmethod
     def from_xml(self):
         pass
+ 
                                               
 if __name__ == '__main__':
     
