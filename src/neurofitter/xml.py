@@ -2,14 +2,41 @@ from __future__ import absolute_import
 from lxml.builder import E
 from lxml.etree import tostring
 
+class Fitter(object): 
+    
+    element_name = "Fitter"
 
-class RandomFitter(object):
+    def to_xml(self, parameters_element):
+        if isinstance(self, RandomFitter):
+            type_xml = E(self.element_name + 'Type', 'Random')
+        elif isinstance(self, EOFitter):
+            type_xml = E(self.element_name + 'Type', 'EO')
+        return (type_xml, parameters_element)
+        
+
+    @classmethod
+    def from_xml(cls, type_element, parameters_element):
+        fitter_type = type_element.text
+        if fitter_type == 'Random':
+            obj = RandomFitter.from_xml(parameters_element)
+        elif fitter_type == 'EOFitter':
+            obj = EOFitter.from_xml(parameters_element)
+        else:
+            raise Exception("Unrecognised type '{}' of fitter".format(fitter_type))
+        return obj
+
+
+class RandomFitter(Fitter):
     
     def __init__(self, num_points):
+        """
+        num_points -- The number of random points to use 
+        """
         self.num_points = num_points
 
     def to_xml(self):
-        return E('FitterParameters', E('NumberOfPoints', str(self.num_points)))
+        return E(self.element_name + 'Parameters', 
+                 E('NumberOfPoints', str(self.num_points)))
 
     @classmethod
     def from_xml(cls, element):
@@ -17,7 +44,7 @@ class RandomFitter(object):
         return cls(num_points)
 
 
-class EOFitter(object):
+class EOFitter(Fitter):
     
     valid_replacement = ('Plus',)
     valid_cross_type = ('global', 'local')
@@ -49,22 +76,22 @@ class EOFitter(object):
         if cross_obj not in self.valid_cross_obj:
             raise Exception("Invalid cross-over type '{}', can be '{}'".format(cross_obj, 
                     "', '".join(self.valid_cross_obj)))
-        self.pop_size = pop_size
-        self.num_offspring = num_offspring
+        self.pop_size = int(pop_size)
+        self.num_offspring = int(num_offspring)
         self.replacement = replacement
-        self.max_gen = max_gen
-        self.min_gen = min_gen
-        self.max_eval = max_eval
+        self.max_gen = int(max_gen)
+        self.min_gen = int(min_gen)
+        self.max_eval = int(max_eval)
         self.target_fitness = target_fitness
-        self.steady_gen = steady_gen
+        self.steady_gen = int(steady_gen)
         self.cross_type = cross_type
         self.cross_obj = cross_obj
-        self.tau_loc = tau_loc
-        self.tau_glob = tau_glob
-        self.beta = beta
+        self.tau_loc = float(tau_loc)
+        self.tau_glob = float(tau_glob)
+        self.beta = float(beta)
     
     def to_xml(self):
-        return E('FitterParameters', 
+        return E(self.element_name + 'Parameters',
                  E('popSize', self.pop_size),
                  E('nbOffspring', self.num_offspring),
                  E('replacement', self.replacement),
@@ -81,54 +108,90 @@ class EOFitter(object):
     
     @classmethod
     def from_xml(cls, element):
-        pop_size = int(element.find('popSize'))
-        num_offspring = int(element.find('nbOffspring'))
+        pop_size = element.find('popSize')
+        num_offspring = element.find('nbOffspring')
         replacement = element.find('replacement')
-        max_gen = int(element.find('maxGen'))
-        min_gen = int(element.find('minGen'))
-        max_eval = int(element.find('maxval'))
-        target_fitness = float(element.find('targetFitness'))
+        max_gen = element.find('maxGen')
+        min_gen = element.find('minGen')
+        max_eval = element.find('maxval')
+        target_fitness = element.find('targetFitness')
         steady_gen = element.find('steadyGen')
         cross_type = element.find('crossType')
         cross_obj = element.find('crossObj')
-        tau_loc = float(element.find('TauLoc'))
-        tau_glob = float(element.find('TauGlob'))
-        beta = float(element.find('Beta'))
+        tau_loc = element.find('TauLoc')
+        tau_glob = element.find('TauGlob')
+        beta = element.find('Beta')
         return cls(pop_size, num_offspring, replacement, max_gen, min_gen, max_eval, target_fitness, 
                    steady_gen, cross_type, cross_obj, tau_loc, tau_glob, beta)
    
    
 class TracesReader(object):
-    
+   
     element_name='TracesReader'
+
+    def to_xml(self, parameters_element):
+        if isinstance(self, NormalTracesReader):
+            type_xml = E(self.element_name + 'Type', 'Normal')
+        else:
+            assert(False), "The class '{}' is not listed in TracesReader.to_xml()".format(type(self))
+        return (type_xml, parameters_element)
+        
+    @classmethod
+    def from_xml(cls, type_element, parameters_element):
+        traces_reader_type = type_element.text
+        if traces_reader_type == 'Normal':
+            obj = RandomFitter.from_xml(parameters_element)
+        else:
+            raise Exception("Unrecognised type '{}' of traces reader".format(traces_reader_type))
+        return obj 
+   
+   
+class NormalTracesReader(TracesReader):
     
-    def __init__(self, reader_type, num_runs, run_params, periods, record_sites, output_prefix):
-        self.type = reader_type
-        self.num_runs = num_runs 
-        self.run_params = run_params  
-        self.periods = periods
-        self.record_sites = record_sites  
-        self.output_prefix = output_prefix 
+    def __init__(self, num_runs, num_run_params, run_params, num_periods, periods, num_record_sites,
+                 record_sites, output):
+        self.num_runs = int(num_runs)
+        self.num_run_params = int(num_run_params) 
+        self.run_params = [float(p) for p in run_params]
+        self.num_periods = int(num_periods)
+        self.periods = [float(p) for p in periods]
+        self.num_record_sites = int(num_record_sites)
+        self.record_sites = record_sites
+        self.output = output
         
     def to_xml(self):
-        return (E(self.element_name + 'Type', self.type),
-                E(self.element_name + 'Parameters',
-                  E('NumberOfRuns', str(self.num_runs)),
-                  E('NumberOfRunParameters', str(len(self.run_params))),
-                  E('RunParameters', ' '.join([str(p) for p in self.run_params])),
-                  E('NumberOfPeriods', str(len(self.periods))),
-                  E('Periods', ' '.join([str(p) for p in self.periods])),
-                  E('NumberOfRecordSites', str(1)),
-                  E('RecordSites', str(1)),
-                  E('OutputFilePrefix', 'output')))
+        return E(self.element_name + 'Parameters',
+                 E('NumberOfRuns', str(self.num_runs)),
+                 E('NumberOfRunParameters', str(self.num_run_params)),
+                 E('RunParameters', ' '.join([str(p) for p in self.run_params])),
+                 E('NumberOfPeriods', str(len(self.periods))),
+                 E('Periods', ' '.join([str(p) for p in self.periods])),
+                 E('NumberOfRecordSites', str(self.num_record_sites)),
+                 E('RecordSites', ' '.join(self.record_sites)),
+                 E('OutputFilePrefix', self.output))
         
+    @classmethod
+    def from_xml(cls, element):
+        num_runs = element.find('NumberOfRuns')
+        num_run_params = element.find('NumberOfRunParameters')
+        run_params = element.find('RunParameters').split(' ')
+        num_periods = element.find('NumberOfPeriods')
+        periods = element.find('Periods').split(' ')
+        num_record_sites = element.find('NumberOfRecordSites')
+        record_sites = element.find('RecordSites')
+        output = element.find('OutputFilePrefix')
+        return cls(num_runs, num_run_params, run_params, num_periods, periods, num_record_sites,
+                   record_sites, output)
+   
    
 class Model(object):
     
     element_name='Model'
     
+    
+class GenesisModel(Model):
+    
     def __init__(self, model_type, command, output_dir, parameter_file, show_output):
-        self.type = model_type
         self.command = command 
         self.output_dir = output_dir  
         self.parameter_file = parameter_file  
@@ -141,6 +204,25 @@ class Model(object):
                   E('OutputDirectory', self.output_dir),
                   E('ParameterFile', self.parameter_file),
                   E('ShowExecuteOutput', str(int(self.show_output)))))
+        
+class NeuronModel(Model):
+    
+    def __init__(self, model_type, command, output_dir, parameter_file, show_output):
+        self.command = command 
+        self.output_dir = output_dir  
+        self.parameter_file = parameter_file  
+        self.show_output = show_output
+
+    def to_xml(self):
+        return (E(self.element_name + 'Type', self.type),
+                E(self.element_name + 'Parameters',
+                  E('ExecuteCommand', self.command),
+                  E('OutputDirectory', self.output_dir),
+                  E('ParameterFile', self.parameter_file),
+                  E('ShowExecuteOutput', str(int(self.show_output)))))
+
+    @classmethod
+    def from_xml(cls, element):
         
         
 class Experiment(object):
@@ -221,6 +303,8 @@ class Settings(object):
         return '<?xml version="1.0" encoding="UTF-8"?>\n' + tostring(settings_xml, 
                                                                      pretty_print=True)
    
+   def from_xml(self):
+       
                                               
 if __name__ == '__main__':
     
