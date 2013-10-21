@@ -1,5 +1,4 @@
 from lxml.builder import E
-from . import white_space_delim
 
 
 class Fitter(object): 

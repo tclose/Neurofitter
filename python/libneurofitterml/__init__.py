@@ -3,13 +3,15 @@ from lxml import etree
 from lxml.builder import E
 from lxml.etree import tostring
 import re
+
+white_space_delim = re.compile('[ \n]+')
+
 from .fitter import Fitter
 from .model import Model
 from .experiment import Experiment
 from .traces_reader import TracesReader
 from .error_value_calculator import ErrorValueCalculator    
-    
-white_space_delim = re.compile('[ \n]+')
+
 
 class Settings(object):
     
@@ -92,10 +94,4 @@ def parse(url):
         doc = etree.parse(url)
     root = doc.getroot()
     return Settings.from_xml(root)
-           
-                                              
-if __name__ == '__main__':
-    
-    settings = parse('/home/tclose/git/neurofitter/example/butera.xml')
-    print settings.to_xml()
     
