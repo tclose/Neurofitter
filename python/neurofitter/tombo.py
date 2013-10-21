@@ -84,14 +84,6 @@ def init_work_dir(work_dir, required_dirs, time_str, dependencies):
     # Copy snapshot of selected subdirectories to working directory
     for directory in required_dirs:
         print "Copying '{}' sub-directory to work directory".format(directory)
-#        try:
-#            subprocess.check_call("cd {project}; tar -czf {dir}.tar.gz {dir}; mv {dir}.tar.gz {work}/;"
-#                                  "cd {work}; tar -xzf {work}/{dir}.tar.gz; rm {work}/{dir}.tar.gz"
-#                                  .format(project=get_project_dir(), dir=directory, work=work_dir), 
-#                                  shell=True) 
-#        except IOError as e:
-#            raise Exception("Could not copy directory '{}' to work directory ({})"
-#                            .format(directory, e))
         shutil.copytree(os.path.join(get_project_dir(),directory), 
                         os.path.join(work_dir,directory), symlinks=True)
     if dependencies:
