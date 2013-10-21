@@ -1,4 +1,13 @@
 *.pyc
 Makefile
 *.o
+*.a
 /src/bin
+/src/config*
+libtool
+stamp-h1
+/bin/*
+/src/neurofitter_config.h
+/src/EO/config*
+.deps
+autom4te.cache
