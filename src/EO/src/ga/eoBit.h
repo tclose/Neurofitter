@@ -40,6 +40,7 @@
 #include <string>      // std::string
 
 #include <eoVector.h>
+#include <algorithm>
 
 /**
 \defgroup bitstring

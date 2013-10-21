@@ -31,6 +31,7 @@
 #endif
 
 #include <string>
+#include <cstring>
 
 /**
 @author Marc Schoenauer 2001

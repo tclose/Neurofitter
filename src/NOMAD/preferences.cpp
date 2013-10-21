@@ -33,6 +33,8 @@
 // preferences.cpp -- class methods for Preferences.
 
 #include <fstream>
+#include <cstring>
+#include <cstdlib>
 #include <iostream>
 using namespace std;
 #include "preferences.h"

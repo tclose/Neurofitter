@@ -38,6 +38,7 @@
 #include <vector>
 using namespace std;
 #include "description.h"
+#include <cstdlib>
 
 /* Private methods
 ******************************************************************************/

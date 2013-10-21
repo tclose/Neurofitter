@@ -34,6 +34,7 @@
 
 #include <cmath>
 #include <cstring>
+#include <cstdlib>
 #include <iostream>
 using namespace std;
 #include "defines.h"

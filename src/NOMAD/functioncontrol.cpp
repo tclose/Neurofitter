@@ -35,6 +35,7 @@
    to FunctionControl. */
 
 #include <cstring>
+#include <cstdlib>
 #include <cmath>
 #include <iostream>
 using namespace std;
