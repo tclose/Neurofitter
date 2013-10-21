@@ -50,6 +50,10 @@ class Settings(object):
                                 settings file you used.  If set to 0, Neurofitter won't print the
                                 settings.xml file                                    
         """
+        if hasattr(experiment.num_runs) and traces_reader.num_runs != experiment.num_runs:
+            raise Exception("Number of runs in traces reader ({}) does not match the number implied"
+                            " by the experiment ({})".format(traces_reader.num_runs, 
+                                                             experiment.num_runs))
         self.program_name = program_name
         self.dimensions = int(dimensions)
         self.verbose_level = verbose_level
