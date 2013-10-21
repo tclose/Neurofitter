@@ -1,0 +1,22 @@
+**********************************************************************************
+**
+** Neurofitter : a parameter tuning package for electrophysiological neuron models
+**
+** Written by:
+**              Werner Van Geit
+**				Ivan Raikov
+**              Pablo Achard
+**
+** under the direction of:
+**              Erik De Schutter
+**
+**  Copyright 2006 by TNB - University of Antwerp
+**
+**  Neurofitter is free software; you can redistribute it and/or modify it
+**  under the terms of the GNU General Public License (GPL) as published by
+**  the Free Software Foundation.  
+**              
+**  Please see the file "LICENSE" for details of the copyrights and
+**  licenses that apply to Neurofitter and its libraries.
+**              
+**********************************************************************************

@@ -12,9 +12,9 @@
     </StartingPoints>
     <!-- The lower and upper bound of each parameter -->
     <Bounds>
-        1.0 10000.0 <!-- LowerBound UpperBound -->
+        1.0 10000.0 
         1.0 50000.0
-    </Bounds>
+    </Bounds> <!-- LowerBound UpperBound -->
     <!-- Path of directory were Neurofitter will be executed -->
     <WorkingDirectory>/home/buteratest</WorkingDirectory>
     <!-- Print settings file to stdout before execution ? --> <!-- 1 = True / 0 = False -->
@@ -53,15 +53,15 @@
         <NumberOfPeriods>3</NumberOfPeriods>
         <!-- Selection of time ranges, 1 line per period --> <!-- Units the same as the sampling frequency setting -->
         <Periods>
-            2.0 3.9 0.33 <!-- PeriodStart PeriodStop Weight -->
+            2.0 3.9 0.33 
             1.0 1.5 0.33 0.5 0.75 0.33
-        </Periods>
+        </Periods> <!-- PeriodStart PeriodStop Weight -->
         <!-- Number of different recording sites -->
         <NumberOfRecordSites>1</NumberOfRecordSites> <!-- One line for the weight of every recording site -->
         <RecordSites>
             1 <!-- Weights -->
         </RecordSites>
-        <!-- The prefix used in the filenames of the experimental --> <!-- and model data, <!-- e.g. filename of the data of the first run = --> <!-- output_Run0.dat -->
+        <!-- The prefix used in the filenames of the experimental --> <!-- and model data, e.g. filename of the data of the first run = --> <!-- output_Run0.dat -->
         <OutputFilePrefix>output</OutputFilePrefix>
     </TracesReaderParameters>
     <!-- The type of simulator used to run the model --> <!-- Possible values: Genesis, Neuron, Executable -->
@@ -77,7 +77,7 @@
         <ParameterFile>/UseterWork/wernermodel/param.dat</ParameterFile> <!-- Show the genesis stdout during execution, useful for --> <!-- debugging -->
         <ShowExecuteOutput>0</ShowExecuteOutput>
     </ModelParameters>
-    <!-- Type of experimental data --> <!-- Possible values are: <!-- File: data read from file -->
+    <!-- Type of experimental data --> <!-- Possible values are: File: data read from file -->
     <!-- Fake: ‘experimental’ data is obtained by running -->
     <!-- the model with a preset set of parameters -->
     <ExperimentType>Fake</ExperimentType>

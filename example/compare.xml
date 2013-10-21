@@ -1,59 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<TestProgram>
-    <Dimensions>1</Dimensions>
-    <VerboseLevel>1</VerboseLevel>
-    <Seed>500</Seed>
-    <SamplingFrequency>50</SamplingFrequency>
-    <StartingPoints>0.2</StartingPoints>
-    <Bounds>0.001 0.2</Bounds>
-    <WorkingDirectory>/home/tclose/</WorkingDirectory>
+<ButeraModel>
+    <Dimensions>2</Dimensions>
+    <VerboseLevel>4</VerboseLevel>
+    <Seed>1550</Seed>
+    <SamplingFrequency>5000</SamplingFrequency>
+    <StartingPoints>1.0 1.0</StartingPoints>
+    <Bounds>1.0 10000.0</Bounds>
+    <WorkingDirectory>/home/buteratest</WorkingDirectory>
     <PrintParameterFile>1</PrintParameterFile>
-    <FitterType>Random</FitterType>
+    <FitterType>EO</FitterType>
     <FitterParameters>
-        <NumberOfPoints>2000</NumberOfPoints>
+        <popSize>22</popSize>
+        <nbOffspring>200</nbOffspring>
+        <replacement>Plus</replacement>
+        <maxGen>5000</maxGen>
+        <minGen>0</minGen>
+        <maxEval>30000</maxEval>
+        <targetFitness>0.0</targetFitness>
+        <steadyGen>1000</steadyGen>
+        <crossType>global</crossType>
+        <crossObj>intermediate</crossObj>
+        <TauLoc>1</TauLoc>
+        <TauGlob>1</TauGlob>
+        <Beta>0.0873</Beta>
     </FitterParameters>
     <TracesReaderType>Normal</TracesReaderType>
     <TracesReaderParameters>
-        <NumberOfRuns>5</NumberOfRuns>
-        <NumberOfRunParameters>10</NumberOfRunParameters>
-        <RunParameters>1.8e-05 2000 3.26e-05 1000 5.45e-05 500 8.15e-05 250 0.000111 125
-        </RunParameters>
-        <NumberOfPeriods>6</NumberOfPeriods>
-        <Periods>500 550 1.0 550 5000 1.0</Periods>
+        <NumberOfRuns>1</NumberOfRuns>
+        <NumberOfRunParameters>1</NumberOfRunParameters>
+        <RunParameters>0.0 1.0</RunParameters>
+        <NumberOfPeriods>3</NumberOfPeriods>
+        <Periods>2.0 3.9 0.33</Periods>
         <NumberOfRecordSites>1</NumberOfRecordSites>
         <RecordSites>1</RecordSites>
         <OutputFilePrefix>output</OutputFilePrefix>
     </TracesReaderParameters>
-    <ModelType>Executable</ModelType>
+    <ModelType>Genesis</ModelType>
     <ModelParameters>
-        <ExecuteCommand>unset DISPLAY; cd SCRATCH/model; x86_64/special -nogui
-            runModel3_Nannuli2_dia_0_4.hoc
-        </ExecuteCommand>
-        <OutputDirectory>outputs</OutputDirectory>
-        <ParameterFile>/model/param.dat</ParameterFile>
+        <GenesisLocation>/usr/local/bin/genesis</GenesisLocation>
+        <ModelDirectory>/home/buteratest/model</ModelDirectory>
+        <OutputDirectory>/home/buteratest/model/output</OutputDirectory>
+        <ModelSource>/home/buteratest/model/buteramodel.g</ModelSource>
+        <ParameterFile>/UseterWork/wernermodel/param.dat</ParameterFile>
         <ShowExecuteOutput>0</ShowExecuteOutput>
     </ModelParameters>
-    <ExperimentType>FileList</ExperimentType>
+    <ExperimentType>Fake</ExperimentType>
     <ExperimentParameters>
-        <FilesList>SHAREDDIR/data/Testg18e-6_Nannuli2_dia_0_4_Jan08.dat
-            SHAREDDIR/data/Testg32e-6_Nannuli2_dia_0_4_Jan08.dat
-            SHAREDDIR/data/Testg54e-6_Nannuli2_dia_0_4_Jan08.dat
-            SHAREDDIR/data/Testg81e-6_Nannuli2_dia_0_4_Jan08.dat
-            SHAREDDIR/data/Testg111e-6_Nannuli2_dia_0_4_Jan08.dat
-        </FilesList>
+        <Parameters>2800.0 11200.0</Parameters>
     </ExperimentParameters>
-    <ErrorValueCalculatorType>MPI</ErrorValueCalculatorType>
+    <ErrorValueCalculatorType>Matrix</ErrorValueCalculatorType>
     <ErrorValueCalculatorParameters>
-        <ErrorValueCalculatorType>RMS</ErrorValueCalculatorType>
-        <ErrorValueCalculatorParameters>
-            <enableFileExport>1</enableFileExport>
-            <exportFile>ErrorValue.dat</exportFile>
-            <enableTracesExport>0</enableTracesExport>
-        </ErrorValueCalculatorParameters>
+        <VdVdtMatrixType>Direct</VdVdtMatrixType>
+        <VdVdtMatrixParameters>
+            <vLength>100</vLength>
+            <dVdtLength>100</dVdtLength>
+            <minimalV>-0.1</minimalV>
+            <maximalV>0.05</maximalV>
+            <comparePrecision>1e-15</comparePrecision>
+            <numericOutputFormat>0</numericOutputFormat>
+            <SumOfSquareRoots>0</SumOfSquareRoots>
+        </VdVdtMatrixParameters>
         <enableFileExport>1</enableFileExport>
-        <exportFile>/users/anwar/TuningCaDynamicsNeurofitterDend_depthOnly/Dia0_4/work/pfs/BestFit.dat.J
-            OBID
-        </exportFile>
-        <enableTracesExport>0</enableTracesExport>
+        <exportFile>ErrorValues.dat</exportFile>
     </ErrorValueCalculatorParameters>
-</TestProgram>
+</ButeraModel>

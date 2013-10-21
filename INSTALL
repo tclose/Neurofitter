@@ -1,0 +1,173 @@
+This file contains contains information about the compilation and installation process
+of Neurofitter. If you want info about the "use" of Neurofitter, please look into the
+README file
+
+System Requirements
+===================
+
+UNIX / Linux / Mac OS X / Cygwin
+GCC compiler 3.3+ installed
+GNU Make installed
+Libxml installed
+
+Neurofitter has been succesfully compiled on:
+
+Macintosh PPC G4/G5 Mac OS X Tiger/Panther with XCode 2.1+
+Macintosh Intel Mac Os X Tiger with XCode 2.3
+Intel Pentium III Windows 2000 / Cygwin 1.5.21
+Intel Xeon 64-bit Linux Slackware
+AMD 64-bit and Intel x86 Linux Fedora Core release 3
+OpenPower SUSE Enterprise Linux 9
+Intel x86 Sun Solaris 9
+
+Compilation
+===========
+
+
+1. Decompress and extract the files from the Neurofitter distribution archive:
+
+     tar zxf neurofitter-1.0.tar.gz
+
+   This will extract the `neurofitter-1.0' directory.
+
+
+2. Change to neurofitter-1.0, and execute the following command:
+
+     ./configure
+
+   Running `configure' takes awhile.  While running, it prints some
+   messages telling which features it is checking for. When
+   `configure' is done, Neurofitter can be compiled by issuing the
+   following command:
+
+     make
+
+   After the build process has completed successfully, Neurofitter can
+   be installed with the following command, which may require root
+   privileges:
+
+     make install
+
+   By default, the Neurofitter program and accompanying scripts are
+   installed in directory `/usr/local/bin'. To change this, use the
+   --prefix option to configure:
+
+   ./configure --prefix=/home/user
+
+   This will install Neurofitter in directory /home/user/neurofitter.
+
+3. Configuring Neurofitter for use with EO and NOMAD
+
+   To compile Neurofitter with the EO interface, use the --with-eo
+   argument. 
+
+   ./configure --with-eo
+
+   This will use the EO source included in the Neurofitter tarball.
+   If you want to use an external EO installation, you can specify the location 
+   of the EO library (you will however have to use a version that is patched with 
+   the patch available on the Neurofitter website).
+
+   ./configure --with-eo=/usr/local/eo
+
+   This assumes that directory `/usr/local/eo' contains subdirectories
+   `lib' and `include' that contain the libraries and header files of
+   eo, respectively. If a different layout is used, you may specify
+   the locations of the eo headers and libraries separately:
+
+   ./configure --with-eo-include=/usr/local/include/eo \
+               --with-eo-libdir=/usr/local/lib/eo
+   
+   To configure Neurofitter for use with the NOMAD library:
+
+   ./configure --with-nomad
+
+   If you want to use an external NOMAD installation, you can specify the location 
+   of the NOMAd library (you will however have to use a version that is patched with
+   the patch available on the Neurofitter website).   
+
+   ./configure --with-nomad=/usr/local/nomad
+
+
+4. Configuring Neurofitter for use with MPI
+
+   When you want Neurofitter to be able to use the MPI interface,
+   invoke configure with the --enable-mpi option:
+
+   ./configure --enable-mpi
+
+   This will require that the mpic++ program is accessible in the
+   current path.  In this case, building Neurofitter will result in
+   two executable files: neurofitter and mpineurofitter. The second
+   executable contains the MPI functionality. 
+
+
+Documentation
+=============
+
+Specific documentation file can be found in the "doc" directory
+
+To create source code documentation one needs Doxygen. Specify in the Makefile 
+where you installed Doxygen on your computer and then run "make doc". This 
+documentation will be placed in the "doc/html" directory.
+
+
+Troubleshooting
+===============
+
+******** Problem: 
+You get an error message "Makefile, line xx: Need an operator" while compiling
+
+Analysis: 
+This probably means you use a non-GNU make system, try to compile with "gmake"
+instead of "make" or otherwise install GNU make.
+
+
+******** Problem:
+You get an error message like "XMLString.h: libxml/parser.h: 
+No such file or directory"
+
+Analysis:
+You maybe don't have the Libxml library installed on your system. Try to install
+it, or check the Makefile to see if the location of Libxml is maybe different 
+from the one specified in the Makefile
+
+
+******** Problem:
+You get an error message like "EOFitterInterface.h: error: es/make_es.h: No 
+such file or directory".
+
+Analysis:
+It looks like EO cannot be found on your system. Is it installed ? Or have
+you specified the right location in the Makefile of Neurofitter ? If you
+don't want to use it, don't define DIR_EO in the Makefile
+
+
+******** Problem:
+You get an error message like "NOMADFitterInterface.h: error: nomad: No such 
+file or directory".
+
+Analysis:
+It looks like NOMAD cannot be found on your system. Is it installed ? Or have
+you specified the right location in the Makefile of Neurofitter ? If you
+don't want to use it, don't define DIR_NOMAD in the Makefile
+
+
+******** Problem
+You are compiling Neurofitter in Cygwin, and you get a huge amount of warning 
+message from the compiler (especially about C++ vectors)
+
+Analysis:
+This is not something to worry about, it seams this is an already known problem
+with Cygwin, and shouldn't affect Neurofitter. If you really are getting annoyed
+by these message you could try to remove the -pedantic and -Wall flags from
+CXXFLAGS in the Neurofitter Makefile
+
+
+******** Problem
+You get an error message while compiling or running Neurofitter, and you don't 
+understand what's wrong
+
+Analysis:
+Sorry, it looks like you might have found a bug, please contact us at 
+www.tnb.ua.ac.be or neurofitter.sourceforge.net
