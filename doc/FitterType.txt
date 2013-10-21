@@ -128,3 +128,4 @@ Possible types are:
         	<NOMADFitterParameters>
 				...
 			</NOMADFittterParameters>
+ 
