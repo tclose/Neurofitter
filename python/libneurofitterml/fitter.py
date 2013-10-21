@@ -142,7 +142,7 @@ class EOFitter(Fitter):
         self.tau_glob = float(tau_glob)
         self.beta = float(beta)
     
-    def _to_xml(self, tag_name):
+    def _to_xml(self, tag_name=None):
         if tag_name is None:
             tag_name = self.element_name
         return E(tag_name + 'Parameters',

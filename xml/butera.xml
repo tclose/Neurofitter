@@ -54,7 +54,8 @@
         <!-- Selection of time ranges, 1 line per period --> <!-- Units the same as the sampling frequency setting -->
         <Periods>
             2.0 3.9 0.33 
-            1.0 1.5 0.33 0.5 0.75 0.33
+            1.0 1.5 0.33 
+            0.5 0.75 0.33
         </Periods> <!-- PeriodStart PeriodStop Weight -->
         <!-- Number of different recording sites -->
         <NumberOfRecordSites>1</NumberOfRecordSites> <!-- One line for the weight of every recording site -->
