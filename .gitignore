@@ -1,5 +1,5 @@
 *.pyc
-Makefile
+Makefile*
 *.o
 *.a
 /src/bin
@@ -11,3 +11,5 @@ stamp-h1
 /src/EO/config*
 .deps
 autom4te.cache
+/build
+aclocal.m4
