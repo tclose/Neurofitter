@@ -47,7 +47,7 @@ class FileExperiment(Experiment):
     @classmethod
     def from_xml(cls, element):
         files_dir = element.find('FilesDirectory').text.strip()
-        return cls(files_dir)
+        return cls(files_dir=files_dir)
 
     @property
     def num_runs(self):
@@ -71,7 +71,7 @@ class FileListExperiment(Experiment):
     @classmethod
     def from_xml(cls, element):
         parameters = [p.strip() for p in element.find('FilesList').text.strip().split('\n')]
-        return cls(parameters)
+        return cls(parameters=parameters)
 
     @property
     def num_runs(self):
@@ -96,4 +96,4 @@ class FakeExperiment(Experiment):
     @classmethod
     def from_xml(cls, element):
         parameters = white_space_delim.split(element.find('Parameters').text.strip())
-        return cls(parameters)
+        return cls(parameters=parameters)

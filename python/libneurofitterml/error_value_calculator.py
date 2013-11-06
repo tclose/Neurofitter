@@ -2,8 +2,8 @@ from lxml.builder import E
 
 
 class ErrorValueCalculator(object):
-    
-    element_name='ErrorValueCalculator'
+
+    element_name = 'ErrorValueCalculator'
 
     def to_xml(self):
         if isinstance(self, MPIErrorValueCalculator):
@@ -16,7 +16,7 @@ class ErrorValueCalculator(object):
             assert(False), ("The class '{}' is not listed in ErrorValueCalculator.to_xml()"
                             .format(type(self)))
         return (type_xml, self._to_xml())
-        
+
     @classmethod
     def from_xml(cls, type_element, parameters_element):
         error_value_calculator_type = type_element.text.strip()
@@ -32,8 +32,8 @@ class ErrorValueCalculator(object):
         return error_value_calculator
 
 
-class MatrixErrorValueCalculator(ErrorValueCalculator):    
-                   
+class MatrixErrorValueCalculator(ErrorValueCalculator):
+
     def __init__(self, vdVdt_matrix, enable_file_export, export_file):
         """
         `vdVdt_matrix` -- ??
@@ -44,25 +44,26 @@ class MatrixErrorValueCalculator(ErrorValueCalculator):
         self.vdVdt_matrix = vdVdt_matrix
         self.enable_file_export = enable_file_export
         self.export_file = export_file
-        
+
     def _to_xml(self):
         return E(self.element_name + 'Parameters',
-                 *(self.vdVdt_matrix.to_xml() + 
+                 *(self.vdVdt_matrix.to_xml() +
                    (E('enableFileExport', self.enable_file_export),
                    E('exportFile', self.export_file))))
 
     @classmethod
     def from_xml(cls, element):
         vdVdt_matrix = VdVdtMatrix.from_xml(
-                  element.find(VdVdtMatrix.element_name + 'Type'), 
+                  element.find(VdVdtMatrix.element_name + 'Type'),
                   element.find(VdVdtMatrix.element_name + 'Parameters'))
         enable_file_export = element.find('enableFileExport').text.strip()
         export_file = element.find('exportFile').text.strip()
-        return cls(vdVdt_matrix, enable_file_export, export_file)
-    
+        return cls(vdVdt_matrix=vdVdt_matrix, enable_file_export=enable_file_export, 
+                   export_file=export_file)
+
 
 class RMSErrorValueCalculator(ErrorValueCalculator):
-    
+
     def __init__(self, enable_file_export, export_file, enable_traces_export):
         """
         `enable_file_export` -- To enable export of all the evaluated parameter sets, set to 0 if you
@@ -72,8 +73,8 @@ class RMSErrorValueCalculator(ErrorValueCalculator):
         """
         self.export_file = export_file
         self.enable_file_export = enable_file_export
-        self.enable_traces_export = enable_traces_export 
-        
+        self.enable_traces_export = enable_traces_export
+
     def _to_xml(self):
         return E(self.element_name + 'Parameters',
                  E('enableFileExport', self.enable_file_export),
@@ -85,11 +86,12 @@ class RMSErrorValueCalculator(ErrorValueCalculator):
         enable_file_export = element.find('enableFileExport').text.strip()
         export_file = element.find('exportFile').text.strip()
         enable_traces_export = element.find('enableTracesExport').text.strip()
-        return cls(enable_file_export, export_file, enable_traces_export)
+        return cls(enable_file_export=enable_file_export, export_file=export_file,
+                   enable_traces_export=enable_traces_export)
 
 
 class MPIErrorValueCalculator(ErrorValueCalculator):
-        
+
     def __init__(self, calculator, enable_file_export, export_file):
         """
         `calculator` -- The actual calculator to be distributed over MPI
@@ -97,29 +99,30 @@ class MPIErrorValueCalculator(ErrorValueCalculator):
                                 don't want output to a file
         `export_file` -- The name of the export file you can set by 
         """
-        self.calculator = calculator 
+        self.calculator = calculator
         self.export_file = export_file
         self.enable_file_export = enable_file_export
-        
+
     def _to_xml(self):
         return E(self.element_name + 'Parameters',
-                 *(self.calculator.to_xml() + 
+                 *(self.calculator.to_xml() +
                    (E('enableFileExport', self.enable_file_export),
                     E('exportFile', self.export_file))))
 
     @classmethod
     def from_xml(cls, element):
-        calculator = ErrorValueCalculator.from_xml(element.find(ErrorValueCalculator.element_name + 'Type'), 
+        calculator = ErrorValueCalculator.from_xml(element.find(ErrorValueCalculator.element_name + 'Type'),
                                                      element.find(ErrorValueCalculator.element_name + 'Parameters'))
         enable_file_export = element.find('enableFileExport').text.strip()
         export_file = element.find('exportFile').text.strip()
-        return cls(calculator, enable_file_export, export_file)
-    
+        return cls(calculator=calculator, enable_file_export=enable_file_export, 
+                   export_file=export_file)
+
 
 class VdVdtMatrix(object):
-    
+
     element_name = 'VdVdtMatrix'
-        
+
     def to_xml(self):
         if isinstance(self, DirectVdVdtMatrix):
             type_xml = E(self.element_name + 'Type', 'Direct')
@@ -127,7 +130,7 @@ class VdVdtMatrix(object):
             assert(False), ("The class '{}' is not listed in VdVdtMatrix.to_xml()"
                             .format(type(self)))
         return (type_xml, self._to_xml())
-        
+
     @classmethod
     def from_xml(cls, type_element, parameters_element):
         vdVdt_matrix = type_element.text.strip()
@@ -136,12 +139,12 @@ class VdVdtMatrix(object):
         else:
             raise Exception("Unrecognised type '{}' of traces reader".format(vdVdt_matrix))
         return obj
-    
+
 class DirectVdVdtMatrix(VdVdtMatrix):
-    
+
     def __init__(self, v_length, dvdt_length, minimal_v, maximal_v, compare_precision,
                  numeric_output_format, sum_of_square_roots):
-        
+
         """
         ??
         
@@ -163,7 +166,7 @@ class DirectVdVdtMatrix(VdVdtMatrix):
         self.compare_precision = float(compare_precision)
         self.numeric_output_format = numeric_output_format
         self.sum_of_square_roots = sum_of_square_roots
-        
+
     def _to_xml(self):
         return E(self.element_name + 'Parameters',
                 E('vLength', str(self.v_length)),
@@ -178,11 +181,13 @@ class DirectVdVdtMatrix(VdVdtMatrix):
     def from_xml(cls, element):
         v_length = element.find('vLength').text.strip()
         dvdt_length = element.find('dVdtLength').text.strip()
-        minimal_v= element.find('minimalV').text.strip()
-        maximal_v= element.find('maximalV').text.strip()
-        compare_precision= element.find('comparePrecision').text.strip()
-        numeric_output_format= element.find('numericOutputFormat').text.strip()
+        minimal_v = element.find('minimalV').text.strip()
+        maximal_v = element.find('maximalV').text.strip()
+        compare_precision = element.find('comparePrecision').text.strip()
+        numeric_output_format = element.find('numericOutputFormat').text.strip()
         sum_of_square_roots = element.find('SumOfSquareRoots').text.strip()
-        return cls(v_length, dvdt_length, minimal_v, maximal_v, compare_precision,
-                   numeric_output_format, sum_of_square_roots)
-    
+        return cls(v_length=v_length, dvdt_length=dvdt_length, minimal_v=minimal_v, 
+                   maximal_v=maximal_v, compare_precision=compare_precision,
+                   numeric_output_format=numeric_output_format, 
+                   sum_of_square_roots=sum_of_square_roots)
+

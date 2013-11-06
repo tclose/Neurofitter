@@ -61,7 +61,8 @@ class ExecutableModel(Model):
         output_dir = element.find('OutputDirectory').text.strip()
         parameter_file = element.find('ParameterFile').text.strip()
         show_output = element.find('ShowExecuteOutput').text.strip()
-        return cls(command, output_dir, parameter_file, show_output)
+        return cls(command=command, output_dir=output_dir, parameter_file=parameter_file, 
+                   show_output=show_output)
     
     
 class GenesisModel(Model):
@@ -104,7 +105,8 @@ class GenesisModel(Model):
         model_src = element.find('ModelSource').text.strip()
         param_file = element.find('ParameterFile').text.strip()
         show_exec_output = element.find('ShowExecuteOutput').text.strip()
-        return cls(genesis_location, model_dir, output_dir, model_src, param_file, show_exec_output)     
+        return cls(genesis_location=genesis_location, model_dir=model_dir, output_dir=output_dir, 
+                   model_src=model_src, param_file=param_file, show_exec_output=show_exec_output)     
         
         
 class NeuronModel(Model):
@@ -147,5 +149,6 @@ class NeuronModel(Model):
         model_src = element.find('ModelSource').text.strip()
         param_file = element.find('ParameterFile').text.strip()
         show_exec_output = element.find('ShowExecuteOutput').text.strip()
-        return cls(neuron_location, model_dir, output_dir, model_src, param_file, show_exec_output) 
+        return cls(neuron_location=neuron_location, model_dir=model_dir, output_dir=output_dir, 
+                   model_src=model_src, param_file=param_file, show_exec_output=show_exec_output) 
         

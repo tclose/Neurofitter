@@ -91,5 +91,6 @@ class NormalTracesReader(TracesReader):
         num_record_sites = element.find('NumberOfRecordSites').text.strip()
         record_sites = element.find('RecordSites').text.strip()
         output = element.find('OutputFilePrefix').text.strip()
-        return cls(num_runs, num_run_params, run_params, num_periods, periods, num_record_sites,
-                   record_sites, output)
+        return cls(num_runs=num_runs, num_run_params=num_run_params, run_params=run_params, 
+                   num_periods=num_periods, periods=periods, num_record_sites=num_record_sites,
+                   record_sites=record_sites, output=output)

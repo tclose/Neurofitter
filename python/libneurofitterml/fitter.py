@@ -54,7 +54,7 @@ class RandomFitter(Fitter):
     @classmethod
     def from_xml(cls, element):
         num_points = element.find('NumberOfPoints').text.strip()
-        return cls(num_points)
+        return cls(num_points=num_points)
 
 
 class FileFitter(Fitter):
@@ -75,7 +75,7 @@ class FileFitter(Fitter):
     def from_xml(cls, element):
         num_points = element.find('NumberOfPoints').text.strip()
         filename = element.find('Filename').text.strip()
-        return cls(num_points, filename)
+        return cls(num_points=num_points, filename=filename)
 
 
 class SwarmFitter(Fitter):
@@ -93,7 +93,7 @@ class SwarmFitter(Fitter):
     @classmethod
     def from_xml(cls, element):
         num_runs = element.find('NumberOfRuns').text.strip()
-        cls(num_runs)
+        cls(num_runs=num_runs)
 
 
 class EOFitter(Fitter):
@@ -175,9 +175,10 @@ class EOFitter(Fitter):
         tau_loc = element.find('TauLoc').text.strip()
         tau_glob = element.find('TauGlob').text.strip()
         beta = element.find('Beta').text.strip()
-        return cls(pop_size, num_offspring, replacement, max_gen, min_gen, max_eval, target_fitness, 
-                   steady_gen, cross_type, cross_obj, tau_loc, tau_glob, beta)
-
+        return cls(pop_size=pop_size, num_offspring=num_offspring, replacement=replacement, 
+                   max_gen=max_gen, min_gen=min_gen, max_eval=max_eval, 
+                   target_fitness=target_fitness, steady_gen=steady_gen, cross_type=cross_type, 
+                   cross_obj=cross_obj, tau_loc=tau_loc, tau_glob=tau_glob, beta=beta)
 
 
 class NOMADFitter(Fitter):
@@ -323,13 +324,19 @@ class NOMADFitter(Fitter):
         start_pt_file = element.find('START_PT_FILE').text.strip() 
         bounds_file = element.find('BOUNDS_FILE').text.strip() 
         results_file = element.find('RESULTS_FILE').text.strip() 
-        return cls(coarsening_exponent, initial_poll_size, poll_basis, refining_exponent, 
-                 max_poll_size, poll_order, poll_complete, poll_directions, initial_search, 
-                 initial_complete, initial_points, iterative_search, iterative_complete, 
-                 iterative_points, speculative_search, poll_size_term, iterations, truth_evals, 
-                 new_truth_evals, consecutive_fails, filter_relative, hmax, hmin, filter_norm, 
-                 surrogate_tolerance, scaling_choice, gen_cons_nb, use_surrogate, start_pt_file, 
-                 bounds_file, results_file)
+        return cls(coarsening_exponent=coarsening_exponent, initial_poll_size=initial_poll_size, 
+                   poll_basis=poll_basis, refining_exponent=refining_exponent, 
+                   max_poll_size=max_poll_size, poll_order=poll_order, poll_complete=poll_complete, 
+                   poll_directions=poll_directions, initial_search=initial_search, 
+                   initial_complete=initial_complete, initial_points=initial_points, 
+                   iterative_search=iterative_search, iterative_complete=iterative_complete, 
+                   terative_points=iterative_points, speculative_search=speculative_search, 
+                   poll_size_term=poll_size_term, iterations=iterations, truth_evals=truth_evals, 
+                   new_truth_evals=new_truth_evals, consecutive_fails=consecutive_fails, 
+                   filter_relative=filter_relative, hmax=hmax, hmin=hmin, filter_norm=filter_norm, 
+                   surrogate_tolerance=surrogate_tolerance, scaling_choice=scaling_choice, 
+                   gen_cons_nb=gen_cons_nb, use_surrogate=use_surrogate, start_pt_file=start_pt_file, 
+                   bounds_file=bounds_file, results_file=results_file)
         
         
 class EONOMAD(Fitter):
@@ -353,5 +360,5 @@ class EONOMAD(Fitter):
     def from_xml(cls, element):
         eo = EOFitter.from_xml(element.find('EOFitterParameters'))
         nomad = EOFitter.from_xml(element.find('NOMADFitterParameters'))
-        cls(eo, nomad)
+        cls(eo=eo, nomad=nomad)
 
