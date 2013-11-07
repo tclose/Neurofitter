@@ -143,8 +143,8 @@ class VdVdtMatrix(object):
 
 class DirectVdVdtMatrix(VdVdtMatrix):
 
-    def __init__(self, v_length, dvdt_length, minimal_v, maximal_v, compare_precision,
-                 numeric_output_format, sum_of_square_roots):
+    def __init__(self, v_length, dvdt_length, minimal_v, maximal_v, 
+                 compare_precision=1e-15, numeric_output_format=0, sum_of_square_roots=0):
 
         """
         ??

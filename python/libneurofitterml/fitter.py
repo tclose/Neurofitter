@@ -102,8 +102,9 @@ class EOFitter(Fitter):
     valid_cross_type = ('global', 'local')
     valid_cross_obj = ('intermediate',)
     
-    def __init__(self, pop_size, num_offspring, replacement, max_gen, min_gen, max_eval, 
-                 target_fitness, steady_gen, cross_type, cross_obj, tau_loc, tau_glob, beta):
+    def __init__(self, pop_size, num_offspring, replacement='Plus', max_gen=5000, min_gen=0, 
+                 max_eval=3000, target_fitness=0.0, steady_gen=1000, cross_type='global', 
+                 cross_obj='intermediate', tau_loc=1, tau_glob=1, beta=0.873):
         """
         `pop_size` -- Number of individuals in population 
         `num_offspring` -- Number of offspring 
