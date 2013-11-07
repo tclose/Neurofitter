@@ -183,13 +183,14 @@ class EOFitter(Fitter):
 
 class NOMADFitter(Fitter):
     
-    def __init__(self, coarsening_exponent, initial_poll_size, poll_basis, refining_exponent, 
-                 max_poll_size, poll_order, poll_complete, poll_directions, initial_search, 
-                 initial_complete, initial_points, iterative_search, iterative_complete, 
-                 iterative_points, speculative_search, poll_size_term, iterations, truth_evals, 
-                 new_truth_evals, consecutive_fails, filter_relative, hmax, hmin, filter_norm, 
-                 surrogate_tolerance, scaling_choice, gen_cons_nb, use_surrogate, start_pt_file, 
-                 bounds_file, results_file):
+    def __init__(self, start_pt_file, bounds_file, results_file, coarsening_exponent=2, 
+                 initial_poll_size=1, poll_basis=4, refining_exponent=-2, max_poll_size=1000000, 
+                 poll_order=0, poll_complete=0, poll_directions=4, initial_search=0, 
+                 initial_complete=0, initial_points=100, iterative_search=1, iterative_complete=0, 
+                 iterative_points=100, speculative_search=1, poll_size_term=-1, iterations=-1, 
+                 truth_evals=1000000, new_truth_evals=-1, consecutive_fails=-1, filter_relative=1, 
+                 hmax=50000, hmin=0.0001, filter_norm=2, surrogate_tolerance=0, scaling_choice=0, 
+                 gen_cons_nb=0, use_surrogate=0):
         """
         `coarsening_exponent` --  Exponent to enlarge poll size in case of failure 
         `initial_poll_size` -- Initial poll size

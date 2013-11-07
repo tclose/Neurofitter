@@ -140,6 +140,7 @@ class VdVdtMatrix(object):
             raise Exception("Unrecognised type '{}' of traces reader".format(vdVdt_matrix))
         return obj
 
+
 class DirectVdVdtMatrix(VdVdtMatrix):
 
     def __init__(self, v_length, dvdt_length, minimal_v, maximal_v, compare_precision,
