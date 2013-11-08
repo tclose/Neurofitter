@@ -1,0 +1,108 @@
+<ButeraModel>
+    <!-- Number of parameters to be tuned -->
+    <Dimensions>2</Dimensions>
+    <!-- Verbose level; values from 0 to 5; the higher the more output --> <!-- will be written to standard output -->
+    <VerboseLevel>4</VerboseLevel>
+    <!-- Seed of the random number generator to be used during --> <!-- the algorithm -->
+    <Seed>1550</Seed>
+    <!-- The sampling frequency of the data traces, units should be --> <!-- the same as in the TracesReader settings -->
+    <SamplingFrequency>5000</SamplingFrequency>
+    <!-- The starting point of the optimization algorithm -->
+    <StartingPoints> 1.0 1.0
+    </StartingPoints>
+    <!-- The lower and upper bound of each parameter -->
+    <Bounds>
+        1.0 10000.0 
+        1.0 50000.0
+    </Bounds> <!-- LowerBound UpperBound -->
+    <!-- Path of directory were Neurofitter will be executed -->
+    <WorkingDirectory>/home/buteratest</WorkingDirectory>
+    <!-- Print settings file to stdout before execution ? --> <!-- 1 = True / 0 = False -->
+    <PrintParameterFile>1</PrintParameterFile>
+    <!-- Selection of the optimization algorithm --> <!-- Possible values are: -->
+    <!-- Mesh, Random, File, Swarm, EO, NOMAD, EONOMAD -->
+    <FitterType>EO</FitterType>
+    <!-- Settings of the optimization algorithm -->
+    <FitterParameters>
+        <popSize>22</popSize> <!-- Number of individuals in population -->
+        <nbOffspring>200</nbOffspring> <!-- Number of offspring -->
+        <replacement>Plus</replacement> <!-- Replacement strategy -->
+        <maxGen>5000</maxGen> <!-- Maximal number of generations -->
+        <minGen>0</minGen> <!-- Minimal number of generations -->
+        <maxEval>30000</maxEval> <!-- Maximal number of evaluation -->
+        <targetFitness>0.0</targetFitness> <!-- Target fitness below --> <!-- which ES stops -->
+        <steadyGen>1000</steadyGen> <!-- Maximal number of generations --> <!-- without improvement -->
+        <crossType>global</crossType> <!-- number of parents for --> <!-- cross-over (global or local) -->
+        <crossObj>intermediate</crossObj> <!-- type of cross-over -->
+        <TauLoc>1</TauLoc> <!-- internal parameter for self-evolution -->
+        <TauGlob>1</TauGlob> <!-- internal parameter for self-evolution -->
+        <Beta>0.0873</Beta> <!-- internal parameter for self-evolution -->
+    </FitterParameters>
+    <!-- Settings of object that reads the data traces --> <!-- Only 1 type at the moment: Normal -->
+    <TracesReaderType>Normal</TracesReaderType>
+    <TracesReaderParameters>
+        <!-- Number of stimulation protocols -->
+        <NumberOfRuns>1</NumberOfRuns>
+        <!-- Number of settings (like injection amplitude) --> <!-- per stimulation protocol -->
+        <NumberOfRunParameters>1</NumberOfRunParameters>
+        <!-- Values for the run parameters -->
+        <RunParameters>
+            0.0 1.0 <!-- RunPar1 RunPar2 ... Weight -->
+        </RunParameters>
+        <!-- Number of different time ranges -->
+        <NumberOfPeriods>3</NumberOfPeriods>
+        <!-- Selection of time ranges, 1 line per period --> <!-- Units the same as the sampling frequency setting -->
+        <Periods>
+            2.0 3.9 0.33 
+            1.0 1.5 0.33 
+            0.5 0.75 0.33
+        </Periods> <!-- PeriodStart PeriodStop Weight -->
+        <!-- Number of different recording sites -->
+        <NumberOfRecordSites>1</NumberOfRecordSites> <!-- One line for the weight of every recording site -->
+        <RecordSites>
+            1 <!-- Weights -->
+        </RecordSites>
+        <!-- The prefix used in the filenames of the experimental --> <!-- and model data, e.g. filename of the data of the first run = --> <!-- output_Run0.dat -->
+        <OutputFilePrefix>output</OutputFilePrefix>
+    </TracesReaderParameters>
+    <!-- The type of simulator used to run the model --> <!-- Possible values: Genesis, Neuron, Executable -->
+    <ModelType>Genesis</ModelType>
+    <!-- Settings for the simulator interface -->
+    <ModelParameters>
+        <!-- The Genesis binary location -->
+        <GenesisLocation>/usr/local/bin/genesis</GenesisLocation> <!-- Directory containing the model files -->
+        <ModelDirectory>/home/buteratest/model</ModelDirectory> <!-- Directory that will contain the model output files -->
+        <OutputDirectory>/home/buteratest/model/output</OutputDirectory>
+        <!-- Genesis model file that starts the simulation -->
+        <ModelSource>/home/buteratest/model/buteramodel.g</ModelSource> <!-- File written by Neurofitter that contains the model and --> <!-- run parameters. This file should be read by the model -->
+        <ParameterFile>/UseterWork/wernermodel/param.dat</ParameterFile> <!-- Show the genesis stdout during execution, useful for --> <!-- debugging -->
+        <ShowExecuteOutput>0</ShowExecuteOutput>
+    </ModelParameters>
+    <!-- Type of experimental data --> <!-- Possible values are: File: data read from file -->
+    <!-- Fake: ‘experimental’ data is obtained by running -->
+    <!-- the model with a preset set of parameters -->
+    <ExperimentType>Fake</ExperimentType>
+    <ExperimentParameters>
+        <Parameters>2800.0 11200.0</Parameters>
+    </ExperimentParameters>
+    <!-- Type of error function used --> <!-- Only 1 possible value: Matrix -->
+    <ErrorValueCalculatorType>Matrix</ErrorValueCalculatorType> <!-- Settings of the error function -->
+    <ErrorValueCalculatorParameters> <!-- Type of V-dV/dt matrix used --> <!-- Only 1 possible value: Direct -->
+        <VdVdtMatrixType>Direct</VdVdtMatrixType>
+        <VdVdtMatrixParameters>
+            <!-- Numbers of bins in the V direction of the matrix -->
+            <vLength>100</vLength>
+            <!-- Numbers of bins in the V direction of the matrix -->
+            <dVdtLength>100</dVdtLength> <!-- Minimal value of V -->
+            <minimalV>-0.1</minimalV> <!-- Maximal value of V -->
+            <maximalV>0.05</maximalV>
+            <!-- Values below comparePrecision are supposed to --> <!-- be equal -->
+            <comparePrecision>1e-15</comparePrecision> <!-- Show the matrix on standard output with numeric --> <!-- values; 1 = True, 0 = False -->
+            <numericOutputFormat>0</numericOutputFormat> <!-- Way of calculating the difference between matrices --> <!-- 0 = Calculate the sum of the squares --> <!-- 1 = Calculate the sum of the square roots -->
+            <SumOfSquareRoots>0</SumOfSquareRoots>
+        </VdVdtMatrixParameters>
+        <!-- Enable export of the calculated error values to a file --> <!-- 1 = True, 0 = False -->
+        <enableFileExport>1</enableFileExport> <!-- Name of the file to store the error values to -->
+        <exportFile>ErrorValues.dat</exportFile>
+    </ErrorValueCalculatorParameters>
+</ButeraModel>

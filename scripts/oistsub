@@ -1,0 +1,24 @@
+RANDNUMBER=`jot -r 1 10 1000000000`
+
+tmpSharedDir=/users/anwar/TuningCaDynamicsNeurofitterDend_depthOnly/Dia0_4/work/tmp/CaFit.${RANDNUMBER}
+echo "Creating $tmpSharedDir"
+mkdir ${tmpSharedDir}
+
+mkdir ${tmpSharedDir}/model
+cp -P ../* ${tmpSharedDir}/model
+
+mkdir ${tmpSharedDir}/model/x86_64
+cp -P ../x86_64/* ${tmpSharedDir}/model/x86_64
+
+mkdir ${tmpSharedDir}/data
+cp -P ../data/* ${tmpSharedDir}/data
+
+mkdir ${tmpSharedDir}/bin
+cp -P ../../../Neurofitter/bin/mpineurofitter ${tmpSharedDir}/bin
+
+sed s#SHAREDDIR#${tmpSharedDir}#g roimpisettings.xml >${tmpSharedDir}/roimpisettings.xml
+sed s#SHAREDDIR#${tmpSharedDir}#g oistmpiscript >${tmpSharedDir}/oistmpiscript
+
+JOBNAME=`qsub $tmpSharedDir/oistmpiscript | tail -1`
+echo "Jobname: ${JOBNAME}"
+tail --follow=name --retry joboutputs/joboutput.${JOBNAME}
