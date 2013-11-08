@@ -22,3 +22,6 @@ aclocal.m4
 /src/test-driver
 /changes
 /src/depcomp
+.project
+.cproject
+.pydevproject
