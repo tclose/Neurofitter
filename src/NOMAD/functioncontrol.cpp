@@ -35,10 +35,9 @@
    to FunctionControl. */
 
 #include <cstring>
+#include <cstdlib>
 #include <cmath>
 #include <iostream>
-#include <stdlib.h>
-
 using namespace std;
 #include "cachecontrol.h"
 #include "defines.h"

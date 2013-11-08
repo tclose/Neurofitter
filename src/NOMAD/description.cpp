@@ -38,7 +38,7 @@
 #include <vector>
 using namespace std;
 #include "description.h"
-#include <stdlib.h>
+#include <cstdlib>
 
 /* Private methods
 ******************************************************************************/

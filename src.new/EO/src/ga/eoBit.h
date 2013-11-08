@@ -38,9 +38,10 @@
 #include <iostream>    // std::ostream, std::istream
 #include <functional>  // bind2nd
 #include <string>      // std::string
+#include <algorithm>
+
 
 #include <eoVector.h>
-#include <algorithm>
 
 /**
 \defgroup bitstring

@@ -33,10 +33,9 @@
 // parameters.cpp -- class methods for Parameters.
 
 #include <fstream>
+#include <cstdlib>
+#include <cstring>
 #include <iostream>
-#include <string.h>
-#include <stdlib.h>
-
 using namespace std;
 #include "parameters.h"
 

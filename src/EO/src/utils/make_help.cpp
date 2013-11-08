@@ -31,7 +31,7 @@
 #include <utils/eoParser.h>
 #include <fstream>
 #include <stdexcept>
-#include <stdlib.h>
+#include <cstdlib>
 
 using namespace std;
 
