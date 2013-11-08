@@ -2,7 +2,7 @@
 Makefile*
 *.o
 *.a
-/src/bin
+/src/bin/*
 /src/config*
 libtool
 stamp-h1
@@ -21,3 +21,4 @@ aclocal.m4
 /src/neurofitter_config.h.in
 /src/test-driver
 /changes
+/src/depcomp
