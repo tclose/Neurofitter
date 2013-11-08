@@ -13,3 +13,11 @@ stamp-h1
 autom4te.cache
 /build
 aclocal.m4
+/src/missing
+/src/EO/ltmain.sh
+/src/EO/test-driver
+/src/install-sh
+/src/ltmain.sh
+/src/neurofitter_config.h.in
+/src/test-driver
+/changes
