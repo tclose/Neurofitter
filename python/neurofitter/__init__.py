@@ -38,18 +38,20 @@ def copy_unique_files(files, dest_dir):
         new_files.append(f_dest)
     return new_files if not returnstring else new_files[0]
 
-from neurofitter.fitter import Fitter
-from neurofitter.model import Model
-from neurofitter.experiment import Experiment
-from neurofitter.traces_reader import TracesReader
-from neurofitter.error_value_calculator import ErrorValueCalculator
+from .fitter import Fitter, MeshFitter
+from .model import Model, ExecutableModel
+from .experiment import Experiment, FileListExperiment
+from .traces_reader import TracesReader, NormalTracesReader
+from .error_value_calculator import ErrorValueCalculator, MPIErrorValueCalculator
 
 
 class Settings(object):
     
-    def __init__(self, program_name, dimensions, verbose_level, seed, sample_frequency, 
-                 starting_points, bounds, work_dir, fitter, traces_reader, model, experiment, 
-                 error_value_calculator, print_parameter_file):
+    def __init__(self, program_name, dimensions=1, verbose_level=1, seed=500, sample_frequency=50, 
+                 starting_points=0.2, bounds=(0.001, 0.2), work_dir=None, fitter=MeshFitter(), 
+                 traces_reader=NormalTracesReader(), model=ExecutableModel(), 
+                 experiment=FileListExperiment(), error_value_calculator=MPIErrorValueCalculator(), 
+                 print_parameter_file=False):
         """
         Creates a libNeuroFitterML settings object, which can be used to generate the appropriate
         xml for a NeuroFitter experiment. 
@@ -220,25 +222,3 @@ def prepare_work_dir(work_dir, settings, num_processes=1):
             proc_settings.save(os.path.join(proc_dir, 'settings.xml'))
     else:
         raise Exception("'num_processes' ({}) must be greater or equal to 1".format(num_processes))           
-        
-if __name__ == '__main__':
-    s = Settings.load('/home/tclose/git/neurofitter/xml/roimpisettings.xml')
-    try:
-        shutil.rmtree('/home/tclose/Desktop/neurofitter-test/output')
-    except OSError:
-        pass
-    os.mkdir('/home/tclose/Desktop/neurofitter-test/output')
-    s.set_work_directory('/home/tclose/Desktop/neurofitter-test/output')
-    print s.experiment.files_list           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-    

@@ -26,7 +26,7 @@ class Fitter(object):
         return fitter
 
 
-class Mesh(Fitter):
+class MeshFitter(Fitter):
     
     def __init__(self):
         pass
