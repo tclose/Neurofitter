@@ -35,11 +35,11 @@
     </ModelParameters>
     <ExperimentType>FileList</ExperimentType>
     <ExperimentParameters>
-        <FilesList>SHAREDDIR/data/Testg18e-6_Nannuli2_dia_0_4_Jan08.dat
-            SHAREDDIR/data/Testg32e-6_Nannuli2_dia_0_4_Jan08.dat
-            SHAREDDIR/data/Testg54e-6_Nannuli2_dia_0_4_Jan08.dat
-            SHAREDDIR/data/Testg81e-6_Nannuli2_dia_0_4_Jan08.dat
-            SHAREDDIR/data/Testg111e-6_Nannuli2_dia_0_4_Jan08.dat
+        <FilesList>/home/tclose/Desktop/neurofitter-test/data/Testg18e-6_Nannuli2_dia_0_4_Jan08.dat
+            /home/tclose/Desktop/neurofitter-test/data/Testg32e-6_Nannuli2_dia_0_4_Jan08.dat
+            /home/tclose/Desktop/neurofitter-test/data/Testg54e-6_Nannuli2_dia_0_4_Jan08.dat
+            /home/tclose/Desktop/neurofitter-test/data/Testg111e-6_Nannuli2_dia_0_4_Jan08.dat
+            /home/tclose/Desktop/neurofitter-test/data2/Testg111e-6_Nannuli2_dia_0_4_Jan08.dat
         </FilesList>
     </ExperimentParameters>
     <ErrorValueCalculatorType>MPI</ErrorValueCalculatorType>

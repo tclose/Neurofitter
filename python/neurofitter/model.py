@@ -28,6 +28,9 @@ class Model(object):
         else:
             raise Exception("Unrecognised type '{}' of traces reader".format(model_type))
         return model
+    
+    def set_work_dir(self, work_dir):
+        self.work_dir = work_dir
 
 
 class ExecutableModel(Model):

@@ -54,9 +54,9 @@ class NormalTracesReader(TracesReader):
         for rparams in run_params:
             self.run_params.append([float(p) for p in rparams])
         self.num_periods = int(num_periods)
-        if len(periods) != self.num_periods:
-            raise Exception("Number of periods ({}) does not match provided num_periods ({})"
-                            .format(len(periods), self.num_periods))
+        if (len(periods) / self.num_periods) % 1 != 0:
+            raise Exception("Number of provided periods ({}) cannot be evenly divided by "
+                            "num_periods ({})".format(len(periods), self.num_periods))
         self.periods = []            
         for prd in periods:
             self.periods.append([float(p) for p in prd])

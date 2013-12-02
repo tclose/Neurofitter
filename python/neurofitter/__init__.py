@@ -3,14 +3,17 @@ from lxml import etree
 from lxml.builder import E
 from lxml.etree import tostring
 import re
-
-white_space_delim = re.compile('[ \n]+')
+from copy import deepcopy
+import os
+import shutil
 
 from .fitter import Fitter
 from .model import Model
 from .experiment import Experiment
 from .traces_reader import TracesReader
 from .error_value_calculator import ErrorValueCalculator    
+
+white_space_delim = re.compile('[ \n]+')
 
 
 class Settings(object):
@@ -50,10 +53,13 @@ class Settings(object):
                                 settings file you used.  If set to 0, Neurofitter won't print the
                                 settings.xml file                                    
         """
-        if hasattr(experiment.num_runs) and traces_reader.num_runs != experiment.num_runs:
-            raise Exception("Number of runs in traces reader ({}) does not match the number implied"
-                            " by the experiment ({})".format(traces_reader.num_runs, 
-                                                             experiment.num_runs))
+        try:
+            if traces_reader.num_runs != experiment.num_runs:
+                raise Exception("Number of runs in traces reader ({}) does not match the number implied"
+                                " by the experiment ({})".format(traces_reader.num_runs, 
+                                                                 experiment.num_runs))
+        except AttributeError:
+            pass # only if experiment and traces_readers both have number of runs arguments
         self.program_name = program_name
         self.dimensions = int(dimensions)
         self.verbose_level = verbose_level
@@ -93,9 +99,20 @@ class Settings(object):
         element_list.extend(self.model.to_xml())
         element_list.extend(self.experiment.to_xml())
         element_list.extend(self.error_value_calculator.to_xml())
-        settings_xml = E(*element_list)
-        return '<?xml version="1.0" encoding="UTF-8"?>\n' + tostring(settings_xml, 
-                                                                     pretty_print=True)
+        return E(*element_list)
+        
+    def to_string(self):
+        return ('<?xml version="1.0" encoding="UTF-8"?>\n' + 
+                tostring(self.to_xml(), pretty_print=True))
+            
+    def set_work_directory(self, work_dir, proc_dir=None):
+        for child in (self.fitter, self.traces_reader, self.model, self.experiment, 
+                      self.error_value_calculator):
+            try:
+                child.set_work_directory(work_dir, proc_dir)
+            except AttributeError:
+                pass # Attempt to set the work directory of the child elements of the settings object
+        
     @classmethod
     def from_xml(cls, element):
         program_name = element.tag
@@ -124,21 +141,93 @@ class Settings(object):
         return cls(program_name, dimensions, verbose_level, seed, sample_frequency, starting_points, 
                    bounds, work_dir, fitter, traces_reader, model, experiment, error_value_calculator, 
                    print_parameter_file)
+    
+    def save(self, filename):
+        with open(filename, 'w') as f:
+            f.write(self.to_string()) 
            
-
-def parse(url):
+    @classmethod
+    def load(cls, url):
+        """
+        Read a NineML user-layer file and return a Model object.
+    
+        If the URL does not have a scheme identifier, it is taken to refer to a
+        local file.
+        """
+        if not isinstance(url, file):
+            f = urllib.urlopen(url)
+            doc = etree.parse(f)
+            f.close()
+        else:
+            doc = etree.parse(url)
+        root = doc.getroot()
+        return Settings.from_xml(root)
+    
+    
+def prepare_mpi_work_dir(work_dir, settings, num_processes):
     """
-    Read a NineML user-layer file and return a Model object.
-
-    If the URL does not have a scheme identifier, it is taken to refer to a
-    local file.
+    Prepare the work directory for running neurofitter via MPI
+    
+    `work_dir` -- the path of the work directory to prepare for a Neurofitter MPI run
+    `settings` -- the `Settings` object containing the complete settings for the Neurofitter run
+    `num_processes` -- the number of processes to be used by Neurofitter
     """
-    if not isinstance(url, file):
-        f = urllib.urlopen(url)
-        doc = etree.parse(f)
-        f.close()
+    for i in xrange(num_processes):
+        proc_dir = os.path.join(work_dir, str(i))
+        os.mkdir(proc_dir)
+        # Copy settings to allow the work directory to be set without affecting the passed object
+        proc_settings = deepcopy(settings) 
+        proc_settings.set_work_directory(work_dir, proc_dir)
+        proc_settings.save(os.path.join(proc_dir, 'settings.xml'))
+           
+           
+def copy_unique_files(files, dest_dir):
+    # Turn filename into a list of filenames
+    if isinstance(files, str):
+        files = [files]
+        returnstring = True
     else:
-        doc = etree.parse(url)
-    root = doc.getroot()
-    return Settings.from_xml(root)
+        returnstring = False
+    if len(files) == len(set(files)):
+        raise Exception("Original file list, {}, contains duplicates".format(files))
+    # Calculate the minimum path depth that needs to be used to differentiate the file list
+    for num_trunc in xrange(min([len(os.path.split(f)) for f in files])):
+        trunc_files = [os.path.join(os.path.split(f)[-(num_trunc+1)]) 
+                            for f in files] 
+        if len(trunc_files) == len(set(trunc_files)):
+            break
+    # Create a list to hold the new file names
+    new_files = []
+    for f in files:
+        # Get the destination path, which is the original filename plus the number of parent 
+        # directories required so that all files are unique
+        f_dest = os.path.join(*([dest_dir] + f.split(os.path.sep)[-(num_trunc+1):]))
+        f_dest_dir = os.path.dirname(f_dest)
+        # Create required parent directories
+        if not os.path.exists(f_dest_dir):
+            os.makedirs(f_dest_dir)
+        shutil.copy(f, f_dest)
+        new_files.append(f_dest)
+    return new_files if not returnstring else new_files[0]
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
     

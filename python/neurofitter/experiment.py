@@ -1,5 +1,7 @@
+import os
+import shutil
 from lxml.builder import E
-from . import white_space_delim
+from neurofitter import white_space_delim, copy_unique_files
 
 
 class Experiment(object):
@@ -51,8 +53,16 @@ class FileExperiment(Experiment):
 
     @property
     def num_runs(self):
-        return len(self.files_list)
-
+        return len(self.files_dir)
+    
+    def set_work_directory(self, work_dir, proc_dir=None): #@UnusedVariable doesn't require proc_dir
+        dirname = os.path.join(work_dir, 'experiment')
+        os.mkdir(dirname)
+        for f in os.listdir(self.files_dir):
+            if f.startswith('output_Run'): 
+                shutil.copy(f, os.path.join(dirname, os.path.basename(f)))
+        self.files_dir = dirname
+    
 
 class FileListExperiment(Experiment):
 
@@ -63,6 +73,7 @@ class FileListExperiment(Experiment):
         `files_list` -- The number of files should be the same as the "num_runs" of the TracesReader 
         """
         self.files_list = files_list
+        self.dirname = None
 
     def _to_xml(self):
         return E(self.element_name + 'Parameters',
@@ -70,12 +81,17 @@ class FileListExperiment(Experiment):
 
     @classmethod
     def from_xml(cls, element):
-        parameters = [p.strip() for p in element.find('FilesList').text.strip().split('\n')]
-        return cls(parameters=parameters)
+        files_list = [p.strip() for p in element.find('FilesList').text.strip().split('\n')]
+        return cls(files_list=files_list)
 
     @property
     def num_runs(self):
         return len(self.files_list)
+            
+    def set_work_directory(self, work_dir, proc_dir=None): #@UnusedVariable doesn't require proc_dir
+        self.dirname = os.path.join(work_dir, 'experiment')
+        os.mkdir(self.dirname)
+        self.files_list = copy_unique_files(self.files_list, self.dirname)
 
 
 class FakeExperiment(Experiment):
@@ -97,3 +113,9 @@ class FakeExperiment(Experiment):
     def from_xml(cls, element):
         parameters = white_space_delim.split(element.find('Parameters').text.strip())
         return cls(parameters=parameters)
+    
+if __name__ == '__main__':
+    from neurofitter import Settings
+    s = Settings.load('/home/tclose/git/neurofitter/xml/roimpisettings.xml')
+    s.set_work_directory('/home/tclose/Desktop/neurofitter-test')
+    print s.experiment.files_list
