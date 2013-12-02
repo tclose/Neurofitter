@@ -25,8 +25,9 @@ class TracesReader(object):
    
 class NormalTracesReader(TracesReader):
     
-    def __init__(self, num_runs, num_run_params, run_params, num_periods, periods, num_record_sites,
-                 record_sites, output):
+    def __init__(self, num_runs=5, num_run_params=1, run_params=[0.000018, 2000, 0.0000326, 1000, 0.0000545, 500, 0.0000815, 250, 0.000111, 125],
+                 num_periods=2, periods=[500, 550, 1.0, 550, 5000, 1.0], num_record_sites=1,
+                 record_sites=1, output='output'):
         """
         `num_runs ` -- The number of times the model has to be run for every error value evaluation.
                        E.g. for different injection strengths you want to run the model a multiple 

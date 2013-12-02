@@ -65,7 +65,7 @@ class MatrixErrorValueCalculator(ErrorValueCalculator):
 
 class RMSErrorValueCalculator(ErrorValueCalculator):
 
-    def __init__(self, enable_file_export, export_file, enable_traces_export):
+    def __init__(self, export_file="ErrorsValues.dat", enable_traces_export="", enable_file_export=False):
         """
         `enable_file_export` -- To enable export of all the evaluated parameter sets, set to 0 if you
                                 don't want output to a file

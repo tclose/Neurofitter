@@ -41,7 +41,7 @@ class MeshFitter(Fitter):
 
 class RandomFitter(Fitter):
     
-    def __init__(self, num_points):
+    def __init__(self, num_points=1000):
         """
         `num_points` -- The number of random points to use 
         """

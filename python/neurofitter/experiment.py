@@ -96,7 +96,7 @@ class FileListExperiment(Experiment):
 
 class FakeExperiment(Experiment):
 
-    def __init__(self, parameters):
+    def __init__(self, parameters=[2800.0, 11200.0]):
         """
         This type will not read the experimental data from files but will generate "fake" experimental 
         data based on running the model with a set of parameters you provide

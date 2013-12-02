@@ -38,9 +38,9 @@ def copy_unique_files(files, dest_dir):
         new_files.append(f_dest)
     return new_files if not returnstring else new_files[0]
 
-from .fitter import Fitter, MeshFitter
+from .fitter import Fitter, RandomFitter
 from .model import Model, ExecutableModel
-from .experiment import Experiment, FileListExperiment
+from .experiment import Experiment, FakeExperiment
 from .traces_reader import TracesReader, NormalTracesReader
 from .error_value_calculator import ErrorValueCalculator, MPIErrorValueCalculator
 
@@ -48,9 +48,9 @@ from .error_value_calculator import ErrorValueCalculator, MPIErrorValueCalculato
 class Settings(object):
     
     def __init__(self, program_name, dimensions=1, verbose_level=1, seed=500, sample_frequency=50, 
-                 starting_points=0.2, bounds=(0.001, 0.2), work_dir=None, fitter=MeshFitter(), 
+                 starting_points=0.2, bounds=(0.001, 0.2), work_dir=None, fitter=RandomFitter(), 
                  traces_reader=NormalTracesReader(), model=ExecutableModel(), 
-                 experiment=FileListExperiment(), error_value_calculator=MPIErrorValueCalculator(), 
+                 experiment=FakeExperiment(), error_value_calculator=MPIErrorValueCalculator(), 
                  print_parameter_file=False):
         """
         Creates a libNeuroFitterML settings object, which can be used to generate the appropriate
@@ -206,19 +206,15 @@ def prepare_work_dir(work_dir, settings, num_processes=1):
     `settings` -- the `Settings` object containing the complete settings for the Neurofitter run
     `num_processes` -- the number of processes to be used by Neurofitter
     """
-    if not os.path.exists(work_dir):
-        raise Exception("Work directory '{}' does not exist".format(work_dir))
-    if num_processes == 1:
-        settings = deepcopy(settings)
-        settings.set_work_directory(work_dir)
-        settings.save(os.path.join(work_dir, 'settings.xml'))
-    elif num_processes > 1:
+    shutil.makedirs(work_dir)
+    settings = deepcopy(settings)
+    settings.set_work_directory(work_dir)
+    settings.save(os.path.join(work_dir, 'settings.xml'))
+    if num_processes > 1:
         for i in xrange(num_processes):
             proc_dir = os.path.join(work_dir, str(i))
             os.mkdir(proc_dir)
             # Copy settings to allow the work directory to be set without affecting the passed object
             proc_settings = deepcopy(settings) 
             proc_settings.set_work_directory(work_dir, proc_dir)
-            proc_settings.save(os.path.join(proc_dir, 'settings.xml'))
-    else:
-        raise Exception("'num_processes' ({}) must be greater or equal to 1".format(num_processes))           
+            proc_settings.save(work_dir, 'settings.xml_{}'.format(i))
