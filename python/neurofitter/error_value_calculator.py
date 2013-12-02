@@ -93,7 +93,8 @@ class RMSErrorValueCalculator(ErrorValueCalculator):
 
 class MPIErrorValueCalculator(ErrorValueCalculator):
 
-    def __init__(self, calculator, enable_file_export, export_file):
+    def __init__(self, calculator=RMSErrorValueCalculator(), export_file="ErrorsValue.dat", 
+                 enable_file_export=False):
         """
         `calculator` -- The actual calculator to be distributed over MPI
         `enable_file_export` -- To enable export of all the evaluated parameter sets, set to 0 if you

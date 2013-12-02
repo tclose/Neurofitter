@@ -25,9 +25,10 @@ class TracesReader(object):
    
 class NormalTracesReader(TracesReader):
     
-    def __init__(self, num_runs=5, num_run_params=1, run_params=[0.000018, 2000, 0.0000326, 1000, 0.0000545, 500, 0.0000815, 250, 0.000111, 125],
-                 num_periods=2, periods=[500, 550, 1.0, 550, 5000, 1.0], num_record_sites=1,
-                 record_sites=1, output='output'):
+    def __init__(self, num_runs=5, num_run_params=1, run_params=[(0.000018,), (0.0000326,), (0.0000545,), (0.0000815,), (0.000111,)],
+                 run_weights=[2000, 1000, 500, 250, 125], num_periods=2, 
+                 periods=[(500, 550), (550, 5000)], period_weights=[1.0,  1.0],
+                 num_record_sites=1, record_sites=1, output='output'):
         """
         `num_runs ` -- The number of times the model has to be run for every error value evaluation.
                        E.g. for different injection strengths you want to run the model a multiple 
@@ -47,17 +48,28 @@ class NormalTracesReader(TracesReader):
                      output data. E.g. the file for run 2 would be "output_Run2.dat"
         """
         self.num_runs = int(num_runs)
-        self.num_run_params = int(num_run_params) 
-        if len(run_params) != self.num_run_params:
+        self.num_run_params = int(num_run_params)
+        self.run_weights = run_weights
+        if len(run_params) != self.num_runs:
             raise Exception("Number of run_params ({}) does not match provided num_runs ({})"
-                            .format(len(run_params), self.num_runs))
-        self.run_params = []            
+                             .format(len(run_params), self.num_runs))
+        if len(run_weights) != self.num_runs:
+            raise Exception("Number of run_weights ({}) does not match provided num_runs ({})"
+                             .format(len(run_weights), self.num_runs))            
+        self.run_params = []
         for rparams in run_params:
+            if len(rparams) != num_run_params:
+                raise Exception("Parameters line '{}' has the incorrect number of parameters ({})"
+                                .format(rparams, num_run_params))
             self.run_params.append([float(p) for p in rparams])
         self.num_periods = int(num_periods)
-        if (len(periods) / self.num_periods) % 1 != 0:
-            raise Exception("Number of provided periods ({}) cannot be evenly divided by "
+        self.period_weights = period_weights
+        if len(periods) != self.num_periods:
+            raise Exception("Number of provided periods ({}) does not match specified "
                             "num_periods ({})".format(len(periods), self.num_periods))
+        if self.num_periods != len(period_weights):
+            raise Exception("Number of period weights ({}) does not match specified"
+                            "num_periods ({})".format(len(period_weights), self.num_periods))
         self.periods = []            
         for prd in periods:
             self.periods.append([float(p) for p in prd])
@@ -69,11 +81,11 @@ class NormalTracesReader(TracesReader):
         return E(self.element_name + 'Parameters',
                  E('NumberOfRuns', str(self.num_runs)),
                  E('NumberOfRunParameters', str(self.num_run_params)),
-                 E('RunParameters', '\n'.join([' '.join([str(p) for p in rparam]) 
-                                               for rparam in self.run_params])),
+                 E('RunParameters', '\n'.join([' '.join([str(p) for p in rparam] + [str(weight)]) 
+                         for rparam, weight in zip(self.run_params, self.run_weights)])),
                  E('NumberOfPeriods', str(self.num_periods)),
-                 E('Periods', '\n'.join([' '.join([str(p) for p in prd]) 
-                                               for prd in self.periods])),
+                 E('Periods', '\n'.join([' '.join([str(p) for p in prd] + [str(weight)]) 
+                         for prd, weight in zip(self.periods, self.period_weights)])),
                  E('NumberOfRecordSites', str(self.num_record_sites)),
                  E('RecordSites', ' '.join(self.record_sites)),
                  E('OutputFilePrefix', self.output))
@@ -83,15 +95,25 @@ class NormalTracesReader(TracesReader):
         num_runs = element.find('NumberOfRuns').text.strip()
         num_run_params = element.find('NumberOfRunParameters').text.strip()
         run_params = []
+        run_weights = []
         for rparam in element.find('RunParameters').text.strip().split('\n'):
-            run_params.append(white_space_delim.split(rparam.strip()))
+            rparams = white_space_delim.split(rparam.strip())
+            run_params.append(rparams[:-1])
+            run_weights.append(rparams[-1])
         num_periods = element.find('NumberOfPeriods').text.strip()
         periods = []
+        period_weights = []
         for prd in element.find('Periods').text.strip().split('\n'):
-            periods.append(white_space_delim.split(prd.strip()))
+            prds = white_space_delim.split(prd.strip())
+            if len(prds) != 3:
+                raise Exception("Period lines must have exactly three values (start, stop, weight)"
+                                ", found {}".format(prds))
+            periods.append(prds[0:2])
+            period_weights.append(prds[2])
         num_record_sites = element.find('NumberOfRecordSites').text.strip()
         record_sites = element.find('RecordSites').text.strip()
         output = element.find('OutputFilePrefix').text.strip()
         return cls(num_runs=num_runs, num_run_params=num_run_params, run_params=run_params, 
-                   num_periods=num_periods, periods=periods, num_record_sites=num_record_sites,
+                   run_weights=run_weights, num_periods=num_periods, periods=periods, 
+                   period_weights=period_weights, num_record_sites=num_record_sites, 
                    record_sites=record_sites, output=output)

@@ -36,7 +36,7 @@ class Model(object):
 
 class ExecutableModel(Model):
     
-    def __init__(self, command="", output_dir="", parameter_file="", show_output=False):
+    def __init__(self, command=None, output_dir=None, parameter_file=None, show_output=False):
         """
         Interface to a generic model program 
     

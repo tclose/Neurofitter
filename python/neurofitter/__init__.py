@@ -48,7 +48,7 @@ from .error_value_calculator import ErrorValueCalculator, MPIErrorValueCalculato
 class Settings(object):
     
     def __init__(self, program_name, dimensions=1, verbose_level=1, seed=500, sample_frequency=50, 
-                 starting_points=0.2, bounds=(0.001, 0.2), work_dir=None, fitter=RandomFitter(), 
+                 starting_points=(0.2,), bounds=((0.001, 0.2),), work_dir=None, fitter=RandomFitter(), 
                  traces_reader=NormalTracesReader(), model=ExecutableModel(), 
                  experiment=FakeExperiment(), error_value_calculator=MPIErrorValueCalculator(), 
                  print_parameter_file=False):
@@ -206,7 +206,7 @@ def prepare_work_dir(work_dir, settings, num_processes=1):
     `settings` -- the `Settings` object containing the complete settings for the Neurofitter run
     `num_processes` -- the number of processes to be used by Neurofitter
     """
-    shutil.makedirs(work_dir)
+    os.makedirs(work_dir)
     settings = deepcopy(settings)
     settings.set_work_directory(work_dir)
     settings.save(os.path.join(work_dir, 'settings.xml'))

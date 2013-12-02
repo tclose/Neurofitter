@@ -16,10 +16,15 @@
     <TracesReaderParameters>
         <NumberOfRuns>5</NumberOfRuns>
         <NumberOfRunParameters>1</NumberOfRunParameters>
-        <RunParameters>0.000018 2000 0.0000326 1000 0.0000545 500 0.0000815 250 0.000111 125
+        <RunParameters>0.000018 2000
+            0.0000326 1000 
+            0.0000545 500 
+            0.0000815 250 
+            0.000111 125
         </RunParameters>
         <NumberOfPeriods>2</NumberOfPeriods>
-        <Periods>500 550 1.0 550 5000 1.0</Periods>
+        <Periods>500 550 1.0 
+            550 5000 1.0</Periods>
         <NumberOfRecordSites>1</NumberOfRecordSites>
         <RecordSites>1</RecordSites>
         <OutputFilePrefix>output</OutputFilePrefix>
