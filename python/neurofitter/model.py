@@ -1,5 +1,6 @@
 from lxml.builder import E
-
+import os
+import shutil
    
 class Model(object):
     
@@ -66,6 +67,14 @@ class ExecutableModel(Model):
         show_output = element.find('ShowExecuteOutput').text.strip()
         return cls(command=command, output_dir=output_dir, parameter_file=parameter_file, 
                    show_output=show_output)
+        
+    def set_work_directory(self, work_dir, proc_dir=None): #@UnusedVariable proc_dir is used instead of work dir    
+        self.output_dir = os.path.join(proc_dir, 'outputs')
+        os.mkdir(self.output_dir)
+        os.mkdir(os.path.join(proc_dir, 'model'))
+        parameter_file = os.path.join(os.path.join(proc_dir, 'model', 'parameters.dat'))
+        shutil.copy(self.parameter_file, parameter_file)
+        self.parameter_file = parameter_file        
     
     
 class GenesisModel(Model):

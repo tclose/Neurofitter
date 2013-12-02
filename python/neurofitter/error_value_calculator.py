@@ -1,3 +1,4 @@
+import os
 from lxml.builder import E
 
 
@@ -117,6 +118,11 @@ class MPIErrorValueCalculator(ErrorValueCalculator):
         export_file = element.find('exportFile').text.strip()
         return cls(calculator=calculator, enable_file_export=enable_file_export, 
                    export_file=export_file)
+        
+    def set_work_directory(self, work_dir, proc_dir=None): #@UnusedVariable work_dir, uses proc_dir instead
+        if self.enable_file_export:
+            self.export_file = os.path.join(proc_dir, 'mpi_export_file.dat')
+            
 
 
 class VdVdtMatrix(object):

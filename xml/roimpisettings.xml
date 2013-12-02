@@ -26,20 +26,19 @@
     </TracesReaderParameters>
     <ModelType>Executable</ModelType>
     <ModelParameters>
-        <ExecuteCommand>unset DISPLAY; cd SCRATCH/model; x86_64/special -nogui
-            runModel3_Nannuli2_dia_0_4.hoc
+        <ExecuteCommand>unset DISPLAY; cd SCRATCH/model; x86_64/special -nogui runModel3_Nannuli2_dia_0_4.hoc
         </ExecuteCommand>
         <OutputDirectory>SCRATCH/outputs</OutputDirectory>
-        <ParameterFile>SCRATCH/model/param.dat</ParameterFile>
+        <ParameterFile>/home/tclose/Desktop/neurofitter-test/input/model/param.dat</ParameterFile>
         <ShowExecuteOutput>0</ShowExecuteOutput>
     </ModelParameters>
     <ExperimentType>FileList</ExperimentType>
     <ExperimentParameters>
-        <FilesList>/home/tclose/Desktop/neurofitter-test/data/Testg18e-6_Nannuli2_dia_0_4_Jan08.dat
-            /home/tclose/Desktop/neurofitter-test/data/Testg32e-6_Nannuli2_dia_0_4_Jan08.dat
-            /home/tclose/Desktop/neurofitter-test/data/Testg54e-6_Nannuli2_dia_0_4_Jan08.dat
-            /home/tclose/Desktop/neurofitter-test/data/Testg111e-6_Nannuli2_dia_0_4_Jan08.dat
-            /home/tclose/Desktop/neurofitter-test/data2/Testg111e-6_Nannuli2_dia_0_4_Jan08.dat
+        <FilesList>/home/tclose/Desktop/neurofitter-test/input/data/Testg18e-6_Nannuli2_dia_0_4_Jan08.dat
+            /home/tclose/Desktop/neurofitter-test/input/data/Testg32e-6_Nannuli2_dia_0_4_Jan08.dat
+            /home/tclose/Desktop/neurofitter-test/input/data/Testg54e-6_Nannuli2_dia_0_4_Jan08.dat
+            /home/tclose/Desktop/neurofitter-test/input/data/Testg111e-6_Nannuli2_dia_0_4_Jan08.dat
+            /home/tclose/Desktop/neurofitter-test/input/data2/Testg111e-6_Nannuli2_dia_0_4_Jan08.dat
         </FilesList>
     </ExperimentParameters>
     <ErrorValueCalculatorType>MPI</ErrorValueCalculatorType>

@@ -113,9 +113,4 @@ class FakeExperiment(Experiment):
     def from_xml(cls, element):
         parameters = white_space_delim.split(element.find('Parameters').text.strip())
         return cls(parameters=parameters)
-    
-if __name__ == '__main__':
-    from neurofitter import Settings
-    s = Settings.load('/home/tclose/git/neurofitter/xml/roimpisettings.xml')
-    s.set_work_directory('/home/tclose/Desktop/neurofitter-test')
-    print s.experiment.files_list
+

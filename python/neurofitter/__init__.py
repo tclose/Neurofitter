@@ -7,13 +7,42 @@ from copy import deepcopy
 import os
 import shutil
 
-from .fitter import Fitter
-from .model import Model
-from .experiment import Experiment
-from .traces_reader import TracesReader
-from .error_value_calculator import ErrorValueCalculator    
-
 white_space_delim = re.compile('[ \n]+')
+           
+def copy_unique_files(files, dest_dir):
+    # Turn filename into a list of filenames
+    if isinstance(files, str):
+        files = [files]
+        returnstring = True
+    else:
+        returnstring = False
+    if len(files) != len(set(files)):
+        raise Exception("Original file list, {}, contains duplicates".format(files))
+    # Calculate the minimum path depth that needs to be used to differentiate the file list
+    for num_trunc in xrange(min([len(os.path.split(f)) for f in files])):
+        trunc_files = [os.path.join(os.path.split(f)[-(num_trunc+1)]) 
+                            for f in files] 
+        if len(trunc_files) == len(set(trunc_files)):
+            break
+    # Create a list to hold the new file names
+    new_files = []
+    for f in files:
+        # Get the destination path, which is the original filename plus the number of parent 
+        # directories required so that all files are unique
+        f_dest = os.path.join(*([dest_dir] + f.split(os.path.sep)[-(num_trunc+1):]))
+        f_dest_dir = os.path.dirname(f_dest)
+        # Create required parent directories
+        if not os.path.exists(f_dest_dir):
+            os.makedirs(f_dest_dir)
+        shutil.copy(f, f_dest)
+        new_files.append(f_dest)
+    return new_files if not returnstring else new_files[0]
+
+from neurofitter.fitter import Fitter
+from neurofitter.model import Model
+from neurofitter.experiment import Experiment
+from neurofitter.traces_reader import TracesReader
+from neurofitter.error_value_calculator import ErrorValueCalculator
 
 
 class Settings(object):
@@ -106,6 +135,9 @@ class Settings(object):
                 tostring(self.to_xml(), pretty_print=True))
             
     def set_work_directory(self, work_dir, proc_dir=None):
+        self.work_dir = work_dir
+        if proc_dir is None:
+            proc_dir = work_dir
         for child in (self.fitter, self.traces_reader, self.model, self.experiment, 
                       self.error_value_calculator):
             try:
@@ -164,61 +196,40 @@ class Settings(object):
         return Settings.from_xml(root)
     
     
-def prepare_mpi_work_dir(work_dir, settings, num_processes):
+def prepare_work_dir(work_dir, settings, num_processes=1):
     """
-    Prepare the work directory for running neurofitter via MPI
+    Prepare the work directory for running neurofitter, particularly when using MPI
     
-    `work_dir` -- the path of the work directory to prepare for a Neurofitter MPI run
+    `work_dir` -- the path of the work directory to prepare for a Neurofitter run
     `settings` -- the `Settings` object containing the complete settings for the Neurofitter run
     `num_processes` -- the number of processes to be used by Neurofitter
     """
-    for i in xrange(num_processes):
-        proc_dir = os.path.join(work_dir, str(i))
-        os.mkdir(proc_dir)
-        # Copy settings to allow the work directory to be set without affecting the passed object
-        proc_settings = deepcopy(settings) 
-        proc_settings.set_work_directory(work_dir, proc_dir)
-        proc_settings.save(os.path.join(proc_dir, 'settings.xml'))
-           
-           
-def copy_unique_files(files, dest_dir):
-    # Turn filename into a list of filenames
-    if isinstance(files, str):
-        files = [files]
-        returnstring = True
+    if not os.path.exists(work_dir):
+        raise Exception("Work directory '{}' does not exist".format(work_dir))
+    if num_processes == 1:
+        settings = deepcopy(settings)
+        settings.set_work_directory(work_dir)
+        settings.save(os.path.join(work_dir, 'settings.xml'))
+    elif num_processes > 1:
+        for i in xrange(num_processes):
+            proc_dir = os.path.join(work_dir, str(i))
+            os.mkdir(proc_dir)
+            # Copy settings to allow the work directory to be set without affecting the passed object
+            proc_settings = deepcopy(settings) 
+            proc_settings.set_work_directory(work_dir, proc_dir)
+            proc_settings.save(os.path.join(proc_dir, 'settings.xml'))
     else:
-        returnstring = False
-    if len(files) == len(set(files)):
-        raise Exception("Original file list, {}, contains duplicates".format(files))
-    # Calculate the minimum path depth that needs to be used to differentiate the file list
-    for num_trunc in xrange(min([len(os.path.split(f)) for f in files])):
-        trunc_files = [os.path.join(os.path.split(f)[-(num_trunc+1)]) 
-                            for f in files] 
-        if len(trunc_files) == len(set(trunc_files)):
-            break
-    # Create a list to hold the new file names
-    new_files = []
-    for f in files:
-        # Get the destination path, which is the original filename plus the number of parent 
-        # directories required so that all files are unique
-        f_dest = os.path.join(*([dest_dir] + f.split(os.path.sep)[-(num_trunc+1):]))
-        f_dest_dir = os.path.dirname(f_dest)
-        # Create required parent directories
-        if not os.path.exists(f_dest_dir):
-            os.makedirs(f_dest_dir)
-        shutil.copy(f, f_dest)
-        new_files.append(f_dest)
-    return new_files if not returnstring else new_files[0]
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
+        raise Exception("'num_processes' ({}) must be greater or equal to 1".format(num_processes))           
+        
+if __name__ == '__main__':
+    s = Settings.load('/home/tclose/git/neurofitter/xml/roimpisettings.xml')
+    try:
+        shutil.rmtree('/home/tclose/Desktop/neurofitter-test/output')
+    except OSError:
+        pass
+    os.mkdir('/home/tclose/Desktop/neurofitter-test/output')
+    s.set_work_directory('/home/tclose/Desktop/neurofitter-test/output')
+    print s.experiment.files_list           
            
            
            
