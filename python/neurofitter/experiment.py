@@ -107,7 +107,7 @@ class FakeExperiment(Experiment):
 
     def _to_xml(self):
         return E(self.element_name + 'Parameters',
-                 E('Parameters', ' '.join(self.parameters)))
+                 E('Parameters', ' '.join([str(p) for p in self.parameters])))
 
     @classmethod
     def from_xml(cls, element):

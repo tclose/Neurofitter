@@ -217,4 +217,4 @@ def prepare_work_dir(work_dir, settings, num_processes=1):
             # Copy settings to allow the work directory to be set without affecting the passed object
             proc_settings = deepcopy(settings) 
             proc_settings.set_work_directory(work_dir, proc_dir)
-            proc_settings.save(work_dir, 'settings.xml_{}'.format(i))
+            proc_settings.save(os.path.join(work_dir, 'settings.xml_{}'.format(i)))

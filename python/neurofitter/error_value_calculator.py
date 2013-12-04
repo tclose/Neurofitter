@@ -65,7 +65,7 @@ class MatrixErrorValueCalculator(ErrorValueCalculator):
 
 class RMSErrorValueCalculator(ErrorValueCalculator):
 
-    def __init__(self, export_file="ErrorsValues.dat", enable_traces_export="", enable_file_export=False):
+    def __init__(self, export_file="ErrorsValues.dat", enable_traces_export=False, enable_file_export=False):
         """
         `enable_file_export` -- To enable export of all the evaluated parameter sets, set to 0 if you
                                 don't want output to a file
@@ -78,8 +78,8 @@ class RMSErrorValueCalculator(ErrorValueCalculator):
 
     def _to_xml(self):
         return E(self.element_name + 'Parameters',
-                 E('enableFileExport', self.enable_file_export),
-                 E('enableTracesExport', self.enable_traces_export),
+                 E('enableFileExport', str(self.enable_file_export)),
+                 E('enableTracesExport', str(self.enable_traces_export)),
                  E('exportFile', self.export_file))
 
     @classmethod
@@ -108,7 +108,7 @@ class MPIErrorValueCalculator(ErrorValueCalculator):
     def _to_xml(self):
         return E(self.element_name + 'Parameters',
                  *(self.calculator.to_xml() +
-                   (E('enableFileExport', self.enable_file_export),
+                   (E('enableFileExport', str(self.enable_file_export)),
                     E('exportFile', self.export_file))))
 
     @classmethod

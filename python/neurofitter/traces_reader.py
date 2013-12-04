@@ -28,7 +28,7 @@ class NormalTracesReader(TracesReader):
     def __init__(self, num_runs=5, num_run_params=1, run_params=[(0.000018,), (0.0000326,), (0.0000545,), (0.0000815,), (0.000111,)],
                  run_weights=[2000, 1000, 500, 250, 125], num_periods=2, 
                  periods=[(500, 550), (550, 5000)], period_weights=[1.0,  1.0],
-                 num_record_sites=1, record_sites=1, output='output'):
+                 num_record_sites=1, record_sites=(1,), output='output'):
         """
         `num_runs ` -- The number of times the model has to be run for every error value evaluation.
                        E.g. for different injection strengths you want to run the model a multiple 
@@ -87,7 +87,7 @@ class NormalTracesReader(TracesReader):
                  E('Periods', '\n'.join([' '.join([str(p) for p in prd] + [str(weight)]) 
                          for prd, weight in zip(self.periods, self.period_weights)])),
                  E('NumberOfRecordSites', str(self.num_record_sites)),
-                 E('RecordSites', ' '.join(self.record_sites)),
+                 E('RecordSites', ' '.join([str(r) for r in self.record_sites])),
                  E('OutputFilePrefix', self.output))
         
     @classmethod

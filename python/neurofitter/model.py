@@ -54,7 +54,7 @@ class ExecutableModel(Model):
         
     def _to_xml(self):
         return E(self.element_name + 'Parameters',
-                 E('ExecuteCommand', self.command),
+                 E('ExecuteCommand', self.command + ' ' + self.parameter_file),
                  E('OutputDirectory', self.output_dir),
                  E('ParameterFile', self.parameter_file),
                  E('ShowExecuteOutput', str(int(self.show_output))))
@@ -72,9 +72,7 @@ class ExecutableModel(Model):
         self.output_dir = os.path.join(proc_dir, 'outputs')
         os.mkdir(self.output_dir)
         os.mkdir(os.path.join(proc_dir, 'model'))
-        parameter_file = os.path.join(os.path.join(proc_dir, 'model', 'parameters.dat'))
-        shutil.copy(self.parameter_file, parameter_file)
-        self.parameter_file = parameter_file        
+        self.parameter_file = os.path.join(os.path.join(proc_dir, 'model', 'parameters.txt'))
     
     
 class GenesisModel(Model):
