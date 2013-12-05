@@ -133,7 +133,7 @@ class Settings(object):
         return E(*element_list)
         
     def to_string(self):
-        return ('<?xml version="1.0" encoding="UTF-8"?>\n' + 
+        return (#'<?xml version="1.0" encoding="UTF-8"?>\n' + 
                 tostring(self.to_xml(), pretty_print=True))
             
     def set_work_directory(self, work_dir, proc_dir=None):
