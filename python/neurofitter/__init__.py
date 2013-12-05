@@ -210,11 +210,10 @@ def prepare_work_dir(work_dir, settings, num_processes=1):
     settings = deepcopy(settings)
     settings.set_work_directory(work_dir)
     settings.save(os.path.join(work_dir, 'settings.xml'))
-    if num_processes > 1:
-        for i in xrange(num_processes):
-            proc_dir = os.path.join(work_dir, str(i))
-            os.mkdir(proc_dir)
-            # Copy settings to allow the work directory to be set without affecting the passed object
-            proc_settings = deepcopy(settings) 
-            proc_settings.set_work_directory(work_dir, proc_dir)
-            proc_settings.save(os.path.join(work_dir, 'settings.xml_{}'.format(i)))
+    for i in xrange(num_processes):
+        proc_dir = os.path.join(work_dir, str(i))
+        os.mkdir(proc_dir)
+        # Copy settings to allow the work directory to be set without affecting the passed object
+        proc_settings = deepcopy(settings) 
+        proc_settings.set_work_directory(work_dir, proc_dir)
+        proc_settings.save(os.path.join(work_dir, 'settings.xml_{}'.format(i)))
