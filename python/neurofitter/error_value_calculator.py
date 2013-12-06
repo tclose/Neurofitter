@@ -49,7 +49,7 @@ class MatrixErrorValueCalculator(ErrorValueCalculator):
     def _to_xml(self):
         return E(self.element_name + 'Parameters',
                  *(self.vdVdt_matrix.to_xml() +
-                   (E('enableFileExport', self.enable_file_export),
+                   (E('enableFileExport', str(int(self.enable_file_export))),
                    E('exportFile', self.export_file))))
 
     @classmethod
@@ -78,8 +78,8 @@ class RMSErrorValueCalculator(ErrorValueCalculator):
 
     def _to_xml(self):
         return E(self.element_name + 'Parameters',
-                 E('enableFileExport', str(self.enable_file_export)),
-                 E('enableTracesExport', str(self.enable_traces_export)),
+                 E('enableFileExport', str(int(self.enable_file_export))),
+                 E('enableTracesExport', str(int(self.enable_traces_export))),
                  E('exportFile', self.export_file))
 
     @classmethod
@@ -108,7 +108,7 @@ class MPIErrorValueCalculator(ErrorValueCalculator):
     def _to_xml(self):
         return E(self.element_name + 'Parameters',
                  *(self.calculator.to_xml() +
-                   (E('enableFileExport', str(self.enable_file_export)),
+                   (E('enableFileExport', str(int(self.enable_file_export))),
                     E('exportFile', self.export_file))))
 
     @classmethod
