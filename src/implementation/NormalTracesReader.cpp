@@ -73,7 +73,7 @@ ModelResults NormalTracesReader::readTracesFromFilesVector(
         if (fixedParams.parameterExists("DifferenceLags")) {
             istringstream lagStream(fixedParams["DifferenceLags"]);
             for (int i = 0; i < numberOfPeriods; i++) {
-                if (!lagStream.goods())
+                if (!lagStream.good())
                     crash("NormalTracesReader",
                             "Error while reading " + str(numberOfPeriods)
                                     + " difference lags from parameter file");
