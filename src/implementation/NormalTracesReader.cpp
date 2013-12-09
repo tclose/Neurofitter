@@ -23,6 +23,9 @@ ModelResults NormalTracesReader::readTracesFromFilesVector(vector< string > file
 	vector<double> runWeights(numberOfRuns,0);
 	double dummy;
 
+    std::cout << fixedParams["RunParameters"] << std::endl;
+    std::cout << getNumberOfRunParameters() << std::endl;
+    std::cout << numberOfRuns << std::endl;
     istringstream runStream(fixedParams["RunParameters"]);
     for (int i = 0; i < numberOfRuns; i++) {
 		// Skip the run parameters

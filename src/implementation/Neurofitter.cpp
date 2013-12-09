@@ -109,7 +109,7 @@ int main (int argc, char* argv[]) {
             errorValue = new MPIErrorValueCalculator(model,experiment,fitFixedParams);
         }
 		#endif
-		else crash("Main program", "No matching error value calculator type");
+		else crash("Main program", "No matching error value calculator type for '" + fixedParams["ErrorValueCalculatorType"] + "'.");
 	
 
 		// In case of MPI only run the fitter on the master node

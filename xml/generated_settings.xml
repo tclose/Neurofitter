@@ -1,0 +1,47 @@
+<TestProgram>
+  <Dimensions>1</Dimensions>
+  <VerboseLevel>1</VerboseLevel>
+  <Seed>500</Seed>
+  <SamplingFrequency>50.0</SamplingFrequency>
+  <StartingPoints>0.2</StartingPoints>
+  <Bounds>0.001 0.2</Bounds>
+  <WorkingDirectory>/work/DeschutterU/tclose/golgi_tuning.2013-12-09-Monday_15-00-25.1/neurofitter</WorkingDirectory>
+  <PrintParameterFile>0</PrintParameterFile>
+  <FitterType>Random</FitterType>
+  <FitterParameters>
+    <NumberOfPoints>1000</NumberOfPoints>
+  </FitterParameters>
+  <TracesReaderType>Normal</TracesReaderType>
+  <TracesReaderParameters>
+    <NumberOfRuns>5</NumberOfRuns>
+    <NumberOfRunParameters>1</NumberOfRunParameters>
+    <RunParameters>1.8e-05 2000
+3.26e-05 1000
+5.45e-05 500
+8.15e-05 250
+0.000111 125</RunParameters>
+    <NumberOfPeriods>2</NumberOfPeriods>
+    <Periods>500.0 550.0 1.0
+550.0 5000.0 1.0</Periods>
+    <NumberOfRecordSites>1</NumberOfRecordSites>
+    <RecordSites>1</RecordSites>
+    <OutputFilePrefix>output</OutputFilePrefix>
+  </TracesReaderParameters>
+  <ModelType>Executable</ModelType>
+  <ModelParameters>
+    <ExecuteCommand>tune_cell.py /work/DeschutterU/tclose/golgi_tuning.2013-12-09-Monday_15-00-25.1/9ml/neurons/Golgi_DeSouza10.9ml --time 2000.0 --min_delay 0.05 --timestep 0.025 /work/DeschutterU/tclose/golgi_tuning.2013-12-09-Monday_15-00-25.1/neurofitter/model/parameters.txt</ExecuteCommand>
+    <OutputDirectory>/work/DeschutterU/tclose/golgi_tuning.2013-12-09-Monday_15-00-25.1/neurofitter/outputs</OutputDirectory>
+    <ParameterFile>/work/DeschutterU/tclose/golgi_tuning.2013-12-09-Monday_15-00-25.1/neurofitter/model/parameters.txt</ParameterFile>
+    <ShowExecuteOutput>0</ShowExecuteOutput>
+  </ModelParameters>
+  <ExperimentType>Fake</ExperimentType>
+  <ExperimentParameters>
+    <Parameters>2800.0 11200.0</Parameters>
+  </ExperimentParameters>
+    <ErrorValueCalculatorType>RMS</ErrorValueCalculatorType>
+    <ErrorValueCalculatorParameters>
+      <enableFileExport>0</enableFileExport>
+      <enableTracesExport>0</enableTracesExport>
+      <exportFile>ErrorsValues.dat</exportFile>
+    </ErrorValueCalculatorParameters>
+</TestProgram>
