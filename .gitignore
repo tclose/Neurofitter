@@ -26,3 +26,8 @@ aclocal.m4
 .cproject
 .pydevproject
 /bin
+.gdbinit
+*.swp
+*.out
+*.err
+/.settings

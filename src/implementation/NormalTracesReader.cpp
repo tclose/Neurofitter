@@ -83,7 +83,7 @@ ModelResults NormalTracesReader::readTracesFromFilesVector(vector< string > file
     	vector< double > recordWeights(numberOfRecordSites,0);
     	istringstream recordStream(fixedParams["RecordSites"]);
     	for (int i = 0; i < numberOfRecordSites; i++) {
-			if (!periodStream.good()) crash("NormalTracesReader","Error while reading " + str(numberOfRecordSites) + " recording site weights from parameter file");
+			if (!recordStream.good()) crash("NormalTracesReader","Error while reading " + str(numberOfRecordSites) + " recording site weights from parameter file");
         	recordStream >> recordWeights[i];
     	}
 
