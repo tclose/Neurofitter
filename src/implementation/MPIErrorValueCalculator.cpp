@@ -22,7 +22,7 @@ MPIErrorValueCalculator::MPIErrorValueCalculator(ModelInterface * model, Experim
 	else if (fixedParams["ErrorValueCalculatorType"] == "RMS") {
 		localErrorValue = new RMSErrorValueCalculator(model,experiment,fitFixedParams);
 	}
-	else crash("MPIErrorValueCalculator", "No matching error value calculator type '" + fixedParams["ErrorValueCalculatorType"] + "'");
+	else crash("MPIErrorValueCalculator", "No matching error value calculator type for '" + fixedParams["ErrorValueCalculatorType"] + "'");
     
 	mpiChannel.setMessageId(tag);
 	rank = mpiChannel.getRank();
