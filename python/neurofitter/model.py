@@ -53,8 +53,11 @@ class ExecutableModel(Model):
         self.show_output = show_output  
         
     def _to_xml(self):
+        # Insert parameter file before first optional argument
+        cmdlist = self.command.split(' -', 1)
+        command = ' -'.join([cmdlist[0] + ' ' + self.parameter_file] + cmdlist[1:])
         return E(self.element_name + 'Parameters',
-                 E('ExecuteCommand', self.command + ' ' + self.parameter_file),
+                 E('ExecuteCommand', command),
                  E('OutputDirectory', self.output_dir),
                  E('ParameterFile', self.parameter_file),
                  E('ShowExecuteOutput', str(int(self.show_output))))

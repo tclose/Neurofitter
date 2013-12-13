@@ -47,7 +47,7 @@ from .error_value_calculator import ErrorValueCalculator, MPIErrorValueCalculato
 
 class Settings(object):
     
-    def __init__(self, program_name, dimensions=1, verbose_level=1, seed=500, sample_frequency=50, 
+    def __init__(self, program_name, dimensions=1, verbose_level=100, seed=500, sample_frequency=50, 
                  starting_points=(0.2,), bounds=((0.001, 0.2),), work_dir=None, fitter=RandomFitter(), 
                  traces_reader=NormalTracesReader(), model=ExecutableModel(), 
                  experiment=FakeExperiment(), error_value_calculator=MPIErrorValueCalculator(), 
